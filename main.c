@@ -397,7 +397,7 @@ void showFrame(AnimationFrame* _frame){
             GifColorType* color = _frame->color[x][y];
 
             if (color->Red != 0 || color->Green != 0 || color->Blue != 0) {
-                leds[y * LED_WIDTH + x] = 0x00FFFFFF;
+                leds[y * LED_WIDTH + x] = 0x00FF0000;
                 printf("x");
 
             } else {
