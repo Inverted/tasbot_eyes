@@ -6,6 +6,7 @@
 
 #include <gif_lib.h> //https://sourceforge.net/projects/giflib/
 #include <ws2811/ws2811.h> //https://github.com/jgarff/rpi_ws281x
+#include <unistd.h>
 
 #define PATH                    "./gifs/"
 #define MAX_FILENAME_LENGTH     256
@@ -33,11 +34,13 @@ u_int16_t getDelayTime(SavedImage *_frame);
 AnimationFrame *readFramePixels(const SavedImage *frame, ColorMapObject *_globalMap);
 
 void debugRenderer(GifColorType *_rgb);
-int ledStuff();
+int initLED();
+void renderLEDs();
 
 //Variables
 bool verboseLogging = false;
 bool useDebugRenderer = false;
+ws2811_led_t *leds;
 
 //args: -s: playback speed; -I: specific image; -P: specific folder; -v: verbose logging; -h: help; -r: debug renderer; -b: brightness [0-255]
 int main() {
@@ -56,7 +59,7 @@ int main() {
     //read animation from path
     readAnimation(path);
 
-    ledStuff();
+    initLED();
 
     return 0;
 }
@@ -149,13 +152,13 @@ bool readAnimation(const char *file) {
     int error;
     GifFileType *image = DGifOpenFileName(file, &error);
     if (!image) {
-        printf("[ERROR] EGifOpenFileName() failed: %d\n", error);
+        printf("[ERROR] EGifOpenFileName() failed. Could't find or open file: %d\n", error);
         return false;
     }
 
     //"Slurp" infos into struct
     if (DGifSlurp(image) == GIF_ERROR) {
-        printf("[ERROR] DGifSlurp() failed: %d\n", image->Error);
+        printf("[ERROR] DGifSlurp() failed. Couldt load infos about GIF: %d\n", image->Error);
         DGifCloseFile(image, &error);
         return false;
     }
@@ -255,8 +258,9 @@ char *getRandomAnimation(char *list[], int _count) {
 #define STRIP_TYPE              WS2811_STRIP_GBR
 #define INVERTED                false
 #define BRIGHTNESS              255
+#define SPEED                   15                  // frames per second
 
-ws2811_t ledstring = {
+ws2811_t display = {
         .freq = TARGET_FREQ,
         .dmanum = DMA,
         .channel ={
@@ -276,13 +280,43 @@ ws2811_t ledstring = {
                 },
         };
 
-int ledStuff() {
-    ws2811_return_t ret;
-    ws2811_led_t *matrix = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
+int initLED() {
+    ws2811_return_t r;
+    leds = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
 
-    if ((ret = ws2811_init(&ledstring)) != WS2811_SUCCESS) {
-        fprintf(stderr, "ws2811_init failed: %s\n", ws2811_get_return_t_str(ret));
-        return ret;
+    if ((r = ws2811_init(&display)) != WS2811_SUCCESS) {
+        fprintf(stderr, "ws2811_init failed. Couldt initialize LEDs: %s\n", ws2811_get_return_t_str(r));
+        return r;
     }
 
+    //===testing
+
+    while (true) {
+        for (size_t i = 0; i < LED_COUNT; i++) {
+            leds[i] = 0x00200000;
+
+            renderLEDs();
+
+            if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
+                fprintf(stderr, "Failed to render: %s\n", ws2811_get_return_t_str(r));
+                break;
+            }
+            usleep(1000000 / SPEED);
+        }
+    }
+
+    ws2811_fini(&display);
+}
+
+/**
+ * @brief Update LEDs to new color
+ * Updates the display's hardware LEDs color to the local leds variables array
+ */
+void renderLEDs(){
+    for (int x = 0; x < LED_WIDTH; x++) {
+        for (int y = 0; y < LED_HEIGHT; y++) {
+            // ==> pop conversation table in here (replace .leds[0] with .leds[convertToTASBot[0]]) or like that
+            display.channel[0].leds[(y * LED_WIDTH) + x] = leds[y * LED_WIDTH + x];
+        }
+    }
 }
