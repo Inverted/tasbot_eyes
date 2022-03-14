@@ -419,14 +419,14 @@ void showFrame(AnimationFrame* _frame){
     leds[0 * LED_HEIGHT + 6] = 0x000000FF;
     leds[0 * LED_HEIGHT + 7] = 0x000000FF;
 
-    leds[1 * LED_HEIGHT + 0] = 0x00FF0000;
-    leds[1 * LED_HEIGHT + 1] = 0x00FF0000;
-    leds[1 * LED_HEIGHT + 2] = 0x0000FF00;
-    leds[1 * LED_HEIGHT + 3] = 0x0000FF00;
-    leds[1 * LED_HEIGHT + 4] = 0x0000FF00;
-    leds[1 * LED_HEIGHT + 5] = 0x000000FF;
-    leds[1 * LED_HEIGHT + 6] = 0x000000FF;
-    leds[1 * LED_HEIGHT + 7] = 0x000000FF;
+    leds[1 * LED_HEIGHT - 0] = 0x00FF0000;
+    leds[1 * LED_HEIGHT - 1] = 0x00FF0000;
+    leds[1 * LED_HEIGHT - 2] = 0x0000FF00;
+    leds[1 * LED_HEIGHT - 3] = 0x0000FF00;
+    leds[1 * LED_HEIGHT - 4] = 0x0000FF00;
+    leds[1 * LED_HEIGHT - 5] = 0x000000FF;
+    leds[1 * LED_HEIGHT - 6] = 0x000000FF;
+    leds[1 * LED_HEIGHT - 7] = 0x000000FF;
 
     leds[2 * LED_HEIGHT + 0] = 0x00FF0000;
     leds[2 * LED_HEIGHT + 1] = 0x00FF0000;
