@@ -394,7 +394,7 @@ void showFrame(AnimationFrame* _frame){
 
     leds[0 * LED_WIDTH + 0] = 0x00FF0000;
 
-    leds[0 * LED_WIDTH + 1] = 0x0000FF00;
+    leds[1 * LED_WIDTH + 1] = 0x0000FF00;
 
     leds[0 * LED_WIDTH + 2] = 0x000000FF;
 
