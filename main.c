@@ -404,7 +404,6 @@ void showFrame(AnimationFrame* _frame){
 
     leds[6 * LED_WIDTH + 0] = 0x00FF00FF;
 
-
     /*
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
@@ -424,8 +423,9 @@ void showFrame(AnimationFrame* _frame){
         printf("\n");
     }
     printf("\n");
-    renderLEDs();
      */
+
+    renderLEDs();
 }
 
 //endregion
