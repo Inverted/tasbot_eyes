@@ -56,7 +56,7 @@ void showFrame(AnimationFrame* _frame);
 void debugRenderer(GifColorType *_rgb);
 
 //Variables
-bool verboseLogging = false;
+bool verboseLogging = true;
 bool useDebugRenderer = false;
 bool running = false;
 ws2811_led_t* leds;
@@ -88,22 +88,21 @@ int main() {
     srand(time(NULL));
     setupHandler();
 
+    /*
     int fileCount = countFilesInDir(GIF_PATH); //get file count
     char *list[fileCount];
     getFileList(GIF_PATH, list); //get list of files
     char *animation = getRandomAnimation(list, fileCount); //get random animation
-
-    //allocate memory for path string and ditch together
-    char *path = getFilePath(GIF_PATH, animation);
-
-    //read animation from path
-    playAnimation(path);
+     */
 
     initLEDs();
     showBaseExpression();
+
+    exitHandler(0);
     return 0;
 }
 
+//allocate memory for path string and ditch together
 char *getFilePath(char* _path, char* _file){
     char *path = malloc(sizeof(char) * (MAX_PATH_LENGTH + MAX_FILENAME_LENGTH));
     strcpy(path, _path);
@@ -207,10 +206,6 @@ AnimationFrame *readFramePixels(const SavedImage *frame, ColorMapObject *_global
                 if (useDebugRenderer) {
                     debugRenderer(rgb);
                 }
-
-                if (verboseLogging) {
-                    printf("(%03i,%03i,%03i)", rgb->Red, rgb->Green, rgb->Blue);
-                }
             } else {
                 printf("[WARNING] Can't process picture. Skip frame");
             }
@@ -250,7 +245,9 @@ bool playAnimation(const char *file) {
         }
 
         //Process frames
-        AnimationFrame *animationFrames[image->ImageCount]; // = malloc(sizeof (AnimationFrame)*image->ImageCount);
+        //AnimationFrame *animationFrames[image->ImageCount]; // = malloc(sizeof (AnimationFrame)*image->ImageCount);
+        AnimationFrame **animationFrames = malloc(sizeof (AnimationFrame) * image->ImageCount);
+
         for (int i = 0; i < image->ImageCount; ++i) {
             const SavedImage *frame = &image->SavedImages[i]; //get access to frame data
 
@@ -258,6 +255,9 @@ bool playAnimation(const char *file) {
                 printf("[Frame %i] Size: %ix%i; Left: %i, Top: %i; Local color map: %s\n",
                        i, frame->ImageDesc.Width, frame->ImageDesc.Height, frame->ImageDesc.Left, frame->ImageDesc.Top,
                        (frame->ImageDesc.ColorMap ? "Yes" : "No"));
+            }
+            if (useDebugRenderer) {
+                printf("[Frame: %d]\n", i);
             }
 
             // Needs the getDelayTime() get actually tested
@@ -269,13 +269,8 @@ bool playAnimation(const char *file) {
             */
             u_int16_t delayTime = DEFAULT_DELAY_TIME;
 
-            if (useDebugRenderer) {
-                printf("[Frame: %d]\n", i);
-            }
             animationFrames[i] = readFramePixels(frame, globalColorMap);
-
-            showExpression((AnimationFrame *) animationFrames, image->ImageCount);
-
+            showExpression(*animationFrames, image->ImageCount);
         }
     } else {
         printf("[ERROR] Image has wrong size (%dx%d). Required is (%dx%d)", image->SWidth, image->SHeight, LED_WIDTH,
@@ -338,17 +333,13 @@ ws2811_return_t initLEDs() {
     }
     return r;
 
-    //funzt
     /*
+    //funzt
     for (size_t i = 0; i < LED_COUNT; i++) {
         leds[i] = 0x00FF0000;
-
         renderLEDs();
-
-
         usleep(1000000 / PLAYBACK_SPEED);
     }
-
      ws2811_fini(&display);
      */
 }
@@ -405,12 +396,18 @@ void showFrame(AnimationFrame* _frame){
 
             if (color->Red != 0 || color->Green != 0 || color->Blue != 0) {
                 leds[y * LED_WIDTH + x] = 0x00FFFFFF;
+                printf("x");
 
             } else {
                 leds[y * LED_WIDTH + x] = 0x00000000;
+                printf(" ");
+
             }
         }
+        printf("\n");
     }
+    printf("\n");
+    renderLEDs();
 }
 
 //endregion
