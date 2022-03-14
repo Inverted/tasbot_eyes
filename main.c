@@ -1,14 +1,16 @@
+#include <gif_lib.h> //https://sourceforge.net/projects/giflib/
+#include <ws2811/ws2811.h> //https://github.com/jgarff/rpi_ws281x
+
 #include <stdio.h>
 #include <dirent.h>
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-
-#include <gif_lib.h> //https://sourceforge.net/projects/giflib/
-#include <ws2811/ws2811.h> //https://github.com/jgarff/rpi_ws281x
 #include <unistd.h>
+#include <signal.h>
 
-#define PATH                    "./gifs/"
+#define GIF_PATH                "./gifs/"
+#define BASE_EXPRESSION         "base.gif"
 #define MAX_FILENAME_LENGTH     256
 #define MAX_PATH_LENGTH         4096
 #define DEFAULT_DELAY_TIME      100
@@ -16,8 +18,34 @@
 #define LED_HEIGHT              8
 #define LED_WIDTH               28
 
-//TODO: Signal handlers
-//TODO: [Errors] mittels fprintf ausgeben
+#define TARGET_FREQ             WS2811_TARGET_FREQ
+#define GPIO_PIN                18
+#define DMA                     10
+#define LED_COUNT               (LED_WIDTH * LED_HEIGHT)
+#define STRIP_TYPE              WS2811_STRIP_GBR
+#define INVERTED                false
+#define BRIGHTNESS              255
+#define PLAYBACK_SPEED          15                  // frames per second
+
+ws2811_t display = {
+        .freq = TARGET_FREQ,
+        .dmanum = DMA,
+        .channel ={
+                [0] ={
+                        .gpionum = GPIO_PIN,
+                        .count = LED_COUNT,
+                        .invert = INVERTED,
+                        .brightness = BRIGHTNESS,
+                        .strip_type = STRIP_TYPE,
+                },
+                [1] ={
+                        .gpionum = 0,
+                        .count = 0,
+                        .invert = 0,
+                        .brightness = 0,
+                },
+        },
+};
 
 typedef struct AnimationFrame {
     GifColorType *rgb[LED_WIDTH][LED_HEIGHT];
@@ -25,6 +53,9 @@ typedef struct AnimationFrame {
 } AnimationFrame;
 
 //Declarations
+void setupHandler();
+void exitHandler(int signalNumber);
+
 bool readAnimation(const char *file);
 int countFilesInDir(char _path[]);
 bool getFileList(const char _path[], char *_list[]);
@@ -36,24 +67,30 @@ AnimationFrame *readFramePixels(const SavedImage *frame, ColorMapObject *_global
 void debugRenderer(GifColorType *_rgb);
 int initLED();
 void renderLEDs();
+void clearDisplay();
 
 //Variables
 bool verboseLogging = false;
 bool useDebugRenderer = false;
+bool running = false;
 ws2811_led_t *leds;
+
+//TODO: Signal handlers
+//TODO: [Errors] mittels fprintf ausgeben
 
 //args: -s: playback speed; -I: specific image; -P: specific folder; -v: verbose logging; -h: help; -r: debug renderer; -b: brightness [0-255]
 int main() {
     srand(time(NULL));
+    setupHandler();
 
-    int fileCount = countFilesInDir(PATH); //get file count
+    int fileCount = countFilesInDir(GIF_PATH); //get file count
     char *list[fileCount];
-    getFileList(PATH, list); //get list of files
+    getFileList(GIF_PATH, list); //get list of files
     char *animation = getRandomAnimation(list, fileCount); //get random animation
 
     //allocate memory for path string and ditch together
     char *path = malloc(sizeof(char) * (MAX_PATH_LENGTH + MAX_FILENAME_LENGTH));
-    strcpy(path, PATH);
+    strcpy(path, GIF_PATH);
     strcat(path, animation);
 
     //read animation from path
@@ -64,7 +101,35 @@ int main() {
     return 0;
 }
 
+/**
+ * @brief Registers the handler
+ * Register the handler for SIGINT, SIGTERM and SIGKILL
+ * All other Signals are other signals excluded
+ */
+void setupHandler(){
+    struct sigaction sa = {
+            .sa_handler = exitHandler,
+    };
+    sigemptyset(&sa.sa_mask);
+    sigaction(SIGINT, &sa, NULL);
+    sigaction(SIGTERM, &sa, NULL);
+    sigaction(SIGKILL, &sa, NULL);
+}
 
+/**
+ * @brief Central handler for leaving the application
+ * Handler for SIGINT, SIGTERM and SIGKILL
+ * @param signalNumber
+ */
+void exitHandler(int signalNumber) {
+    running = false;
+    clearDisplay();
+    ws2811_render(&display);
+    ws2811_fini(&display);
+    exit(0);
+}
+
+//region GIF
 bool checkIfImageHasRightSize(GifFileType *_image) {
     return (_image->SWidth == LED_WIDTH && _image->SHeight == LED_HEIGHT);
 }
@@ -248,38 +313,9 @@ char *getRandomAnimation(char *list[], int _count) {
     int randomGif = rand() % _count;
     return list[randomGif];
 }
+//endregion
 
-//==============================
-
-#define TARGET_FREQ             WS2811_TARGET_FREQ
-#define GPIO_PIN                18
-#define DMA                     10
-#define LED_COUNT               (LED_WIDTH * LED_HEIGHT)
-#define STRIP_TYPE              WS2811_STRIP_GBR
-#define INVERTED                false
-#define BRIGHTNESS              255
-#define SPEED                   15                  // frames per second
-
-ws2811_t display = {
-        .freq = TARGET_FREQ,
-        .dmanum = DMA,
-        .channel ={
-                [0] ={
-                            .gpionum = GPIO_PIN,
-                            .count = LED_COUNT,
-                            .invert = INVERTED,
-                            .brightness = BRIGHTNESS,
-                            .strip_type = STRIP_TYPE,
-                        },
-                        [1] ={
-                            .gpionum = 0,
-                            .count = 0,
-                            .invert = 0,
-                            .brightness = 0,
-                        },
-                },
-        };
-
+//region LED
 int initLED() {
     ws2811_return_t r;
     leds = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
@@ -291,18 +327,17 @@ int initLED() {
 
     //===testing
 
-    while (true) {
-        for (size_t i = 0; i < LED_COUNT; i++) {
-            leds[i] = 0x00200000;
+    //funzt
+    for (size_t i = 0; i < LED_COUNT; i++) {
+        leds[i] = 0x00FF0000;
 
-            renderLEDs();
+        renderLEDs();
 
-            if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
-                fprintf(stderr, "Failed to render: %s\n", ws2811_get_return_t_str(r));
-                break;
-            }
-            usleep(1000000 / SPEED);
+        if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
+            fprintf(stderr, "Failed to render: %s\n", ws2811_get_return_t_str(r));
+            break;
         }
+        usleep(1000000 / PLAYBACK_SPEED);
     }
 
     ws2811_fini(&display);
@@ -320,3 +355,16 @@ void renderLEDs(){
         }
     }
 }
+
+/**
+ * @brief Turns of all the LEDs
+ * Clears all the LEDs by setting their color to black and renders it
+ */
+void clearDisplay(){
+    for (size_t i = 0; i < LED_COUNT; i++) {
+        // ==> here to
+        leds[i] = 0;
+    }
+    renderLEDs();
+}
+//endregion
