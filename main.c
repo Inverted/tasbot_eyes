@@ -392,17 +392,17 @@ void showExpression(AnimationFrame* _frames, unsigned int _frameCount){
 
 void showFrame(AnimationFrame* _frame){
 
-    leds[1 * LED_WIDTH + 0] = 0x00FF0000;
+    leds[0 * LED_WIDTH + 0] = 0x00FF0000;
 
-    leds[2 * LED_WIDTH + 0] = 0x0000FF00;
+    leds[0 * LED_WIDTH + 1] = 0x0000FF00;
 
-    leds[3 * LED_WIDTH + 0] = 0x000000FF;
+    leds[0 * LED_WIDTH + 2] = 0x000000FF;
 
-    leds[4 * LED_WIDTH + 0] = 0x00FFFF00;
+    leds[0 * LED_WIDTH + 3] = 0x00FFFF00;
 
-    leds[5 * LED_WIDTH + 0] = 0x0000FFFF;
+    leds[0 * LED_WIDTH + 4] = 0x0000FFFF;
 
-    leds[6 * LED_WIDTH + 0] = 0x00FF00FF;
+    leds[0 * LED_WIDTH + 5] = 0x00FF00FF;
 
     /*
     for (int y = 0; y < LED_HEIGHT; ++y) {
