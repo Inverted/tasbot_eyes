@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
-#include <unistd.h>
 #include <signal.h>
 
 #define GIF_PATH                "./gifs/"
@@ -22,11 +21,45 @@
 #define GPIO_PIN                18
 #define DMA                     10
 #define LED_COUNT               (LED_WIDTH * LED_HEIGHT)
-#define STRIP_TYPE              WS2811_STRIP_GBR
+#define STRIP_TYPE              WS2811_STRIP_BRG
 #define INVERTED                false
 #define BRIGHTNESS              255
 #define PLAYBACK_SPEED          15                  // frames per second
 
+typedef struct AnimationFrame {
+    GifColorType *color[LED_WIDTH][LED_HEIGHT];
+    u_int16_t delayTime;
+} AnimationFrame;
+
+//Declarations
+void setupHandler();
+void exitHandler(int signalNumber);
+
+int countFilesInDir(char _path[]);
+bool getFileList(const char _path[], char *_list[]);
+char *getRandomAnimation(char *list[], int _count);
+char *getFilePath(char* _path, char* _file);
+
+bool checkIfImageHasRightSize(GifFileType *_image);
+u_int16_t getDelayTime(SavedImage *_frame);
+AnimationFrame *readFramePixels(const SavedImage *frame, ColorMapObject *_globalMap);
+bool playAnimation(const char *file);
+
+ws2811_return_t initLEDs();
+ws2811_return_t renderLEDs();
+ws2811_return_t clearLEDs();
+
+void showBaseExpression();
+void showExpression(AnimationFrame* _frames, unsigned int _frameCount);
+void showFrame(AnimationFrame* _frame);
+
+void debugRenderer(GifColorType *_rgb);
+
+//Variables
+bool verboseLogging = false;
+bool useDebugRenderer = false;
+bool running = false;
+ws2811_led_t* leds;
 ws2811_t display = {
         .freq = TARGET_FREQ,
         .dmanum = DMA,
@@ -38,7 +71,7 @@ ws2811_t display = {
                         .brightness = BRIGHTNESS,
                         .strip_type = STRIP_TYPE,
                 },
-                [1] ={
+                [1] ={ //TODO: do we need that?
                         .gpionum = 0,
                         .count = 0,
                         .invert = 0,
@@ -46,34 +79,6 @@ ws2811_t display = {
                 },
         },
 };
-
-typedef struct AnimationFrame {
-    GifColorType *rgb[LED_WIDTH][LED_HEIGHT];
-    u_int16_t delayTime;
-} AnimationFrame;
-
-//Declarations
-void setupHandler();
-void exitHandler(int signalNumber);
-
-bool readAnimation(const char *file);
-int countFilesInDir(char _path[]);
-bool getFileList(const char _path[], char *_list[]);
-char *getRandomAnimation(char *list[], int _count);
-bool checkIfImageHasRightSize(GifFileType *_image);
-u_int16_t getDelayTime(SavedImage *_frame);
-AnimationFrame *readFramePixels(const SavedImage *frame, ColorMapObject *_globalMap);
-
-void debugRenderer(GifColorType *_rgb);
-int initLED();
-void renderLEDs();
-void clearDisplay();
-
-//Variables
-bool verboseLogging = false;
-bool useDebugRenderer = false;
-bool running = false;
-ws2811_led_t *leds;
 
 //TODO: Signal handlers
 //TODO: [Errors] mittels fprintf ausgeben
@@ -89,16 +94,22 @@ int main() {
     char *animation = getRandomAnimation(list, fileCount); //get random animation
 
     //allocate memory for path string and ditch together
-    char *path = malloc(sizeof(char) * (MAX_PATH_LENGTH + MAX_FILENAME_LENGTH));
-    strcpy(path, GIF_PATH);
-    strcat(path, animation);
+    char *path = getFilePath(GIF_PATH, animation);
 
     //read animation from path
-    readAnimation(path);
+    playAnimation(path);
 
-    initLED();
-
+    initLEDs();
+    showBaseExpression();
     return 0;
+}
+
+char *getFilePath(char* _path, char* _file){
+    char *path = malloc(sizeof(char) * (MAX_PATH_LENGTH + MAX_FILENAME_LENGTH));
+    strcpy(path, _path);
+    strcat(path, _file);
+
+    return path;
 }
 
 /**
@@ -123,7 +134,7 @@ void setupHandler(){
  */
 void exitHandler(int signalNumber) {
     running = false;
-    clearDisplay();
+    clearLEDs();
     ws2811_render(&display);
     ws2811_fini(&display);
     exit(0);
@@ -154,8 +165,8 @@ u_int16_t getDelayTime(SavedImage *_frame) {
             // wait for first "Graphics Control Extension"-block and assume all frames have the same delay
             // TODO: Actually use the delay time of every _frame for the animation, rather than assuming all have the same
             // http://giflib.sourceforge.net/whatsinagif/bits_and_bytes.html
-            if (_frame->ExtensionBlocks[e].Function ==
-                0xF9) { //F9 is the identifier for "Graphics Control Extension"-blocks
+            // F9 is the identifier for "Graphics Control Extension"-blocks
+            if (_frame->ExtensionBlocks[e].Function == 0xF9) {
                 u_int8_t highByte = _frame->ExtensionBlocks[e].Bytes[2];
                 u_int8_t lowByte = _frame->ExtensionBlocks[e].Bytes[3];
                 return (highByte << 8) | lowByte;
@@ -191,7 +202,7 @@ AnimationFrame *readFramePixels(const SavedImage *frame, ColorMapObject *_global
 
             if (colorMap) {
                 GifColorType *rgb = &colorMap->Colors[c];
-                animationFrame->rgb[x][y] = rgb;
+                animationFrame->color[x][y] = rgb;
 
                 if (useDebugRenderer) {
                     debugRenderer(rgb);
@@ -212,7 +223,7 @@ AnimationFrame *readFramePixels(const SavedImage *frame, ColorMapObject *_global
     return animationFrame;
 }
 
-bool readAnimation(const char *file) {
+bool playAnimation(const char *file) {
     //Open file
     int error;
     GifFileType *image = DGifOpenFileName(file, &error);
@@ -261,8 +272,10 @@ bool readAnimation(const char *file) {
             if (useDebugRenderer) {
                 printf("[Frame: %d]\n", i);
             }
-
             animationFrames[i] = readFramePixels(frame, globalColorMap);
+
+            showExpression((AnimationFrame *) animationFrames, image->ImageCount);
+
         }
     } else {
         printf("[ERROR] Image has wrong size (%dx%d). Required is (%dx%d)", image->SWidth, image->SHeight, LED_WIDTH,
@@ -316,55 +329,88 @@ char *getRandomAnimation(char *list[], int _count) {
 //endregion
 
 //region LED
-int initLED() {
+ws2811_return_t initLEDs() {
     ws2811_return_t r;
     leds = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
 
     if ((r = ws2811_init(&display)) != WS2811_SUCCESS) {
         fprintf(stderr, "ws2811_init failed. Couldt initialize LEDs: %s\n", ws2811_get_return_t_str(r));
-        return r;
     }
-
-    //===testing
+    return r;
 
     //funzt
+    /*
     for (size_t i = 0; i < LED_COUNT; i++) {
         leds[i] = 0x00FF0000;
 
         renderLEDs();
 
-        if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
-            fprintf(stderr, "Failed to render: %s\n", ws2811_get_return_t_str(r));
-            break;
-        }
+
         usleep(1000000 / PLAYBACK_SPEED);
     }
 
-    ws2811_fini(&display);
+     ws2811_fini(&display);
+     */
 }
 
 /**
  * @brief Update LEDs to new color
  * Updates the display's hardware LEDs color to the local leds variables array
  */
-void renderLEDs(){
+ws2811_return_t renderLEDs(){
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
             // ==> pop conversation table in here (replace .leds[0] with .leds[convertToTASBot[0]]) or like that
             display.channel[0].leds[(y * LED_WIDTH) + x] = leds[y * LED_WIDTH + x];
         }
     }
+
+    ws2811_return_t r;
+    if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
+        fprintf(stderr, "Failed to render: %s\n", ws2811_get_return_t_str(r));
+    }
+    return r;
 }
 
 /**
  * @brief Turns of all the LEDs
  * Clears all the LEDs by setting their color to black and renders it
  */
-void clearDisplay(){
+ws2811_return_t clearLEDs(){
     for (size_t i = 0; i < LED_COUNT; i++) {
         // ==> here to
         leds[i] = 0;
     }
-    renderLEDs();
+    return renderLEDs();
 }
+//endregion
+
+//region TASBot
+void showBaseExpression(){
+    char* baseExpr = getFilePath(GIF_PATH, BASE_EXPRESSION);
+    playAnimation(baseExpr);
+}
+
+void showExpression(AnimationFrame* _frames, unsigned int _frameCount){
+    for (int i = 0; i < _frameCount; ++i) {
+        showFrame(&_frames[i]);
+    }
+}
+
+void showFrame(AnimationFrame* _frame){
+    for (int x = 0; x < LED_WIDTH; ++x) {
+        for (int y = 0; y < LED_HEIGHT; ++y) {
+
+            GifColorType* color = _frame->color[x][y];
+
+            if (color->Red != 0 || color->Green != 0 || color->Blue != 0) {
+                leds[y * LED_WIDTH + x] = 0x00FFFFFF;
+
+            } else {
+                leds[y * LED_WIDTH + x] = 0x00000000;
+            }
+        }
+    }
+}
+
 //endregion
