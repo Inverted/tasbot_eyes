@@ -404,6 +404,11 @@ void showFrame(AnimationFrame* _frame){
 
     leds[0 * LED_HEIGHT + 5] = 0x00FF00FF;
 
+    leds[0 * LED_HEIGHT + 6] = 0x00FFFFFF;
+
+    leds[0 * LED_HEIGHT + 7] = 0x00808080;
+
+
     /*
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
