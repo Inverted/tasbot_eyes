@@ -98,7 +98,8 @@ int main() {
     initLEDs();
     showBaseExpression();
 
-    for (;running;)
+    for (;/*ever*/;){}
+
     exitHandler(0);
     return 0;
 }
