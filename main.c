@@ -391,8 +391,8 @@ void showExpression(AnimationFrame* _frames, unsigned int _frameCount){
 }
 
 void showFrame(AnimationFrame* _frame){
-    for (int x = 0; x < LED_WIDTH; ++x) {
-        for (int y = 0; y < LED_HEIGHT; ++y) {
+    for (int y = 0; y < LED_HEIGHT; ++y) {
+        for (int x = 0; x < LED_WIDTH; ++x) {
 
             GifColorType* color = _frame->color[x][y];
 
