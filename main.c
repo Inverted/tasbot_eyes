@@ -7,6 +7,7 @@
 #include <time.h>
 #include <string.h>
 #include <signal.h>
+#include <unistd.h>
 
 #define GIF_PATH                "./gifs/"
 #define BASE_EXPRESSION         "base.gif"
@@ -50,6 +51,7 @@ ws2811_return_t renderLEDs();
 ws2811_return_t clearLEDs();
 
 void showBaseExpression();
+void showRandomExpression();
 void showExpression(AnimationFrame* _frames, unsigned int _frameCount);
 void showFrame(AnimationFrame* _frame);
 
@@ -85,20 +87,16 @@ ws2811_t display = {
 //TODO: Signal handlers
 //TODO: [Errors] mittels fprintf ausgeben
 
+//=======TODO: FREE() UNUSED MEMORY, OMG :O=========
+
 //args: -s: playback speed; -I: specific image; -P: specific folder; -v: verbose logging; -h: help; -r: debug renderer; -b: brightness [0-255]
 int main() {
     srand(time(NULL));
     setupHandler();
 
-    /*
-    int fileCount = countFilesInDir(GIF_PATH); //get file count
-    char *list[fileCount];
-    getFileList(GIF_PATH, list); //get list of files
-    char *animation = getRandomAnimation(list, fileCount); //get random animation
-     */
-
     initLEDs();
-    showBaseExpression();
+    //showBaseExpression();
+    showRandomExpression();
 
     for (;/*ever*/;){}
 
@@ -336,16 +334,6 @@ ws2811_return_t initLEDs() {
         fprintf(stderr, "ws2811_init failed. Couldt initialize LEDs: %s\n", ws2811_get_return_t_str(r));
     }
     return r;
-
-    /*
-    //funzt
-    for (size_t i = 0; i < LED_COUNT; i++) {
-        leds[i] = 0x00FF0000;
-        renderLEDs();
-        usleep(1000000 / PLAYBACK_SPEED);
-    }
-     ws2811_fini(&display);
-     */
 }
 
 /**
@@ -382,13 +370,27 @@ ws2811_return_t clearLEDs(){
 
 //region TASBot
 void showBaseExpression(){
-    char* baseExpr = getFilePath(GIF_PATH, BASE_EXPRESSION);
-    playAnimation(baseExpr);
+    char* filePath = getFilePath(GIF_PATH, BASE_EXPRESSION);
+
+    playAnimation(filePath);
+}
+
+void showRandomExpression(){
+    int fileCount = countFilesInDir(GIF_PATH); //get file count
+    char *list[fileCount];
+    getFileList(GIF_PATH, list); //get list of files
+    char *animation = getRandomAnimation(list, fileCount); //get random animation
+    char* filePath = getFilePath(GIF_PATH, animation);
+
+    playAnimation(filePath);
 }
 
 void showExpression(AnimationFrame* _frames, unsigned int _frameCount){
     for (int i = 0; i < _frameCount; ++i) {
         showFrame(&_frames[i]);
+
+        //usleep(1000000 / PLAYBACK_SPEED);
+        usleep(_frames[i].delayTime * 1000);
     }
 }
 
@@ -415,7 +417,6 @@ void showFrame(AnimationFrame* _frame){
 //endregion
 
 //region Debug and Development
-
 //Wenn x eine ungerade Zahl ist, dann []
 //Wenn x eine   gerade Zahl ist, dann [x * LED_HEIGHT + y]
 unsigned int ledMatrixTranslation(int _x, int _y){
