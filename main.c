@@ -96,8 +96,8 @@ int main() {
     setupHandler();
 
     initLEDs();
-    //showBaseExpression();
-    showRandomExpression();
+    showBaseExpression();
+    //showRandomExpression();
 
     for (;/*ever*/;){}
 
