@@ -394,25 +394,21 @@ void showExpression(AnimationFrame* _frames, unsigned int _frameCount){
 
 void showFrame(AnimationFrame* _frame){
 
+    printf("[INFO] Render frame: \n");
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
-
             GifColorType* color = _frame->color[x][y];
 
             if (color->Red != 0 || color->Green != 0 || color->Blue != 0) {
-                leds[ledMatrixTranslation(x, y)] = 0x000000FF;
-
+                leds[ledMatrixTranslation(x, y)] = 0x00FFFFFF;
                 printf("x");
-
             } else {
                 leds[ledMatrixTranslation(x, y)] = 0x00000000;
-
                 printf(" ");
             }
         }
         printf("\n");
     }
-    printf("\n");
 
     renderLEDs();
 }
