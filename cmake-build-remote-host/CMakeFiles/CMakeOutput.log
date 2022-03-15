@@ -10,15 +10,15 @@ The output was:
 
 Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
 
-The C compiler identification is GNU, found in "/tmp/tmp.pTR1SyS8zC/cmake-build-remote-host/CMakeFiles/3.18.4/CompilerIdC/a.out"
+The C compiler identification is GNU, found in "/home/pi/clion_tasbot_eyes/cmake-build-remote-host/CMakeFiles/3.18.4/CompilerIdC/a.out"
 
 Detecting C compiler ABI info compiled with the following output:
-Change Dir: /tmp/tmp.pTR1SyS8zC/cmake-build-remote-host/CMakeFiles/CMakeTmp
+Change Dir: /home/pi/clion_tasbot_eyes/cmake-build-remote-host/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/usr/bin/gmake cmTC_a9561/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_a9561.dir/build.make CMakeFiles/cmTC_a9561.dir/build
-gmake[1]: Entering directory '/tmp/tmp.pTR1SyS8zC/cmake-build-remote-host/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o
-/usr/bin/cc   -v -o CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.18/Modules/CMakeCCompilerABI.c
+Run Build Command(s):/usr/bin/gmake cmTC_cb78a/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_cb78a.dir/build.make CMakeFiles/cmTC_cb78a.dir/build
+gmake[1]: Entering directory '/home/pi/clion_tasbot_eyes/cmake-build-remote-host/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc   -v -o CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.18/Modules/CMakeCCompilerABI.c
 Using built-in specs.
 COLLECT_GCC=/usr/bin/cc
 Target: arm-linux-gnueabihf
@@ -26,8 +26,8 @@ Configured with: ../src/configure -v --with-pkgversion='Raspbian 10.2.1-6+rpi1' 
 Thread model: posix
 Supported LTO compression algorithms: zlib zstd
 gcc version 10.2.1 20210110 (Raspbian 10.2.1-6+rpi1) 
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
- /usr/lib/gcc/arm-linux-gnueabihf/10/cc1 -quiet -v -imultilib . -imultiarch arm-linux-gnueabihf /usr/share/cmake-3.18/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mfloat-abi=hard -mfpu=vfp -mtls-dialect=gnu -marm -march=armv6+fp -auxbase-strip CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o -version -o /tmp/cc07msgZ.s
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
+ /usr/lib/gcc/arm-linux-gnueabihf/10/cc1 -quiet -v -imultilib . -imultiarch arm-linux-gnueabihf /usr/share/cmake-3.18/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mfloat-abi=hard -mfpu=vfp -mtls-dialect=gnu -marm -march=armv6+fp -auxbase-strip CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o -version -o /tmp/cc19U20u.s
 GNU C17 (Raspbian 10.2.1-6+rpi1) version 10.2.1 20210110 (arm-linux-gnueabihf)
 	compiled by GNU C version 10.2.1 20210110, GMP version 6.2.1, MPFR version 4.1.0, MPC version 1.2.0, isl version isl-0.23-GMP
 
@@ -47,15 +47,15 @@ GNU C17 (Raspbian 10.2.1-6+rpi1) version 10.2.1 20210110 (arm-linux-gnueabihf)
 
 GGC heuristics: --param ggc-min-expand=59 --param ggc-min-heapsize=54997
 Compiler executable checksum: b0c2f0ffcfbe7fc710aaf45c31c63944
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
- as -v -march=armv6 -mfloat-abi=hard -mfpu=vfp -meabi=5 -o CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o /tmp/cc07msgZ.s
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
+ as -v -march=armv6 -mfloat-abi=hard -mfpu=vfp -meabi=5 -o CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o /tmp/cc19U20u.s
 GNU assembler version 2.35.2 (arm-linux-gnueabihf) using BFD version (GNU Binutils for Raspbian) 2.35.2
 COMPILER_PATH=/usr/lib/gcc/arm-linux-gnueabihf/10/:/usr/lib/gcc/arm-linux-gnueabihf/10/:/usr/lib/gcc/arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/10/:/usr/lib/gcc/arm-linux-gnueabihf/
 LIBRARY_PATH=/usr/lib/gcc/arm-linux-gnueabihf/10/:/usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/10/../../../:/lib/arm-linux-gnueabihf/:/lib/:/usr/lib/arm-linux-gnueabihf/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
-Linking C executable cmTC_a9561
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a9561.dir/link.txt --verbose=1
-/usr/bin/cc  -v CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o -o cmTC_a9561 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
+Linking C executable cmTC_cb78a
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cb78a.dir/link.txt --verbose=1
+/usr/bin/cc  -v CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o -o cmTC_cb78a 
 Using built-in specs.
 COLLECT_GCC=/usr/bin/cc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/arm-linux-gnueabihf/10/lto-wrapper
@@ -66,10 +66,10 @@ Supported LTO compression algorithms: zlib zstd
 gcc version 10.2.1 20210110 (Raspbian 10.2.1-6+rpi1) 
 COMPILER_PATH=/usr/lib/gcc/arm-linux-gnueabihf/10/:/usr/lib/gcc/arm-linux-gnueabihf/10/:/usr/lib/gcc/arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/10/:/usr/lib/gcc/arm-linux-gnueabihf/
 LIBRARY_PATH=/usr/lib/gcc/arm-linux-gnueabihf/10/:/usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/10/../../../:/lib/arm-linux-gnueabihf/:/lib/:/usr/lib/arm-linux-gnueabihf/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_a9561'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
- /usr/lib/gcc/arm-linux-gnueabihf/10/collect2 -plugin /usr/lib/gcc/arm-linux-gnueabihf/10/liblto_plugin.so -plugin-opt=/usr/lib/gcc/arm-linux-gnueabihf/10/lto-wrapper -plugin-opt=-fresolution=/tmp/ccnwSnLu.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -dynamic-linker /lib/ld-linux-armhf.so.3 -X --hash-style=gnu --as-needed -m armelf_linux_eabi -o cmTC_a9561 /usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/crt1.o /usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/crti.o /usr/lib/gcc/arm-linux-gnueabihf/10/crtbegin.o -L/usr/lib/gcc/arm-linux-gnueabihf/10 -L/usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf -L/usr/lib/gcc/arm-linux-gnueabihf/10/../../.. -L/lib/arm-linux-gnueabihf -L/usr/lib/arm-linux-gnueabihf CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/arm-linux-gnueabihf/10/crtend.o /usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/crtn.o
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_a9561'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
-gmake[1]: Leaving directory '/tmp/tmp.pTR1SyS8zC/cmake-build-remote-host/CMakeFiles/CMakeTmp'
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_cb78a'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
+ /usr/lib/gcc/arm-linux-gnueabihf/10/collect2 -plugin /usr/lib/gcc/arm-linux-gnueabihf/10/liblto_plugin.so -plugin-opt=/usr/lib/gcc/arm-linux-gnueabihf/10/lto-wrapper -plugin-opt=-fresolution=/tmp/ccg9NwdV.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -dynamic-linker /lib/ld-linux-armhf.so.3 -X --hash-style=gnu --as-needed -m armelf_linux_eabi -o cmTC_cb78a /usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/crt1.o /usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/crti.o /usr/lib/gcc/arm-linux-gnueabihf/10/crtbegin.o -L/usr/lib/gcc/arm-linux-gnueabihf/10 -L/usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf -L/usr/lib/gcc/arm-linux-gnueabihf/10/../../.. -L/lib/arm-linux-gnueabihf -L/usr/lib/arm-linux-gnueabihf CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/arm-linux-gnueabihf/10/crtend.o /usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_cb78a'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp'
+gmake[1]: Leaving directory '/home/pi/clion_tasbot_eyes/cmake-build-remote-host/CMakeFiles/CMakeTmp'
 
 
 
@@ -90,12 +90,12 @@ Parsed C implicit include dir info from above output: rv=done
 
 Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /tmp/tmp.pTR1SyS8zC/cmake-build-remote-host/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /home/pi/clion_tasbot_eyes/cmake-build-remote-host/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command(s):/usr/bin/gmake cmTC_a9561/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_a9561.dir/build.make CMakeFiles/cmTC_a9561.dir/build]
-  ignore line: [gmake[1]: Entering directory '/tmp/tmp.pTR1SyS8zC/cmake-build-remote-host/CMakeFiles/CMakeTmp']
-  ignore line: [Building C object CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/usr/bin/cc   -v -o CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.18/Modules/CMakeCCompilerABI.c]
+  ignore line: [Run Build Command(s):/usr/bin/gmake cmTC_cb78a/fast && /usr/bin/gmake  -f CMakeFiles/cmTC_cb78a.dir/build.make CMakeFiles/cmTC_cb78a.dir/build]
+  ignore line: [gmake[1]: Entering directory '/home/pi/clion_tasbot_eyes/cmake-build-remote-host/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc   -v -o CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o -c /usr/share/cmake-3.18/Modules/CMakeCCompilerABI.c]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/cc]
   ignore line: [Target: arm-linux-gnueabihf]
@@ -103,8 +103,8 @@ Parsed C implicit link information from above output:
   ignore line: [Thread model: posix]
   ignore line: [Supported LTO compression algorithms: zlib zstd]
   ignore line: [gcc version 10.2.1 20210110 (Raspbian 10.2.1-6+rpi1) ]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
-  ignore line: [ /usr/lib/gcc/arm-linux-gnueabihf/10/cc1 -quiet -v -imultilib . -imultiarch arm-linux-gnueabihf /usr/share/cmake-3.18/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mfloat-abi=hard -mfpu=vfp -mtls-dialect=gnu -marm -march=armv6+fp -auxbase-strip CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o -version -o /tmp/cc07msgZ.s]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
+  ignore line: [ /usr/lib/gcc/arm-linux-gnueabihf/10/cc1 -quiet -v -imultilib . -imultiarch arm-linux-gnueabihf /usr/share/cmake-3.18/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -mfloat-abi=hard -mfpu=vfp -mtls-dialect=gnu -marm -march=armv6+fp -auxbase-strip CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o -version -o /tmp/cc19U20u.s]
   ignore line: [GNU C17 (Raspbian 10.2.1-6+rpi1) version 10.2.1 20210110 (arm-linux-gnueabihf)]
   ignore line: [	compiled by GNU C version 10.2.1 20210110  GMP version 6.2.1  MPFR version 4.1.0  MPC version 1.2.0  isl version isl-0.23-GMP]
   ignore line: []
@@ -124,15 +124,15 @@ Parsed C implicit link information from above output:
   ignore line: []
   ignore line: [GGC heuristics: --param ggc-min-expand=59 --param ggc-min-heapsize=54997]
   ignore line: [Compiler executable checksum: b0c2f0ffcfbe7fc710aaf45c31c63944]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
-  ignore line: [ as -v -march=armv6 -mfloat-abi=hard -mfpu=vfp -meabi=5 -o CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o /tmp/cc07msgZ.s]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
+  ignore line: [ as -v -march=armv6 -mfloat-abi=hard -mfpu=vfp -meabi=5 -o CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o /tmp/cc19U20u.s]
   ignore line: [GNU assembler version 2.35.2 (arm-linux-gnueabihf) using BFD version (GNU Binutils for Raspbian) 2.35.2]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/arm-linux-gnueabihf/10/:/usr/lib/gcc/arm-linux-gnueabihf/10/:/usr/lib/gcc/arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/10/:/usr/lib/gcc/arm-linux-gnueabihf/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/arm-linux-gnueabihf/10/:/usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/10/../../../:/lib/arm-linux-gnueabihf/:/lib/:/usr/lib/arm-linux-gnueabihf/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
-  ignore line: [Linking C executable cmTC_a9561]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a9561.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/cc  -v CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o -o cmTC_a9561 ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o' '-c'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
+  ignore line: [Linking C executable cmTC_cb78a]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_cb78a.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc  -v CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o -o cmTC_cb78a ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/cc]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/arm-linux-gnueabihf/10/lto-wrapper]
@@ -143,13 +143,13 @@ Parsed C implicit link information from above output:
   ignore line: [gcc version 10.2.1 20210110 (Raspbian 10.2.1-6+rpi1) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/arm-linux-gnueabihf/10/:/usr/lib/gcc/arm-linux-gnueabihf/10/:/usr/lib/gcc/arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/10/:/usr/lib/gcc/arm-linux-gnueabihf/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/arm-linux-gnueabihf/10/:/usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/:/usr/lib/gcc/arm-linux-gnueabihf/10/../../../:/lib/arm-linux-gnueabihf/:/lib/:/usr/lib/arm-linux-gnueabihf/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_a9561'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
-  link line: [ /usr/lib/gcc/arm-linux-gnueabihf/10/collect2 -plugin /usr/lib/gcc/arm-linux-gnueabihf/10/liblto_plugin.so -plugin-opt=/usr/lib/gcc/arm-linux-gnueabihf/10/lto-wrapper -plugin-opt=-fresolution=/tmp/ccnwSnLu.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -dynamic-linker /lib/ld-linux-armhf.so.3 -X --hash-style=gnu --as-needed -m armelf_linux_eabi -o cmTC_a9561 /usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/crt1.o /usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/crti.o /usr/lib/gcc/arm-linux-gnueabihf/10/crtbegin.o -L/usr/lib/gcc/arm-linux-gnueabihf/10 -L/usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf -L/usr/lib/gcc/arm-linux-gnueabihf/10/../../.. -L/lib/arm-linux-gnueabihf -L/usr/lib/arm-linux-gnueabihf CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/arm-linux-gnueabihf/10/crtend.o /usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_cb78a'  '-mfloat-abi=hard' '-mfpu=vfp' '-mtls-dialect=gnu' '-marm' '-march=armv6+fp']
+  link line: [ /usr/lib/gcc/arm-linux-gnueabihf/10/collect2 -plugin /usr/lib/gcc/arm-linux-gnueabihf/10/liblto_plugin.so -plugin-opt=/usr/lib/gcc/arm-linux-gnueabihf/10/lto-wrapper -plugin-opt=-fresolution=/tmp/ccg9NwdV.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --build-id --eh-frame-hdr -dynamic-linker /lib/ld-linux-armhf.so.3 -X --hash-style=gnu --as-needed -m armelf_linux_eabi -o cmTC_cb78a /usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/crt1.o /usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/crti.o /usr/lib/gcc/arm-linux-gnueabihf/10/crtbegin.o -L/usr/lib/gcc/arm-linux-gnueabihf/10 -L/usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf -L/usr/lib/gcc/arm-linux-gnueabihf/10/../../.. -L/lib/arm-linux-gnueabihf -L/usr/lib/arm-linux-gnueabihf CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o -lgcc --push-state --as-needed -lgcc_s --pop-state -lc -lgcc --push-state --as-needed -lgcc_s --pop-state /usr/lib/gcc/arm-linux-gnueabihf/10/crtend.o /usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/crtn.o]
     arg [/usr/lib/gcc/arm-linux-gnueabihf/10/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/arm-linux-gnueabihf/10/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/arm-linux-gnueabihf/10/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccnwSnLu.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccg9NwdV.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -165,7 +165,7 @@ Parsed C implicit link information from above output:
     arg [-m] ==> ignore
     arg [armelf_linux_eabi] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_a9561] ==> ignore
+    arg [cmTC_cb78a] ==> ignore
     arg [/usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/crt1.o] ==> ignore
     arg [/usr/lib/gcc/arm-linux-gnueabihf/10/../../../arm-linux-gnueabihf/crti.o] ==> ignore
     arg [/usr/lib/gcc/arm-linux-gnueabihf/10/crtbegin.o] ==> ignore
@@ -174,7 +174,7 @@ Parsed C implicit link information from above output:
     arg [-L/usr/lib/gcc/arm-linux-gnueabihf/10/../../..] ==> dir [/usr/lib/gcc/arm-linux-gnueabihf/10/../../..]
     arg [-L/lib/arm-linux-gnueabihf] ==> dir [/lib/arm-linux-gnueabihf]
     arg [-L/usr/lib/arm-linux-gnueabihf] ==> dir [/usr/lib/arm-linux-gnueabihf]
-    arg [CMakeFiles/cmTC_a9561.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_cb78a.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--push-state] ==> ignore
     arg [--as-needed] ==> ignore

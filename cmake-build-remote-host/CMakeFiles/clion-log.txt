@@ -1,4 +1,4 @@
-/usr/bin/cmake -G "CodeBlocks - Unix Makefiles" /tmp/tmp.pTR1SyS8zC
+/usr/bin/cmake -G "CodeBlocks - Unix Makefiles" /home/pi/clion_tasbot_eyes
 -- The C compiler identification is GNU 10.2.1
 -- Detecting C compiler ABI info
 -- Detecting C compiler ABI info - done
@@ -7,4 +7,4 @@
 -- Detecting C compile features - done
 -- Configuring done
 -- Generating done
--- Build files have been written to: /tmp/tmp.pTR1SyS8zC/cmake-build-remote-host
+-- Build files have been written to: /home/pi/clion_tasbot_eyes/cmake-build-remote-host
