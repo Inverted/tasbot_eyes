@@ -54,6 +54,8 @@ void showExpression(AnimationFrame* _frames, unsigned int _frameCount);
 void showFrame(AnimationFrame* _frame);
 
 void debugRenderer(GifColorType *_rgb);
+unsigned int ledMatrixTranslation(int _x, int _y);
+bool numberIsEven(int _number);
 
 //Variables
 bool verboseLogging = true;
@@ -410,6 +412,7 @@ void showFrame(AnimationFrame* _frame){
     leds[7 * LED_HEIGHT + (LED_HEIGHT -7)] = 0x00808080;
      */
 
+    /*
     //   x                y
     leds[0 * LED_HEIGHT + 0] = 0x00FF0000;
     leds[0 * LED_HEIGHT + 1] = 0x00FF0000;
@@ -437,9 +440,43 @@ void showFrame(AnimationFrame* _frame){
     leds[2 * LED_HEIGHT + 5] = 0x000000FF;
     leds[2 * LED_HEIGHT + 6] = 0x000000FF;
     leds[2 * LED_HEIGHT + 7] = 0x000000FF;
+     */
 
+    leds[ledMatrixTranslation(0, 0)] = 0x00FF0000;
+    leds[ledMatrixTranslation(0, 1)] = 0x00FF0000;
+    leds[ledMatrixTranslation(0, 2)] = 0x0000FF00;
+    leds[ledMatrixTranslation(0, 3)] = 0x0000FF00;
+    leds[ledMatrixTranslation(0, 4)] = 0x0000FF00;
+    leds[ledMatrixTranslation(0, 5)] = 0x000000FF;
+    leds[ledMatrixTranslation(0, 6)] = 0x000000FF;
+    leds[ledMatrixTranslation(0, 7)] = 0x000000FF;
 
+    leds[ledMatrixTranslation(1, 0)] = 0x00FF0000;
+    leds[ledMatrixTranslation(1, 1)] = 0x00FF0000;
+    leds[ledMatrixTranslation(1, 2)] = 0x0000FF00;
+    leds[ledMatrixTranslation(1, 3)] = 0x0000FF00;
+    leds[ledMatrixTranslation(1, 4)] = 0x0000FF00;
+    leds[ledMatrixTranslation(1, 5)] = 0x000000FF;
+    leds[ledMatrixTranslation(1, 6)] = 0x000000FF;
+    leds[ledMatrixTranslation(1, 7)] = 0x000000FF;
 
+    leds[ledMatrixTranslation(2, 0)] = 0x00FF0000;
+    leds[ledMatrixTranslation(2, 1)] = 0x00FF0000;
+    leds[ledMatrixTranslation(2, 2)] = 0x0000FF00;
+    leds[ledMatrixTranslation(2, 3)] = 0x0000FF00;
+    leds[ledMatrixTranslation(2, 4)] = 0x0000FF00;
+    leds[ledMatrixTranslation(2, 5)] = 0x000000FF;
+    leds[ledMatrixTranslation(2, 6)] = 0x000000FF;
+    leds[ledMatrixTranslation(2, 7)] = 0x000000FF;
+
+    leds[ledMatrixTranslation(3, 0)] = 0x00FF0000;
+    leds[ledMatrixTranslation(3, 1)] = 0x00FF0000;
+    leds[ledMatrixTranslation(3, 2)] = 0x0000FF00;
+    leds[ledMatrixTranslation(3, 3)] = 0x0000FF00;
+    leds[ledMatrixTranslation(3, 4)] = 0x0000FF00;
+    leds[ledMatrixTranslation(3, 5)] = 0x000000FF;
+    leds[ledMatrixTranslation(3, 6)] = 0x000000FF;
+    leds[ledMatrixTranslation(3, 7)] = 0x000000FF;
 
 
     /*
@@ -465,5 +502,21 @@ void showFrame(AnimationFrame* _frame){
 
     renderLEDs();
 }
+//endregion
 
+//region Debug and Development
+
+//Wenn x eine ungerade Zahl ist, dann []
+//Wenn x eine   gerade Zahl ist, dann [x * LED_HEIGHT + y]
+unsigned int ledMatrixTranslation(int _x, int _y){
+    if (numberIsEven(_x)){
+        return (_x * LED_HEIGHT + _y);
+    } else {
+        return (_x * LED_HEIGHT + LED_HEIGHT - 1 - _y);
+    }
+}
+
+bool numberIsEven(int _number){
+    return (_number % 2 == 0);
+}
 //endregion
