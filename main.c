@@ -88,6 +88,7 @@ ws2811_t display = {
 //TODO: [Errors] mittels fprintf ausgeben
 
 //=======TODO: FREE() UNUSED MEMORY, OMG :O=========
+//=> For every malloc, there must be a free!
 
 //args: -s: playback speed; -I: specific image; -P: specific folder; -v: verbose logging; -h: help; -r: debug renderer; -b: brightness [0-255]
 int main() {
@@ -392,6 +393,8 @@ void showExpression(AnimationFrame* _frames, unsigned int _frameCount){
         //usleep(1000000 / PLAYBACK_SPEED);
         usleep(_frames[i].delayTime * 1000);
     }
+
+    //free _frames
 }
 
 void showFrame(AnimationFrame* _frame){
