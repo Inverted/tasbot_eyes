@@ -394,111 +394,25 @@ void showExpression(AnimationFrame* _frames, unsigned int _frameCount){
 
 void showFrame(AnimationFrame* _frame){
 
-    /*
-    leds[0 * LED_HEIGHT + 0] = 0x00FF0000;
-
-    leds[1 * LED_HEIGHT + (LED_HEIGHT - 1)] = 0x0000FF00;
-
-    leds[2 * LED_HEIGHT + 2] = 0x000000FF;
-
-    leds[3 * LED_HEIGHT + (LED_HEIGHT -3)] = 0x00FFFF00;
-
-    leds[4 * LED_HEIGHT + 4] = 0x0000FFFF;
-
-    leds[5 * LED_HEIGHT + (LED_HEIGHT -5)] = 0x00FF00FF;
-
-    leds[6 * LED_HEIGHT + 6] = 0x00FFFFFF;
-
-    leds[7 * LED_HEIGHT + (LED_HEIGHT -7)] = 0x00808080;
-     */
-
-    /*
-    //   x                y
-    leds[0 * LED_HEIGHT + 0] = 0x00FF0000;
-    leds[0 * LED_HEIGHT + 1] = 0x00FF0000;
-    leds[0 * LED_HEIGHT + 2] = 0x0000FF00;
-    leds[0 * LED_HEIGHT + 3] = 0x0000FF00;
-    leds[0 * LED_HEIGHT + 4] = 0x0000FF00;
-    leds[0 * LED_HEIGHT + 5] = 0x000000FF;
-    leds[0 * LED_HEIGHT + 6] = 0x000000FF;
-    leds[0 * LED_HEIGHT + 7] = 0x000000FF;
-
-    leds[1 * LED_HEIGHT + LED_HEIGHT - 1 - 0] = 0x00FF0000;
-    leds[1 * LED_HEIGHT + LED_HEIGHT - 1 - 1] = 0x00FF0000;
-    leds[1 * LED_HEIGHT + LED_HEIGHT - 1 - 2] = 0x0000FF00;
-    leds[1 * LED_HEIGHT + LED_HEIGHT - 1 - 3] = 0x0000FF00;
-    leds[1 * LED_HEIGHT + LED_HEIGHT - 1 - 4] = 0x0000FF00;
-    leds[1 * LED_HEIGHT + LED_HEIGHT - 1 - 5] = 0x000000FF;
-    leds[1 * LED_HEIGHT + LED_HEIGHT - 1 - 6] = 0x000000FF;
-    leds[1 * LED_HEIGHT + LED_HEIGHT - 1 - 7] = 0x000000FF;
-
-    leds[2 * LED_HEIGHT + 0] = 0x00FF0000;
-    leds[2 * LED_HEIGHT + 1] = 0x00FF0000;
-    leds[2 * LED_HEIGHT + 2] = 0x0000FF00;
-    leds[2 * LED_HEIGHT + 3] = 0x0000FF00;
-    leds[2 * LED_HEIGHT + 4] = 0x0000FF00;
-    leds[2 * LED_HEIGHT + 5] = 0x000000FF;
-    leds[2 * LED_HEIGHT + 6] = 0x000000FF;
-    leds[2 * LED_HEIGHT + 7] = 0x000000FF;
-     */
-
-    leds[ledMatrixTranslation(0, 0)] = 0x00FF0000;
-    leds[ledMatrixTranslation(0, 1)] = 0x00FF0000;
-    leds[ledMatrixTranslation(0, 2)] = 0x0000FF00;
-    leds[ledMatrixTranslation(0, 3)] = 0x0000FF00;
-    leds[ledMatrixTranslation(0, 4)] = 0x0000FF00;
-    leds[ledMatrixTranslation(0, 5)] = 0x000000FF;
-    leds[ledMatrixTranslation(0, 6)] = 0x000000FF;
-    leds[ledMatrixTranslation(0, 7)] = 0x000000FF;
-
-    leds[ledMatrixTranslation(1, 0)] = 0x00FF0000;
-    leds[ledMatrixTranslation(1, 1)] = 0x00FF0000;
-    leds[ledMatrixTranslation(1, 2)] = 0x0000FF00;
-    leds[ledMatrixTranslation(1, 3)] = 0x0000FF00;
-    leds[ledMatrixTranslation(1, 4)] = 0x0000FF00;
-    leds[ledMatrixTranslation(1, 5)] = 0x000000FF;
-    leds[ledMatrixTranslation(1, 6)] = 0x000000FF;
-    leds[ledMatrixTranslation(1, 7)] = 0x000000FF;
-
-    leds[ledMatrixTranslation(2, 0)] = 0x00FF0000;
-    leds[ledMatrixTranslation(2, 1)] = 0x00FF0000;
-    leds[ledMatrixTranslation(2, 2)] = 0x0000FF00;
-    leds[ledMatrixTranslation(2, 3)] = 0x0000FF00;
-    leds[ledMatrixTranslation(2, 4)] = 0x0000FF00;
-    leds[ledMatrixTranslation(2, 5)] = 0x000000FF;
-    leds[ledMatrixTranslation(2, 6)] = 0x000000FF;
-    leds[ledMatrixTranslation(2, 7)] = 0x000000FF;
-
-    leds[ledMatrixTranslation(3, 0)] = 0x00FF0000;
-    leds[ledMatrixTranslation(3, 1)] = 0x00FF0000;
-    leds[ledMatrixTranslation(3, 2)] = 0x0000FF00;
-    leds[ledMatrixTranslation(3, 3)] = 0x0000FF00;
-    leds[ledMatrixTranslation(3, 4)] = 0x0000FF00;
-    leds[ledMatrixTranslation(3, 5)] = 0x000000FF;
-    leds[ledMatrixTranslation(3, 6)] = 0x000000FF;
-    leds[ledMatrixTranslation(3, 7)] = 0x000000FF;
-
-
-    /*
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
 
             GifColorType* color = _frame->color[x][y];
 
             if (color->Red != 0 || color->Green != 0 || color->Blue != 0) {
-                leds[y * LED_WIDTH + x] = 0x00FF0000;
+                leds[ledMatrixTranslation(x, y)] = 0x000000FF;
+
                 printf("x");
 
             } else {
-                leds[y * LED_WIDTH + x] = 0x00000000;
-                printf(" ");
+                leds[ledMatrixTranslation(x, y)] = 0x00000000;
 
+                printf(" ");
             }
         }
         printf("\n");
     }
     printf("\n");
-     */
 
     renderLEDs();
 }
