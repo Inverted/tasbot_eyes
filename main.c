@@ -67,7 +67,7 @@ bool numberIsEven(int _number);
 //Variables
 bool verboseLogging = true;
 bool useDebugRenderer = false;
-bool activateLEDModule = false;
+bool activateLEDModule = true;
 bool running = false;
 
 ws2811_led_t* leds;
@@ -99,6 +99,10 @@ ws2811_t display = {
 //args: -s: playback speed; -I: specific image; -P: specific folder; -v: verbose logging; -h: help; -r: debug renderer; -b: brightness [0-255]
 //      -B: how many blinks between animation; -Bmin: min time between blinks; -Bmax: max time between blinks
 int main() {
+#if defined(__x86_64__)
+    activateLEDModule = false;
+#endif
+
     srand(time(NULL));
     setupHandler();
 
