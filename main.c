@@ -61,7 +61,7 @@ bool numberIsEven(int _number);
 //Variables
 bool verboseLogging = true;
 bool useDebugRenderer = false;
-bool activateLEDModule = false;
+bool activateLEDModule = true;
 bool running = false;
 
 ws2811_led_t* leds;
@@ -412,7 +412,7 @@ void showFrame(AnimationFrame* _frame){
         for (int x = 0; x < LED_WIDTH; ++x) {
             GifColorType* color = _frame->color[x][y];
 
-            //TODO: replace with actual color translation
+            //TODO: replace with actual color translation, lol
             if (color->Red != 0 || color->Green != 0 || color->Blue != 0) {
                 if (activateLEDModule){
                     leds[ledMatrixTranslation(x, y)] = 0x00FFFFFF;
