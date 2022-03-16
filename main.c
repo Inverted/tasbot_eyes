@@ -9,7 +9,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-#define OTHER_PATH              "./gifs/others"
+#define OTHER_PATH              "./gifs/others/"
 #define BASE_PATH               "./gifs/base.gif"
 #define BLINK_PATH              "./gifs/blink.gif"
 #define MAX_FILENAME_LENGTH     256
@@ -67,7 +67,7 @@ bool numberIsEven(int _number);
 //Variables
 bool verboseLogging = true;
 bool useDebugRenderer = false;
-bool activateLEDModule = true;
+bool activateLEDModule = false;
 bool running = false;
 
 ws2811_led_t* leds;
@@ -116,8 +116,9 @@ int main() {
     //wie viele cyclen blink, bis nächste animation? ==> random
     //zeit zwischen blinks auch random basierend auf variablen
 
+    showRandomExpression();
+
     for (;/*ever*/;){
-        showRandomExpression();
     }
 
     exitHandler(0);
@@ -245,6 +246,11 @@ AnimationFrame *readFramePixels(const SavedImage *frame, ColorMapObject *_global
 }
 
 bool playAnimation(const char *file) {
+
+    if (verboseLogging){
+        printf("[INFO] Load file %s\n", file);
+    }
+
     //Open file
     int error;
     GifFileType *image = DGifOpenFileName(file, &error);
