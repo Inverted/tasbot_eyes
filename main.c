@@ -28,7 +28,7 @@
 #define LED_COUNT               (LED_WIDTH * LED_HEIGHT)
 #define STRIP_TYPE              WS2811_STRIP_BRG
 #define INVERTED                false
-#define BRIGHTNESS              255
+#define BRIGHTNESS              64
 
 typedef struct AnimationFrame {
     GifColorType *color[LED_WIDTH][LED_HEIGHT];
@@ -120,9 +120,9 @@ int main() {
     //wie viele cyclen blink, bis nächste animation? ==> random
     //zeit zwischen blinks auch random basierend auf variablen
 
-    showRandomExpression();
 
     for (;/*ever*/;){
+        showRandomExpression();
     }
 
     exitHandler(0);
