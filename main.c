@@ -37,7 +37,7 @@ typedef struct AnimationFrame {
 
 //Declarations
 void setupHandler();
-void exitHandler(int _number);
+void finish(int _number);
 
 int countFilesInDir(char _path[]);
 bool getFileList(const char _path[], char *_list[]);
@@ -68,7 +68,7 @@ bool numberIsEven(int _number);
 bool verboseLogging = true;
 bool useDebugRenderer = false;
 bool activateLEDModule = true;
-bool running = false;
+bool running = true;
 
 ws2811_led_t* leds;
 ws2811_t display = {
@@ -93,10 +93,24 @@ ws2811_t display = {
 
 //TODO: [Errors] mittels fprintf ausgeben
 
+//TODO: Wie viele cyclen blink, bis nächste animation? ==> random
+// zeit zwischen blinks auch random basierend auf variablen
+
+//TODO: Extent Animation frame with bool. Check while parsing gif, if all pixels where white. If so,
+// set the monochrom bool to true, which means select a random color while rendering.
+// Have a predefined set of given colors (e.g. 6 colors), to choose from.
+// Create bool* in playAnimation, which is given into every readFramePixels(), to determine if monochrom
+// Encapsulate AnimationFrames in new struct Animation, containing the results of the bool and the frames
+
+//TODO: Refine return values. No voids!
+
 //=======TODO: FREE() UNUSED MEMORY, OMG :O=========
 //=> For every malloc, there must be a free!
 
-//args: -s: playback speed; -I: specific image; -P: specific folder; -v: verbose logging; -h: help; -r: debug renderer; -b: brightness [0-255]
+//TODO: Proper comments (doxygen and such)
+
+//TODO: args:
+//args: -s: playback speed; -I: specific image; -P: specific folder; -v: verbose logging; -h: help; -r: console renderer; -b: brightness [0-255]
 //      -B: how many blinks between animation; -Bmin: min time between blinks; -Bmax: max time between blinks
 int main() {
 #if defined(__x86_64__)
@@ -112,19 +126,15 @@ int main() {
             printf("[ERROR] Can't run program. Did you started it as root?\n");
             return r;
         }
-
     }
-    //wie viele cyclen blink, bis nächste animation? ==> random
-    //zeit zwischen blinks auch random basierend auf variablen
 
-
-    for (;/*ever*/;){
+    while (running){
         showRandomExpression();
         showBaseExpression();
         sleep(3);
     }
 
-    exitHandler(0);
+    finish(0);
     return 0;
 }
 
@@ -144,7 +154,7 @@ char *getFilePath(char* _path, char* _file){
  */
 void setupHandler(){
     struct sigaction sa = {
-            .sa_handler = exitHandler,
+            .sa_handler = finish,
     };
     sigemptyset(&sa.sa_mask);
     sigaction(SIGINT, &sa, NULL);
@@ -157,7 +167,7 @@ void setupHandler(){
  * Handler for SIGINT, SIGTERM and SIGKILL
  * @param _number
  */
-void exitHandler(int _number) {
+void finish(int _number) {
     printf("\n"); //pretty uwu
 
     running = false;
@@ -237,7 +247,7 @@ AnimationFrame *readFramePixels(const SavedImage *frame, ColorMapObject *_global
                     debugRenderer(rgb);
                 }
             } else {
-                printf("[WARNING] Can't process picture. Skip frame");
+                printf("[WARNING] No color map given. Can't process picture. Skip frame");
             }
         }
 
@@ -294,7 +304,7 @@ bool playAnimation(const char *file) {
                 printf("[Frame: %d]\n", i);
             }
 
-            // Needs the getDelayTime() get actually tested
+            // Needs getDelayTime() to get actually tested
             /*
             u_int16_t delayTime = getDelayTime(frame);
             if (delayTime == 0) {
@@ -319,7 +329,7 @@ bool playAnimation(const char *file) {
     return true;
 }
 
-//TODO: This could be tidied up into one method with some refactoring
+//TODO: This could be tidied up into one method with some refactoring...somehow...I bet
 int countFilesInDir(char _path[]) {
     DIR *d = opendir(_path);
     if (d) {
