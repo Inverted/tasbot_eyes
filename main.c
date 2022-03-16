@@ -9,11 +9,15 @@
 #include <signal.h>
 #include <unistd.h>
 
-#define GIF_PATH                "./gifs/"
-#define BASE_EXPRESSION         "base.gif"
+#define OTHER_PATH              "./gifs/others"
+#define BASE_PATH               "./gifs/base.gif"
+#define BLINK_PATH              "./gifs/blink.gif"
 #define MAX_FILENAME_LENGTH     256
 #define MAX_PATH_LENGTH         4096
 #define DEFAULT_DELAY_TIME      100
+#define MAX_BLINKS              4                       //How many times does TASBot blink between animations
+#define MIN_TIME_BETWEEN_BLINKS 4                       //Based on human numbers. We Blink about every 4 to 6 seconds
+#define MAX_TIME_BETWEEN_BLINKS 6
 
 #define LED_HEIGHT              8
 #define LED_WIDTH               28
@@ -50,6 +54,7 @@ ws2811_return_t renderLEDs();
 ws2811_return_t clearLEDs();
 
 void showBaseExpression();
+void showBlinkExpression();
 void showRandomExpression();
 void showExpression(AnimationFrame** _frames, unsigned int _frameCount);
 void showFrame(AnimationFrame* _frame);
@@ -92,6 +97,7 @@ ws2811_t display = {
 //=> For every malloc, there must be a free!
 
 //args: -s: playback speed; -I: specific image; -P: specific folder; -v: verbose logging; -h: help; -r: debug renderer; -b: brightness [0-255]
+//      -B: how many blinks between animation; -Bmin: min time between blinks; -Bmax: max time between blinks
 int main() {
     srand(time(NULL));
     setupHandler();
@@ -106,6 +112,9 @@ int main() {
     }
 
     //showBaseExpression();
+
+    //wie viele cyclen blink, bis nächste animation? ==> random
+    //zeit zwischen blinks auch random basierend auf variablen
 
     for (;/*ever*/;){
         showRandomExpression();
@@ -390,17 +399,19 @@ ws2811_return_t clearLEDs(){
 
 //region TASBot
 void showBaseExpression(){
-    char* filePath = getFilePath(GIF_PATH, BASE_EXPRESSION);
+    playAnimation(BASE_PATH);
+}
 
-    playAnimation(filePath);
+void showBlinkExpression(){
+    playAnimation(BLINK_PATH);
 }
 
 void showRandomExpression(){
-    int fileCount = countFilesInDir(GIF_PATH); //get file count
+    int fileCount = countFilesInDir(OTHER_PATH); //get file count
     char *list[fileCount];
-    getFileList(GIF_PATH, list); //get list of files
+    getFileList(OTHER_PATH, list); //get list of files
     char *animation = getRandomAnimation(list, fileCount); //get random animation
-    char* filePath = getFilePath(GIF_PATH, animation);
+    char* filePath = getFilePath(OTHER_PATH, animation);
 
     playAnimation(filePath);
 }
