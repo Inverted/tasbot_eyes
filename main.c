@@ -99,7 +99,7 @@ int main() {
     if (activateLEDModule){
         ws2811_return_t r = initLEDs();
         if (r != WS2811_SUCCESS) {
-            printf("[ERROR] Can't run program. Did you started it as root?");
+            printf("[ERROR] Can't run program. Did you started it as root?\n");
             return r;
         }
 
@@ -345,7 +345,7 @@ ws2811_return_t initLEDs() {
     if ((r = ws2811_init(&display)) != WS2811_SUCCESS) {
         fprintf(stderr, "ws2811_init failed. Couldt initialize LEDs: %s\n", ws2811_get_return_t_str(r));
     } else {
-        printf("[INFO] Initialized LEDs with code %d", r);
+        printf("[INFO] Initialized LEDs with code %d\n", r);
     }
     return r;
 }
@@ -366,7 +366,7 @@ ws2811_return_t renderLEDs(){
     if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
         fprintf(stderr, "Failed to render: %s\n", ws2811_get_return_t_str(r));
     } else {
-        printf("[INFO] Rendered LEDs with code %d", r);
+        printf("[INFO] Rendered LEDs with code %d\n", r);
     }
     return r;
 }
