@@ -408,6 +408,7 @@ void showFrame(AnimationFrame* _frame){
         printf("[INFO] Render frame: \n");
     }
 
+    /*
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
             GifColorType* color = _frame->color[x][y];
@@ -433,6 +434,43 @@ void showFrame(AnimationFrame* _frame){
             printf("\n");
         }
     }
+     */
+
+    leds[ledMatrixTranslation(0, 0)] = 0x00FF0000;
+    leds[ledMatrixTranslation(0, 1)] = 0x00FF0000;
+    leds[ledMatrixTranslation(0, 2)] = 0x0000FF00;
+    leds[ledMatrixTranslation(0, 3)] = 0x0000FF00;
+    leds[ledMatrixTranslation(0, 4)] = 0x0000FF00;
+    leds[ledMatrixTranslation(0, 5)] = 0x000000FF;
+    leds[ledMatrixTranslation(0, 6)] = 0x000000FF;
+    leds[ledMatrixTranslation(0, 7)] = 0x000000FF;
+
+    leds[ledMatrixTranslation(1, 0)] = 0x00FF0000;
+    leds[ledMatrixTranslation(1, 1)] = 0x00FF0000;
+    leds[ledMatrixTranslation(1, 2)] = 0x0000FF00;
+    leds[ledMatrixTranslation(1, 3)] = 0x0000FF00;
+    leds[ledMatrixTranslation(1, 4)] = 0x0000FF00;
+    leds[ledMatrixTranslation(1, 5)] = 0x000000FF;
+    leds[ledMatrixTranslation(1, 6)] = 0x000000FF;
+    leds[ledMatrixTranslation(1, 7)] = 0x000000FF;
+
+    leds[ledMatrixTranslation(2, 0)] = 0x00FF0000;
+    leds[ledMatrixTranslation(2, 1)] = 0x00FF0000;
+    leds[ledMatrixTranslation(2, 2)] = 0x0000FF00;
+    leds[ledMatrixTranslation(2, 3)] = 0x0000FF00;
+    leds[ledMatrixTranslation(2, 4)] = 0x0000FF00;
+    leds[ledMatrixTranslation(2, 5)] = 0x000000FF;
+    leds[ledMatrixTranslation(2, 6)] = 0x000000FF;
+    leds[ledMatrixTranslation(2, 7)] = 0x000000FF;
+
+    leds[ledMatrixTranslation(3, 0)] = 0x00FF0000;
+    leds[ledMatrixTranslation(3, 1)] = 0x00FF0000;
+    leds[ledMatrixTranslation(3, 2)] = 0x0000FF00;
+    leds[ledMatrixTranslation(3, 3)] = 0x0000FF00;
+    leds[ledMatrixTranslation(3, 4)] = 0x0000FF00;
+    leds[ledMatrixTranslation(3, 5)] = 0x000000FF;
+    leds[ledMatrixTranslation(3, 6)] = 0x000000FF;
+    leds[ledMatrixTranslation(3, 7)] = 0x000000FF;
 
     if (activateLEDModule){
         renderLEDs();
