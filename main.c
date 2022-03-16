@@ -104,8 +104,8 @@ int main() {
         }
 
     }
-    showBaseExpression();
-    //showRandomExpression();
+    //showBaseExpression();
+    showRandomExpression();
 
     for (;/*ever*/;){}
 
@@ -143,6 +143,8 @@ void setupHandler(){
  * @param signalNumber
  */
 void exitHandler(int signalNumber) {
+    printf("\n"); //pretty uwu
+
     running = false;
     if (activateLEDModule){
         clearLEDs();
