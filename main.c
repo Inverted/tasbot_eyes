@@ -114,15 +114,14 @@ int main() {
         }
 
     }
-
-    //showBaseExpression();
-
     //wie viele cyclen blink, bis nächste animation? ==> random
     //zeit zwischen blinks auch random basierend auf variablen
 
 
     for (;/*ever*/;){
         showRandomExpression();
+        showBaseExpression();
+        sleep(3);
     }
 
     exitHandler(0);
