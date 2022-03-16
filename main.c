@@ -97,7 +97,12 @@ int main() {
     setupHandler();
 
     if (activateLEDModule){
-        initLEDs();
+        ws2811_return_t r = initLEDs();
+        if (r != WS2811_SUCCESS) {
+            printf("[ERROR] Can't run program. Did you started it as root?");
+            return r;
+        }
+
     }
     showBaseExpression();
     //showRandomExpression();
@@ -339,6 +344,8 @@ ws2811_return_t initLEDs() {
 
     if ((r = ws2811_init(&display)) != WS2811_SUCCESS) {
         fprintf(stderr, "ws2811_init failed. Couldt initialize LEDs: %s\n", ws2811_get_return_t_str(r));
+    } else {
+        printf("[INFO] Initialized LEDs with code %d", r);
     }
     return r;
 }
@@ -358,6 +365,8 @@ ws2811_return_t renderLEDs(){
     ws2811_return_t r;
     if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
         fprintf(stderr, "Failed to render: %s\n", ws2811_get_return_t_str(r));
+    } else {
+        printf("[INFO] Rendered LEDs with code %d", r);
     }
     return r;
 }
@@ -408,7 +417,6 @@ void showFrame(AnimationFrame* _frame){
         printf("[INFO] Render frame: \n");
     }
 
-    /*
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
             GifColorType* color = _frame->color[x][y];
@@ -434,50 +442,11 @@ void showFrame(AnimationFrame* _frame){
             printf("\n");
         }
     }
-     */
-
-    /*
-    leds[ledMatrixTranslation(0, 0)] = 0x00FF0000;
-    leds[ledMatrixTranslation(0, 1)] = 0x00FF0000;
-    leds[ledMatrixTranslation(0, 2)] = 0x0000FF00;
-    leds[ledMatrixTranslation(0, 3)] = 0x0000FF00;
-    leds[ledMatrixTranslation(0, 4)] = 0x0000FF00;
-    leds[ledMatrixTranslation(0, 5)] = 0x000000FF;
-    leds[ledMatrixTranslation(0, 6)] = 0x000000FF;
-    leds[ledMatrixTranslation(0, 7)] = 0x000000FF;
-
-    leds[ledMatrixTranslation(1, 0)] = 0x00FF0000;
-    leds[ledMatrixTranslation(1, 1)] = 0x00FF0000;
-    leds[ledMatrixTranslation(1, 2)] = 0x0000FF00;
-    leds[ledMatrixTranslation(1, 3)] = 0x0000FF00;
-    leds[ledMatrixTranslation(1, 4)] = 0x0000FF00;
-    leds[ledMatrixTranslation(1, 5)] = 0x000000FF;
-    leds[ledMatrixTranslation(1, 6)] = 0x000000FF;
-    leds[ledMatrixTranslation(1, 7)] = 0x000000FF;
-
-    leds[ledMatrixTranslation(2, 0)] = 0x00FF0000;
-    leds[ledMatrixTranslation(2, 1)] = 0x00FF0000;
-    leds[ledMatrixTranslation(2, 2)] = 0x0000FF00;
-    leds[ledMatrixTranslation(2, 3)] = 0x0000FF00;
-    leds[ledMatrixTranslation(2, 4)] = 0x0000FF00;
-    leds[ledMatrixTranslation(2, 5)] = 0x000000FF;
-    leds[ledMatrixTranslation(2, 6)] = 0x000000FF;
-    leds[ledMatrixTranslation(2, 7)] = 0x000000FF;
-
-    leds[ledMatrixTranslation(3, 0)] = 0x00FF0000;
-    leds[ledMatrixTranslation(3, 1)] = 0x00FF0000;
-    leds[ledMatrixTranslation(3, 2)] = 0x0000FF00;
-    leds[ledMatrixTranslation(3, 3)] = 0x0000FF00;
-    leds[ledMatrixTranslation(3, 4)] = 0x0000FF00;
-    leds[ledMatrixTranslation(3, 5)] = 0x000000FF;
-    leds[ledMatrixTranslation(3, 6)] = 0x000000FF;
-    leds[ledMatrixTranslation(3, 7)] = 0x000000FF;
-
 
     if (activateLEDModule){
         renderLEDs();
     }
-     */
+
 }
 //endregion
 
