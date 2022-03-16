@@ -99,8 +99,8 @@ int main() {
     if (activateLEDModule){
         initLEDs();
     }
-    //showBaseExpression();
-    showRandomExpression();
+    showBaseExpression();
+    //showRandomExpression();
 
     for (;/*ever*/;){}
 
