@@ -33,7 +33,7 @@ typedef struct AnimationFrame {
 
 //Declarations
 void setupHandler();
-void exitHandler(int signalNumber);
+void exitHandler(int _number);
 
 int countFilesInDir(char _path[]);
 bool getFileList(const char _path[], char *_list[]);
@@ -53,6 +53,7 @@ void showBaseExpression();
 void showRandomExpression();
 void showExpression(AnimationFrame** _frames, unsigned int _frameCount);
 void showFrame(AnimationFrame* _frame);
+ws2811_led_t translateColor(GifColorType* _color);
 
 void debugRenderer(GifColorType *_rgb);
 unsigned int ledMatrixTranslation(int _x, int _y);
@@ -61,7 +62,7 @@ bool numberIsEven(int _number);
 //Variables
 bool verboseLogging = true;
 bool useDebugRenderer = false;
-bool activateLEDModule = true;
+bool activateLEDModule = false;
 bool running = false;
 
 ws2811_led_t* leds;
@@ -85,7 +86,6 @@ ws2811_t display = {
         },
 };
 
-//TODO: Signal handlers
 //TODO: [Errors] mittels fprintf ausgeben
 
 //=======TODO: FREE() UNUSED MEMORY, OMG :O=========
@@ -104,6 +104,7 @@ int main() {
         }
 
     }
+
     //showBaseExpression();
 
     for (;/*ever*/;){
@@ -141,9 +142,9 @@ void setupHandler(){
 /**
  * @brief Central handler for leaving the application
  * Handler for SIGINT, SIGTERM and SIGKILL
- * @param signalNumber
+ * @param _number
  */
-void exitHandler(int signalNumber) {
+void exitHandler(int _number) {
     printf("\n"); //pretty uwu
 
     running = false;
@@ -152,7 +153,7 @@ void exitHandler(int signalNumber) {
         ws2811_render(&display);
         ws2811_fini(&display);
     }
-    exit(signalNumber);
+    exit(_number);
 }
 
 //region GIF
@@ -424,18 +425,16 @@ void showFrame(AnimationFrame* _frame){
         for (int x = 0; x < LED_WIDTH; ++x) {
             GifColorType* color = _frame->color[x][y];
 
-            //TODO: replace with actual color translation, lol
+            if (activateLEDModule){
+                leds[ledMatrixTranslation(x, y)] = translateColor(color);
+            }
+
+            //Debug renderer
             if (color->Red != 0 || color->Green != 0 || color->Blue != 0) {
-                if (activateLEDModule){
-                    leds[ledMatrixTranslation(x, y)] = 0x00FFFFFF;
-                }
                 if (verboseLogging){
                     printf("x");
                 }
             } else {
-                if (activateLEDModule){
-                    leds[ledMatrixTranslation(x, y)] = 0x00000000;
-                }
                 if (verboseLogging){
                     printf(" ");
                 }
@@ -449,7 +448,10 @@ void showFrame(AnimationFrame* _frame){
     if (activateLEDModule){
         renderLEDs();
     }
+}
 
+ws2811_led_t translateColor(GifColorType* _color){
+    return ((_color->Red & 0xff) << 16) + ((_color->Green & 0xff) << 8) + (_color->Blue & 0xff);
 }
 //endregion
 
