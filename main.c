@@ -436,6 +436,7 @@ void showFrame(AnimationFrame* _frame){
     }
      */
 
+    /*
     leds[ledMatrixTranslation(0, 0)] = 0x00FF0000;
     leds[ledMatrixTranslation(0, 1)] = 0x00FF0000;
     leds[ledMatrixTranslation(0, 2)] = 0x0000FF00;
@@ -472,9 +473,11 @@ void showFrame(AnimationFrame* _frame){
     leds[ledMatrixTranslation(3, 6)] = 0x000000FF;
     leds[ledMatrixTranslation(3, 7)] = 0x000000FF;
 
+
     if (activateLEDModule){
         renderLEDs();
     }
+     */
 }
 //endregion
 
