@@ -62,7 +62,7 @@ bool numberIsEven(int _number);
 //Variables
 bool verboseLogging = true;
 bool useDebugRenderer = false;
-bool activateLEDModule = false;
+bool activateLEDModule = true;
 bool running = false;
 
 ws2811_led_t* leds;
