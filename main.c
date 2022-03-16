@@ -25,7 +25,6 @@
 #define STRIP_TYPE              WS2811_STRIP_BRG
 #define INVERTED                false
 #define BRIGHTNESS              255
-#define PLAYBACK_SPEED          15                  // frames per second
 
 typedef struct AnimationFrame {
     GifColorType *color[LED_WIDTH][LED_HEIGHT];
@@ -52,7 +51,7 @@ ws2811_return_t clearLEDs();
 
 void showBaseExpression();
 void showRandomExpression();
-void showExpression(AnimationFrame* _frames, unsigned int _frameCount);
+void showExpression(AnimationFrame** _frames, unsigned int _frameCount);
 void showFrame(AnimationFrame* _frame);
 
 void debugRenderer(GifColorType *_rgb);
@@ -62,7 +61,9 @@ bool numberIsEven(int _number);
 //Variables
 bool verboseLogging = true;
 bool useDebugRenderer = false;
+bool activateLEDModule = false;
 bool running = false;
+
 ws2811_led_t* leds;
 ws2811_t display = {
         .freq = TARGET_FREQ,
@@ -95,9 +96,11 @@ int main() {
     srand(time(NULL));
     setupHandler();
 
-    initLEDs();
-    showBaseExpression();
-    //showRandomExpression();
+    if (activateLEDModule){
+        initLEDs();
+    }
+    //showBaseExpression();
+    showRandomExpression();
 
     for (;/*ever*/;){}
 
@@ -136,10 +139,12 @@ void setupHandler(){
  */
 void exitHandler(int signalNumber) {
     running = false;
-    clearLEDs();
-    ws2811_render(&display);
-    ws2811_fini(&display);
-    exit(0);
+    if (activateLEDModule){
+        clearLEDs();
+        ws2811_render(&display);
+        ws2811_fini(&display);
+    }
+    exit(signalNumber);
 }
 
 //region GIF
@@ -196,7 +201,7 @@ AnimationFrame *readFramePixels(const SavedImage *frame, ColorMapObject *_global
     const ColorMapObject *colorMap = desc.ColorMap ? desc.ColorMap
                                                    : _globalMap; //choose either global or local color map
 
-    AnimationFrame *animationFrame = (AnimationFrame *) malloc(sizeof(AnimationFrame));
+    AnimationFrame* animationFrame = malloc(sizeof(AnimationFrame));
 
     for (int y = 0; y < desc.Height; ++y) {
         for (int x = 0; x < desc.Width; ++x) {
@@ -248,8 +253,7 @@ bool playAnimation(const char *file) {
         }
 
         //Process frames
-        //AnimationFrame *animationFrames[image->ImageCount]; // = malloc(sizeof (AnimationFrame)*image->ImageCount);
-        AnimationFrame **animationFrames = malloc(sizeof (AnimationFrame) * image->ImageCount);
+        AnimationFrame** animationFrames = malloc(sizeof (AnimationFrame) * image->ImageCount);
 
         for (int i = 0; i < image->ImageCount; ++i) {
             const SavedImage *frame = &image->SavedImages[i]; //get access to frame data
@@ -269,12 +273,14 @@ bool playAnimation(const char *file) {
             if (delayTime == 0) {
                 delayTime = DEFAULT_DELAY_TIME;
             }
-            */
+             */
+
             u_int16_t delayTime = DEFAULT_DELAY_TIME;
 
             animationFrames[i] = readFramePixels(frame, globalColorMap);
-            showExpression(*animationFrames, image->ImageCount);
+            animationFrames[i]->delayTime = delayTime;
         }
+        showExpression(animationFrames, image->ImageCount);
     } else {
         printf("[ERROR] Image has wrong size (%dx%d). Required is (%dx%d)", image->SWidth, image->SHeight, LED_WIDTH,
                LED_HEIGHT);
@@ -386,36 +392,51 @@ void showRandomExpression(){
     playAnimation(filePath);
 }
 
-void showExpression(AnimationFrame* _frames, unsigned int _frameCount){
+void showExpression(AnimationFrame** _frames, unsigned int _frameCount){
     for (int i = 0; i < _frameCount; ++i) {
-        showFrame(&_frames[i]);
+        showFrame(_frames[i]);
 
         //usleep(1000000 / PLAYBACK_SPEED);
-        usleep(_frames[i].delayTime * 1000);
+        usleep(_frames[i]->delayTime * 1000);
     }
 
     //free _frames
 }
 
 void showFrame(AnimationFrame* _frame){
+    if (verboseLogging){
+        printf("[INFO] Render frame: \n");
+    }
 
-    printf("[INFO] Render frame: \n");
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
             GifColorType* color = _frame->color[x][y];
 
+            //TODO: replace with actual color translation
             if (color->Red != 0 || color->Green != 0 || color->Blue != 0) {
-                leds[ledMatrixTranslation(x, y)] = 0x00FFFFFF;
-                printf("x");
+                if (activateLEDModule){
+                    leds[ledMatrixTranslation(x, y)] = 0x00FFFFFF;
+                }
+                if (verboseLogging){
+                    printf("x");
+                }
             } else {
-                leds[ledMatrixTranslation(x, y)] = 0x00000000;
-                printf(" ");
+                if (activateLEDModule){
+                    leds[ledMatrixTranslation(x, y)] = 0x00000000;
+                }
+                if (verboseLogging){
+                    printf(" ");
+                }
             }
         }
-        printf("\n");
+        if (verboseLogging){
+            printf("\n");
+        }
     }
 
-    renderLEDs();
+    if (activateLEDModule){
+        renderLEDs();
+    }
 }
 //endregion
 
