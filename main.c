@@ -105,9 +105,10 @@ int main() {
 
     }
     //showBaseExpression();
-    showRandomExpression();
 
-    for (;/*ever*/;){}
+    for (;/*ever*/;){
+        showRandomExpression();
+    }
 
     exitHandler(0);
     return 0;
