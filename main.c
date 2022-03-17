@@ -11,7 +11,7 @@
 
 #define OTHER_PATH              "./gifs/others/"
 #define BASE_PATH               "./gifs/base.gif"
-#define BLINK_PATH              "./gifs/blink.gif"
+#define BLINK_PATH              "./gifs/blink.gif" //TODO: points to folder with different blinks
 #define MAX_FILENAME_LENGTH     256
 #define MAX_PATH_LENGTH         4096
 #define DEFAULT_DELAY_TIME      100
@@ -39,7 +39,9 @@ typedef struct AnimationFrame {
 
 typedef struct Animation {
     AnimationFrame **frames; //pointer to a pointer, that's an array of frames
-    bool monochrom;
+    int frameCount;
+    bool monochrome;
+    GifFileType* image; //very dirty trick to get around weird behavior, where DGifCloseFile() manipulates the animation data
 } Animation;
 
 //Declarations
@@ -54,7 +56,7 @@ char *getFilePath(char *_path, char *_file);
 bool checkIfImageHasRightSize(GifFileType *_image);
 u_int16_t getDelayTime(SavedImage *_frame);
 AnimationFrame *readFramePixels(const SavedImage *frame, ColorMapObject *_globalMap, bool *_monochrome);
-bool playAnimation(const char *file, bool _randomColor);
+Animation* readAnimation(char *_file, bool _randomColor);
 
 ws2811_return_t initLEDs();
 ws2811_return_t renderLEDs();
@@ -64,11 +66,11 @@ ws2811_led_t translateColor(GifColorType *_color);
 void showBaseExpression();
 void showBlinkExpression();
 void showRandomExpression();
-void showExpression(Animation *_animation, unsigned int _frameCount, bool _randomColor);
+void showExpression(Animation *_animation);
 void showFrame(AnimationFrame *_frame, ws2811_led_t _color); //color is only used, when picture is monochrome
 int getBlinkDelay();
+void freeAnimation(Animation* _animation);
 
-void debugRenderer(GifColorType *_rgb);
 unsigned int ledMatrixTranslation(int _x, int _y);
 bool numberIsEven(int _number);
 
@@ -77,8 +79,9 @@ bool verboseLogging = true;
 bool useDebugRenderer = false;
 bool activateLEDModule = true;
 bool running = true;
+bool realTASBot = false;
 
-ws2811_led_t *leds;
+ws2811_led_t *pixel;
 ws2811_t display = {
         .freq = TARGET_FREQ,
         .dmanum = DMA,
@@ -99,6 +102,7 @@ ws2811_t display = {
         },
 };
 
+//default colors
 ws2811_led_t colors[] = {
         0xFF0000,  // red
         0xFF8000,  // orange
@@ -110,11 +114,18 @@ ws2811_led_t colors[] = {
         0xFF80FF,  // pink
 };
 
-//TODO: Extent Animation frame with bool. Check while parsing gif, if all pixels where white. If so,
-// set the monochrom bool to true, which means select a random color while rendering.
-// Have a predefined set of given colors (e.g. 6 colors), to choose from.
-// Create bool* in playAnimation, which is given into every readFramePixels(), to determine if monochrom
-// Encapsulate AnimationFrames in new struct Animation, containing the results of the bool and the frames
+//TASBot display conversation table
+//Based on https://github.com/jakobrs/tasbot-display/blob/master/src/tasbot.rs
+int TASBotIndex[8][28] = {
+        {-1,-1,0,1,2,3,-1,-1,-1,-1,1-11,1-1-1,99,98,97,96,95,94,-1,-1,-1,-1,1-15,1-14,1-13,1-12,-1,-1},
+        {-1,4,5,6,7,8,9,-1,-1,84,85,86,87,88,89,9-1,91,92,93,-1,-1,111,11-1,1-19,1-18,1-17,1-16,-1},
+        {1-1,11,12,13,14,15,16,17,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,119,118,117,116,115,114,113,112},
+        {18,19,2-1,21,22,23,24,25,-1,-1,-1,83,82,81,8-1,79,78,-1,-1,-1,127,126,125,124,123,122,121,12-1},
+        {26,27,28,29,3-1,31,32,33,-1,-1,7-1,71,72,73,74,75,76,77,-1,-1,135,134,133,132,131,13-1,129,128},
+        {34,35,36,37,38,39,4-1,41,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,143,142,141,14-1,139,138,137,136},
+        {-1,42,43,44,45,46,47,-1,-1,-1,68,67,66,65,64,63,62,61,-1,-1,-1,149,148,147,146,145,144,-1},
+        {-1,-1,48,49,5-1,51,-1,-1,-1,69,52,53,54,55,56,57,58,59,6-1,-1,-1,-1,153,152,151,15-1,-1,-1}
+};
 
 //TODO: Refine return values. No voids!
 
@@ -123,14 +134,14 @@ ws2811_led_t colors[] = {
 //TODO: int getTASBotIndex(), returns index of LED for TASBot or -1, when not used on them
 // int i; if((i = getTASBotIndex(<curIndex>)) != -1){/*assign color*/}
 
-//=======TODO: FREE() UNUSED MEMORY, OMG :O=========
-//=> For every malloc, there must be a free!
+//TODO: random blink animations
 
 //TODO: Proper comments (doxygen and such)
 
 //TODO: args:
 //args: -s: playback speed; -I: specific image; -P: specific folder; -v: verbose logging; -h: help; -r: console renderer; -b: brightness [0-255]
 //      -B: how many blinks between animation; -Bmin: min time between blinks; -Bmax: max time between blinks
+//      -p: path to color palette text file
 int main() {
     //can't use LED hardware on desktops
 #if defined(__x86_64__)
@@ -219,6 +230,7 @@ void finish(int _number) {
         ws2811_render(&display);
         ws2811_fini(&display);
     }
+    free(pixel);
     exit(_number);
 }
 
@@ -262,16 +274,16 @@ u_int16_t getDelayTime(SavedImage *_frame) {
     return 0;
 }
 
-bool playAnimation(const char *file, bool _randomColor) {
+Animation* readAnimation(char *_file, bool _randomColor) {
     if (verboseLogging) {
-        printf("[INFO] Load file %s\n", file);
+        printf("[INFO] Load _file %s\n", _file);
     }
 
-    //Open file
+    //Open _file
     int e;
-    GifFileType *image = DGifOpenFileName(file, &e);
+    GifFileType *image = DGifOpenFileName(_file, &e);
     if (!image) {
-        fprintf(stderr, "[ERROR] EGifOpenFileName() failed. Could't find or open file: %d\n", e);
+        fprintf(stderr, "[ERROR] EGifOpenFileName() failed. Could't find or open _file: %d\n", e);
         return false;
     }
 
@@ -282,6 +294,7 @@ bool playAnimation(const char *file, bool _randomColor) {
         return false;
     }
 
+    Animation* animation = NULL;
     //Before we do anything, lets check if image has right size
     if (checkIfImageHasRightSize(image)) {
 
@@ -289,14 +302,16 @@ bool playAnimation(const char *file, bool _randomColor) {
         ColorMapObject *globalColorMap = image->SColorMap;
         if (verboseLogging) {
             printf("[Image] Size: %ix%i; Frames: %i; Path: \"%s\"\n",
-                   image->SWidth, image->SHeight, image->ImageCount, file);
+                   image->SWidth, image->SHeight, image->ImageCount, _file);
         }
 
         //Process frames
-        Animation *animation = malloc(sizeof(Animation));
-        AnimationFrame **animationFrames = malloc(sizeof(AnimationFrame) * image->ImageCount);
+        animation = malloc(sizeof(Animation));
+        AnimationFrame **animationFrames = malloc(sizeof(AnimationFrame*) * image->ImageCount);
         animation->frames = animationFrames;
-        animation->monochrom = true;
+        animation->frameCount = image->ImageCount;
+        animation->monochrome = true;
+        animation->image = image;
 
         for (int i = 0; i < image->ImageCount; ++i) {
             const SavedImage *frame = &image->SavedImages[i]; //get access to frame data
@@ -316,13 +331,14 @@ bool playAnimation(const char *file, bool _randomColor) {
              */
             u_int16_t delayTime = DEFAULT_DELAY_TIME;
 
-            animationFrames[i] = readFramePixels(frame, globalColorMap, &animation->monochrom);
+            animationFrames[i] = readFramePixels(frame, globalColorMap, &animation->monochrome);
             animationFrames[i]->delayTime = delayTime;
         }
+        printf("[INFO] Animation is monochrome: %d\n", animation->monochrome);
 
-        printf("[INFO] Animation is monochrom: %d\n", animation->monochrom);
-        bool useRandomColor = _randomColor ? animation->monochrom : false; //when use random color should be selected, make it depended on monochrome
-        showExpression(animation, image->ImageCount, useRandomColor);
+        //when random color should be selected, make it depended on monochrome. Pass that information to renderer via monochrome
+        animation->monochrome = _randomColor ? animation->monochrome : false;
+
     } else {
         fprintf(stderr, "[ERROR] Image has wrong size (%dx%d). Required is (%dx%d)", image->SWidth, image->SHeight,
                 LED_WIDTH,
@@ -330,9 +346,7 @@ bool playAnimation(const char *file, bool _randomColor) {
         return false;
     }
 
-    DGifCloseFile(image, &e);
-    printf("[INFO] Closed GIF file with code %d\n", e);
-    return true;
+    return animation;
 }
 
 //Read pixel color
@@ -351,7 +365,7 @@ AnimationFrame *readFramePixels(const SavedImage *frame, ColorMapObject *_global
                 GifColorType *color = &colorMap->Colors[c];
                 animationFrame->color[x][y] = color;
 
-                //check if animation is monochrom. When a single frame contain colors,
+                //check if animation is monochrome. When a single frame contain colors,
                 //then preserve the animations color later while rendering.
                 if (!(color->Red == color->Green && color->Red == color->Blue)) {
                     *_monochrome = false;
@@ -408,7 +422,7 @@ char *getRandomAnimation(char *list[], int _count) {
 //region LED
 ws2811_return_t initLEDs() {
     ws2811_return_t r;
-    leds = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
+    pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
 
     if ((r = ws2811_init(&display)) != WS2811_SUCCESS) {
         fprintf(stderr, "[ERROR] ws2811_init failed. Couldt initialize LEDs: %s\n", ws2811_get_return_t_str(r));
@@ -420,13 +434,23 @@ ws2811_return_t initLEDs() {
 
 /**
  * @brief Update LEDs to new color
- * Updates the display's hardware LEDs color to the local leds variables array
+ * Updates the display's hardware LEDs color to the local pixel variables array
  */
 ws2811_return_t renderLEDs() {
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
-            // ==> pop conversation table in here (replace .leds[0] with .leds[convertToTASBot[0]]) or like that
-            display.channel[0].leds[(y * LED_WIDTH) + x] = leds[y * LED_WIDTH + x];
+
+            //TASBot translation
+            if (realTASBot){
+                int id;
+                if ((id = TASBotIndex[y][x]) != -1){
+                    //TASBot led = pixel from graphic
+                    display.channel[0].leds[id] = pixel[y * LED_WIDTH + x];
+                }
+
+            } else {
+                display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x];
+            }
         }
     }
 
@@ -445,8 +469,7 @@ ws2811_return_t renderLEDs() {
  */
 ws2811_return_t clearLEDs() {
     for (size_t i = 0; i < LED_COUNT; i++) {
-        // ==> here to
-        leds[i] = 0;
+        pixel[i] = 0;
     }
     return renderLEDs();
 }
@@ -454,38 +477,54 @@ ws2811_return_t clearLEDs() {
 
 //region TASBot
 void showBaseExpression() {
-    playAnimation(BASE_PATH, false);
+    Animation* animation = readAnimation(BASE_PATH, false);
+    showExpression(animation);
 }
 
 void showBlinkExpression() {
-    playAnimation(BLINK_PATH, false);
+    Animation* animation =readAnimation(BLINK_PATH, false);
+    showExpression(animation);
 }
 
 void showRandomExpression() {
     int fileCount = countFilesInDir(OTHER_PATH); //get file count
     char *list[fileCount];
     getFileList(OTHER_PATH, list); //get list of files
-    char *animation = getRandomAnimation(list, fileCount); //get random animation
-    char *filePath = getFilePath(OTHER_PATH, animation);
+    char *file = getRandomAnimation(list, fileCount); //get random animation
+    char *filePath = getFilePath(OTHER_PATH, file);
 
-    playAnimation(filePath, true);
+    Animation* animation = readAnimation(filePath, true);
+    showExpression(animation);
 }
 
-void showExpression(Animation *_animation, unsigned int _frameCount, bool _randomColor) {
+void showExpression(Animation *_animation) {
 
     ws2811_led_t color = 0;
-    if (_randomColor){
+    if (_animation->monochrome){
         int r = rand() % ARRAY_SIZE(colors);
         color = colors[r];
-        printf("USed cusotm color\n");
     }
 
-    for (int i = 0; i < _frameCount; ++i) {
+    for (int i = 0; i < _animation->frameCount; ++i) {
         showFrame(_animation->frames[i], color);
         usleep(_animation->frames[i]->delayTime * 1000);
     }
 
-    //free _animation; freeAnimation(Animation *_animation);
+    freeAnimation(_animation);
+}
+
+//TODO: Can someone check please, if I got it right?
+void freeAnimation(Animation* _animation){
+    //dirty trick, close file here, after animation. That way DGifCloseFile() can't destroy the animation data
+    int e = 0;
+    DGifCloseFile(_animation->image, &e);
+    printf("[INFO] Closed GIF _file with code %d\n", e);
+
+    for (int i = 0; i < _animation->frameCount; ++i) {
+        free(_animation->frames[i]); //frame
+    }
+    free(_animation->frames); //pointer to frames
+    free(_animation); //animation
 }
 
 void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
@@ -499,14 +538,14 @@ void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
 
             if (activateLEDModule) {
                 if (_color == 0){
-                    leds[ledMatrixTranslation(x, y)] = translateColor(color);
+                    pixel[ledMatrixTranslation(x, y)] = translateColor(color);
                 } else {
                     if (color->Red != 0 || color->Green != 0 || color->Blue != 0) {
-                        leds[ledMatrixTranslation(x, y)] = _color;
+                        pixel[ledMatrixTranslation(x, y)] = _color;
                         //TODO: Adjust to brightness of color given in GIF
                         // Right now it's flat the same color to all pixels, that just _aren't_ black
                     } else{
-                        leds[ledMatrixTranslation(x, y)] = 0; //set other pixels black
+                        pixel[ledMatrixTranslation(x, y)] = 0; //set other pixels black
                     }
                 }
             }
@@ -533,6 +572,10 @@ void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
 ws2811_led_t translateColor(GifColorType *_color) {
     return ((_color->Red & 0xff) << 16) + ((_color->Green & 0xff) << 8) + (_color->Blue & 0xff);
 }
+//endregion
+
+//region TASbot display
+
 //endregion
 
 //region Debug and Development
