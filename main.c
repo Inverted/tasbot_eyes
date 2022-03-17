@@ -482,7 +482,7 @@ void showExpression(Animation *_animation, unsigned int _frameCount, bool _rando
 
     for (int i = 0; i < _frameCount; ++i) {
         showFrame(_animation->frames[i], color);
-        usleep(_animation->frames[i]->delayTime * 1000 * 10);
+        usleep(_animation->frames[i]->delayTime * 1000);
     }
 
     //free _animation; freeAnimation(Animation *_animation);
