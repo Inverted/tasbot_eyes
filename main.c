@@ -28,7 +28,7 @@
 #define LED_COUNT               (LED_WIDTH * LED_HEIGHT)
 #define STRIP_TYPE              WS2811_STRIP_BRG
 #define INVERTED                false
-#define BRIGHTNESS              64
+#define BRIGHTNESS              8
 
 #define ARRAY_SIZE(arr)         (sizeof(arr) / sizeof(arr[0]))
 
