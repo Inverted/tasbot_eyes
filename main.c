@@ -128,10 +128,27 @@ int main() {
         }
     }
 
+    showBaseExpression();
     while (running){
+
+        //blink for a random amount of times
+        for (int blinks = rand() % MAX_BLINKS; blinks > 0; --blinks) {
+            showBlinkExpression();
+            showBaseExpression();
+
+            //determine how long to wait between blinks
+            int blinkTime = MIN_TIME_BETWEEN_BLINKS + (rand() % (MAX_TIME_BETWEEN_BLINKS - MIN_TIME_BETWEEN_BLINKS));
+
+            if (verboseLogging){
+                printf("[INFO] Blink #%d for %d seconds", blinks, blinkTime);
+            }
+
+            sleep(blinkTime);
+        }
+
+        //show random animation and return to base expression
         showRandomExpression();
         showBaseExpression();
-        sleep(3);
     }
 
     finish(0);
