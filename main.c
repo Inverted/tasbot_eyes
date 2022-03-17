@@ -321,7 +321,8 @@ bool playAnimation(const char *file, bool _randomColor) {
         }
 
         printf("[INFO] Animation is monochrom: %d\n", animation->monochrom);
-        showExpression(animation, image->ImageCount, _randomColor);
+        bool useRandomColor = _randomColor ? animation->monochrom : false; //when use random color should be selected, make it depended on monochrome
+        showExpression(animation, image->ImageCount, useRandomColor);
     } else {
         fprintf(stderr, "[ERROR] Image has wrong size (%dx%d). Required is (%dx%d)", image->SWidth, image->SHeight,
                 LED_WIDTH,
@@ -476,11 +477,12 @@ void showExpression(Animation *_animation, unsigned int _frameCount, bool _rando
     if (_randomColor){
         int r = rand() % ARRAY_SIZE(colors);
         color = colors[r];
+        printf("USed cusotm color\n");
     }
 
     for (int i = 0; i < _frameCount; ++i) {
         showFrame(_animation->frames[i], color);
-        usleep(_animation->frames[i]->delayTime * 1000);
+        usleep(_animation->frames[i]->delayTime * 1000 * 10);
     }
 
     //free _animation; freeAnimation(Animation *_animation);
