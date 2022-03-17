@@ -505,6 +505,8 @@ void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
                         leds[ledMatrixTranslation(x, y)] = _color;
                         //TODO: Adjust to brightness of color given in GIF
                         // Right now it's flat the same color to all pixels, that just _aren't_ black
+                    } else{
+                        leds[ledMatrixTranslation(x, y)] = 0; //set other pixels black
                     }
                 }
             }
