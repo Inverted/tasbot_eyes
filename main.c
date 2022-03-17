@@ -92,13 +92,7 @@ ws2811_t display = {
                         .invert = INVERTED,
                         .brightness = BRIGHTNESS,
                         .strip_type = STRIP_TYPE,
-                },
-                [1] ={ //TODO: do we need that?
-                        .gpionum = 0,
-                        .count = 0,
-                        .invert = 0,
-                        .brightness = 0,
-                },
+                }
         },
 };
 
