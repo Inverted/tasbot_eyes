@@ -59,6 +59,7 @@ void showRandomExpression();
 void showExpression(AnimationFrame** _frames, unsigned int _frameCount);
 void showFrame(AnimationFrame* _frame);
 ws2811_led_t translateColor(GifColorType* _color);
+int getBlinkDelay();
 
 void debugRenderer(GifColorType *_rgb);
 unsigned int ledMatrixTranslation(int _x, int _y);
@@ -128,31 +129,37 @@ int main() {
         }
     }
 
-    showBaseExpression();
+    bool firstIteration = true;
     while (running){
+        //skip to base expression on first iteration, to not start on a random animation
+        if (!firstIteration){
+            showRandomExpression();
+        } else {
+            firstIteration = false;
+        }
+        showBaseExpression();
+        sleep(getBlinkDelay());
 
         //blink for a random amount of times
-        for (int blinks = rand() % MAX_BLINKS; blinks > 0; --blinks) {
+        for (int blinks = (rand() % MAX_BLINKS) + 1; blinks > 0; --blinks) {
             showBlinkExpression();
             showBaseExpression();
 
-            //determine how long to wait between blinks
-            int blinkTime = MIN_TIME_BETWEEN_BLINKS + (rand() % (MAX_TIME_BETWEEN_BLINKS - MIN_TIME_BETWEEN_BLINKS));
-
+            int blinkTime = getBlinkDelay();
             if (verboseLogging){
                 printf("[INFO] Blink #%d for %d seconds", blinks, blinkTime);
             }
-
             sleep(blinkTime);
         }
-
-        //show random animation and return to base expression
-        showRandomExpression();
-        showBaseExpression();
     }
 
     finish(0);
     return 0;
+}
+
+//determine how long to wait between blinks
+int getBlinkDelay(){
+    return MIN_TIME_BETWEEN_BLINKS + (rand() % (MAX_TIME_BETWEEN_BLINKS - MIN_TIME_BETWEEN_BLINKS));
 }
 
 //allocate memory for path string and ditch together
