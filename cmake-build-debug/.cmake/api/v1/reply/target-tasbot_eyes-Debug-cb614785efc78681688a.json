@@ -39,6 +39,12 @@
 				"file" : 0,
 				"line" : 8,
 				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 9,
+				"parent" : 0
 			}
 		]
 	},
@@ -90,6 +96,11 @@
 			{
 				"backtrace" : 3,
 				"fragment" : "-lws2811",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 4,
+				"fragment" : "-lm",
 				"role" : "libraries"
 			}
 		],

@@ -1,4 +1,4 @@
-/snap/clion/184/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/snap/clion/184/bin/ninja/linux/ninja -G Ninja /mnt/Dateien/Projekte/tasbot_eyes
+/snap/clion/184/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/mirco/CLionProjects/tasbot_eyes
 -- Configuring done
 -- Generating done
--- Build files have been written to: /mnt/Dateien/Projekte/tasbot_eyes/cmake-build-debug
+-- Build files have been written to: /home/mirco/CLionProjects/tasbot_eyes/cmake-build-debug

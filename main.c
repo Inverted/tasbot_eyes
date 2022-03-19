@@ -38,7 +38,7 @@ typedef struct AnimationFrame {
 } AnimationFrame;
 
 typedef struct Animation {
-    AnimationFrame **frames; //pointer to a pointer, that's an array of frames
+    AnimationFrame **frames; //pointer to a pointer, that's an array of frames. pain.
     int frameCount;
     bool monochrome;
     GifFileType* image; //very dirty trick to get around weird behavior, where DGifCloseFile() manipulates the animation data
@@ -48,8 +48,8 @@ typedef struct Animation {
 void setupHandler();
 void finish(int _number);
 
-int countFilesInDir(char _path[]);
-bool getFileList(const char _path[], char *_list[]);
+int countFilesInDir(char* _path);
+bool getFileList(const char* _path, char *_list[]);
 
 char *getRandomAnimation(char *list[], int _count);
 char *getFilePath(char *_path, char *_file);
@@ -65,7 +65,8 @@ ws2811_led_t translateColor(GifColorType *_color);
 
 void showBaseExpression();
 void showBlinkExpression();
-void showRandomExpression();
+void showRandomExpression(char* _path);
+void showSpecificExpression(char* _filePath);
 void showExpression(Animation *_animation);
 void showFrame(AnimationFrame *_frame, ws2811_led_t _color); //color is only used, when picture is monochrome
 int getBlinkDelay();
@@ -76,10 +77,13 @@ bool numberIsEven(int _number);
 
 //Variables
 bool verboseLogging = true;
-bool useDebugRenderer = false;
+bool consoleRenderer = true;
 bool activateLEDModule = true;
 bool running = true;
 bool realTASBot = false;
+float playbackSpeed = 1; //doesnt affects the time between the blinks. just the playback speed of the aimation
+char* specificAnimationToShow = NULL; //"./gifs/blink.gif"; //TODO: Blink is just for test purposes here
+char* pathForAnimations = OTHER_PATH;
 
 ws2811_led_t *pixel;
 ws2811_t display = {
@@ -153,11 +157,21 @@ int main() {
         }
     }
 
+    //option for playing give specific animation
+    if (specificAnimationToShow != NULL){
+        while (running){
+            showSpecificExpression(specificAnimationToShow);
+        }
+        return 0;
+    }
+
+    //TODO: Set pathForAnimation, when given on console
+
     bool firstIteration = true;
     while (running) {
         //skip to base expression on first iteration, to not start on a random animation
         if (!firstIteration) {
-            showRandomExpression();
+            showRandomExpression(pathForAnimations);
         } else {
             firstIteration = false;
         }
@@ -171,7 +185,7 @@ int main() {
 
             int blinkTime = getBlinkDelay();
             if (verboseLogging) {
-                printf("[INFO] Blink #%d for %d seconds", blinks, blinkTime);
+                printf("[INFO] Blink #%d for %d seconds \n", blinks, blinkTime);
             }
             sleep(blinkTime);
         }
@@ -328,7 +342,9 @@ Animation* readAnimation(char *_file, bool _randomColor) {
             animationFrames[i] = readFramePixels(frame, globalColorMap, &animation->monochrome);
             animationFrames[i]->delayTime = delayTime;
         }
-        printf("[INFO] Animation is monochrome: %d\n", animation->monochrome);
+        if (verboseLogging){
+            printf("[INFO] Animation is monochrome: %d\n", animation->monochrome);
+        }
 
         //when random color should be selected, make it depended on monochrome. Pass that information to renderer via monochrome
         animation->monochrome = _randomColor ? animation->monochrome : false;
@@ -374,7 +390,7 @@ AnimationFrame *readFramePixels(const SavedImage *frame, ColorMapObject *_global
 }
 
 //TODO: This could be tidied up into one method with some refactoring...somehow...I bet...I swear...I'm sure
-int countFilesInDir(char _path[]) {
+int countFilesInDir(char* _path) {
     DIR *d = opendir(_path);
     if (d) {
         int counter = 0;
@@ -390,7 +406,7 @@ int countFilesInDir(char _path[]) {
     return -1;
 }
 
-bool getFileList(const char _path[], char *_list[]) {
+bool getFileList(const char* _path, char* _list[]) {
     DIR *d = opendir(_path);
     if (d) {
         int counter = 0;
@@ -476,18 +492,23 @@ void showBaseExpression() {
 }
 
 void showBlinkExpression() {
-    Animation* animation =readAnimation(BLINK_PATH, false);
+    Animation* animation = readAnimation(BLINK_PATH, false);
     showExpression(animation);
 }
 
-void showRandomExpression() {
-    int fileCount = countFilesInDir(OTHER_PATH); //get file count
+void showRandomExpression(char* _path) {
+    int fileCount = countFilesInDir(_path); //get file count
     char *list[fileCount];
-    getFileList(OTHER_PATH, list); //get list of files
+    getFileList(_path, list); //get list of files
     char *file = getRandomAnimation(list, fileCount); //get random animation
-    char *filePath = getFilePath(OTHER_PATH, file);
+    char *filePath = getFilePath(_path, file);
 
     Animation* animation = readAnimation(filePath, true);
+    showExpression(animation);
+}
+
+void showSpecificExpression(char* _filePath){
+    Animation* animation = readAnimation(_filePath, false);
     showExpression(animation);
 }
 
@@ -500,8 +521,11 @@ void showExpression(Animation *_animation) {
     }
 
     for (int i = 0; i < _animation->frameCount; ++i) {
+        if (verboseLogging) {
+            printf("[INFO] Render frame #%d \n", i);
+        }
         showFrame(_animation->frames[i], color);
-        usleep(_animation->frames[i]->delayTime * 1000);
+        usleep((int)(_animation->frames[i]->delayTime * 1000 / playbackSpeed));
     }
 
     freeAnimation(_animation);
@@ -512,7 +536,9 @@ void freeAnimation(Animation* _animation){
     //dirty trick, close file here, after animation. That way DGifCloseFile() can't destroy the animation data
     int e = 0;
     DGifCloseFile(_animation->image, &e);
-    printf("[INFO] Closed GIF _file with code %d\n", e);
+    if(verboseLogging){
+        printf("[INFO] Closed GIF with code %d\n", e);
+    }
 
     for (int i = 0; i < _animation->frameCount; ++i) {
         free(_animation->frames[i]); //frame
@@ -522,9 +548,6 @@ void freeAnimation(Animation* _animation){
 }
 
 void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
-    if (verboseLogging) {
-        printf("[INFO] Render frame: \n");
-    }
 
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
@@ -545,7 +568,7 @@ void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
             }
 
             //Debug renderer
-            if (verboseLogging){
+            if (consoleRenderer){
                 if (color->Red != 0 || color->Green != 0 || color->Blue != 0) {
                     printf("x");
                 } else {
@@ -553,7 +576,7 @@ void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
                 }
             }
         }
-        if (verboseLogging) {
+        if (consoleRenderer) {
             printf("\n");
         }
     }
