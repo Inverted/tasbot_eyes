@@ -11,7 +11,7 @@
 
 #define OTHER_PATH              "./gifs/others/"
 #define BASE_PATH               "./gifs/base.gif"
-#define BLINK_PATH              "./gifs/blink.gif" //TODO: points to folder with different blinks
+#define BLINK_PATH              "./gifs/blinks/" //TODO: point to folder with different blinks
 #define MAX_FILENAME_LENGTH     256
 #define MAX_PATH_LENGTH         4096
 #define DEFAULT_DELAY_TIME      100
@@ -125,16 +125,12 @@ int TASBotIndex[8][28] = {
         {-1,-1,48,49,5-1,51,-1,-1,-1,69,52,53,54,55,56,57,58,59,6-1,-1,-1,-1,153,152,151,15-1,-1,-1}
 };
 
-//TODO: Refine return values. No voids!
-
-//TODO: Debug renderer refinement
-
 //TODO: int getTASBotIndex(), returns index of LED for TASBot or -1, when not used on them
 // int i; if((i = getTASBotIndex(<curIndex>)) != -1){/*assign color*/}
 
-//TODO: random blink animations
-
 //TODO: Proper comments (doxygen and such)
+
+//TODO: single frame animations shown a random duration. multiple frame animation based of gif
 
 //TODO: args:
 //args: -s: playback speed; -I: specific image; -P: specific folder; -v: verbose logging; -h: help; -r: console renderer; -b: brightness [0-255]
@@ -165,7 +161,7 @@ int main() {
         return 0;
     }
 
-    //TODO: Set pathForAnimation, when given on console
+    //TODO: Set pathForAnimations, when given on console
 
     bool firstIteration = true;
     while (running) {
@@ -492,13 +488,14 @@ void showBaseExpression() {
 }
 
 void showBlinkExpression() {
-    Animation* animation = readAnimation(BLINK_PATH, false);
-    showExpression(animation);
+    //Animation* animation = readAnimation(BLINK_PATH, false);
+    //showExpression(animation);
+    showRandomExpression(BLINK_PATH);
 }
 
 void showRandomExpression(char* _path) {
     int fileCount = countFilesInDir(_path); //get file count
-    char *list[fileCount];
+    char* list[fileCount];
     getFileList(_path, list); //get list of files
     char *file = getRandomAnimation(list, fileCount); //get random animation
     char *filePath = getFilePath(_path, file);
