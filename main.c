@@ -125,9 +125,6 @@ int TASBotIndex[8][28] = {
         {-1,-1,48,49,5-1,51,-1,-1,-1,69,52,53,54,55,56,57,58,59,6-1,-1,-1,-1,153,152,151,15-1,-1,-1}
 };
 
-//TODO: int getTASBotIndex(), returns index of LED for TASBot or -1, when not used on them
-// int i; if((i = getTASBotIndex(<curIndex>)) != -1){/*assign color*/}
-
 //TODO: Proper comments (doxygen and such)
 
 //TODO: single frame animations shown a random duration. multiple frame animation based of gif
@@ -191,12 +188,20 @@ int main() {
     return 0;
 }
 
-//determine how long to wait between blinks
+/**
+ * determine how long to wait between blinks
+ * @return seconds, that are to wait between blink animation
+ */
 int getBlinkDelay() {
     return MIN_TIME_BETWEEN_BLINKS + (rand() % (MAX_TIME_BETWEEN_BLINKS - MIN_TIME_BETWEEN_BLINKS));
 }
 
-//allocate memory for path string and ditch together
+/**
+ * allocate memory for path complete file path and ditch path and filename together
+ * @param _path relativ or absolut path, where the file is laying
+ * @param _file filename
+ * @return relative or absolut path to file
+ */
 char *getFilePath(char *_path, char *_file) {
     char *path = malloc(sizeof(char) * (MAX_PATH_LENGTH + MAX_FILENAME_LENGTH));
     strcpy(path, _path);
@@ -222,8 +227,8 @@ void setupHandler() {
 
 /**
  * @brief Central handler for leaving the application
- * Handler for SIGINT, SIGTERM and SIGKILL
- * @param _number
+ * Handler for SIGINT, SIGTERM and SIGKILL. Gets also called after the endless loop
+ * @param _number uwu
  */
 void finish(int _number) {
     printf("\n"); //pretty uwu
@@ -234,17 +239,25 @@ void finish(int _number) {
         ws2811_render(&display);
         ws2811_fini(&display);
     }
-    free(pixel);
+    free(pixel); //did this for good measurement, but I guess since next command is exit, this is unnecessary, since complete process memory get freed anyway?
     exit(_number);
 }
 
 //region GIF
+/**
+ * check if GIF has the exact right size of 28x8 pixels
+ * @param _image The GIF that is to check
+ * @return If image has right size or not
+ */
 bool checkIfImageHasRightSize(GifFileType *_image) {
     return (_image->SWidth == LED_WIDTH && _image->SHeight == LED_HEIGHT);
 }
 
-//Obtain delay time
-//INFO: In theory, we could encode more information the comment block, if we needed to
+/**
+ * @brief [DONT USE, NOT TESTED, DEAD CODE] Obtain the delay time between frames
+ * @param _frame Frame the delay shout get from
+ * @return The delay between frames
+ */
 u_int16_t getDelayTime(SavedImage *_frame) {
     //Read all the extension blocks - e as in extension
     for (int e = 0; e < _frame->ExtensionBlockCount; ++e) {
@@ -278,6 +291,12 @@ u_int16_t getDelayTime(SavedImage *_frame) {
     return 0;
 }
 
+/**
+ * Opens and reads the GIF file in a data structure
+ * @param _file The GIF animation, that is to read
+ * @param _randomColor
+ * @return
+ */
 Animation* readAnimation(char *_file, bool _randomColor) {
     if (verboseLogging) {
         printf("[INFO] Load _file %s\n", _file);
@@ -450,7 +469,7 @@ ws2811_return_t renderLEDs() {
             if (realTASBot){
                 int id;
                 if ((id = TASBotIndex[y][x]) != -1){
-                    //TASBot led = pixel from graphic
+                    //if LED ia existing on TASBot, assign TASBot led to corresponding pixel from graphic
                     display.channel[0].leds[id] = pixel[y * LED_WIDTH + x];
                 }
 
@@ -488,8 +507,6 @@ void showBaseExpression() {
 }
 
 void showBlinkExpression() {
-    //Animation* animation = readAnimation(BLINK_PATH, false);
-    //showExpression(animation);
     showRandomExpression(BLINK_PATH);
 }
 
@@ -588,11 +605,9 @@ ws2811_led_t translateColor(GifColorType *_color) {
 }
 //endregion
 
-//region TASbot display
-
-//endregion
-
 //region Debug and Development
+
+//For usage with an actual 32x8 LED matrix
 unsigned int ledMatrixTranslation(int _x, int _y) {
     if (numberIsEven(_x)) {
         return (_x * LED_HEIGHT + _y);
