@@ -172,7 +172,7 @@ int main() {
 
             scanf("%d", &test);
             //usleep(1000 * 1000);
-            printf("Renderer LED index (%d:%d) is %d\n", x, y, x * LED_WIDTH + y);
+            printf("Renderer LED index (%d:%d) is %d\n",y, x, y * LED_HEIGHT + x);
             renderLEDs();
         }
     }
