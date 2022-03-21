@@ -160,6 +160,7 @@ int main() {
 
     //TODO: Set pathForAnimations, when given on console
 
+    /*
     bool firstIteration = true;
     while (running) {
         //skip to base expression on first iteration, to not start on a random animation
@@ -185,6 +186,7 @@ int main() {
     }
 
     finish(0);
+     */
     return 0;
 }
 
