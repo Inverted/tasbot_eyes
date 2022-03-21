@@ -155,7 +155,7 @@ int main() {
     for (int i = 0; i < LED_COUNT; ++i) {
         pixel[i] = colors[0];
 
-        usleep(1000 * 500);
+        usleep(1000 * 1000);
         printf("Renderer LED index (%d:) is \n", i);
         renderLEDs();
     }
