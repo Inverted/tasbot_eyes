@@ -155,7 +155,7 @@ int main() {
     int test;
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
-            pixel[x * LED_HEIGHT + y] = colors[0];
+            pixel[x * LED_WIDTH + y] = colors[0];
 
             int id;
             if ((id = TASBotIndex[y][x]) != -1){
@@ -163,7 +163,7 @@ int main() {
             }
 
             scanf("%d", &test);
-            printf("Renderer LED index (%d:%d)\n", x, y);
+            printf("Renderer LED index (%d:%d) is %d\n", x, y, x * LED_WIDTH + y);
             renderLEDs();
         }
     }
