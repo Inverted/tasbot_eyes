@@ -167,6 +167,7 @@ int main() {
 
 
     //funzt
+    /*
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
 
@@ -181,9 +182,10 @@ int main() {
             renderLEDs();
         }
     }
+     */
 
 
-    /*
+
     //option for playing give specific animation
     if (specificAnimationToShow != NULL){
         while (running){
@@ -217,7 +219,7 @@ int main() {
             sleep(blinkTime);
         }
     }
-     */
+
 
     finish(0);
     return 0;
