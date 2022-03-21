@@ -156,7 +156,7 @@ int main() {
         pixel[i] = colors[0];
 
         usleep(1000 * 1000);
-        printf("Renderer LED index (%d:%d) is %d\n", x, y, x * LED_WIDTH + y);
+        //printf("Renderer LED index (%d:%d) is %d\n", x, y, x * LED_WIDTH + y);
         renderLEDs();
     }
 
