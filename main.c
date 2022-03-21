@@ -152,12 +152,20 @@ int main() {
         }
     }
 
+    for (int i = 0; i < LED_COUNT; ++i) {
+        pixel[i] = colors[0];
+
+        usleep(1000 * 1000);
+        printf("Renderer LED index (%d:%d) is %d\n", x, y, x * LED_WIDTH + y);
+        renderLEDs();
+    }
+
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
             pixel[x * LED_WIDTH + y] = colors[0];
 
             //scanf("%d", &test);
-            usleep(1000 * 100);
+            usleep(1000 * 1000);
             printf("Renderer LED index (%d:%d) is %d\n", x, y, x * LED_WIDTH + y);
             renderLEDs();
         }
