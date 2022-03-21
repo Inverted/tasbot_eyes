@@ -166,6 +166,7 @@ int main() {
      */
 
 
+    //funzt
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
 
@@ -660,28 +661,42 @@ void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
 
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
-            GifColorType *color = _frame->color[x][y];
+            GifColorType *gifColor = _frame->color[x][y];
+            ws2811_led_t color;
 
             if (activateLEDModule) {
                 if (_color == 0){
-                    //pixel[ledMatrixTranslation(x, y)] = translateColor(color);
-                    pixel[x * LED_WIDTH + y] = translateColor(color);
+                    //pixel[ledMatrixTranslation(x, y)] = translateColor(gifColor);
+                    //pixel[x * LED_WIDTH + y]
+                    color = translateColor(gifColor);
                 } else {
-                    if (color->Red != 0 || color->Green != 0 || color->Blue != 0) {
+                    if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
                         //pixel[ledMatrixTranslation(x, y)] = _color;
-                        pixel[x * LED_WIDTH + y] = _color;
-                        //TODO: Adjust to brightness of color given in GIF
-                        // Right now it's flat the same color to all pixels, that just _aren't_ black
+                        //pixel[x * LED_WIDTH + y]
+                        color = _color;
+                        //TODO: Adjust to brightness of gifColor given in GIF
+                        // Right now it's flat the same gifColor to all pixels, that just _aren't_ black
                     } else{
                         //pixel[ledMatrixTranslation(x, y)] = 0; //set other pixels black
-                        pixel[x * LED_WIDTH + y] = 0;
+                        //pixel[x * LED_WIDTH + y]
+                        color = 0;
                     }
                 }
             }
 
+
+            int index = TASBotIndex[y][x];
+            if (index >= 0){
+                pixel[index] = color;
+            }
+
+            usleep(1000 * 100);
+            printf("Renderer LED index (%d:%d) is %d\n",y, x, TASBotIndex[y][x]);
+
+
             //Debug renderer
             if (consoleRenderer){
-                if (color->Red != 0 || color->Green != 0 || color->Blue != 0) {
+                if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
                     printf("x");
                 } else {
                     printf(" ");
