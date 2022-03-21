@@ -692,10 +692,6 @@ void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
                 pixel[index] = color;
             }
 
-            usleep(1000 * 100);
-            printf("Renderer LED index (%d:%d) is %d\n",y, x, TASBotIndex[y][x]);
-
-
             //Debug renderer
             if (consoleRenderer){
                 if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
