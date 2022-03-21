@@ -156,7 +156,7 @@ int main() {
     for (int i = 0; i < 154; ++i) {
         pixel[i] = colors[0];
         scanf("%d", &test);
-        printf("Renderer LED index %d", i);
+        printf("Renderer LED index %d\n", i);
         renderLEDs();
     }
 
@@ -523,7 +523,7 @@ ws2811_return_t renderLEDs() {
     if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
         fprintf(stderr, "[ERROR] Failed to render: %s\n", ws2811_get_return_t_str(r));
     } else {
-        printf("[INFO] Rendered LEDs with code %d\n", r);
+        //TODO: printf"[INFO] Rendered LEDs with code %d\n", r);
     }
     return r;
 }
