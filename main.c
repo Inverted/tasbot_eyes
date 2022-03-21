@@ -168,7 +168,11 @@ int main() {
 
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
-            //pixel[x * LED_WIDTH + y] = colors[0];
+
+            int index = TASBotIndex[y][x];
+            if(index >= 0){
+                pixel[x * LED_WIDTH + y] = colors[0];
+            }
 
             scanf("%d", &test);
             //usleep(1000 * 1000);
