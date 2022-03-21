@@ -78,9 +78,9 @@ bool numberIsEven(int _number);
 //Variables
 bool verboseLogging = true;
 bool consoleRenderer = true;
-bool activateLEDModule = false;
+bool activateLEDModule = true;
 bool running = true;
-bool realTASBot = false;
+bool realTASBot = true;
 float playbackSpeed = 1; //doesnt affects the time between the blinks. just the playback speed of the aimation
 char* specificAnimationToShow = NULL; //"./gifs/blink.gif"; //TODO: Blink is just for test purposes here
 char* pathForAnimations = OTHER_PATH;
