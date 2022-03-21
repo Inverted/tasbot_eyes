@@ -152,7 +152,7 @@ int main() {
         }
     }
 
-    /*
+
     int test;
     for (int y = 0; y < LED_WIDTH; ++y) {
         for (int x = 0; x < LED_HEIGHT; ++x) {
@@ -164,13 +164,14 @@ int main() {
             }
 
             //scanf("%d", &test);
-            sleep(1);
+            usleep(1000 * 100);
             printf("Renderer LED index (%d:%d) is %d\n", x, y, x * LED_WIDTH + y);
             renderLEDs();
         }
     }
-     */
 
+
+    /*
     //option for playing give specific animation
     if (specificAnimationToShow != NULL){
         while (running){
@@ -204,6 +205,7 @@ int main() {
             sleep(blinkTime);
         }
     }
+     */
 
     finish(0);
     return 0;
