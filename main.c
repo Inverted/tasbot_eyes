@@ -499,7 +499,7 @@ ws2811_return_t renderLEDs() {
                     //if LED ia existing on TASBot, assign TASBot led to corresponding pixel from graphic
                     //display.channel[0].leds[id] = pixel[y * LED_WIDTH + x];
 
-                    printf("Render LED index (%d;%d) at TASBot index %d", x, y, id);
+                    printf("Render LED index (%d;%d) at TASBot index %d\n", x, y, id);
 
                 }
 
