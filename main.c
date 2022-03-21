@@ -171,9 +171,6 @@ int main() {
     }
      */
 
-
-
-
     //option for playing give specific animation
     if (specificAnimationToShow != NULL){
         while (running){
