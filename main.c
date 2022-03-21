@@ -75,12 +75,14 @@ void freeAnimation(Animation* _animation);
 unsigned int ledMatrixTranslation(int _x, int _y);
 bool numberIsEven(int _number);
 
-//Variables
+//Function toggles
 bool verboseLogging = true;
 bool consoleRenderer = true;
 bool activateLEDModule = true;
-bool running = true;
 bool realTASBot = true;
+
+//Variables
+bool running = true;
 float playbackSpeed = 1; //doesnt affects the time between the blinks. just the playback speed of the aimation
 char* specificAnimationToShow = NULL; //"./gifs/blink.gif"; //TODO: Blink is just for test purposes here
 char* pathForAnimations = OTHER_PATH;
@@ -497,10 +499,9 @@ ws2811_return_t renderLEDs() {
                 int id;
                 if ((id = TASBotIndex[y][x]) != -1){
                     //if LED ia existing on TASBot, assign TASBot led to corresponding pixel from graphic
-                    //display.channel[0].leds[id] = pixel[y * LED_WIDTH + x];
+                    display.channel[0].leds[id] = pixel[y * LED_WIDTH + x];
 
-                    printf("Render LED index (%d;%d) at TASBot index %d\n", x, y, id);
-
+                    //printf("Render LED index (%d;%d) at TASBot index %d\n", x, y, id); //produces high console output
                 }
 
             } else {
