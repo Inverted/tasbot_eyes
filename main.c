@@ -23,7 +23,7 @@
 #define LED_WIDTH               28
 
 #define TARGET_FREQ             WS2811_TARGET_FREQ
-#define GPIO_PIN                18
+#define GPIO_PIN                10
 #define DMA                     10
 #define LED_COUNT               (LED_WIDTH * LED_HEIGHT)
 #define STRIP_TYPE              WS2811_STRIP_BRG
