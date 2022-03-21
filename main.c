@@ -78,9 +78,9 @@ bool numberIsEven(int _number);
 //Variables
 bool verboseLogging = true;
 bool consoleRenderer = true;
-bool activateLEDModule = true;
+bool activateLEDModule = false;
 bool running = true;
-bool realTASBot = true;
+bool realTASBot = false;
 float playbackSpeed = 1; //doesnt affects the time between the blinks. just the playback speed of the aimation
 char* specificAnimationToShow = NULL; //"./gifs/blink.gif"; //TODO: Blink is just for test purposes here
 char* pathForAnimations = OTHER_PATH;
@@ -160,7 +160,7 @@ int main() {
 
     //TODO: Set pathForAnimations, when given on console
 
-    /*
+
     bool firstIteration = true;
     while (running) {
         //skip to base expression on first iteration, to not start on a random animation
@@ -186,7 +186,7 @@ int main() {
     }
 
     finish(0);
-     */
+
     return 0;
 }
 
