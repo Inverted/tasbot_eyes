@@ -156,6 +156,7 @@ int main() {
     for (int i = 0; i < 154; ++i) {
         pixel[i] = colors[0];
         scanf("%d", &test);
+        renderLEDs();
     }
 
     /*
