@@ -78,7 +78,7 @@ bool numberIsEven(int _number);
 //Variables
 bool verboseLogging = true;
 bool consoleRenderer = true;
-bool activateLEDModule = false;
+bool activateLEDModule = true;
 bool running = true;
 bool realTASBot = false;
 float playbackSpeed = 1; //doesnt affects the time between the blinks. just the playback speed of the aimation
@@ -159,7 +159,6 @@ int main() {
     }
 
     //TODO: Set pathForAnimations, when given on console
-
 
     bool firstIteration = true;
     while (running) {
