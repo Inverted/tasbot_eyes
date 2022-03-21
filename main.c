@@ -78,7 +78,7 @@ bool numberIsEven(int _number);
 //Variables
 bool verboseLogging = true;
 bool consoleRenderer = true;
-bool activateLEDModule = true;
+bool activateLEDModule = false;
 bool running = true;
 bool realTASBot = false;
 float playbackSpeed = 1; //doesnt affects the time between the blinks. just the playback speed of the aimation
