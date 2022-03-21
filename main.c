@@ -153,8 +153,8 @@ int main() {
     }
 
     int test;
-    for (int y = 0; y < LED_HEIGHT; ++y) {
-        for (int x = 0; x < LED_WIDTH; ++x) {
+    for (int y = 0; y < LED_WIDTH; ++y) {
+        for (int x = 0; x < LED_HEIGHT; ++x) {
             pixel[x * LED_WIDTH + y] = colors[0];
 
             int id;
