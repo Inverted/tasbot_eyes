@@ -171,7 +171,7 @@ int main() {
 
             int index = TASBotIndex[y][x];
             if(index >= 0){
-                pixel[x * LED_WIDTH + y] = colors[0];
+                pixel[index] = colors[0];
             }
 
             scanf("%d", &test);
