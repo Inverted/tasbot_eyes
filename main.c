@@ -84,7 +84,7 @@ bool realTASBot = true;
 //Variables
 bool running = true;
 float playbackSpeed = 1; //doesnt affects the time between the blinks. just the playback speed of the aimation
-char* specificAnimationToShow = "./gifs/link_and_zelda.gif"; //"./gifs/blink.gif"; //TODO: Blink is just for test purposes here
+char* specificAnimationToShow = NULL; "./gifs/link_and_zelda.gif"; //"./gifs/blink.gif"; //TODO: Blink is just for test purposes here
 char* pathForAnimations = OTHER_PATH;
 
 ws2811_led_t *pixel;
