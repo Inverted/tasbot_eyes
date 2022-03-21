@@ -162,7 +162,8 @@ int main() {
                 //display.channel[0].leds[id] = pixel[y * LED_WIDTH + x];
             }
 
-            scanf("%d", &test);
+            //scanf("%d", &test);
+            sleep(1);
             printf("Renderer LED index (%d:%d) is %d\n", x, y, x * LED_WIDTH + y);
             renderLEDs();
         }
