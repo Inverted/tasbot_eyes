@@ -155,12 +155,20 @@ int main() {
     int test;
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
-            pixel[x * LED_HEIGHT + y] = colors[0];
+            pixel[x * LED_WIDTH + y] = colors[0];
+
+            int id;
+            if ((id = TASBotIndex[y][x]) != -1){
+                //display.channel[0].leds[id] = pixel[y * LED_WIDTH + x];
+            }
+
             scanf("%d", &test);
             printf("Renderer LED index (%d:%d)\n", x, y);
             renderLEDs();
         }
     }
+
+
 
     /*
     //option for playing give specific animation
