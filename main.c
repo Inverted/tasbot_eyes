@@ -152,11 +152,9 @@ int main() {
         }
     }
 
-
-    int test;
     for (int y = 0; y < LED_WIDTH; ++y) {
         for (int x = 0; x < LED_HEIGHT; ++x) {
-            pixel[x * LED_HEIGHT + y] = colors[0];
+            pixel[x * LED_WIDTH + y] = colors[0];
 
             //scanf("%d", &test);
             usleep(1000 * 100);
