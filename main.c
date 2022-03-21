@@ -153,11 +153,13 @@ int main() {
     }
 
     int test;
-    for (int i = 0; i < 154; ++i) {
-        pixel[i] = colors[0];
-        scanf("%d", &test);
-        printf("Renderer LED index %d\n", i);
-        renderLEDs();
+    for (int y = 0; y < LED_HEIGHT; ++y) {
+        for (int x = 0; x < LED_WIDTH; ++x) {
+            pixel[x * LED_HEIGHT + y] = colors[0];
+            scanf("%d", &test);
+            printf("Renderer LED index (%d:%d)\n", x, y);
+            renderLEDs();
+        }
     }
 
     /*
