@@ -152,6 +152,13 @@ int main() {
         }
     }
 
+    int test;
+    for (int i = 0; i < 154; ++i) {
+        pixel[i] = colors[0];
+        scanf("%d", &test);
+    }
+
+    /*
     //option for playing give specific animation
     if (specificAnimationToShow != NULL){
         while (running){
@@ -185,9 +192,9 @@ int main() {
             sleep(blinkTime);
         }
     }
+     */
 
     finish(0);
-
     return 0;
 }
 
@@ -632,14 +639,17 @@ void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
 
             if (activateLEDModule) {
                 if (_color == 0){
-                    pixel[ledMatrixTranslation(x, y)] = translateColor(color);
+                    //pixel[ledMatrixTranslation(x, y)] = translateColor(color);
+                    pixel[x * LED_HEIGHT + y] = translateColor(color);
                 } else {
                     if (color->Red != 0 || color->Green != 0 || color->Blue != 0) {
-                        pixel[ledMatrixTranslation(x, y)] = _color;
+                        //pixel[ledMatrixTranslation(x, y)] = _color;
+                        pixel[x * LED_HEIGHT + y] = _color;
                         //TODO: Adjust to brightness of color given in GIF
                         // Right now it's flat the same color to all pixels, that just _aren't_ black
                     } else{
-                        pixel[ledMatrixTranslation(x, y)] = 0; //set other pixels black
+                        //pixel[ledMatrixTranslation(x, y)] = 0; //set other pixels black
+                        pixel[x * LED_HEIGHT + y] = 0;
                     }
                 }
             }
