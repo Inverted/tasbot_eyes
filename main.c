@@ -171,6 +171,9 @@ int main() {
     }
      */
 
+
+
+
     //option for playing give specific animation
     if (specificAnimationToShow != NULL){
         while (running){
@@ -517,10 +520,10 @@ ws2811_return_t renderLEDs() {
                 int id;
                 if ((id = TASBotIndex[y][x]) != -1){
                     //if LED ia existing on TASBot, assign TASBot led to corresponding pixel from graphic
+                    display.channel[0].leds[id] = pixel[y * LED_WIDTH + x];
 
                     //printf("Render LED index (%d;%d) at TASBot index %d\n", x, y, id); //produces high console output
                 }
-                display.channel[0].leds[x * LED_WIDTH + y] = pixel[x * LED_WIDTH + y];
 
             } else {
                 display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x];
@@ -651,17 +654,16 @@ void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
             if (activateLEDModule) {
                 if (_color == 0){
                     //pixel[ledMatrixTranslation(x, y)] = translateColor(color);
-
-                    pixel[x * LED_WIDTH + y] = translateColor(color);
+                    pixel[x * LED_HEIGHT + y] = translateColor(color);
                 } else {
                     if (color->Red != 0 || color->Green != 0 || color->Blue != 0) {
                         //pixel[ledMatrixTranslation(x, y)] = _color;
-                        pixel[x * LED_WIDTH + y] = _color;
+                        pixel[x * LED_HEIGHT + y] = _color;
                         //TODO: Adjust to brightness of color given in GIF
                         // Right now it's flat the same color to all pixels, that just _aren't_ black
                     } else{
                         //pixel[ledMatrixTranslation(x, y)] = 0; //set other pixels black
-                        pixel[x * LED_WIDTH + y] = 0;
+                        pixel[x * LED_HEIGHT + y] = 0;
                     }
                 }
             }
