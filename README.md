@@ -12,4 +12,4 @@ Uses
 ## Create color palette
 To create a color palette (not implementet yet), you can either:
 * Use the *tasBot Eye Color Analyzing Uniquified Search Engine (BECAUSE)* to create a color palette based on an image: https://github.com/R3tr0BoiDX/because
-* Paste the desired hex colors into a plain text document **WITHOUT** the leading '#'. For example, a valid entry for a pale red would be "E78587" (no '#' in front). BECAUSE creates `.tasbotPalette` files, but thats not needed.
+* Paste the desired hex colors into a plain text document **WITHOUT** the leading '#'. For example, a valid entry for a pale red would be "E78587" (no '#' in front). One color each line. BECAUSE creates `.tasbotPalette` files, but thats not needed.
