@@ -28,7 +28,7 @@
 #define LED_COUNT               (LED_WIDTH * LED_HEIGHT)
 #define STRIP_TYPE              WS2811_STRIP_BRG
 #define INVERTED                false
-#define BRIGHTNESS              32
+#define BRIGHTNESS              24
 
 #define ARRAY_SIZE(arr)         (sizeof(arr) / sizeof(arr[0]))
 
@@ -127,15 +127,11 @@ int TASBotIndex[8][28] = {
         {-1,-1,48,49,50,51,-1,-1,-1,69,52,53,54,55,56,57,58,59,60,-1,-1,-1,153,152,151,150,-1,-1}
 };
 
-//TODO: Proper comments (doxygen and such)
-
 //TODO: single frame animations shown a random duration. multiple frame animation based of gif
 
 //TODO: args:
-//args: -s: playback speed; -I: specific image; -P: specific folder; -v: verbose logging; -h: help; -r: console renderer; -b: brightness [0-255]
-//      -B: how many blinks between animation; -Bmin: min time between blinks; -Bmax: max time between blinks
-//      -p: path to color palette text file
-int main() {
+
+int main(int _argc, char**  _argv) {
     //can't use LED hardware on desktops
 #if defined(__x86_64__)
     activateLEDModule = false;
