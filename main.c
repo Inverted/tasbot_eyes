@@ -1,5 +1,4 @@
 //Last working version from Mar 24, 2022
-
 #include <gif_lib.h> //https://sourceforge.net/projects/giflib/
 #include <ws2811/ws2811.h> //https://github.com/jgarff/rpi_ws281x
 
@@ -10,7 +9,6 @@
 #include <string.h>
 #include <signal.h>
 #include <unistd.h>
-#include <ctype.h>
 
 #define OTHER_PATH              "./gifs/others/"
 #define BASE_PATH               "./gifs/base.gif"
@@ -26,7 +24,7 @@
 #define LED_WIDTH               28
 
 #define TARGET_FREQ             WS2811_TARGET_FREQ
-#define GPIO_PIN                18                      //TODO: TASBot uses pin 10
+#define GPIO_PIN                10
 #define DMA                     10
 #define LED_COUNT               (LED_WIDTH * LED_HEIGHT)
 #define STRIP_TYPE              WS2811_STRIP_BRG
@@ -86,8 +84,8 @@ bool realTASBot = true;
 
 //Variables
 bool running = true;
-float playbackSpeed = 1; //doesn't affect the time between the blinks, just the playback speed of the animation
-char* specificAnimationToShow = NULL; //"./gifs/blink.gif"; //TODO: Blink is just for test purposes here
+float playbackSpeed = 1; //doesnt affects the time between the blinks. just the playback speed of the aimation
+char* specificAnimationToShow = NULL; //"./gifs/link_and_zelda.gif"; //"./gifs/blink.gif"; //TODO: Blink is just for test purposes here
 char* pathForAnimations = OTHER_PATH;
 
 ws2811_led_t *pixel;
@@ -132,7 +130,7 @@ int TASBotIndex[8][28] = {
 
 //TODO: single frame animations shown a random duration. multiple frame animation based of gif
 
-//TODO: args
+//TODO: args:
 
 int main(int _argc, char**  _argv) {
     //can't use LED hardware on desktops
@@ -150,6 +148,40 @@ int main(int _argc, char**  _argv) {
             return r;
         }
     }
+
+    int test;
+
+    /*
+    for (int i = 0; i < LED_COUNT; ++i) {
+        pixel[i] = colors[0];
+
+        scanf("%d", &test);
+        //usleep(1000 * 1000);
+        printf("Renderer LED index (%d:) is \n", i);
+        renderLEDs();
+    }
+     */
+
+
+    //funzt
+    /*
+    for (int y = 0; y < LED_HEIGHT; ++y) {
+        for (int x = 0; x < LED_WIDTH; ++x) {
+
+            int index = TASBotIndex[y][x];
+            if(index >= 0){
+                pixel[index] = colors[0];
+            }
+
+            scanf("%d", &test);
+            //usleep(1000 * 1000);
+            printf("Renderer LED index (%d:%d) is %d\n",y, x, TASBotIndex[y][x]);
+            renderLEDs();
+        }
+    }
+     */
+
+
 
     //option for playing give specific animation
     if (specificAnimationToShow != NULL){
@@ -184,6 +216,7 @@ int main(int _argc, char**  _argv) {
             sleep(blinkTime);
         }
     }
+
 
     finish(0);
     return 0;
@@ -624,25 +657,32 @@ void freeAnimation(Animation* _animation){
  * @param _color The color, which should overwrite the actual color data from the frame. If equal 0, the color of the frame is actually used.
  */
 void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
+
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
             GifColorType *gifColor = _frame->color[x][y];
             ws2811_led_t color;
 
             if (activateLEDModule) {
-                //Determine if (given) custom color should be used our
                 if (_color == 0){
+                    //pixel[ledMatrixTranslation(x, y)] = translateColor(gifColor);
+                    //pixel[x * LED_WIDTH + y]
                     color = translateColor(gifColor);
                 } else {
                     if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
+                        //pixel[ledMatrixTranslation(x, y)] = _color;
+                        //pixel[x * LED_WIDTH + y]
                         color = _color;
                         //TODO: Adjust to brightness of gifColor given in GIF
                         // Right now it's flat the same gifColor to all pixels, that just _aren't_ black
                     } else{
+                        //pixel[ledMatrixTranslation(x, y)] = 0; //set other pixels black
+                        //pixel[x * LED_WIDTH + y]
                         color = 0;
                     }
                 }
             }
+
 
             int index = TASBotIndex[y][x];
             if (index >= 0){
