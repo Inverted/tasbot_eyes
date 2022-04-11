@@ -644,11 +644,9 @@ void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
                 }
             }
 
-            if (realTASBot){
-                int index = TASBotIndex[y][x];
-                if (index >= 0){
-                    pixel[index] = color;
-                }
+            int index = TASBotIndex[y][x];
+            if (index >= 0){
+                pixel[index] = color;
             }
 
             //Debug renderer
