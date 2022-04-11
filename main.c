@@ -1,3 +1,5 @@
+//Last working version from Mar 24, 2022
+
 #include <gif_lib.h> //https://sourceforge.net/projects/giflib/
 #include <ws2811/ws2811.h> //https://github.com/jgarff/rpi_ws281x
 
@@ -8,6 +10,7 @@
 #include <string.h>
 #include <signal.h>
 #include <unistd.h>
+#include <ctype.h>
 
 #define OTHER_PATH              "./gifs/others/"
 #define BASE_PATH               "./gifs/base.gif"
@@ -79,12 +82,12 @@ bool numberIsEven(int _number);
 bool verboseLogging = true;
 bool consoleRenderer = true;
 bool activateLEDModule = true;
-bool realTASBot = true;
+bool realTASBot = false;
 
 //Variables
 bool running = true;
-float playbackSpeed = 1; //doesnt affects the time between the blinks. just the playback speed of the aimation
-char* specificAnimationToShow = NULL; //"./gifs/link_and_zelda.gif"; //"./gifs/blink.gif"; //TODO: Blink is just for test purposes here
+float playbackSpeed = 1; //doesn't affect the time between the blinks, just the playback speed of the animation
+char* specificAnimationToShow = NULL; //"./gifs/blink.gif"; //TODO: Blink is just for test purposes here
 char* pathForAnimations = OTHER_PATH;
 
 ws2811_led_t *pixel;
@@ -129,7 +132,7 @@ int TASBotIndex[8][28] = {
 
 //TODO: single frame animations shown a random duration. multiple frame animation based of gif
 
-//TODO: args:
+//TODO: args
 
 int main(int _argc, char**  _argv) {
     //can't use LED hardware on desktops
@@ -147,40 +150,6 @@ int main(int _argc, char**  _argv) {
             return r;
         }
     }
-
-    int test;
-
-    /*
-    for (int i = 0; i < LED_COUNT; ++i) {
-        pixel[i] = colors[0];
-
-        scanf("%d", &test);
-        //usleep(1000 * 1000);
-        printf("Renderer LED index (%d:) is \n", i);
-        renderLEDs();
-    }
-     */
-
-
-    //funzt
-    /*
-    for (int y = 0; y < LED_HEIGHT; ++y) {
-        for (int x = 0; x < LED_WIDTH; ++x) {
-
-            int index = TASBotIndex[y][x];
-            if(index >= 0){
-                pixel[index] = colors[0];
-            }
-
-            scanf("%d", &test);
-            //usleep(1000 * 1000);
-            printf("Renderer LED index (%d:%d) is %d\n",y, x, TASBotIndex[y][x]);
-            renderLEDs();
-        }
-    }
-     */
-
-
 
     //option for playing give specific animation
     if (specificAnimationToShow != NULL){
@@ -215,7 +184,6 @@ int main(int _argc, char**  _argv) {
             sleep(blinkTime);
         }
     }
-
 
     finish(0);
     return 0;
@@ -656,36 +624,31 @@ void freeAnimation(Animation* _animation){
  * @param _color The color, which should overwrite the actual color data from the frame. If equal 0, the color of the frame is actually used.
  */
 void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
-
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
             GifColorType *gifColor = _frame->color[x][y];
             ws2811_led_t color;
 
             if (activateLEDModule) {
+                //Determine if (given) custom color should be used our
                 if (_color == 0){
-                    //pixel[ledMatrixTranslation(x, y)] = translateColor(gifColor);
-                    //pixel[x * LED_WIDTH + y]
                     color = translateColor(gifColor);
                 } else {
                     if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
-                        //pixel[ledMatrixTranslation(x, y)] = _color;
-                        //pixel[x * LED_WIDTH + y]
                         color = _color;
                         //TODO: Adjust to brightness of gifColor given in GIF
                         // Right now it's flat the same gifColor to all pixels, that just _aren't_ black
                     } else{
-                        //pixel[ledMatrixTranslation(x, y)] = 0; //set other pixels black
-                        //pixel[x * LED_WIDTH + y]
                         color = 0;
                     }
                 }
             }
 
-
-            int index = TASBotIndex[y][x];
-            if (index >= 0){
-                pixel[index] = color;
+            if (realTASBot){
+                int index = TASBotIndex[y][x];
+                if (index >= 0){
+                    pixel[index] = color;
+                }
             }
 
             //Debug renderer
@@ -730,5 +693,103 @@ unsigned int ledMatrixTranslation(int _x, int _y) {
 
 bool numberIsEven(int _number) {
     return (_number % 2 == 0);
+}
+//endregion
+
+//region Arguments
+void printHelp() {
+    printf("===[Debug options]===\n");
+    printf("-h               Print this help screen\n");
+    printf("-v               Enable verbose logging\n");
+    printf("-r               Enable console renderer for frames\n");
+
+    printf("\n===[Tune animation playback]===\n");
+    printf("-c               Use random colors for monochrome animations");
+    printf("-b [0-255]       Maximum possible brightness\n");
+    printf("-s [MULTIPLIER]  Playback speed\n");
+    printf("-B [PATTERN]     Controls the blinks\n");
+    printf("                 -1: Maximum number of blinks between animations\n");
+    printf("                 -2: Seconds minimum between blinks\n");
+    printf("                 -3: Seconds maximum between blinks\n");
+    printf("                 Example: \"4-4-6\" (default)\n");
+    printf("                          -Maximum off 4 blinks between animations\n");
+    printf("                          -4 to 6 seconds between each blink.\n");
+
+    printf("\n===[File arguments]===\n");
+    printf("-p [FOLDER PATH] Play animations from a specific folder.\n");
+    printf("-z [FOLDER PATH] Play blink animation from specific folder.\n");
+    printf("-i [FILE PATH]   Play specific animation as endless loop. \"-p\" and \"-z\" become useless with this.\n");
+    printf("-P [FILE PATH]   Use color palette from text file. For formatting of palette file use tool or see example.\n");
+}
+
+//TODO: toggle for random color
+void parseArguments(int argc, char **argv){
+    int c;
+    while ((c = getopt(argc, argv, "hvrb:s:B:i:p:z:P:")) != -1) {
+        switch (c) {
+            case 'h':
+                printHelp();
+                exit(0);
+                break;
+            case 'v':
+                printf("use verbose logging\n");
+                break;
+            case 'r':
+                printf("use console renderer\n");
+                break;
+            case 'b':
+                printf("set brightness to %s\n", optarg);
+                break;
+            case 's':
+                printf("set playback speed to %s\n", optarg);
+                break;
+            case 'B':
+                printf("set blink pattern to %s\n", optarg);
+                break;
+            case 'p':
+                printf("use animations of folder %s\n", optarg);
+                break;
+            case 'z':
+                printf("use blink animation from folder %s\n", optarg);
+                break;
+            case 'i':
+                printf("use specific animation %s\n", optarg);
+                break;
+            case 'P':
+                printf("set color palette to %s\n", optarg);
+                break;
+            case '?':
+                if (optopt == 'b' || optopt == 's' || optopt == 'B' || optopt == 'i' || optopt == 'p' || optopt == 'z' || optopt == 'P') {
+                    fprintf(stderr, "Option -%c requires an argument.\n", optopt);
+                } else if (isprint (optopt)) {
+                    fprintf(stderr, "Unknown option `-%c'. Use -h for more information\n", optopt);
+                } else {
+                    fprintf(stderr, "Unknown option character `\\x%x'.\n", optopt);
+                }
+
+            default:
+                abort();
+        }
+    }
+
+    for (int index = optind; index < argc; index++) {
+        printf("Non-option argument %s\n", argv[index]);
+    }
+}
+
+//----
+void convertNumber(){
+    char szNumbers[] = "2001 60c0c0 -1101110100110100100000 0x6fffff";
+    char * pEnd;
+    long int li1, li2, li3, li4;
+    li1 = strtol (szNumbers,&pEnd,10);
+    li2 = strtol (pEnd,&pEnd,16);
+    li3 = strtol (pEnd,&pEnd,2);
+    li4 = strtol (pEnd,NULL,0);
+    printf ("The decimal equivalents are: %ld, %ld, %ld and %ld.\n", li1, li2, li3, li4);
+
+    //atoi
+    //There is strtol which is better IMO. Also I have taken a liking in strtonum, so use it if you have it (but remember it's not portable):
+    //That's one of the reasons atoi is sometimes considered unsafe. Use strtol / strtoul instead. And if you have it use strtonum.
 }
 //endregion

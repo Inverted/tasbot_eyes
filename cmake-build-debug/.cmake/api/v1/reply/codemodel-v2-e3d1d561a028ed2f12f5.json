@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/home/mirco/CLionProjects/tasbot_eyes/cmake-build-debug",
-		"source" : "/home/mirco/CLionProjects/tasbot_eyes"
+		"build" : "/mnt/Dateien/Projekte/tasbot_eyes/cmake-build-debug",
+		"source" : "/mnt/Dateien/Projekte/tasbot_eyes"
 	},
 	"version" : 
 	{
