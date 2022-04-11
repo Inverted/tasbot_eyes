@@ -1,0 +1,135 @@
+Index: main.c
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#include <gif_lib.h> //https://sourceforge.net/projects/giflib/\n#include <ws2811/ws2811.h> //https://github.com/jgarff/rpi_ws281x\n\n#include <stdio.h>\n#include <dirent.h>\n#include <stdlib.h>\n#include <time.h>\n#include <string.h>\n#include <signal.h>\n#include <unistd.h>\n\n#define OTHER_PATH              \"./gifs/others/\"\n#define BASE_PATH               \"./gifs/base.gif\"\n#define BLINK_PATH              \"./gifs/blink.gif\" //TODO: points to folder with different blinks\n#define MAX_FILENAME_LENGTH     256\n#define MAX_PATH_LENGTH         4096\n#define DEFAULT_DELAY_TIME      100\n#define MAX_BLINKS              4                       //How many times does TASBot blink between animations\n#define MIN_TIME_BETWEEN_BLINKS 4                       //Based on human numbers. We Blink about every 4 to 6 seconds\n#define MAX_TIME_BETWEEN_BLINKS 6\n\n#define LED_HEIGHT              8\n#define LED_WIDTH               28\n\n#define TARGET_FREQ             WS2811_TARGET_FREQ\n#define GPIO_PIN                18\n#define DMA                     10\n#define LED_COUNT               (LED_WIDTH * LED_HEIGHT)\n#define STRIP_TYPE              WS2811_STRIP_BRG\n#define INVERTED                false\n#define BRIGHTNESS              32\n\n#define ARRAY_SIZE(arr)         (sizeof(arr) / sizeof(arr[0]))\n\ntypedef struct AnimationFrame {\n    GifColorType *color[LED_WIDTH][LED_HEIGHT];\n    u_int16_t delayTime;\n} AnimationFrame;\n\ntypedef struct Animation {\n    AnimationFrame **frames; //pointer to a pointer, that's an array of frames\n    int frameCount;\n    bool monochrome;\n    GifFileType* image; //very dirty trick to get around weird behavior, where DGifCloseFile() manipulates the animation data\n} Animation;\n\n//Declarations\nvoid setupHandler();\nvoid finish(int _number);\n\nint countFilesInDir(char _path[]);\nbool getFileList(const char _path[], char *_list[]);\n\nchar *getRandomAnimation(char *list[], int _count);\nchar *getFilePath(char *_path, char *_file);\nbool checkIfImageHasRightSize(GifFileType *_image);\nu_int16_t getDelayTime(SavedImage *_frame);\nAnimationFrame *readFramePixels(const SavedImage *frame, ColorMapObject *_globalMap, bool *_monochrome);\nAnimation* readAnimation(char *_file, bool _randomColor);\n\nws2811_return_t initLEDs();\nws2811_return_t renderLEDs();\nws2811_return_t clearLEDs();\nws2811_led_t translateColor(GifColorType *_color);\n\nvoid showBaseExpression();\nvoid showBlinkExpression();\nvoid showRandomExpression();\nvoid showExpression(Animation *_animation);\nvoid showFrame(AnimationFrame *_frame, ws2811_led_t _color); //color is only used, when picture is monochrome\nint getBlinkDelay();\nvoid freeAnimation(Animation* _animation);\n\nunsigned int ledMatrixTranslation(int _x, int _y);\nbool numberIsEven(int _number);\n\n//Variables\nbool verboseLogging = true;\nbool useDebugRenderer = false;\nbool activateLEDModule = true;\nbool running = true;\nbool realTASBot = false;\n\nws2811_led_t *pixel;\nws2811_t display = {\n        .freq = TARGET_FREQ,\n        .dmanum = DMA,\n        .channel ={\n                [0] ={\n                        .gpionum = GPIO_PIN,\n                        .count = LED_COUNT,\n                        .invert = INVERTED,\n                        .brightness = BRIGHTNESS,\n                        .strip_type = STRIP_TYPE,\n                }\n        },\n};\n\n//default colors\nws2811_led_t colors[] = {\n        0xFF0000,  // red\n        0xFF8000,  // orange\n        0xFFFF00,  // yellow\n        0x00FF00,  // green\n        0x00FFFF,  // cyan\n        0x0000FF,  // blue\n        0xFF00FF,  // magenta\n        0xFF80FF,  // pink\n};\n\n//TASBot display conversation table\n//Based on https://github.com/jakobrs/tasbot-display/blob/master/src/tasbot.rs\nint TASBotIndex[8][28] = {\n        {-1,-1,0,1,2,3,-1,-1,-1,-1,1-11,1-1-1,99,98,97,96,95,94,-1,-1,-1,-1,1-15,1-14,1-13,1-12,-1,-1},\n        {-1,4,5,6,7,8,9,-1,-1,84,85,86,87,88,89,9-1,91,92,93,-1,-1,111,11-1,1-19,1-18,1-17,1-16,-1},\n        {1-1,11,12,13,14,15,16,17,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,119,118,117,116,115,114,113,112},\n        {18,19,2-1,21,22,23,24,25,-1,-1,-1,83,82,81,8-1,79,78,-1,-1,-1,127,126,125,124,123,122,121,12-1},\n        {26,27,28,29,3-1,31,32,33,-1,-1,7-1,71,72,73,74,75,76,77,-1,-1,135,134,133,132,131,13-1,129,128},\n        {34,35,36,37,38,39,4-1,41,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,143,142,141,14-1,139,138,137,136},\n        {-1,42,43,44,45,46,47,-1,-1,-1,68,67,66,65,64,63,62,61,-1,-1,-1,149,148,147,146,145,144,-1},\n        {-1,-1,48,49,5-1,51,-1,-1,-1,69,52,53,54,55,56,57,58,59,6-1,-1,-1,-1,153,152,151,15-1,-1,-1}\n};\n\n//TODO: Refine return values. No voids!\n\n//TODO: Debug renderer refinement\n\n//TODO: int getTASBotIndex(), returns index of LED for TASBot or -1, when not used on them\n// int i; if((i = getTASBotIndex(<curIndex>)) != -1){/*assign color*/}\n\n//TODO: random blink animations\n\n//TODO: Proper comments (doxygen and such)\n\n//TODO: args:\n//args: -s: playback speed; -I: specific image; -P: specific folder; -v: verbose logging; -h: help; -r: console renderer; -b: brightness [0-255]\n//      -B: how many blinks between animation; -Bmin: min time between blinks; -Bmax: max time between blinks\n//      -p: path to color palette text file\nint main() {\n    //can't use LED hardware on desktops\n#if defined(__x86_64__)\n    activateLEDModule = false;\n#endif\n\n    srand(time(NULL));\n    setupHandler();\n\n    if (activateLEDModule) {\n        ws2811_return_t r = initLEDs();\n        if (r != WS2811_SUCCESS) {\n            fprintf(stderr, \"[ERROR] Can't run program. Did you started it as root?\\n\");\n            return r;\n        }\n    }\n\n    bool firstIteration = true;\n    while (running) {\n        //skip to base expression on first iteration, to not start on a random animation\n        if (!firstIteration) {\n            showRandomExpression();\n        } else {\n            firstIteration = false;\n        }\n        showBaseExpression();\n        sleep(getBlinkDelay());\n\n        //blink for a random amount of times\n        for (int blinks = (rand() % MAX_BLINKS) + 1; blinks > 0; --blinks) {\n            showBlinkExpression();\n            showBaseExpression();\n\n            int blinkTime = getBlinkDelay();\n            if (verboseLogging) {\n                printf(\"[INFO] Blink #%d for %d seconds\", blinks, blinkTime);\n            }\n            sleep(blinkTime);\n        }\n    }\n\n    finish(0);\n    return 0;\n}\n\n//determine how long to wait between blinks\nint getBlinkDelay() {\n    return MIN_TIME_BETWEEN_BLINKS + (rand() % (MAX_TIME_BETWEEN_BLINKS - MIN_TIME_BETWEEN_BLINKS));\n}\n\n//allocate memory for path string and ditch together\nchar *getFilePath(char *_path, char *_file) {\n    char *path = malloc(sizeof(char) * (MAX_PATH_LENGTH + MAX_FILENAME_LENGTH));\n    strcpy(path, _path);\n    strcat(path, _file);\n\n    return path;\n}\n\n/**\n * @brief Registers the handler\n * Register the handler for SIGINT, SIGTERM and SIGKILL\n * All other Signals are other signals excluded\n */\nvoid setupHandler() {\n    struct sigaction sa = {\n            .sa_handler = finish,\n    };\n    sigemptyset(&sa.sa_mask);\n    sigaction(SIGINT, &sa, NULL);\n    sigaction(SIGTERM, &sa, NULL);\n    sigaction(SIGKILL, &sa, NULL);\n}\n\n/**\n * @brief Central handler for leaving the application\n * Handler for SIGINT, SIGTERM and SIGKILL\n * @param _number\n */\nvoid finish(int _number) {\n    printf(\"\\n\"); //pretty uwu\n\n    running = false;\n    if (activateLEDModule) {\n        clearLEDs();\n        ws2811_render(&display);\n        ws2811_fini(&display);\n    }\n    free(pixel);\n    exit(_number);\n}\n\n//region GIF\nbool checkIfImageHasRightSize(GifFileType *_image) {\n    return (_image->SWidth == LED_WIDTH && _image->SHeight == LED_HEIGHT);\n}\n\n//Obtain delay time\n//INFO: In theory, we could encode more information the comment block, if we needed to\nu_int16_t getDelayTime(SavedImage *_frame) {\n    //Read all the extension blocks - e as in extension\n    for (int e = 0; e < _frame->ExtensionBlockCount; ++e) {\n        if (verboseLogging) {\n            printf(\"[Extension Block] Bytes: %d; Function: %02X: \",\n                   _frame->ExtensionBlocks[e].ByteCount, _frame->ExtensionBlocks[e].Function);\n        }\n\n        //Let's read all the bytes in this block - b as in bytes\n        for (int b = 0; b < _frame->ExtensionBlocks[e].ByteCount; ++b) {\n            if (verboseLogging) {\n                printf(\"%02X \", _frame->ExtensionBlocks[e].Bytes[b]);\n            }\n\n            // this works just in theory and is not tested!\n            // wait for first \"Graphics Control Extension\"-block and assume all frames have the same delay\n            // TODO: Actually use the delay time of every _frame for the animation, rather than assuming all have the same\n            // http://giflib.sourceforge.net/whatsinagif/bits_and_bytes.html\n            // F9 is the identifier for \"Graphics Control Extension\"-blocks\n            if (_frame->ExtensionBlocks[e].Function == 0xF9) {\n                u_int8_t highByte = _frame->ExtensionBlocks[e].Bytes[2];\n                u_int8_t lowByte = _frame->ExtensionBlocks[e].Bytes[3];\n                return (highByte << 8) | lowByte;\n            }\n        }\n\n        if (verboseLogging) {\n            printf(\"\\n\");\n        }\n    }\n    return 0;\n}\n\nAnimation* readAnimation(char *_file, bool _randomColor) {\n    if (verboseLogging) {\n        printf(\"[INFO] Load _file %s\\n\", _file);\n    }\n\n    //Open _file\n    int e;\n    GifFileType *image = DGifOpenFileName(_file, &e);\n    if (!image) {\n        fprintf(stderr, \"[ERROR] EGifOpenFileName() failed. Could't find or open _file: %d\\n\", e);\n        return false;\n    }\n\n    //\"Slurp\" infos into struct\n    if (DGifSlurp(image) == GIF_ERROR) {\n        fprintf(stderr, \"[ERROR] DGifSlurp() failed. Couldt load infos about GIF: %d\\n\", image->Error);\n        DGifCloseFile(image, &e);\n        return false;\n    }\n\n    Animation* animation = NULL;\n    //Before we do anything, lets check if image has right size\n    if (checkIfImageHasRightSize(image)) {\n\n        //Obtain global color map if available\n        ColorMapObject *globalColorMap = image->SColorMap;\n        if (verboseLogging) {\n            printf(\"[Image] Size: %ix%i; Frames: %i; Path: \\\"%s\\\"\\n\",\n                   image->SWidth, image->SHeight, image->ImageCount, _file);\n        }\n\n        //Process frames\n        animation = malloc(sizeof(Animation));\n        AnimationFrame **animationFrames = malloc(sizeof(AnimationFrame*) * image->ImageCount);\n        animation->frames = animationFrames;\n        animation->frameCount = image->ImageCount;\n        animation->monochrome = true;\n        animation->image = image;\n\n        for (int i = 0; i < image->ImageCount; ++i) {\n            const SavedImage *frame = &image->SavedImages[i]; //get access to frame data\n\n            if (verboseLogging) {\n                printf(\"[Frame %i] Size: %ix%i; Left: %i, Top: %i; Local color map: %s\\n\",\n                       i, frame->ImageDesc.Width, frame->ImageDesc.Height, frame->ImageDesc.Left, frame->ImageDesc.Top,\n                       (frame->ImageDesc.ColorMap ? \"Yes\" : \"No\"));\n            }\n\n            // Needs getDelayTime() to get actually tested\n            /*\n            u_int16_t delayTime = getDelayTime(frame);\n            if (delayTime == 0) {\n                delayTime = DEFAULT_DELAY_TIME;\n            }\n             */\n            u_int16_t delayTime = DEFAULT_DELAY_TIME;\n\n            animationFrames[i] = readFramePixels(frame, globalColorMap, &animation->monochrome);\n            animationFrames[i]->delayTime = delayTime;\n        }\n        printf(\"[INFO] Animation is monochrome: %d\\n\", animation->monochrome);\n\n        //when random color should be selected, make it depended on monochrome. Pass that information to renderer via monochrome\n        animation->monochrome = _randomColor ? animation->monochrome : false;\n\n    } else {\n        fprintf(stderr, \"[ERROR] Image has wrong size (%dx%d). Required is (%dx%d)\", image->SWidth, image->SHeight,\n                LED_WIDTH,\n                LED_HEIGHT);\n        return false;\n    }\n\n    return animation;\n}\n\n//Read pixel color\nAnimationFrame *readFramePixels(const SavedImage *frame, ColorMapObject *_globalMap, bool* _monochrome) {\n    const GifImageDesc desc = frame->ImageDesc; //get description of current frame\n    const ColorMapObject *colorMap = desc.ColorMap ? desc.ColorMap\n                                                   : _globalMap; //choose either global or local color map\n\n    AnimationFrame *animationFrame = malloc(sizeof(AnimationFrame));\n\n    for (int y = 0; y < desc.Height; ++y) {\n        for (int x = 0; x < desc.Width; ++x) {\n            int c = frame->RasterBits[y * desc.Width + x];\n\n            if (colorMap) {\n                GifColorType *color = &colorMap->Colors[c];\n                animationFrame->color[x][y] = color;\n\n                //check if animation is monochrome. When a single frame contain colors,\n                //then preserve the animations color later while rendering.\n                if (!(color->Red == color->Green && color->Red == color->Blue)) {\n                    *_monochrome = false;\n                }\n\n            } else {\n                printf(\"[WARNING] No color map given. Can't process picture. Skip frame\");\n            }\n        }\n    }\n    return animationFrame;\n}\n\n//TODO: This could be tidied up into one method with some refactoring...somehow...I bet...I swear...I'm sure\nint countFilesInDir(char _path[]) {\n    DIR *d = opendir(_path);\n    if (d) {\n        int counter = 0;\n        struct dirent *dir;\n        while ((dir = readdir(d)) != NULL) {\n            if (dir->d_type == DT_REG) {\n                counter++;\n            }\n        }\n        closedir(d);\n        return counter;\n    }\n    return -1;\n}\n\nbool getFileList(const char _path[], char *_list[]) {\n    DIR *d = opendir(_path);\n    if (d) {\n        int counter = 0;\n        struct dirent *dir;\n        while ((dir = readdir(d)) != NULL) {\n            if (dir->d_type == DT_REG) {\n                _list[counter] = dir->d_name;\n                counter++;\n            }\n        }\n        closedir(d);\n        return true;\n    }\n    return false;\n}\n\nchar *getRandomAnimation(char *list[], int _count) {\n    int randomGif = rand() % _count;\n    return list[randomGif];\n}\n//endregion\n\n//region LED\nws2811_return_t initLEDs() {\n    ws2811_return_t r;\n    pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);\n\n    if ((r = ws2811_init(&display)) != WS2811_SUCCESS) {\n        fprintf(stderr, \"[ERROR] ws2811_init failed. Couldt initialize LEDs: %s\\n\", ws2811_get_return_t_str(r));\n    } else {\n        printf(\"[INFO] Initialized LEDs with code %d\\n\", r);\n    }\n    return r;\n}\n\n/**\n * @brief Update LEDs to new color\n * Updates the display's hardware LEDs color to the local pixel variables array\n */\nws2811_return_t renderLEDs() {\n    for (int x = 0; x < LED_WIDTH; x++) {\n        for (int y = 0; y < LED_HEIGHT; y++) {\n\n            //TASBot translation\n            if (realTASBot){\n                int id;\n                if ((id = TASBotIndex[y][x]) != -1){\n                    //TASBot led = pixel from graphic\n                    display.channel[0].leds[id] = pixel[y * LED_WIDTH + x];\n                }\n\n            } else {\n                display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x];\n            }\n        }\n    }\n\n    ws2811_return_t r;\n    if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {\n        fprintf(stderr, \"[ERROR] Failed to render: %s\\n\", ws2811_get_return_t_str(r));\n    } else {\n        printf(\"[INFO] Rendered LEDs with code %d\\n\", r);\n    }\n    return r;\n}\n\n/**\n * @brief Turns of all the LEDs\n * Clears all the LEDs by setting their color to black and renders it\n */\nws2811_return_t clearLEDs() {\n    for (size_t i = 0; i < LED_COUNT; i++) {\n        pixel[i] = 0;\n    }\n    return renderLEDs();\n}\n//endregion\n\n//region TASBot\nvoid showBaseExpression() {\n    Animation* animation = readAnimation(BASE_PATH, false);\n    showExpression(animation);\n}\n\nvoid showBlinkExpression() {\n    Animation* animation =readAnimation(BLINK_PATH, false);\n    showExpression(animation);\n}\n\nvoid showRandomExpression() {\n    int fileCount = countFilesInDir(OTHER_PATH); //get file count\n    char *list[fileCount];\n    getFileList(OTHER_PATH, list); //get list of files\n    char *file = getRandomAnimation(list, fileCount); //get random animation\n    char *filePath = getFilePath(OTHER_PATH, file);\n\n    Animation* animation = readAnimation(filePath, true);\n    showExpression(animation);\n}\n\nvoid showExpression(Animation *_animation) {\n\n    ws2811_led_t color = 0;\n    if (_animation->monochrome){\n        int r = rand() % ARRAY_SIZE(colors);\n        color = colors[r];\n    }\n\n    for (int i = 0; i < _animation->frameCount; ++i) {\n        showFrame(_animation->frames[i], color);\n        usleep(_animation->frames[i]->delayTime * 1000);\n    }\n\n    freeAnimation(_animation);\n}\n\n//TODO: Can someone check please, if I got it right?\nvoid freeAnimation(Animation* _animation){\n    //dirty trick, close file here, after animation. That way DGifCloseFile() can't destroy the animation data\n    int e = 0;\n    DGifCloseFile(_animation->image, &e);\n    printf(\"[INFO] Closed GIF _file with code %d\\n\", e);\n\n    for (int i = 0; i < _animation->frameCount; ++i) {\n        free(_animation->frames[i]); //frame\n    }\n    free(_animation->frames); //pointer to frames\n    free(_animation); //animation\n}\n\nvoid showFrame(AnimationFrame *_frame, ws2811_led_t _color) {\n    if (verboseLogging) {\n        printf(\"[INFO] Render frame: \\n\");\n    }\n\n    for (int y = 0; y < LED_HEIGHT; ++y) {\n        for (int x = 0; x < LED_WIDTH; ++x) {\n            GifColorType *color = _frame->color[x][y];\n\n            if (activateLEDModule) {\n                if (_color == 0){\n                    pixel[ledMatrixTranslation(x, y)] = translateColor(color);\n                } else {\n                    if (color->Red != 0 || color->Green != 0 || color->Blue != 0) {\n                        pixel[ledMatrixTranslation(x, y)] = _color;\n                        //TODO: Adjust to brightness of color given in GIF\n                        // Right now it's flat the same color to all pixels, that just _aren't_ black\n                    } else{\n                        pixel[ledMatrixTranslation(x, y)] = 0; //set other pixels black\n                    }\n                }\n            }\n\n            //Debug renderer\n            if (verboseLogging){\n                if (color->Red != 0 || color->Green != 0 || color->Blue != 0) {\n                    printf(\"x\");\n                } else {\n                    printf(\" \");\n                }\n            }\n        }\n        if (verboseLogging) {\n            printf(\"\\n\");\n        }\n    }\n\n    if (activateLEDModule) {\n        renderLEDs();\n    }\n}\n\nws2811_led_t translateColor(GifColorType *_color) {\n    return ((_color->Red & 0xff) << 16) + ((_color->Green & 0xff) << 8) + (_color->Blue & 0xff);\n}\n//endregion\n\n//region TASbot display\n\n//endregion\n\n//region Debug and Development\nunsigned int ledMatrixTranslation(int _x, int _y) {\n    if (numberIsEven(_x)) {\n        return (_x * LED_HEIGHT + _y);\n    } else {\n        return (_x * LED_HEIGHT + LED_HEIGHT - 1 - _y);\n    }\n}\n\nbool numberIsEven(int _number) {\n    return (_number % 2 == 0);\n}\n//endregion
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.c b/main.c
+--- a/main.c	(revision 294de94830133d8fbbb9baecc2224ab7ea0a27ed)
++++ b/main.c	(date 1647565335287)
+@@ -8,6 +8,7 @@
+ #include <string.h>
+ #include <signal.h>
+ #include <unistd.h>
++#include <ctype.h>
+ 
+ #define OTHER_PATH              "./gifs/others/"
+ #define BASE_PATH               "./gifs/base.gif"
+@@ -584,4 +585,99 @@
+ bool numberIsEven(int _number) {
+     return (_number % 2 == 0);
+ }
++//endregion
++
++
++//region flight preparation
++
++void printHelp() {
++    printf("-h               Print this help screen\n");
++    printf("-v               Enable verbose logging\n");
++    printf("-r               Enable console renderer for frames\n");
++
++    printf("-b [0-255]       Maximum possible brightness\n");
++    printf("-s [MULTIPLIER]  Playback speed\n");
++    printf("-B [PATTERN]     Controls the blinks\n");
++    printf("                 -1: Maximum number of blinks between animations\n");
++    printf("                 -2: Seconds minimum between blinks\n");
++    printf("                 -3: Seconds maximum between blinks\n");
++    printf("                 Example: \"4-4-6\" (default)\n");
++    printf("                          -Maximum off 4 blinks between animations\n");
++    printf("                          -4 to 6 seconds between each blink.\n");
++
++    printf("-p [FOLDER PATH] Play animations from a specific folder.\n");
++    printf("-z [FOLDER PATH] Play blink animation from specific folder.\n");
++    printf("-i [FILE PATH]   Play specific animation as endless loop. \"-p\" and \"-z\" become useless with this.\n");
++    printf("-P [FILE PATH]   Use color palette from text file. For formatting of palette file use tool or see example.\n");
++}
++
++void parseArguments(int argc, char **argv){
++    int c;
++    while ((c = getopt(argc, argv, "hvrb:s:B:i:p:z:P:")) != -1) {
++        switch (c) {
++            case 'h':
++                printHelp();
++                exit(0);
++                break;
++            case 'v':
++                printf("use verbose logging\n");
++                break;
++            case 'r':
++                printf("use console renderer\n");
++                break;
++            case 'b':
++                printf("set brightness to %s\n", optarg);
++                break;
++            case 's':
++                printf("set playback speed to %s\n", optarg);
++                break;
++            case 'B':
++                printf("set blink pattern to %s\n", optarg);
++                break;
++            case 'p':
++                printf("use animations of folder %s\n", optarg);
++                break;
++            case 'z':
++                printf("use blink animation from folder %s\n", optarg);
++                break;
++            case 'i':
++                printf("use specific animation %s\n", optarg);
++                break;
++            case 'P':
++                printf("set color palette to %s\n", optarg);
++                break;
++            case '?':
++                if (optopt == 'b' || optopt == 's' || optopt == 'B' || optopt == 'i' || optopt == 'p' || optopt == 'z' || optopt == 'P') {
++                    fprintf(stderr, "Option -%c requires an argument.\n", optopt);
++                } else if (isprint (optopt)) {
++                    fprintf(stderr, "Unknown option `-%c'.\n", optopt);
++                } else {
++                    fprintf(stderr, "Unknown option character `\\x%x'.\n", optopt);
++                }
++
++            default:
++                abort();
++        }
++    }
++
++    for (int index = optind; index < argc; index++) {
++        printf("Non-option argument %s\n", argv[index]);
++    }
++}
++
++
++void convertNumber(){
++    char szNumbers[] = "2001 60c0c0 -1101110100110100100000 0x6fffff";
++    char * pEnd;
++    long int li1, li2, li3, li4;
++    li1 = strtol (szNumbers,&pEnd,10);
++    li2 = strtol (pEnd,&pEnd,16);
++    li3 = strtol (pEnd,&pEnd,2);
++    li4 = strtol (pEnd,NULL,0);
++    printf ("The decimal equivalents are: %ld, %ld, %ld and %ld.\n", li1, li2, li3, li4);
++
++    //atoi
++    //There is strtol which is better IMO. Also I have taken a liking in strtonum, so use it if you have it (but remember it's not portable):
++    //That's one of the reasons atoi is sometimes considered unsafe. Use strtol / strtoul instead. And if you have it use strtonum.
++}
+ //endregion
+\ No newline at end of file
+Index: cmake-build-debug/Testing/Temporary/LastTest.log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>Start testing: Mar 18 00:42 CET\n----------------------------------------------------------\nEnd testing: Mar 18 00:42 CET\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/cmake-build-debug/Testing/Temporary/LastTest.log b/cmake-build-debug/Testing/Temporary/LastTest.log
+--- a/cmake-build-debug/Testing/Temporary/LastTest.log	(revision 294de94830133d8fbbb9baecc2224ab7ea0a27ed)
++++ b/cmake-build-debug/Testing/Temporary/LastTest.log	(date 1649644360455)
+@@ -1,3 +1,3 @@
+-Start testing: Mar 18 00:42 CET
++Start testing: Apr 11 04:32 CEST
+ ----------------------------------------------------------
+-End testing: Mar 18 00:42 CET
++End testing: Apr 11 04:32 CEST

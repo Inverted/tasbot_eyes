@@ -8,38 +8,38 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/pi/clion_tasbot_eyes/cmake-build-remote-host"/>
+				<Option working_dir="/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/home/pi/clion_tasbot_eyes/cmake-build-remote-host"/>
+				<Option working_dir="/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/home/pi/clion_tasbot_eyes/cmake-build-remote-host"/>
+				<Option working_dir="/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="tasbot_eyes">
-				<Option output="/home/pi/clion_tasbot_eyes/cmake-build-remote-host/tasbot_eyes" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/pi/clion_tasbot_eyes/cmake-build-remote-host"/>
+				<Option output="/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/tasbot_eyes" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -50,15 +50,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 tasbot_eyes"/>
-					<CompileFile command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 tasbot_eyes"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="tasbot_eyes/fast">
-				<Option output="/home/pi/clion_tasbot_eyes/cmake-build-remote-host/tasbot_eyes" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/pi/clion_tasbot_eyes/cmake-build-remote-host"/>
+				<Option output="/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/tasbot_eyes" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -69,17 +69,17 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 tasbot_eyes/fast"/>
-					<CompileFile command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/gmake -f &quot;/home/pi/clion_tasbot_eyes/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 tasbot_eyes/fast"/>
+					<CompileFile command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/gmake -f &quot;/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/pi/clion_tasbot_eyes/main.c">
+		<Unit filename="/tmp/tmp.qcKuiEiVAA/main.c">
 			<Option target="tasbot_eyes"/>
 		</Unit>
-		<Unit filename="/home/pi/clion_tasbot_eyes/CMakeLists.txt">
+		<Unit filename="/tmp/tmp.qcKuiEiVAA/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

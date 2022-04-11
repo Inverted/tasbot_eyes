@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/pi/clion_tasbot_eyes/main.c" "/home/pi/clion_tasbot_eyes/cmake-build-remote-host/CMakeFiles/tasbot_eyes.dir/main.c.o"
+  "/tmp/tmp.qcKuiEiVAA/main.c" "/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/CMakeFiles/tasbot_eyes.dir/main.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

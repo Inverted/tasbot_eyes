@@ -1,4 +1,4 @@
-# Install script for directory: /home/pi/clion_tasbot_eyes
+# Install script for directory: /tmp/tmp.qcKuiEiVAA
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -50,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/pi/clion_tasbot_eyes/cmake-build-remote-host/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/tmp/tmp.qcKuiEiVAA/cmake-build-remote-host/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

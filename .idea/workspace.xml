@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="tasbot_eyes" targetName="tasbot_eyes" />
+    </generated>
+  </component>
+  <component name="CMakeSettings" AUTO_RELOAD="true">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+      <configuration PROFILE_NAME="Release" ENABLED="true" CONFIG_NAME="Release" />
+      <configuration PROFILE_NAME="Remote Host" ENABLED="true" TOOLCHAIN_NAME="Remote Host" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="I fear this commit">
+      <change afterPath="$PROJECT_DIR$/.idea/deployment.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/tasbot_eyes.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/cmakeFiles-v1-4e46819965e82e4f7646.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/index-2022-04-11T02-33-47-0681.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/build.ninja" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/index-2022-04-11T02-33-47-0166.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-remote-host/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-remote-host/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-remote-host/CMakeFiles/CMakeDirectoryInformation.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-remote-host/CMakeFiles/CMakeDirectoryInformation.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-remote-host/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-remote-host/CMakeFiles/CMakeOutput.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-remote-host/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-remote-host/CMakeFiles/Makefile.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-remote-host/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-remote-host/CMakeFiles/Makefile2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-remote-host/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-remote-host/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-remote-host/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-remote-host/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-remote-host/CMakeFiles/tasbot_eyes.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-remote-host/CMakeFiles/tasbot_eyes.dir/DependInfo.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-remote-host/CMakeFiles/tasbot_eyes.dir/build.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-remote-host/CMakeFiles/tasbot_eyes.dir/build.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-remote-host/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-remote-host/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-remote-host/cmake_install.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-remote-host/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-remote-host/tasbot_eyes.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-remote-host/tasbot_eyes.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2021" />
+    <option name="minorVersion" value="3.3" />
+  </component>
+  <component name="ProjectId" id="266wl80fOYk7EPafoqrSzsf42so" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="RunOnceActivity.cidr.known.project.marker" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="cidr.known.project.marker" value="true" />
+    <property name="cmake.loaded.for.project" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/CMakeLists.txt" />
+    <property name="settings.editor.selected.configurable" value="CMakeSettings" />
+    <property name="structure.view.defaults.are.configured" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/cmake-build-debug/gifs" />
+      <recent name="$PROJECT_DIR$/cmake-build-debug/gifs/others" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="tasbot_eyes" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="" />
+      <created>1646757492513</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1646757492513</updated>
+      <workItem from="1646757494227" duration="2762000" />
+      <workItem from="1647016078195" duration="11922000" />
+      <workItem from="1647110797642" duration="25736000" />
+      <workItem from="1647176000039" duration="1515000" />
+      <workItem from="1647182936729" duration="2219000" />
+      <workItem from="1647263467616" duration="33957000" />
+      <workItem from="1647379173451" duration="33000" />
+      <workItem from="1647386803613" duration="648000" />
+      <workItem from="1647388115964" duration="12897000" />
+      <workItem from="1647404324083" duration="43000" />
+      <workItem from="1647476654717" duration="23247000" />
+      <workItem from="1649644361126" duration="4718000" />
+      <workItem from="1649649144848" duration="413000" />
+    </task>
+    <task id="LOCAL-00016" summary="testing">
+      <created>1647301149282</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1647301149282</updated>
+    </task>
+    <task id="LOCAL-00017" summary="testing">
+      <created>1647301277887</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1647301277887</updated>
+    </task>
+    <task id="LOCAL-00018" summary="testing">
+      <created>1647301400392</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1647301400392</updated>
+    </task>
+    <task id="LOCAL-00019" summary="testing">
+      <created>1647301560700</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1647301560700</updated>
+    </task>
+    <task id="LOCAL-00020" summary="testing">
+      <created>1647301641935</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1647301641935</updated>
+    </task>
+    <task id="LOCAL-00021" summary="testing">
+      <created>1647301694083</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1647301694083</updated>
+    </task>
+    <task id="LOCAL-00022" summary="testing">
+      <created>1647302292844</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1647302292844</updated>
+    </task>
+    <task id="LOCAL-00023" summary="testing">
+      <created>1647302310795</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1647302310795</updated>
+    </task>
+    <task id="LOCAL-00024" summary="testing">
+      <created>1647302352727</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1647302352727</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Added CLion remote connection. Let's stop insanity.">
+      <created>1647302614389</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1647302614389</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Added CLion remote connection. Let's stop this insanity.">
+      <created>1647302629483</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1647302629483</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Okay, it's not fitting my use case :(">
+      <created>1647302912697</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1647302912697</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Transferring">
+      <created>1647303028040</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1647303028040</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Transferring">
+      <created>1647303097229</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1647303097229</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Transferring">
+      <created>1647304142620</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1647304142620</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Transferring">
+      <created>1647312673176</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1647312673177</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Transferring">
+      <created>1647312808445</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1647312808445</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Transferring">
+      <created>1647314611356</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1647314611356</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Transferring">
+      <created>1647314680553</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1647314680553</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Transferring">
+      <created>1647314754426</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1647314754426</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Transferring">
+      <created>1647390564188</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1647390564188</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Transferring">
+      <created>1647390773396</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1647390773396</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Transferring">
+      <created>1647390871907</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1647390871907</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Transferring">
+      <created>1647391386068</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1647391386068</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Transferring">
+      <created>1647391455647</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1647391455647</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Transferring">
+      <created>1647392267027</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1647392267027</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Transferring">
+      <created>1647392387443</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1647392387443</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Transferring">
+      <created>1647392495261</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1647392495261</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Transferring">
+      <created>1647392530105</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1647392530105</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Transferring">
+      <created>1647396031992</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1647396031992</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Transferring">
+      <created>1647396055531</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1647396055531</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Transferring">
+      <created>1647398470181</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1647398470181</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Transferring">
+      <created>1647400271502</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1647400271502</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Transferring">
+      <created>1647400719389</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1647400719389</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Transferring">
+      <created>1647400770752</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1647400770752</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Transferring">
+      <created>1647400834381</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1647400834381</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Transferring">
+      <created>1647404356832</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1647404356832</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Transferring">
+      <created>1647477630644</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1647477630645</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Transferring">
+      <created>1647478374525</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1647478374525</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Transferring">
+      <created>1647538805242</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1647538805243</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Transferring">
+      <created>1647539987877</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1647539987878</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Transferring">
+      <created>1647540043324</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1647540043324</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Transferring">
+      <created>1647540249009</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1647540249009</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Transferring">
+      <created>1647540385398</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1647540385398</updated>
+    </task>
+    <task id="LOCAL-00060" summary="Transferring">
+      <created>1647540458565</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1647540458566</updated>
+    </task>
+    <task id="LOCAL-00061" summary="Transferring">
+      <created>1647559402651</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1647559402651</updated>
+    </task>
+    <task id="LOCAL-00062" summary="Transferring">
+      <created>1647560585072</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1647560585072</updated>
+    </task>
+    <task id="LOCAL-00063" summary="I fear this commit">
+      <created>1649648013249</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1649648013249</updated>
+    </task>
+    <task id="LOCAL-00064" summary="I fear this commit">
+      <created>1649648030934</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1649648030934</updated>
+    </task>
+    <option name="localTasksCounter" value="65" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Initial commit" />
+    <MESSAGE value="testing" />
+    <MESSAGE value="Added CLion remote connection. Let's stop insanity." />
+    <MESSAGE value="Added CLion remote connection. Let's stop this insanity." />
+    <MESSAGE value="Okay, it's not fitting my use case :(" />
+    <MESSAGE value="Transferring" />
+    <MESSAGE value="I fear this commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="I fear this commit" />
+  </component>
+</project>
