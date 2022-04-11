@@ -88,7 +88,7 @@ build CMakeFiles/tasbot_eyes.dir/main.c.o: C_COMPILER__tasbot_eyes_MinSizeRel /m
 
 build tasbot_eyes: C_EXECUTABLE_LINKER__tasbot_eyes_MinSizeRel CMakeFiles/tasbot_eyes.dir/main.c.o
   FLAGS = -Os -DNDEBUG
-  LINK_LIBRARIES = -lgif  -lws2811
+  LINK_LIBRARIES = -lgif  -lws2811  -lm
   OBJECT_DIR = CMakeFiles/tasbot_eyes.dir
   POST_BUILD = :
   PRE_LINK = :

@@ -6,10 +6,10 @@
 			[
 				{
 					"build" : ".",
-					"jsonFile" : "directory-.-RelWithDebInfo-f5ebdc15457944623624.json",
+					"jsonFile" : "directory-.-Release-f5ebdc15457944623624.json",
 					"minimumCMakeVersion" : 
 					{
-						"string" : "3.18"
+						"string" : "3.16"
 					},
 					"projectIndex" : 0,
 					"source" : ".",
@@ -19,7 +19,7 @@
 					]
 				}
 			],
-			"name" : "RelWithDebInfo",
+			"name" : "Release",
 			"projects" : 
 			[
 				{
@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "tasbot_eyes::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-tasbot_eyes-RelWithDebInfo-c5680553ddb24cff8529.json",
+					"jsonFile" : "target-tasbot_eyes-Release-1300fbfcd0f8d899c23f.json",
 					"name" : "tasbot_eyes",
 					"projectIndex" : 0
 				}
@@ -49,7 +49,7 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/mnt/Dateien/Projekte/tasbot_eyes/cmake-build-relwithdebinfo",
+		"build" : "/mnt/Dateien/Projekte/tasbot_eyes/cmake-build-release",
 		"source" : "/mnt/Dateien/Projekte/tasbot_eyes"
 	},
 	"version" : 
