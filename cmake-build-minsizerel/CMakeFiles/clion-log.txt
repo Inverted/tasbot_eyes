@@ -1,4 +1,0 @@
-/snap/clion/184/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_MAKE_PROGRAM=/snap/clion/184/bin/ninja/linux/ninja -G Ninja /mnt/Dateien/Projekte/tasbot_eyes
--- Configuring done
--- Generating done
--- Build files have been written to: /mnt/Dateien/Projekte/tasbot_eyes/cmake-build-minsizerel
