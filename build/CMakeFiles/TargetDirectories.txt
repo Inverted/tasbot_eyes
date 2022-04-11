@@ -1,3 +1,0 @@
-/home/mirco/CLionProjects/tasbot_eyes/build/CMakeFiles/tasbot_eyes.dir
-/home/mirco/CLionProjects/tasbot_eyes/build/CMakeFiles/edit_cache.dir
-/home/mirco/CLionProjects/tasbot_eyes/build/CMakeFiles/rebuild_cache.dir
