@@ -9,6 +9,7 @@
 #include <string.h>
 #include <signal.h>
 #include <unistd.h>
+#include <ctype.h>
 
 #define OTHER_PATH              "./gifs/others/"
 #define BASE_PATH               "./gifs/base.gif"
@@ -24,7 +25,7 @@
 #define LED_WIDTH               28
 
 #define TARGET_FREQ             WS2811_TARGET_FREQ
-#define GPIO_PIN                18
+#define GPIO_PIN                18                      //TASBot uses pin 10
 #define DMA                     10
 #define LED_COUNT               (LED_WIDTH * LED_HEIGHT)
 #define STRIP_TYPE              WS2811_STRIP_BRG
@@ -216,7 +217,6 @@ int main(int _argc, char**  _argv) {
             sleep(blinkTime);
         }
     }
-
 
     finish(0);
     return 0;
@@ -683,11 +683,18 @@ void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
                 }
             }
 
-
-            int index = TASBotIndex[y][x];
-            if (index >= 0){
-                pixel[index] = color;
+            //TODO: add support for test matrix
+            if (activateLEDModule){
+                if (realTASBot){
+                    int index = TASBotIndex[y][x];
+                    if (index >= 0){
+                        pixel[index] = color;
+                    }
+                } else {
+                    pixel[ledMatrixTranslation(x, y)] = color;
+                }
             }
+
 
             //Debug renderer
             if (consoleRenderer){
