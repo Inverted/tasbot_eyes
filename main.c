@@ -81,7 +81,7 @@ bool numberIsEven(int _number);
 bool verboseLogging = true;
 bool consoleRenderer = true;
 bool activateLEDModule = true;
-bool realTASBot = true;
+bool realTASBot = false;
 
 //Variables
 bool running = true;
