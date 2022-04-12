@@ -597,6 +597,7 @@ void showRandomExpression(char* _path, bool _useRandomColor) {
     } else {
         fprintf(stderr, "[ERROR] No files in %s. Please check directory\n", _path);
     }
+
 }
 
 /**
