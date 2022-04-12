@@ -628,7 +628,8 @@ void playExpression(Animation *_animation, bool _useRandomColor) {
         usleep((int)(_animation->frames[i]->delayTime * 1000 / playbackSpeed));
     }
 
-    //freeAnimation(_animation);
+    freeAnimation(_animation);
+    printf("freeeee animation. start next\n");
 }
 
 //TODO: Can someone check please, if I got it right?

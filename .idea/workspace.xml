@@ -13,13 +13,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="I fear this commit">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tasbot_eyes.dir/main.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tasbot_eyes.dir/main.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/tasbot_eyes" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/tasbot_eyes" afterDir="false" />
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="comment out free">
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -96,14 +90,7 @@
       <workItem from="1647476654717" duration="23247000" />
       <workItem from="1649644361126" duration="4718000" />
       <workItem from="1649649144848" duration="1921000" />
-      <workItem from="1649726723328" duration="615000" />
-    </task>
-    <task id="LOCAL-00023" summary="testing">
-      <created>1647302310795</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1647302310795</updated>
+      <workItem from="1649726723328" duration="1259000" />
     </task>
     <task id="LOCAL-00024" summary="testing">
       <created>1647302352727</created>
@@ -441,7 +428,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649650755552</updated>
     </task>
-    <option name="localTasksCounter" value="72" />
+    <task id="LOCAL-00072" summary="comment out free">
+      <created>1649727622390</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1649727622391</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -466,6 +460,7 @@
     <MESSAGE value="Okay, it's not fitting my use case :(" />
     <MESSAGE value="Transferring" />
     <MESSAGE value="I fear this commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="I fear this commit" />
+    <MESSAGE value="comment out free" />
+    <option name="LAST_COMMIT_MESSAGE" value="comment out free" />
   </component>
 </project>
