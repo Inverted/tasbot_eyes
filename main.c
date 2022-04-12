@@ -52,6 +52,8 @@ void setupHandler();
 void finish(int _number);
 void parseArguments(int argc, char **argv);
 void printHelp();
+bool checkIfFileExist(char *_file);
+bool checkIfDirectoryExist(char *_path);
 
 int countFilesInDir(char* _path);
 bool getFileList(const char* _path, char *_list[]);
@@ -132,10 +134,6 @@ int TASBotIndex[8][28] = {
         {-1,-1,48,49,50,51,-1,-1,-1,69,52,53,54,55,56,57,58,59,60,-1,-1,-1,153,152,151,150,-1,-1}
 };
 
-//TODO: single frame animations shown a random duration. multiple frame animation based of gif
-
-//TODO: args
-
 int main(int _argc, char**  _argv) {
     //can't use LED hardware on desktops
 #if defined(__x86_64__)
@@ -192,49 +190,128 @@ int main(int _argc, char**  _argv) {
     return 0;
 }
 
+/**
+ * Determine how long to wait between blinks
+ * @return seconds, that are to wait between blink animation
+ */
+int getBlinkDelay() {
+    return MIN_TIME_BETWEEN_BLINKS + (rand() % (MAX_TIME_BETWEEN_BLINKS - MIN_TIME_BETWEEN_BLINKS));
+}
+
+//region Arguments
+//TODO: args
 //TODO: toggle for random color
-void parseArguments(int argc, char **argv){
+
+void parseArguments(int argc, char **argv) {
     int c;
-    while ((c = getopt(argc, argv, "hvrb:s:B:i:p:z:P:")) != -1) {
+    while ((c = getopt(argc, argv, "hvrcb:s:B:i:p:z:P:")) != -1) {
         switch (c) {
             case 'h':
                 printHelp();
-                exit(0);
+                exit(EX_OK);
                 break;
             case 'v':
-                printf("use verbose logging\n");
+                printf("[INFO] Use verbose logging\n");
                 break;
             case 'r':
-                printf("use console renderer\n");
+                printf("[INFO] Use console renderer\n");
                 break;
-            case 'b':
-                printf("set brightness to %s\n", optarg);
+            case 'c':
+                printf("[INFO] Use random color\n");
                 break;
-            case 's':
-                printf("set playback speed to %s\n", optarg);
+
+            case 'b': {
+                int brightness = (int) strtol(optarg, NULL, 10);
+
+                if (brightness > 255) {
+                    printf("[WARNING] Brightness given (%d) higher than 255. Gonna use 255\n", brightness);
+                    brightness = 255;
+                } else if (brightness < 0) {
+                    printf("[WARNING] Brightness given (%d) below 0. Gonna use 0\n", brightness);
+                    brightness = 0;
+                }
+
+                printf("[INFO] Set brightness to %d\n", brightness);
                 break;
-            case 'B':
-                printf("set blink pattern to %s\n", optarg);
-                break;
-            case 'p':
-                printf("use animations of folder %s\n", optarg);
-                break;
-            case 'z':
-                printf("use blink animation from folder %s\n", optarg);
-                break;
-            case 'i':
-                printf("use specific animation %s\n", optarg);
-                break;
-            case 'P':
-                printf("set color palette to %s\n", optarg);
-                break;
-            case '?':
-                if (optopt == 'b' || optopt == 's' || optopt == 'B' || optopt == 'i' || optopt == 'p' || optopt == 'z' || optopt == 'P') {
-                    fprintf(stderr, "Option -%c requires an argument.\n", optopt);
-                } else if (isprint (optopt)) {
-                    fprintf(stderr, "Unknown option `-%c'. Use -h for more information\n", optopt);
+            }
+
+            case 's': {
+                float number = strtof(optarg, NULL);
+
+                if (number > 0) {
+                    printf("[INFO] Set playback speed to %f\n", number);
                 } else {
-                    fprintf(stderr, "Unknown option character `\\x%x'.\n", optopt);
+                    printf("[ERROR] Can't use %f as playback speed. Please use a playback speed bigger than 0\n",
+                           number);
+                    abort();
+                }
+                break;
+            }
+
+            case 'B': {
+                int blinks = optarg[0] - '0';
+                int min = optarg[2] - '0';
+                int max = optarg[4] - '0';
+
+                if (blinks < 0 || blinks > 9 ||
+                    min < 0 || min > 9 ||
+                    max < 0 || max > 9) {
+                    printf("[ERROR] Invalid pattern (%s). Please check pattern\n", optarg);
+                    abort();
+                } else {
+                    printf("[INFO] Set blink pattern to %s\n", optarg);
+                }
+                break;
+            }
+
+            case 'p': {
+                if (checkIfDirectoryExist(optarg)) {
+                    printf("[INFO] Use animations from \"%s\"\n", optarg);
+                } else {
+                    printf("[ERROR] Can't open directory \"%s\"\n", optarg);
+                    abort();
+                }
+                break;
+            }
+
+            case 'z': {
+                if (checkIfDirectoryExist(optarg)) {
+                    printf("[INFO] Use blink animations from \"%s\"\n", optarg);
+                } else {
+                    printf("[ERROR] Can't open directory \"%s\"\n", optarg);
+                    abort();
+                }
+                break;
+            }
+
+            case 'i': {
+                if (checkIfFileExist(optarg)) {
+                    printf("[INFO] Use specific animation \"%s\"\n", optarg);
+                } else {
+                    printf("[ERROR] Can't open file \"%s\"\n", optarg);
+                    abort();
+                }
+                break;
+            }
+
+            case 'P': {
+                if (checkIfFileExist(optarg)) {
+                    printf("[INFO] Set color palette to \"%s\"\n", optarg);
+                } else {
+                    printf("[ERROR] Can't open file \"%s\"\n", optarg);
+                    abort();
+                }
+                break;
+            }
+
+            case '?':
+                if (optopt == 'b' || optopt == 's' || optopt == 'B' || optopt == 'i' || optopt == 'p' ||
+                    optopt == 'z' || optopt == 'P') {
+                    fprintf(stderr, "Argument -%c requires an argument.\n", optopt);
+                } else if (isprint (optopt)) {
+                    fprintf(stderr, "Unknown argument `-%c'. Use -h for more information\n", optopt);
+                } else {
+                    fprintf(stderr, "Unknown argument character `\\x%x'.\n", optopt);
                 }
 
             default:
@@ -247,7 +324,6 @@ void parseArguments(int argc, char **argv){
     }
 }
 
-//region Arguments
 void printHelp() {
     printf("===[Debug options]===\n");
     printf("-h               Print this help screen\n");
@@ -255,16 +331,16 @@ void printHelp() {
     printf("-r               Enable console renderer for frames\n");
 
     printf("\n===[Tune animation playback]===\n");
-    printf("-c               Use random colors for monochrome animations");
+    printf("-c               Use random colors for monochrome animations\n");
     printf("-b [0-255]       Maximum possible brightness\n");
-    printf("-s [MULTIPLIER]  Playback speed\n");
-    printf("-B [PATTERN]     Controls the blinks\n");
+    printf("-s [MULTIPLIER]  Playback speed. Need to be bigger than 0\n");
+    printf("-B [PATTERN]     Controls the blinks. Max number is 9\n");
     printf("                 -1: Maximum number of blinks between animations\n");
     printf("                 -2: Seconds minimum between blinks\n");
     printf("                 -3: Seconds maximum between blinks\n");
     printf("                 Example: \"4-4-6\" (default)\n");
     printf("                          -Maximum off 4 blinks between animations\n");
-    printf("                          -4 to 6 seconds between each blink.\n");
+    printf("                          -4 to 6 seconds between each blink\n");
 
     printf("\n===[File arguments]===\n");
     printf("-p [FOLDER PATH] Play animations from a specific folder.\n");
@@ -272,30 +348,25 @@ void printHelp() {
     printf("-i [FILE PATH]   Play specific animation as endless loop. \"-p\" and \"-z\" become useless with this.\n");
     printf("-P [FILE PATH]   Use color palette from text file. For formatting of palette file use tool or see example.\n");
 }
+
+bool checkIfDirectoryExist(char *_path) {
+    DIR *dir = opendir(_path);
+    if (dir) {
+        closedir(dir);
+        return true;
+    }
+    return false;
+}
+
+bool checkIfFileExist(char *_file) {
+    if (access(_file, F_OK) == 0) {
+        return true;
+    }
+    return false;
+}
 //endregion
 
-/**
- * determine how long to wait between blinks
- * @return seconds, that are to wait between blink animation
- */
-int getBlinkDelay() {
-    return MIN_TIME_BETWEEN_BLINKS + (rand() % (MAX_TIME_BETWEEN_BLINKS - MIN_TIME_BETWEEN_BLINKS));
-}
-
-/**
- * allocate memory for path complete file path and ditch path and filename together
- * @param _path relativ or absolut path, where the file is laying
- * @param _file filename
- * @return relative or absolut path to file
- */
-char *getFilePath(char *_path, char *_file) {
-    char *path = malloc(sizeof(char) * (MAX_PATH_LENGTH + MAX_FILENAME_LENGTH));
-    strcpy(path, _path);
-    strcat(path, _file);
-
-    return path;
-}
-
+//region Signal
 /**
  * @brief Registers the handler
  * Register the handler for SIGINT, SIGTERM and SIGKILL
@@ -328,6 +399,7 @@ void finish(int _number) {
     free(pixel); //did this for good measurement, but I guess since next command is exit, this is unnecessary, since complete process memory get freed anyway?
     exit(EX_OK);
 }
+//endregion
 
 //region GIF
 /**
@@ -576,21 +648,8 @@ ws2811_return_t initLEDs() {
 ws2811_return_t renderLEDs() {
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
-
-            //TASBot translation
-            if (realTASBot){
-                /*
-                int id;
-                if ((id = TASBotIndex[y][x]) != -1){
-                    //if LED ia existing on TASBot, assign TASBot led to corresponding pixel from graphic
-                    display.channel[0].leds[id] = pixel[y * LED_WIDTH + x];
-                    //printf("Render LED index (%d;%d) at TASBot index %d\n", x, y, id); //produces high console output
-                }
-                 */
-                display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x];
-            } else {
-                display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x];
-            }
+            //TODO: delete a lot of old code here. reinsure it still works
+            display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x];
         }
     }
 
@@ -688,26 +747,6 @@ void playExpression(Animation *_animation, bool _useRandomColor) {
     freeAnimation(_animation);
 }
 
-//TODO: Can someone check please, if I got it right?
-/**
- * Free up the allocated memory space for an animation
- * @param _animation The animation, that is to free from memory
- */
-void freeAnimation(Animation* _animation){
-    //dirty trick, close file here, after animation. That way DGifCloseFile() can't destroy the animation data
-    int e = 0;
-    DGifCloseFile(_animation->image, &e);
-    if(verboseLogging){
-        printf("[INFO] Closed GIF with code %d\n", e);
-    }
-
-    for (int i = 0; i < _animation->frameCount; ++i) {
-        free(_animation->frames[i]); //frame
-    }
-    free(_animation->frames); //pointer to frames
-    free(_animation); //animation
-}
-
 /**
  * Output the pixel data to the LED data structure, which then gets rendered.
  * @param _frame The frame, that is to render
@@ -769,6 +808,26 @@ void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
     }
 }
 
+//TODO: Can someone check please, if I got it right?
+/**
+ * Free up the allocated memory space for an animation
+ * @param _animation The animation, that is to free from memory
+ */
+void freeAnimation(Animation* _animation){
+    //dirty trick, close file here, after animation. That way DGifCloseFile() can't destroy the animation data
+    int e = 0;
+    DGifCloseFile(_animation->image, &e);
+    if(verboseLogging){
+        printf("[INFO] Closed GIF with code %d\n", e);
+    }
+
+    for (int i = 0; i < _animation->frameCount; ++i) {
+        free(_animation->frames[i]); //frame
+    }
+    free(_animation->frames); //pointer to frames
+    free(_animation); //animation
+}
+
 /**
  * Translate the RGB (255,255,255) color structure into a hexadecimal value
  * @param _color The RGB color, that is to convert
@@ -776,6 +835,20 @@ void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
  */
 ws2811_led_t translateColor(GifColorType *_color) {
     return ((_color->Red & 0xff) << 16) + ((_color->Green & 0xff) << 8) + (_color->Blue & 0xff);
+}
+
+/**
+ * Allocate memory for path complete file path and ditch path and filename together
+ * @param _path relativ or absolut path, where the file is laying
+ * @param _file filename
+ * @return relative or absolut path to file
+ */
+char *getFilePath(char *_path, char *_file) {
+    char *path = malloc(sizeof(char) * (MAX_PATH_LENGTH + MAX_FILENAME_LENGTH));
+    strcpy(path, _path);
+    strcat(path, _file);
+
+    return path;
 }
 //endregion
 
