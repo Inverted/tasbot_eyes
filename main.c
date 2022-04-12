@@ -13,7 +13,7 @@
 
 #define OTHER_PATH              "./gifs/others/"
 #define BASE_PATH               "./gifs/base.gif"
-#define BLINK_PATH              "./gifs/blinks/" //TODO: point to folder with different blinks
+#define BLINK_PATH              "./gifs/blinks/"
 #define MAX_FILENAME_LENGTH     256
 #define MAX_PATH_LENGTH         4096
 #define DEFAULT_DELAY_TIME      100
@@ -629,7 +629,6 @@ void playExpression(Animation *_animation, bool _useRandomColor) {
     }
 
     freeAnimation(_animation);
-    printf("freeeee animation. start next\n");
 }
 
 //TODO: Can someone check please, if I got it right?
