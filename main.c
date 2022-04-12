@@ -35,6 +35,10 @@
 
 #define ARRAY_SIZE(arr)         (sizeof(arr) / sizeof(arr[0]))
 
+//Function toggles
+bool activateLEDModule = true;
+bool realTASBot = false;
+
 typedef struct AnimationFrame {
     GifColorType *color[LED_WIDTH][LED_HEIGHT];
     u_int16_t delayTime;
@@ -44,13 +48,13 @@ typedef struct Animation {
     AnimationFrame **frames; //pointer to a pointer, that's an array of frames. pain.
     int frameCount;
     bool monochrome;
-    GifFileType* image; //needed very dirty trick to get around weird behavior, where DGifCloseFile() manipulates the animation data for some reason
+    GifFileType* image; //needed for very dirty trick to get around weird behavior, where DGifCloseFile() manipulates the animation data for some reason
 } Animation;
 
 //Declarations
 void setupHandler();
 void finish(int _number);
-void parseArguments(int argc, char **argv);
+void parseArguments(int _argc, char **_argv);
 void printHelp();
 bool checkIfFileExist(char *_file);
 bool checkIfDirectoryExist(char *_path);
@@ -75,23 +79,20 @@ void showBlinkExpression();
 void showRandomExpression(char* _path, bool _useRandomColor);
 void showExpressionFromFilepath(char* _filePath);
 void playExpression(Animation *_animation, bool _useRandomColor);
-void showFrame(AnimationFrame *_frame, ws2811_led_t _color); //color is only used, when picture is monochrome
+void showFrame(AnimationFrame *_frame, ws2811_led_t _color); //color is only used, when picture is monochrome. Otherwise, it's used to indicate, that animation has its own color
 int getBlinkDelay();
 void freeAnimation(Animation* _animation);
 
 unsigned int ledMatrixTranslation(int _x, int _y);
 bool numberIsEven(int _number);
 
-//Function toggles
-bool verboseLogging = true;
-bool consoleRenderer = true;
-bool activateLEDModule = true;
-bool realTASBot = false;
-
 //Variables
 bool running = true;
-float playbackSpeed = 1; //doesnt affects the time between the blinks. just the playback speed of the aimation
-char* specificAnimationToShow = NULL; //"./gifs/link_and_zelda.gif"; //"./gifs/blink.gif"; //TODO: Blink is just for test purposes here
+bool verboseLogging = false;
+bool consoleRenderer = false;
+bool useRandomColors = false;
+float playbackSpeed = 1; //doesn't affect the time between the blinks. just the playback speed of the animation
+char* specificAnimationToShow = NULL; //"./gifs/blink.gif"; //TODO: Blink is just for test purposes here
 char* pathForAnimations = OTHER_PATH;
 
 ws2811_led_t *pixel;
@@ -140,13 +141,28 @@ int main(int _argc, char**  _argv) {
     activateLEDModule = false;
 #endif
 
+/*
+    display.freq = TARGET_FREQ;
+    display.dmanum = DMA;
+
+    ws2811_channel_t channel;
+    channel.gpionum = GPIO_PIN;
+    channel.count = LED_COUNT;
+    channel.invert = INVERTED;
+    channel.brightness = BRIGHTNESS;
+    channel.strip_type = STRIP_TYPE;
+    display.channel[0] = channel;
+    */
+
     srand(time(NULL));
     setupHandler();
+
+    parseArguments(_argc, _argv);
 
     if (activateLEDModule) {
         ws2811_return_t r = initLEDs();
         if (r != WS2811_SUCCESS) {
-            fprintf(stderr, "[ERROR] Can't run program. Did you started it as root?\n");
+            fprintf(stderr, "[ERROR] Can't run program. Did you started it with root privileges?\n");
             return r;
         }
     }
@@ -200,23 +216,38 @@ int getBlinkDelay() {
 
 //region Arguments
 //TODO: args
-//TODO: toggle for random color
 
-void parseArguments(int argc, char **argv) {
+void parseArguments(int _argc, char** _argv) {
     int c;
-    while ((c = getopt(argc, argv, "hvrcb:s:B:i:p:z:P:")) != -1) {
+    while ((c = getopt(_argc, _argv, "hvrcd:b:s:B:i:p:z:P:")) != -1) {
         switch (c) {
             case 'h':
                 printHelp();
                 exit(EX_OK);
                 break;
             case 'v':
+                verboseLogging = true;
                 printf("[INFO] Use verbose logging\n");
                 break;
             case 'r':
+                consoleRenderer = true;
                 printf("[INFO] Use console renderer\n");
                 break;
+
+            case 'd': {
+                int pin = (int) strtol(optarg, NULL, 10);
+
+                if (pin > 27 || pin < 2) {
+                    printf("[ERROR] GPIO pin %d doesnt exist. Pin ID must be between 2 and 27\n", pin);
+                    abort();
+                }
+
+                printf("[INFO] Set data pin to %d\n", pin);
+                break;
+            }
+
             case 'c':
+                useRandomColors = true;
                 printf("[INFO] Use random color\n");
                 break;
 
@@ -319,8 +350,8 @@ void parseArguments(int argc, char **argv) {
         }
     }
 
-    for (int index = optind; index < argc; index++) {
-        printf("Non-option argument %s\n", argv[index]);
+    for (int index = optind; index < _argc; index++) {
+        printf("Non-option argument %s\n", _argv[index]);
     }
 }
 
@@ -329,6 +360,7 @@ void printHelp() {
     printf("-h               Print this help screen\n");
     printf("-v               Enable verbose logging\n");
     printf("-r               Enable console renderer for frames\n");
+    printf("-d [GPIO]        Change GPIO data pin. Possible options are between 2 to 27\n");
 
     printf("\n===[Tune animation playback]===\n");
     printf("-c               Use random colors for monochrome animations\n");
@@ -491,14 +523,14 @@ Animation* readAnimation(char *_file) {
         AnimationFrame **animationFrames = malloc(sizeof(AnimationFrame*) * image->ImageCount);
         animation->frames = animationFrames;
         animation->frameCount = image->ImageCount;
-        animation->monochrome = true;
+        animation->monochrome = useRandomColors; //set default value. When "useRandomColors" is true, overwrite it with false, if animation has a single colorful frame
         animation->image = image;
 
         for (int i = 0; i < image->ImageCount; ++i) {
             const SavedImage *frame = &image->SavedImages[i]; //get access to frame data
 
             if (verboseLogging) {
-                printf("[Frame %i] Size: %ix%i; Left: %i, Top: %i; Local color map: %s\n",
+                printf("[INFO] (Frame %i): Size: %ix%i; Left: %i, Top: %i; Local color map: %s\n",
                        i, frame->ImageDesc.Width, frame->ImageDesc.Height, frame->ImageDesc.Left, frame->ImageDesc.Top,
                        (frame->ImageDesc.ColorMap ? "Yes" : "No"));
             }
