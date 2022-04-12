@@ -430,7 +430,7 @@ AnimationFrame *readFramePixels(const SavedImage *frame, ColorMapObject *_global
                 //check if animation is monochrome. When a single frame contain colors,
                 //then preserve the animations color later while rendering.
                 if (!(color->Red == color->Green && color->Red == color->Blue)) {
-                    *_monochrome = false;
+                    *_monochrome = false; //TODO: resolve into one-liner
                 }
 
             } else {
@@ -628,7 +628,7 @@ void playExpression(Animation *_animation, bool _useRandomColor) {
         usleep((int)(_animation->frames[i]->delayTime * 1000 / playbackSpeed));
     }
 
-    freeAnimation(_animation);
+    //freeAnimation(_animation);
 }
 
 //TODO: Can someone check please, if I got it right?
@@ -666,18 +666,15 @@ void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
             if (activateLEDModule) {
                 if (_color == 0){
                     //pixel[ledMatrixTranslation(x, y)] = translateColor(gifColor);
-                    //pixel[x * LED_WIDTH + y]
                     color = translateColor(gifColor);
                 } else {
                     if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
                         //pixel[ledMatrixTranslation(x, y)] = _color;
-                        //pixel[x * LED_WIDTH + y]
                         color = _color;
                         //TODO: Adjust to brightness of gifColor given in GIF
                         // Right now it's flat the same gifColor to all pixels, that just _aren't_ black
                     } else{
                         //pixel[ledMatrixTranslation(x, y)] = 0; //set other pixels black
-                        //pixel[x * LED_WIDTH + y]
                         color = 0;
                     }
                 }
