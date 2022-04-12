@@ -586,13 +586,17 @@ void showBlinkExpression() {
  */
 void showRandomExpression(char* _path, bool _useRandomColor) {
     int fileCount = countFilesInDir(_path); //get file count
-    char* list[fileCount];
-    getFileList(_path, list); //get list of files
-    char *file = getRandomAnimation(list, fileCount); //get random animation
-    char *filePath = getFilePath(_path, file);
+    if (fileCount != -1){
+        char* list[fileCount];
+        getFileList(_path, list); //get list of files
+        char *file = getRandomAnimation(list, fileCount); //get random animation
+        char *filePath = getFilePath(_path, file);
 
-    Animation* animation = readAnimation(filePath);
-    playExpression(animation, _useRandomColor);
+        Animation* animation = readAnimation(filePath);
+        playExpression(animation, _useRandomColor);
+    } else {
+        fprintf(stderr, "[ERROR] No files in %s. Please check directory\n", _path);
+    }
 }
 
 /**
