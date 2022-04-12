@@ -10,6 +10,7 @@
 #include <signal.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <sysexits.h>
 
 #define OTHER_PATH              "./gifs/others/"
 #define BASE_PATH               "./gifs/base.gif"
@@ -49,6 +50,8 @@ typedef struct Animation {
 //Declarations
 void setupHandler();
 void finish(int _number);
+void parseArguments(int argc, char **argv);
+void printHelp();
 
 int countFilesInDir(char* _path);
 bool getFileList(const char* _path, char *_list[]);
@@ -131,7 +134,7 @@ int TASBotIndex[8][28] = {
 
 //TODO: single frame animations shown a random duration. multiple frame animation based of gif
 
-//TODO: args:
+//TODO: args
 
 int main(int _argc, char**  _argv) {
     //can't use LED hardware on desktops
@@ -150,40 +153,6 @@ int main(int _argc, char**  _argv) {
         }
     }
 
-    int test;
-
-    /*
-    for (int i = 0; i < LED_COUNT; ++i) {
-        pixel[i] = colors[0];
-
-        scanf("%d", &test);
-        //usleep(1000 * 1000);
-        printf("Renderer LED index (%d:) is \n", i);
-        renderLEDs();
-    }
-     */
-
-
-    //funzt
-    /*
-    for (int y = 0; y < LED_HEIGHT; ++y) {
-        for (int x = 0; x < LED_WIDTH; ++x) {
-
-            int index = TASBotIndex[y][x];
-            if(index >= 0){
-                pixel[index] = colors[0];
-            }
-
-            scanf("%d", &test);
-            //usleep(1000 * 1000);
-            printf("Renderer LED index (%d:%d) is %d\n",y, x, TASBotIndex[y][x]);
-            renderLEDs();
-        }
-    }
-     */
-
-
-
     //option for playing give specific animation
     if (specificAnimationToShow != NULL){
         while (running){
@@ -193,6 +162,7 @@ int main(int _argc, char**  _argv) {
     }
 
     //TODO: Set pathForAnimations, when given on console
+    //TODO: settle on sleep vs usleep. I would prefer usleep, since then we could increase the bandwidth of possible random time between blinks
 
     bool firstIteration = true;
     while (running) {
@@ -221,6 +191,88 @@ int main(int _argc, char**  _argv) {
     finish(0);
     return 0;
 }
+
+//TODO: toggle for random color
+void parseArguments(int argc, char **argv){
+    int c;
+    while ((c = getopt(argc, argv, "hvrb:s:B:i:p:z:P:")) != -1) {
+        switch (c) {
+            case 'h':
+                printHelp();
+                exit(0);
+                break;
+            case 'v':
+                printf("use verbose logging\n");
+                break;
+            case 'r':
+                printf("use console renderer\n");
+                break;
+            case 'b':
+                printf("set brightness to %s\n", optarg);
+                break;
+            case 's':
+                printf("set playback speed to %s\n", optarg);
+                break;
+            case 'B':
+                printf("set blink pattern to %s\n", optarg);
+                break;
+            case 'p':
+                printf("use animations of folder %s\n", optarg);
+                break;
+            case 'z':
+                printf("use blink animation from folder %s\n", optarg);
+                break;
+            case 'i':
+                printf("use specific animation %s\n", optarg);
+                break;
+            case 'P':
+                printf("set color palette to %s\n", optarg);
+                break;
+            case '?':
+                if (optopt == 'b' || optopt == 's' || optopt == 'B' || optopt == 'i' || optopt == 'p' || optopt == 'z' || optopt == 'P') {
+                    fprintf(stderr, "Option -%c requires an argument.\n", optopt);
+                } else if (isprint (optopt)) {
+                    fprintf(stderr, "Unknown option `-%c'. Use -h for more information\n", optopt);
+                } else {
+                    fprintf(stderr, "Unknown option character `\\x%x'.\n", optopt);
+                }
+
+            default:
+                abort();
+        }
+    }
+
+    for (int index = optind; index < argc; index++) {
+        printf("Non-option argument %s\n", argv[index]);
+    }
+}
+
+//region Arguments
+void printHelp() {
+    printf("===[Debug options]===\n");
+    printf("-h               Print this help screen\n");
+    printf("-v               Enable verbose logging\n");
+    printf("-r               Enable console renderer for frames\n");
+
+    printf("\n===[Tune animation playback]===\n");
+    printf("-c               Use random colors for monochrome animations");
+    printf("-b [0-255]       Maximum possible brightness\n");
+    printf("-s [MULTIPLIER]  Playback speed\n");
+    printf("-B [PATTERN]     Controls the blinks\n");
+    printf("                 -1: Maximum number of blinks between animations\n");
+    printf("                 -2: Seconds minimum between blinks\n");
+    printf("                 -3: Seconds maximum between blinks\n");
+    printf("                 Example: \"4-4-6\" (default)\n");
+    printf("                          -Maximum off 4 blinks between animations\n");
+    printf("                          -4 to 6 seconds between each blink.\n");
+
+    printf("\n===[File arguments]===\n");
+    printf("-p [FOLDER PATH] Play animations from a specific folder.\n");
+    printf("-z [FOLDER PATH] Play blink animation from specific folder.\n");
+    printf("-i [FILE PATH]   Play specific animation as endless loop. \"-p\" and \"-z\" become useless with this.\n");
+    printf("-P [FILE PATH]   Use color palette from text file. For formatting of palette file use tool or see example.\n");
+}
+//endregion
 
 /**
  * determine how long to wait between blinks
@@ -274,7 +326,7 @@ void finish(int _number) {
         ws2811_fini(&display);
     }
     free(pixel); //did this for good measurement, but I guess since next command is exit, this is unnecessary, since complete process memory get freed anyway?
-    exit(_number);
+    exit(EX_OK);
 }
 
 //region GIF
@@ -740,103 +792,5 @@ unsigned int ledMatrixTranslation(int _x, int _y) {
 
 bool numberIsEven(int _number) {
     return (_number % 2 == 0);
-}
-//endregion
-
-//region Arguments
-void printHelp() {
-    printf("===[Debug options]===\n");
-    printf("-h               Print this help screen\n");
-    printf("-v               Enable verbose logging\n");
-    printf("-r               Enable console renderer for frames\n");
-
-    printf("\n===[Tune animation playback]===\n");
-    printf("-c               Use random colors for monochrome animations");
-    printf("-b [0-255]       Maximum possible brightness\n");
-    printf("-s [MULTIPLIER]  Playback speed\n");
-    printf("-B [PATTERN]     Controls the blinks\n");
-    printf("                 -1: Maximum number of blinks between animations\n");
-    printf("                 -2: Seconds minimum between blinks\n");
-    printf("                 -3: Seconds maximum between blinks\n");
-    printf("                 Example: \"4-4-6\" (default)\n");
-    printf("                          -Maximum off 4 blinks between animations\n");
-    printf("                          -4 to 6 seconds between each blink.\n");
-
-    printf("\n===[File arguments]===\n");
-    printf("-p [FOLDER PATH] Play animations from a specific folder.\n");
-    printf("-z [FOLDER PATH] Play blink animation from specific folder.\n");
-    printf("-i [FILE PATH]   Play specific animation as endless loop. \"-p\" and \"-z\" become useless with this.\n");
-    printf("-P [FILE PATH]   Use color palette from text file. For formatting of palette file use tool or see example.\n");
-}
-
-//TODO: toggle for random color
-void parseArguments(int argc, char **argv){
-    int c;
-    while ((c = getopt(argc, argv, "hvrb:s:B:i:p:z:P:")) != -1) {
-        switch (c) {
-            case 'h':
-                printHelp();
-                exit(0);
-                break;
-            case 'v':
-                printf("use verbose logging\n");
-                break;
-            case 'r':
-                printf("use console renderer\n");
-                break;
-            case 'b':
-                printf("set brightness to %s\n", optarg);
-                break;
-            case 's':
-                printf("set playback speed to %s\n", optarg);
-                break;
-            case 'B':
-                printf("set blink pattern to %s\n", optarg);
-                break;
-            case 'p':
-                printf("use animations of folder %s\n", optarg);
-                break;
-            case 'z':
-                printf("use blink animation from folder %s\n", optarg);
-                break;
-            case 'i':
-                printf("use specific animation %s\n", optarg);
-                break;
-            case 'P':
-                printf("set color palette to %s\n", optarg);
-                break;
-            case '?':
-                if (optopt == 'b' || optopt == 's' || optopt == 'B' || optopt == 'i' || optopt == 'p' || optopt == 'z' || optopt == 'P') {
-                    fprintf(stderr, "Option -%c requires an argument.\n", optopt);
-                } else if (isprint (optopt)) {
-                    fprintf(stderr, "Unknown option `-%c'. Use -h for more information\n", optopt);
-                } else {
-                    fprintf(stderr, "Unknown option character `\\x%x'.\n", optopt);
-                }
-
-            default:
-                abort();
-        }
-    }
-
-    for (int index = optind; index < argc; index++) {
-        printf("Non-option argument %s\n", argv[index]);
-    }
-}
-
-//----
-void convertNumber(){
-    char szNumbers[] = "2001 60c0c0 -1101110100110100100000 0x6fffff";
-    char * pEnd;
-    long int li1, li2, li3, li4;
-    li1 = strtol (szNumbers,&pEnd,10);
-    li2 = strtol (pEnd,&pEnd,16);
-    li3 = strtol (pEnd,&pEnd,2);
-    li4 = strtol (pEnd,NULL,0);
-    printf ("The decimal equivalents are: %ld, %ld, %ld and %ld.\n", li1, li2, li3, li4);
-
-    //atoi
-    //There is strtol which is better IMO. Also I have taken a liking in strtonum, so use it if you have it (but remember it's not portable):
-    //That's one of the reasons atoi is sometimes considered unsafe. Use strtol / strtoul instead. And if you have it use strtonum.
 }
 //endregion

@@ -13,7 +13,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="comment in free">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="check if files are in directory before randomly choosing one">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
@@ -91,21 +91,7 @@
       <workItem from="1647476654717" duration="23247000" />
       <workItem from="1649644361126" duration="4718000" />
       <workItem from="1649649144848" duration="1921000" />
-      <workItem from="1649726723328" duration="3204000" />
-    </task>
-    <task id="LOCAL-00026" summary="Added CLion remote connection. Let's stop this insanity.">
-      <created>1647302629483</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1647302629483</updated>
-    </task>
-    <task id="LOCAL-00027" summary="Okay, it's not fitting my use case :(">
-      <created>1647302912697</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1647302912697</updated>
+      <workItem from="1649726723328" duration="5513000" />
     </task>
     <task id="LOCAL-00028" summary="Transferring">
       <created>1647303028040</created>
@@ -436,7 +422,21 @@
       <option name="project" value="LOCAL" />
       <updated>1649729150214</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="comment in free">
+      <created>1649730232887</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1649730232887</updated>
+    </task>
+    <task id="LOCAL-00076" summary="check if files are in directory before randomly choosing one">
+      <created>1649730278951</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1649730278952</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -463,6 +463,7 @@
     <MESSAGE value="I fear this commit" />
     <MESSAGE value="comment out free" />
     <MESSAGE value="comment in free" />
-    <option name="LAST_COMMIT_MESSAGE" value="comment in free" />
+    <MESSAGE value="check if files are in directory before randomly choosing one" />
+    <option name="LAST_COMMIT_MESSAGE" value="check if files are in directory before randomly choosing one" />
   </component>
 </project>
