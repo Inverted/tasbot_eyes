@@ -93,9 +93,10 @@ bool verboseLogging = false;
 bool consoleRenderer = false;
 bool useRandomColors = false;
 float playbackSpeed = 1; //doesn't affect the time between the blinks. just the playback speed of the animation
-char* specificAnimationToShow = NULL; //"./gifs/blink.gif"; //TODO: Blink is just for test purposes here
-char* pathForAnimations = OTHER_PATH;
 
+char* specificAnimationToShow = NULL;
+char* pathForAnimations = OTHER_PATH;
+char* pathForBlinks = BLINK_PATH;
 int brightness = BRIGHTNESS;
 int dataPin = GPIO_PIN;
 int maxBlinks = MAX_BLINKS;
@@ -316,6 +317,7 @@ void parseArguments(int _argc, char** _argv) {
 
             case 'p': {
                 if (checkIfDirectoryExist(optarg)) {
+                    pathForAnimations = optarg;
                     printf("[INFO] Use animations from \"%s\"\n", optarg);
                 } else {
                     printf("[ERROR] Can't open directory \"%s\"\n", optarg);
@@ -326,6 +328,7 @@ void parseArguments(int _argc, char** _argv) {
 
             case 'z': {
                 if (checkIfDirectoryExist(optarg)) {
+                    pathForBlinks = optarg;
                     printf("[INFO] Use blink animations from \"%s\"\n", optarg);
                 } else {
                     printf("[ERROR] Can't open directory \"%s\"\n", optarg);
@@ -336,6 +339,7 @@ void parseArguments(int _argc, char** _argv) {
 
             case 'i': {
                 if (checkIfFileExist(optarg)) {
+                    specificAnimationToShow = optarg;
                     printf("[INFO] Use specific animation \"%s\"\n", optarg);
                 } else {
                     printf("[ERROR] Can't open file \"%s\"\n", optarg);
@@ -751,7 +755,7 @@ void showBaseExpression() {
  * Show a random blink expression from BLINK_PATH
  */
 void showBlinkExpression() {
-    showRandomExpression(BLINK_PATH, false);
+    showRandomExpression(pathForBlinks, false);
 }
 
 /**
