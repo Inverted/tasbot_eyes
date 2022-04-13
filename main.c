@@ -181,7 +181,11 @@ int main(int _argc, char**  _argv) {
         } else {
             firstIteration = false;
         }
-        showBaseExpression();
+
+        //skip base expression, when no blinks
+        if (maxBlinks != 0){
+            showBaseExpression();
+        }
         sleep(getBlinkDelay());
 
         //blink for a random amount of times
