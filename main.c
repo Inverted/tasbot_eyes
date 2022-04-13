@@ -205,6 +205,9 @@ int main(int _argc, char**  _argv) {
  * @return seconds, that are to wait between blink animation
  */
 int getBlinkDelay() {
+    if (minTimeBetweenBlinks == maxTimeBetweenBlinks){
+        return minTimeBetweenBlinks;
+    }
     return minTimeBetweenBlinks + (rand() % (maxTimeBetweenBlinks - minTimeBetweenBlinks));
 }
 

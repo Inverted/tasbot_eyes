@@ -13,8 +13,13 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="changed pin to tasbot default">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="added support for blink pattern">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tasbot_eyes.dir/main.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tasbot_eyes.dir/main.c.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/tasbot_eyes" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/tasbot_eyes" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -65,7 +70,7 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="tasbot_eyes" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
+    <configuration name="tasbot_eyes" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v -r -B 1-1-1" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -95,14 +100,7 @@
       <workItem from="1649726723328" duration="7367000" />
       <workItem from="1649795759061" duration="2029000" />
       <workItem from="1649797807917" duration="105000" />
-      <workItem from="1649797927044" duration="2766000" />
-    </task>
-    <task id="LOCAL-00035" summary="Transferring">
-      <created>1647314754426</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1647314754426</updated>
+      <workItem from="1649797927044" duration="3377000" />
     </task>
     <task id="LOCAL-00036" summary="Transferring">
       <created>1647390564188</created>
@@ -440,7 +438,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649809078694</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="added support for blink pattern">
+      <created>1649809491871</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1649809491871</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -475,17 +480,30 @@
     <MESSAGE value="changed how leds are initialized" />
     <MESSAGE value="added support for -b -s -d" />
     <MESSAGE value="changed pin to tasbot default" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed pin to tasbot default" />
+    <MESSAGE value="added support for blink pattern" />
+    <option name="LAST_COMMIT_MESSAGE" value="added support for blink pattern" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/main.c</url>
-          <line>899</line>
+          <line>902</line>
           <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/main.c</url>
+          <line>183</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <watches-manager>
+      <configuration name="CMakeRunConfiguration">
+        <watch expression="maxBlinks" language="ObjectiveC" />
+        <watch expression="minTimeBetweenBlinks" language="ObjectiveC" />
+        <watch expression="maxTimeBetweenBlinks" language="ObjectiveC" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
