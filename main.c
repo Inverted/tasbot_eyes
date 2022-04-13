@@ -785,7 +785,7 @@ void showRandomExpression(char* _path, bool _useRandomColor) {
  */
 void showExpressionFromFilepath(char* _filePath){
     Animation* animation = readAnimation(_filePath);
-    playExpression(animation, false);
+    playExpression(animation, useRandomColors);
 }
 
 /**

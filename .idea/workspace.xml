@@ -13,8 +13,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="improved blink pattern">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="added support for path arguments">
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,14 +94,7 @@
       <workItem from="1649726723328" duration="7367000" />
       <workItem from="1649795759061" duration="2029000" />
       <workItem from="1649797807917" duration="105000" />
-      <workItem from="1649797927044" duration="4745000" />
-    </task>
-    <task id="LOCAL-00042" summary="Transferring">
-      <created>1647392387443</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1647392387443</updated>
+      <workItem from="1649797927044" duration="4939000" />
     </task>
     <task id="LOCAL-00043" summary="Transferring">
       <created>1647392495261</created>
@@ -440,7 +432,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649810994885</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="added support for path arguments">
+      <created>1649811487026</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1649811487027</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -479,7 +478,8 @@
     <MESSAGE value="fixed bug with blink pattern" />
     <MESSAGE value="improved blink parsing" />
     <MESSAGE value="improved blink pattern" />
-    <option name="LAST_COMMIT_MESSAGE" value="improved blink pattern" />
+    <MESSAGE value="added support for path arguments" />
+    <option name="LAST_COMMIT_MESSAGE" value="added support for path arguments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
