@@ -13,8 +13,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="fixed bug with blink pattern">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="improved blink parsing">
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -95,14 +95,7 @@
       <workItem from="1649726723328" duration="7367000" />
       <workItem from="1649795759061" duration="2029000" />
       <workItem from="1649797807917" duration="105000" />
-      <workItem from="1649797927044" duration="3746000" />
-    </task>
-    <task id="LOCAL-00037" summary="Transferring">
-      <created>1647390773396</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1647390773396</updated>
+      <workItem from="1649797927044" duration="3826000" />
     </task>
     <task id="LOCAL-00038" summary="Transferring">
       <created>1647390871907</created>
@@ -440,7 +433,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649810115141</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="improved blink parsing">
+      <created>1649810470899</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1649810470900</updated>
+    </task>
+    <option name="localTasksCounter" value="87" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -477,7 +477,8 @@
     <MESSAGE value="changed pin to tasbot default" />
     <MESSAGE value="added support for blink pattern" />
     <MESSAGE value="fixed bug with blink pattern" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed bug with blink pattern" />
+    <MESSAGE value="improved blink parsing" />
+    <option name="LAST_COMMIT_MESSAGE" value="improved blink parsing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

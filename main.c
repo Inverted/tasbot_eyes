@@ -294,10 +294,10 @@ void parseArguments(int _argc, char** _argv) {
                     minTimeBetweenBlinks = max;
                     maxTimeBetweenBlinks = min;
                 } else {
-                    maxBlinks = blinks;
                     minTimeBetweenBlinks = min;
                     maxTimeBetweenBlinks = max;
                 }
+                maxBlinks = blinks;
                 printf("[INFO] Set blink pattern to %d-%d-%d\n", maxBlinks, minTimeBetweenBlinks, maxTimeBetweenBlinks);
                 break;
             }
