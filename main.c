@@ -96,7 +96,7 @@ char* specificAnimationToShow = NULL; //"./gifs/blink.gif"; //TODO: Blink is jus
 char* pathForAnimations = OTHER_PATH;
 
 ws2811_led_t *pixel;
-ws2811_t display = {
+ws2811_t display; /* = {
         .freq = TARGET_FREQ,
         .dmanum = DMA,
         .channel ={
@@ -109,6 +109,7 @@ ws2811_t display = {
                 }
         },
 };
+ */
 
 //default colors
 ws2811_led_t colors[] = {
@@ -141,7 +142,7 @@ int main(int _argc, char**  _argv) {
     activateLEDModule = false;
 #endif
 
-/*
+
     display.freq = TARGET_FREQ;
     display.dmanum = DMA;
 
@@ -152,7 +153,7 @@ int main(int _argc, char**  _argv) {
     channel.brightness = BRIGHTNESS;
     channel.strip_type = STRIP_TYPE;
     display.channel[0] = channel;
-    */
+
 
     srand(time(NULL));
     setupHandler();
@@ -514,7 +515,7 @@ Animation* readAnimation(char *_file) {
         //Obtain global color map if available
         ColorMapObject *globalColorMap = image->SColorMap;
         if (verboseLogging) {
-            printf("[Image] Size: %ix%i; Frames: %i; Path: \"%s\"\n",
+            printf("[INFO] (Image): Size: %ix%i; Frames: %i; Path: \"%s\"\n",
                    image->SWidth, image->SHeight, image->ImageCount, _file);
         }
 
@@ -666,7 +667,9 @@ ws2811_return_t initLEDs() {
     if ((r = ws2811_init(&display)) != WS2811_SUCCESS) {
         fprintf(stderr, "[ERROR] ws2811_init failed. Couldt initialize LEDs: %s\n", ws2811_get_return_t_str(r));
     } else {
-        printf("[INFO] Initialized LEDs with code %d\n", r);
+        if(verboseLogging){
+            printf("[INFO] Initialized LEDs with code %d\n", r);
+        }
     }
     //clearLEDs(); TODO: try this
     return r;
