@@ -81,6 +81,7 @@ void showExpressionFromFilepath(char* _filePath);
 void playExpression(Animation *_animation, bool _useRandomColor);
 void showFrame(AnimationFrame *_frame, ws2811_led_t _color); //color is only used, when picture is monochrome. Otherwise, it's used to indicate, that animation has its own color
 int getBlinkDelay();
+int getBlinkAmount();
 void freeAnimation(Animation* _animation);
 
 unsigned int ledMatrixTranslation(int _x, int _y);
@@ -184,7 +185,7 @@ int main(int _argc, char**  _argv) {
         sleep(getBlinkDelay());
 
         //blink for a random amount of times
-        for (int blinks = (rand() % maxBlinks) + 1; blinks > 0; --blinks) {
+        for (int blinks = getBlinkAmount(); blinks > 0; --blinks) {
             showBlinkExpression();
             showBaseExpression();
 
@@ -209,6 +210,13 @@ int getBlinkDelay() {
         return minTimeBetweenBlinks;
     }
     return minTimeBetweenBlinks + (rand() % (maxTimeBetweenBlinks - minTimeBetweenBlinks));
+}
+
+int getBlinkAmount(){
+    if (maxBlinks == 0){
+        return 0;
+    }
+    return (rand() % maxBlinks) + 1;
 }
 
 //region Arguments
