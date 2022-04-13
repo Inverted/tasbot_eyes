@@ -13,7 +13,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="changed how leds are init">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="changed how leds are initialized">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
@@ -95,14 +95,7 @@
       <workItem from="1649726723328" duration="7367000" />
       <workItem from="1649795759061" duration="2029000" />
       <workItem from="1649797807917" duration="105000" />
-      <workItem from="1649797927044" duration="1808000" />
-    </task>
-    <task id="LOCAL-00032" summary="Transferring">
-      <created>1647312808445</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1647312808445</updated>
+      <workItem from="1649797927044" duration="2328000" />
     </task>
     <task id="LOCAL-00033" summary="Transferring">
       <created>1647314611356</created>
@@ -440,7 +433,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649808359294</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="changed how leds are initialized">
+      <created>1649808525523</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1649808525523</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -472,14 +472,15 @@
     <MESSAGE value="Worked on the arguments. Parsing complete" />
     <MESSAGE value="Some clean up" />
     <MESSAGE value="changed how leds are init" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed how leds are init" />
+    <MESSAGE value="changed how leds are initialized" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed how leds are initialized" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
           <url>file://$PROJECT_DIR$/main.c</url>
-          <line>887</line>
+          <line>892</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

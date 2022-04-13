@@ -94,6 +94,8 @@ bool useRandomColors = false;
 float playbackSpeed = 1; //doesn't affect the time between the blinks. just the playback speed of the animation
 char* specificAnimationToShow = NULL; //"./gifs/blink.gif"; //TODO: Blink is just for test purposes here
 char* pathForAnimations = OTHER_PATH;
+int brightness = BRIGHTNESS;
+int dataPin = GPIO_PIN;
 
 ws2811_led_t *pixel;
 ws2811_t display; /* = {
@@ -230,6 +232,7 @@ void parseArguments(int _argc, char** _argv) {
                     abort();
                 }
 
+                dataPin = pin;
                 printf("[INFO] Set data pin to %d\n", pin);
                 break;
             }
@@ -240,28 +243,30 @@ void parseArguments(int _argc, char** _argv) {
                 break;
 
             case 'b': {
-                int brightness = (int) strtol(optarg, NULL, 10);
+                int bright = (int) strtol(optarg, NULL, 10);
 
-                if (brightness > 255) {
-                    printf("[WARNING] Brightness given (%d) higher than 255. Gonna use 255\n", brightness);
-                    brightness = 255;
-                } else if (brightness < 0) {
-                    printf("[WARNING] Brightness given (%d) below 0. Gonna use 0\n", brightness);
-                    brightness = 0;
+                if (bright > 255) {
+                    printf("[WARNING] Brightness given (%d) higher than 255. Gonna use 255\n", bright);
+                    bright = 255;
+                } else if (bright < 0) {
+                    printf("[WARNING] Brightness given (%d) below 0. Gonna use 0\n", bright);
+                    bright = 0;
                 }
 
-                printf("[INFO] Set brightness to %d\n", brightness);
+                brightness = bright;
+                printf("[INFO] Set bright to %d\n", bright);
                 break;
             }
 
             case 's': {
-                float number = strtof(optarg, NULL);
+                float speed = strtof(optarg, NULL);
 
-                if (number > 0) {
-                    printf("[INFO] Set playback speed to %f\n", number);
+                if (speed > 0) {
+                    playbackSpeed = speed;
+                    printf("[INFO] Set playback speed to %f\n", speed);
                 } else {
                     printf("[ERROR] Can't use %f as playback speed. Please use a playback speed bigger than 0\n",
-                           number);
+                           speed);
                     abort();
                 }
                 break;
@@ -644,7 +649,7 @@ char *getRandomAnimation(char *list[], int _count) {
 
 //region LED
 /**
- * Initialize the LEDs anf their data structure
+ * Initialize the LEDs and their data structure
  * @return Infos about, if initialization was successful
  */
 ws2811_return_t initLEDs() {
@@ -652,10 +657,10 @@ ws2811_return_t initLEDs() {
     display.dmanum = DMA;
 
     ws2811_channel_t* channel = malloc(sizeof (ws2811_channel_t));
-    channel->gpionum = GPIO_PIN;
+    channel->gpionum = dataPin;
     channel->count = LED_COUNT;
     channel->invert = INVERTED;
-    channel->brightness = BRIGHTNESS;
+    channel->brightness = brightness;
     channel->strip_type = STRIP_TYPE;
     display.channel[0] = *channel;
 
