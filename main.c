@@ -170,8 +170,6 @@ int main(int _argc, char**  _argv) {
         }
         return 0;
     }
-
-    //TODO: Set pathForAnimations, when given on console
     //TODO: settle on sleep vs usleep. I would prefer usleep, since then we could increase the bandwidth of possible random time between blinks
 
     bool firstIteration = true;
@@ -225,8 +223,6 @@ int getBlinkAmount(){
 }
 
 //region Arguments
-//TODO: args
-
 void parseArguments(int _argc, char** _argv) {
     int c;
     while ((c = getopt(_argc, _argv, "hvrcd:b:s:B:i:p:z:P:")) != -1) {
@@ -387,12 +383,12 @@ void printHelp() {
 
     printf("\n===[Tune animation playback]===\n");
     printf("-c               Use random colors for monochrome animations\n");
-    printf("-b [0-255]       Maximum possible brightness\n");
+    printf("-b [0-255]       Set maximum possible brightness\n");
     printf("-s [MULTIPLIER]  Playback speed. Need to be bigger than 0\n");
-    printf("-B [PATTERN]     Controls the blinks. Max number is 9\n");
-    printf("                 -1: Maximum number of blinks between animations\n");
-    printf("                 -2: Seconds minimum between blinks\n");
-    printf("                 -3: Seconds maximum between blinks\n");
+    printf("-B [PATTERN]     Controls the blinks. Highest number that can be used is within the pattern is 9\n");
+    printf("                 -1st: Maximum number of blinks between animations\n");
+    printf("                 -2nd: Seconds minimum between blinks\n");
+    printf("                 -3rd: Seconds maximum between blinks\n");
     printf("                 Example: \"4-4-6\" (default)\n");
     printf("                          -Maximum off 4 blinks between animations\n");
     printf("                          -4 to 6 seconds between each blink\n");
@@ -404,7 +400,7 @@ void printHelp() {
     printf("-P [FILE PATH]   (WIP) Use color palette from text file. For formatting of palette file use tool or see example.\n"); //TODO: remove WIP
 
     printf("\n===[Hints]===\n");
-    printf("To bring TASBot in a state, where he is only playing blinking, execute with argument \"-p ./gifs/blinks/\". This will narrow all possible options for animations down to blinking ones, while keeping the support for blink patterns. To further improve appearance, don't use with -c option.\n");
+    printf("To bring TASBot in a state, where he is only blinking, execute with argument \"-p ./gifs/blinks/\". This will narrow all possible options for animations down to blinking ones, while keeping the support for blink patterns and usual appearance. To further improve appearance, don't use with -c option.\n");
 }
 
 bool checkIfDirectoryExist(char *_path) {
@@ -561,7 +557,6 @@ Animation* readAnimation(char *_file) {
                        (frame->ImageDesc.ColorMap ? "Yes" : "No"));
             }
 
-            //TODO: Needs getDelayTime() to get actually tested
             /*
             u_int16_t delayTime = getDelayTime(frame);
             if (delayTime == 0) {
@@ -728,7 +723,7 @@ ws2811_return_t renderLEDs() {
     if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
         fprintf(stderr, "[ERROR] Failed to render: %s\n", ws2811_get_return_t_str(r));
     } else {
-        //TODO: printf"[INFO] Rendered LEDs with code %d\n", r);
+        printf("[INFO] Rendered LEDs with code %d\n", r);
     }
     return r;
 }
@@ -847,7 +842,6 @@ void showFrame(AnimationFrame *_frame, ws2811_led_t _color) {
                 }
             }
 
-            //TODO: add support for test matrix
             if (activateLEDModule){
                 if (realTASBot){
                     int index = TASBotIndex[y][x];
