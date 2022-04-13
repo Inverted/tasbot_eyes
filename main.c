@@ -183,7 +183,7 @@ int main(int _argc, char**  _argv) {
         }
 
         //skip base expression, when no blinks
-        if (maxBlinks != 0){
+        if (maxBlinks != 0 && minTimeBetweenBlinks != 0){
             showBaseExpression();
         }
         sleep(getBlinkDelay());
