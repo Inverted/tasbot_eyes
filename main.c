@@ -401,7 +401,10 @@ void printHelp() {
     printf("-p [FOLDER PATH] Play animations from a specific folder.\n");
     printf("-z [FOLDER PATH] Play blink animation from specific folder.\n");
     printf("-i [FILE PATH]   Play specific animation as endless loop. \"-p\" and \"-z\" become useless with this.\n");
-    printf("-P [FILE PATH]   Use color palette from text file. For formatting of palette file use tool or see example.\n");
+    printf("-P [FILE PATH]   (WIP) Use color palette from text file. For formatting of palette file use tool or see example.\n"); //TODO: remove WIP
+
+    printf("\n===[Hints]===\n");
+    printf("To bring TASBot in a state, where he is only playing blinking, execute with argument \"-p ./gifs/blinks/\". This will narrow all possible options for animations down to blinking ones, while keeping the support for blink patterns. To further improve appearance, don't use with -c option\n");
 }
 
 bool checkIfDirectoryExist(char *_path) {
@@ -537,7 +540,7 @@ Animation* readAnimation(char *_file) {
         //Obtain global color map if available
         ColorMapObject *globalColorMap = image->SColorMap;
         if (verboseLogging) {
-            printf("[INFO] (Image): Size: %ix%i; Frames: %i; Path: \"%s\"\n",
+            printf("[INFO] (Image info): Size: %ix%i; Frames: %i; Path: \"%s\"\n",
                    image->SWidth, image->SHeight, image->ImageCount, _file);
         }
 
@@ -553,12 +556,12 @@ Animation* readAnimation(char *_file) {
             const SavedImage *frame = &image->SavedImages[i]; //get access to frame data
 
             if (verboseLogging) {
-                printf("[INFO] (Frame %i): Size: %ix%i; Left: %i, Top: %i; Local color map: %s\n",
+                printf("[INFO] (Frame %i info): Size: %ix%i; Left: %i, Top: %i; Local color map: %s\n",
                        i, frame->ImageDesc.Width, frame->ImageDesc.Height, frame->ImageDesc.Left, frame->ImageDesc.Top,
                        (frame->ImageDesc.ColorMap ? "Yes" : "No"));
             }
 
-            // Needs getDelayTime() to get actually tested
+            //TODO: Needs getDelayTime() to get actually tested
             /*
             u_int16_t delayTime = getDelayTime(frame);
             if (delayTime == 0) {
