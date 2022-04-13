@@ -94,8 +94,12 @@ bool useRandomColors = false;
 float playbackSpeed = 1; //doesn't affect the time between the blinks. just the playback speed of the animation
 char* specificAnimationToShow = NULL; //"./gifs/blink.gif"; //TODO: Blink is just for test purposes here
 char* pathForAnimations = OTHER_PATH;
+
 int brightness = BRIGHTNESS;
 int dataPin = GPIO_PIN;
+int maxBlinks = MAX_BLINKS;
+int minTimeBetweenBlinks = MIN_TIME_BETWEEN_BLINKS;
+int maxTimeBetweenBlinks = MAX_TIME_BETWEEN_BLINKS;
 
 ws2811_led_t *pixel;
 ws2811_t display; /* = {
@@ -180,7 +184,7 @@ int main(int _argc, char**  _argv) {
         sleep(getBlinkDelay());
 
         //blink for a random amount of times
-        for (int blinks = (rand() % MAX_BLINKS) + 1; blinks > 0; --blinks) {
+        for (int blinks = (rand() % maxBlinks) + 1; blinks > 0; --blinks) {
             showBlinkExpression();
             showBaseExpression();
 
@@ -201,7 +205,7 @@ int main(int _argc, char**  _argv) {
  * @return seconds, that are to wait between blink animation
  */
 int getBlinkDelay() {
-    return MIN_TIME_BETWEEN_BLINKS + (rand() % (MAX_TIME_BETWEEN_BLINKS - MIN_TIME_BETWEEN_BLINKS));
+    return minTimeBetweenBlinks + (rand() % (maxTimeBetweenBlinks - minTimeBetweenBlinks));
 }
 
 //region Arguments
@@ -233,7 +237,7 @@ void parseArguments(int _argc, char** _argv) {
                 }
 
                 dataPin = pin;
-                printf("[INFO] Set data pin to %d\n", pin);
+                printf("[INFO] Set data pin to GPIO pin %d\n", pin);
                 break;
             }
 
@@ -283,6 +287,9 @@ void parseArguments(int _argc, char** _argv) {
                     printf("[ERROR] Invalid pattern (%s). Please check pattern\n", optarg);
                     abort();
                 } else {
+                    maxBlinks = blinks;
+                    minTimeBetweenBlinks = min;
+                    maxTimeBetweenBlinks = max;
                     printf("[INFO] Set blink pattern to %s\n", optarg);
                 }
                 break;
