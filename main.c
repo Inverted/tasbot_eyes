@@ -383,7 +383,7 @@ void printHelp() {
     printf("-h               Print this help screen\n");
     printf("-v               Enable verbose logging\n");
     printf("-r               Enable console renderer for frames\n");
-    printf("-d [GPIO]        Change GPIO data pin. Possible options are between 2 to 27\n");
+    printf("-d [GPIO]        Change GPIO data pin. Possible options are between 2 to 27. Default is 10\n");
 
     printf("\n===[Tune animation playback]===\n");
     printf("-c               Use random colors for monochrome animations\n");
