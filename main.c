@@ -404,7 +404,7 @@ void printHelp() {
     printf("-P [FILE PATH]   (WIP) Use color palette from text file. For formatting of palette file use tool or see example.\n"); //TODO: remove WIP
 
     printf("\n===[Hints]===\n");
-    printf("To bring TASBot in a state, where he is only playing blinking, execute with argument \"-p ./gifs/blinks/\". This will narrow all possible options for animations down to blinking ones, while keeping the support for blink patterns. To further improve appearance, don't use with -c option\n");
+    printf("To bring TASBot in a state, where he is only playing blinking, execute with argument \"-p ./gifs/blinks/\". This will narrow all possible options for animations down to blinking ones, while keeping the support for blink patterns. To further improve appearance, don't use with -c option.\n");
 }
 
 bool checkIfDirectoryExist(char *_path) {
