@@ -289,12 +289,16 @@ void parseArguments(int _argc, char** _argv) {
                     max < 0 || max > 9) {
                     printf("[ERROR] Invalid pattern (%s). Please check pattern\n", optarg);
                     abort();
+                } else if (min > max){
+                    printf("[WARNING] Faulty pattern (%s). The minimum seconds between blinks can't be bigger than then the maximum seconds. Going to flip them!\n", optarg);
+                    minTimeBetweenBlinks = max;
+                    maxTimeBetweenBlinks = min;
                 } else {
                     maxBlinks = blinks;
                     minTimeBetweenBlinks = min;
                     maxTimeBetweenBlinks = max;
-                    printf("[INFO] Set blink pattern to %s\n", optarg);
                 }
+                printf("[INFO] Set blink pattern to %d-%d-%d\n", maxBlinks, minTimeBetweenBlinks, maxTimeBetweenBlinks);
                 break;
             }
 
