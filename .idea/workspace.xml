@@ -13,13 +13,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Done implementing arguments (for now)">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tasbot_eyes.dir/main.c.o" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/tasbot_eyes.dir/main.c.o" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/tasbot_eyes" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/tasbot_eyes" afterDir="false" />
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Minor changes">
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -100,14 +94,7 @@
       <workItem from="1649726723328" duration="7367000" />
       <workItem from="1649795759061" duration="2029000" />
       <workItem from="1649797807917" duration="105000" />
-      <workItem from="1649797927044" duration="7532000" />
-    </task>
-    <task id="LOCAL-00047" summary="Transferring">
-      <created>1647398470181</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1647398470181</updated>
+      <workItem from="1649797927044" duration="7705000" />
     </task>
     <task id="LOCAL-00048" summary="Transferring">
       <created>1647400271502</created>
@@ -445,7 +432,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649812907318</updated>
     </task>
-    <option name="localTasksCounter" value="96" />
+    <task id="LOCAL-00096" summary="Minor changes">
+      <created>1649814940663</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1649814940663</updated>
+    </task>
+    <option name="localTasksCounter" value="97" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -487,7 +481,8 @@
     <MESSAGE value="added support for path arguments" />
     <MESSAGE value="improved path arguments" />
     <MESSAGE value="Done implementing arguments (for now)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Done implementing arguments (for now)" />
+    <MESSAGE value="Minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

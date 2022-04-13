@@ -383,7 +383,7 @@ void printHelp() {
 
     printf("\n===[Tune animation playback]===\n");
     printf("-c               Use random colors for monochrome animations\n");
-    printf("-b [0-255]       Set maximum possible brightness\n");
+    printf("-b [0-255]       Set maximum possible brightness. Default is 24\n");
     printf("-s [MULTIPLIER]  Playback speed. Need to be bigger than 0\n");
     printf("-B [PATTERN]     Controls the blinks. Highest number that can be used is within the pattern is 9\n");
     printf("                 -1st: Maximum number of blinks between animations\n");
