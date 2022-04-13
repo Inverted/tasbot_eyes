@@ -142,19 +142,6 @@ int main(int _argc, char**  _argv) {
     activateLEDModule = false;
 #endif
 
-
-    display.freq = TARGET_FREQ;
-    display.dmanum = DMA;
-
-    ws2811_channel_t channel;
-    channel.gpionum = GPIO_PIN;
-    channel.count = LED_COUNT;
-    channel.invert = INVERTED;
-    channel.brightness = BRIGHTNESS;
-    channel.strip_type = STRIP_TYPE;
-    display.channel[0] = channel;
-
-
     srand(time(NULL));
     setupHandler();
 
@@ -661,6 +648,17 @@ char *getRandomAnimation(char *list[], int _count) {
  * @return Infos about, if initialization was successful
  */
 ws2811_return_t initLEDs() {
+    display.freq = TARGET_FREQ;
+    display.dmanum = DMA;
+
+    ws2811_channel_t* channel = malloc(sizeof (ws2811_channel_t));
+    channel->gpionum = GPIO_PIN;
+    channel->count = LED_COUNT;
+    channel->invert = INVERTED;
+    channel->brightness = BRIGHTNESS;
+    channel->strip_type = STRIP_TYPE;
+    display.channel[0] = *channel;
+
     ws2811_return_t r;
     pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
 
