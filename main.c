@@ -824,13 +824,13 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
     //when random color should be selected, make it depended on monochrome
     bool randColor = _useRandomColor ? _animation->monochrome : false;
 
-    ws2811_led_t color = 0;
+    ws2811_led_t color = 0xffffff;
     if (randColor) {
         int r = rand() % paletteCount;
         color = colors[r];
     }
 
-    printf("[AAAAAAAAAAA] choose %x as color", color);
+    printf("[AAAAAAAAAAA] choose %x as color\n", color);
 
     for (int i = 0; i < _animation->frameCount; ++i) {
         if (verboseLogging) {
