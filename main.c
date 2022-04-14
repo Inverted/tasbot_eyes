@@ -740,11 +740,6 @@ ws2811_return_t renderLEDs() {
     }
 
     ws2811_return_t r;
-
-    while (true){
-
-    }
-
     if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
         fprintf(stderr, "[ERROR] Failed to render: %s\n", ws2811_get_return_t_str(r));
     } else {
