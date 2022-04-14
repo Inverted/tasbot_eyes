@@ -842,7 +842,7 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
 
-            printf("test\n");
+            printf("%d:%d\n", x,y);
 
             GifColorType* gifColor = _frame->color[x][y];
             ws2811_led_t color;
@@ -889,6 +889,8 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
             printf("\n");
         }
     }
+
+    printf("now render\n");
 
     if (activateLEDModule) {
         renderLEDs();
