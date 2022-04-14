@@ -745,6 +745,9 @@ ws2811_return_t renderLEDs() {
     } else {
         printf("[INFO] Rendered LEDs with code %d\n", r);
     }
+
+    printf("fail?\n");
+
     return r;
 }
 
