@@ -610,9 +610,7 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
 
                 //check if animation is monochrome. When a single frame contains color,
                 //then preserve the animations color later while rendering.
-                if (!(color->Red == color->Green && color->Red == color->Blue)) {
-                    *_monochrome = false; //TODO: resolve into one-liner
-                }
+                *_monochrome = !(color->Red == color->Green && color->Red == color->Blue);
 
             } else {
                 printf("[WARNING] No color map given. Can't process picture. Skip frame");
