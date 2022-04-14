@@ -150,8 +150,8 @@ int main(int _argc, char** _argv) {
 
     //Init palette
     if (pathForPalette != NULL){
-
         readPalette(pathForPalette);
+        printf("length: %d, last color: %d", paletteCount, palette[paletteCount-1]);
     } else {
         //Default palette
         paletteCount = 8;
