@@ -740,7 +740,10 @@ ws2811_return_t renderLEDs() {
     }
 
     ws2811_return_t r;
-    if ((r = ws2811_render(&display)) != WS2811_SUCCESS) { //causes issues
+
+    while (true)
+
+    if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
         fprintf(stderr, "[ERROR] Failed to render: %s\n", ws2811_get_return_t_str(r));
     } else {
         printf("[INFO] Rendered LEDs with code %d\n", r);
@@ -823,8 +826,6 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
         color = palette[r];
     }
 
-    printf("[AAAAAAAAAAA] choose %x as color\n", color);
-
     for (int i = 0; i < _animation->frameCount; ++i) {
         if (verboseLogging) {
             printf("[INFO] Render frame #%d \n", i);
@@ -842,8 +843,6 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
  * @param _color The color, which should overwrite the actual color data from the frame. If equal 0, the color of the frame is actually used.
  */
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
-    printf("[BBAAAAAAAAAAA] choose %x as color\n", _color);
-
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
             GifColorType* gifColor = _frame->color[x][y];
