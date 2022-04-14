@@ -734,8 +734,6 @@ ws2811_return_t initLEDs() {
 ws2811_return_t renderLEDs() {
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
-            printf("%d:%d\n", x,y);
-
             //TODO: delete a lot of old code here. reinsure it still works
             display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x];
         }
