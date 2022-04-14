@@ -14,6 +14,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Transferring">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -99,14 +100,7 @@
       <workItem from="1649797927044" duration="7737000" />
       <workItem from="1649892858619" duration="12000" />
       <workItem from="1649906485283" duration="3002000" />
-      <workItem from="1649954380387" duration="8111000" />
-    </task>
-    <task id="LOCAL-00073" summary="comment out free">
-      <created>1649728280718</created>
-      <option name="number" value="00073" />
-      <option name="presentableId" value="LOCAL-00073" />
-      <option name="project" value="LOCAL" />
-      <updated>1649728280718</updated>
+      <workItem from="1649954380387" duration="9605000" />
     </task>
     <task id="LOCAL-00074" summary="comment in free">
       <created>1649729150214</created>
@@ -444,7 +438,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649971949853</updated>
     </task>
-    <option name="localTasksCounter" value="122" />
+    <task id="LOCAL-00122" summary="Transferring">
+      <created>1649972549118</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1649972549118</updated>
+    </task>
+    <option name="localTasksCounter" value="123" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -710,6 +710,7 @@ ws2811_return_t initLEDs() {
     channel->invert = INVERTED;
     channel->brightness = brightness;
     channel->strip_type = STRIP_TYPE;
+    channel->gamma = 1;
     display.channel[0] = *channel;
 
     ws2811_return_t r;
