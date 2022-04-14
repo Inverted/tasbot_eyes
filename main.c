@@ -151,7 +151,6 @@ int main(int _argc, char** _argv) {
     //Init palette
     if (pathForPalette != NULL){
         readPalette(pathForPalette);
-        printf("length: %d, last color: %x\n", paletteCount, palette[paletteCount-1]);
     } else {
         //Default palette
         paletteCount = 8;
@@ -165,6 +164,11 @@ int main(int _argc, char** _argv) {
         palette[6] = 0xFF00FF; // magenta
         palette[7] = 0xFF80FF; // pink
     }
+
+    for (int i = 0; i < paletteCount; ++i) {
+        printf("%d: %x", i, palette[i]);
+    }
+    printf("length: %d, last color: %x\n", paletteCount, palette[paletteCount-1]);
 
     //Init LEDS
     if (activateLEDModule) {

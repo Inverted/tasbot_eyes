@@ -1,1 +1,1 @@
-/usr/bin/cc CMakeFiles/tasbot_eyes.dir/main.c.o -o tasbot_eyes  -lgif -lws2811 -lm 
+/usr/bin/cc -g CMakeFiles/tasbot_eyes.dir/main.c.o -o tasbot_eyes  -lgif -lws2811 -lm 
