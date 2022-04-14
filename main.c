@@ -115,7 +115,7 @@ bool running = true;
 bool verboseLogging = false;
 bool consoleRenderer = false;
 bool useRandomColors = false;
-float playbackSpeed = 1; //doesn't affect the time between the blinks. just the playback speed of the animation
+float playbackSpeed = 1; //TODO: doesn't affect the time between the blinks. just the playback speed of the animation
 
 //Argument variables
 char* specificAnimationToShow = NULL;
@@ -824,7 +824,7 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
     //when random color should be selected, make it depended on monochrome
     bool randColor = _useRandomColor ? _animation->monochrome : false;
 
-    ws2811_led_t color = 0xffffff;
+    ws2811_led_t color = 0;
     if (randColor) {
         int r = rand() % paletteCount;
         color = colors[r];
