@@ -701,16 +701,17 @@ char* getRandomAnimation(char* list[], int _count) {
  * @return Infos about, if initialization was successful
  */
 ws2811_return_t initLEDs() {
+    memset(&display, 0, sizeof(ws2811_t));
+    //display = calloc(1, sizeof (ws2811_t));
     display.freq = TARGET_FREQ;
     display.dmanum = DMA;
 
-    ws2811_channel_t* channel = malloc(sizeof(ws2811_channel_t));
+    ws2811_channel_t* channel = calloc(1, sizeof(ws2811_channel_t));
     channel->gpionum = dataPin;
     channel->count = LED_COUNT;
     channel->invert = INVERTED;
     channel->brightness = brightness;
     channel->strip_type = STRIP_TYPE;
-    channel->gamma = 1;
     display.channel[0] = *channel;
 
     ws2811_return_t r;
