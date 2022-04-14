@@ -100,19 +100,6 @@ ws2811_t display;
 ws2811_led_t* palette;
 unsigned int paletteCount;
 
-/*
-ws2811_led_t colors[] = {
-        0xFF0000,  // red
-        0xFF8000,  // orange
-        0xFFFF00,  // yellow
-        0x00FF00,  // green
-        0x00FFFF,  // cyan
-        0x0000FF,  // blue
-        0xFF00FF,  // magenta
-        0xFF80FF,  // pink
-};
- */
-
 bool running = true;
 bool verboseLogging = false;
 bool consoleRenderer = false;
@@ -163,6 +150,7 @@ int main(int _argc, char** _argv) {
 
     //Init palette
     if (pathForPalette != NULL){
+
         readPalette(pathForPalette);
     } else {
         //Default palette
