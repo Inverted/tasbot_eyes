@@ -826,7 +826,7 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
 
     ws2811_led_t color = 0;
     if (randColor) {
-        int r = rand() % paletteCount;
+        int r = rand() % 8;
         color = colors[r];
     }
 
