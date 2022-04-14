@@ -730,6 +730,8 @@ ws2811_return_t initLEDs() {
 ws2811_return_t renderLEDs() {
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
+            printf("%d:%d\n", x,y);
+
             //TODO: delete a lot of old code here. reinsure it still works
             display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x];
         }
@@ -841,9 +843,6 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
 
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
-
-            printf("%d:%d\n", x,y);
-
             GifColorType* gifColor = _frame->color[x][y];
             ws2811_led_t color;
 
@@ -889,8 +888,6 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
             printf("\n");
         }
     }
-
-    printf("now render\n");
 
     if (activateLEDModule) {
         renderLEDs();
