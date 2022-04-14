@@ -837,9 +837,13 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
  * @param _color The color, which should overwrite the actual color data from the frame. If equal 0, the color of the frame is actually used.
  */
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
+    printf("[BBAAAAAAAAAAA] choose %x as color\n", _color);
 
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
+
+            printf("test\n");
+
             GifColorType* gifColor = _frame->color[x][y];
             ws2811_led_t color;
 
