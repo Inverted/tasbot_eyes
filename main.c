@@ -78,8 +78,8 @@ void showRandomExpression(char* _path, bool _useRandomColor);
 void showExpressionFromFilepath(char* _filePath);
 void playExpression(Animation* _animation, bool _useRandomColor);
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color); //color is only used, when picture is monochrome. Otherwise, it's used to indicate, that animation has its own color
-int getBlinkDelay();
-int getBlinkAmount();
+unsigned int getBlinkDelay();
+unsigned int getBlinkAmount();
 void freeAnimation(Animation* _animation);
 
 //Palette
@@ -144,8 +144,6 @@ int main(int _argc, char** _argv) {
     //Init program
     srand(time(NULL));
     setupHandler();
-
-    //Parse arguments
     parseArguments(_argc, _argv);
 
     //Init palette
@@ -165,10 +163,9 @@ int main(int _argc, char** _argv) {
         palette[7] = 0xFF80FF; // pink
     }
 
-    for (int i = 0; i < paletteCount; ++i) {
-        printf("%d: %x\n", i, palette[i]);
-    }
-    printf("length: %d, last color: %x\n", paletteCount, palette[paletteCount-1]);
+    //Init blink times
+    minTimeBetweenBlinks *=1000;
+    maxTimeBetweenBlinks *=1000;
 
     //Init LEDS
     if (activateLEDModule) {
@@ -202,7 +199,14 @@ int main(int _argc, char** _argv) {
         if (maxBlinks != 0 && minTimeBetweenBlinks != 0) {
             showBaseExpression();
         }
-        sleep(getBlinkDelay());
+
+        int sleepTime = getBlinkDelay();
+
+        printf("AAAAAAAAAAAAAAAA sleep: %d\n", sleepTime);
+
+
+        usleep( sleepTime * 1000);
+
 
         //blink for a random amount of times
         for (int blinks = getBlinkAmount(); blinks > 0; --blinks) {
@@ -213,7 +217,7 @@ int main(int _argc, char** _argv) {
             if (verboseLogging) {
                 printf("[INFO] Blink #%d for %d seconds \n", blinks, blinkTime);
             }
-            sleep(blinkTime);
+            usleep(blinkTime * 1000);
         }
     }
 
@@ -226,14 +230,14 @@ int main(int _argc, char** _argv) {
  * Determine how long to wait between blinks
  * @return seconds, that are to wait between blink animation
  */
-int getBlinkDelay() {
+unsigned int getBlinkDelay() {
     if (minTimeBetweenBlinks == maxTimeBetweenBlinks) {
-        return minTimeBetweenBlinks;
+        return (int) ((float)minTimeBetweenBlinks * (1/playbackSpeed)); //Cast to float to multiply with payback speed. Then cast back, as we need an integer.
     }
-    return minTimeBetweenBlinks + (rand() % (maxTimeBetweenBlinks - minTimeBetweenBlinks));
+    return (int) ((float)(minTimeBetweenBlinks + (rand() % (maxTimeBetweenBlinks - minTimeBetweenBlinks))) * (1/playbackSpeed));
 }
 
-int getBlinkAmount() {
+unsigned int getBlinkAmount() {
     if (maxBlinks == 0) {
         return 0;
     }
@@ -702,7 +706,6 @@ char* getRandomAnimation(char* list[], int _count) {
  */
 ws2811_return_t initLEDs() {
     memset(&display, 0, sizeof(ws2811_t));
-    //display = calloc(1, sizeof (ws2811_t));
     display.freq = TARGET_FREQ;
     display.dmanum = DMA;
 
