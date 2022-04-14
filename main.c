@@ -94,19 +94,18 @@ unsigned int ledMatrixTranslation(int _x, int _y);
 bool numberIsEven(int _number);
 
 //Variables
+bool running = true;
+
 ws2811_led_t* pixel;
 ws2811_t display;
 
 ws2811_led_t* palette;
 unsigned int paletteCount;
 
-bool running = true;
+//Argument variables
 bool verboseLogging = false;
 bool consoleRenderer = false;
 bool useRandomColors = false;
-float playbackSpeed = 1; //TODO: doesn't affect the time between the blinks. just the playback speed of the animation
-
-//Argument variables
 char* specificAnimationToShow = NULL;
 char* pathForAnimations = OTHER_PATH;
 char* pathForBlinks = BLINK_PATH;
@@ -116,6 +115,7 @@ int dataPin = GPIO_PIN;
 int maxBlinks = MAX_BLINKS;
 int minTimeBetweenBlinks = MIN_TIME_BETWEEN_BLINKS;
 int maxTimeBetweenBlinks = MAX_TIME_BETWEEN_BLINKS;
+float playbackSpeed = 1;
 
 //Development function toggles
 bool activateLEDModule = true;
@@ -183,7 +183,6 @@ int main(int _argc, char** _argv) {
         }
         return 0;
     }
-    //TODO: settle on sleep vs usleep. I would prefer usleep, since then we could increase the bandwidth of possible random time between blinks
 
     //Main loop
     bool firstIteration = true;
@@ -200,22 +199,15 @@ int main(int _argc, char** _argv) {
             showBaseExpression();
         }
 
-        int sleepTime = getBlinkDelay();
-
-        printf("AAAAAAAAAAAAAAAA sleep: %d\n", sleepTime);
-
-
-        usleep( sleepTime * 1000);
-
-
+        usleep( getBlinkDelay() * 1000);
         //blink for a random amount of times
-        for (int blinks = getBlinkAmount(); blinks > 0; --blinks) {
+        for (unsigned int blinks = getBlinkAmount(); blinks > 0; --blinks) {
             showBlinkExpression();
             showBaseExpression();
 
-            int blinkTime = getBlinkDelay();
+            unsigned int blinkTime = getBlinkDelay();
             if (verboseLogging) {
-                printf("[INFO] Blink #%d for %d seconds \n", blinks, blinkTime);
+                printf("[INFO] Blink #%d for %d milliseconds \n", blinks, blinkTime);
             }
             usleep(blinkTime * 1000);
         }
@@ -628,11 +620,9 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
                 GifColorType* color = &colorMap->Colors[c];
                 animationFrame->color[x][y] = color;
 
-                //check if animation is monochrome. When a single frame contain palette,
+                //check if animation is monochrome. When a single frame contains color,
                 //then preserve the animations color later while rendering.
-                if (!(color->Red == color->Green && color->Red == color->Blue)) {
-                    *_monochrome = false; //TODO: resolve into one-liner
-                }
+                *_monochrome = (color->Red == color->Green && color->Red == color->Blue);
 
             } else {
                 printf("[WARNING] No color map given. Can't process picture. Skip frame");
