@@ -1,6 +1,6 @@
 # tasbot_eyes
 
-Uses
+## Dependencies
 * jgarff's rpi_ws281x lib under the BSD 2-Clause "Simplified" License, project found here: https://github.com/jgarff/rpi_ws281x
 * Eric S. Raymond's GIFLIB under "an X Consortium-like open-source license", project found here: http://giflib.sourceforge.net/
 
