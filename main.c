@@ -166,7 +166,7 @@ int main(int _argc, char** _argv) {
     }
 
     for (int i = 0; i < paletteCount; ++i) {
-        printf("%d: %x", i, palette[i]);
+        printf("%d: %x\n", i, palette[i]);
     }
     printf("length: %d, last color: %x\n", paletteCount, palette[paletteCount-1]);
 
