@@ -100,6 +100,17 @@ ws2811_t display;
 ws2811_led_t* palette;
 unsigned int paletteCount;
 
+ws2811_led_t colors[] = {
+        0xFF0000,  // red
+        0xFF8000,  // orange
+        0xFFFF00,  // yellow
+        0x00FF00,  // green
+        0x00FFFF,  // cyan
+        0x0000FF,  // blue
+        0xFF00FF,  // magenta
+        0xFF80FF,  // pink
+};
+
 bool running = true;
 bool verboseLogging = false;
 bool consoleRenderer = false;
@@ -149,6 +160,7 @@ int main(int _argc, char** _argv) {
     parseArguments(_argc, _argv);
 
     //Init palette
+    /*
     if (pathForPalette != NULL){
         readPalette(pathForPalette);
     } else {
@@ -164,6 +176,7 @@ int main(int _argc, char** _argv) {
         palette[6] = 0xFF00FF; // magenta
         palette[7] = 0xFF80FF; // pink
     }
+     */
 
     //Init LEDS
     if (activateLEDModule) {
@@ -814,7 +827,7 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
     ws2811_led_t color = 0;
     if (randColor) {
         int r = rand() % paletteCount;
-        color = palette[r];
+        color = colors[r];
     }
 
     for (int i = 0; i < _animation->frameCount; ++i) {
