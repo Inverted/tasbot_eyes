@@ -830,6 +830,8 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
         color = colors[r];
     }
 
+    printf("[AAAAAAAAAAA] choose %x as color", color);
+
     for (int i = 0; i < _animation->frameCount; ++i) {
         if (verboseLogging) {
             printf("[INFO] Render frame #%d \n", i);
