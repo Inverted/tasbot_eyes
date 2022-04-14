@@ -77,10 +77,12 @@ void showBlinkExpression();
 void showRandomExpression(char* _path, bool _useRandomColor);
 void showExpressionFromFilepath(char* _filePath);
 void playExpression(Animation* _animation, bool _useRandomColor);
-void showFrame(AnimationFrame* _frame, ws2811_led_t _color); //color is only used, when picture is monochrome. Otherwise, it's used to indicate, that animation has its own color
+void showFrame(AnimationFrame* _frame,
+               ws2811_led_t _color); //color is only used, when picture is monochrome. Otherwise, it's used to indicate, that animation has its own color
+void freeAnimation(Animation* _animation);
 unsigned int getBlinkDelay();
 unsigned int getBlinkAmount();
-void freeAnimation(Animation* _animation);
+float getLuminance(GifColorType* _color);
 
 //Palette
 int chtohex(char _ch);
@@ -147,12 +149,12 @@ int main(int _argc, char** _argv) {
     parseArguments(_argc, _argv);
 
     //Init palette
-    if (pathForPalette != NULL){
+    if (pathForPalette != NULL) {
         readPalette(pathForPalette);
     } else {
         //Default palette
         paletteCount = 8;
-        palette = malloc(sizeof (ws2811_led_t)*paletteCount);
+        palette = malloc(sizeof(ws2811_led_t) * paletteCount);
         palette[0] = 0xFF0000; // red
         palette[1] = 0xFF8000; // orange
         palette[2] = 0xFFFF00; // yellow
@@ -164,8 +166,8 @@ int main(int _argc, char** _argv) {
     }
 
     //Init blink times
-    minTimeBetweenBlinks *=1000;
-    maxTimeBetweenBlinks *=1000;
+    minTimeBetweenBlinks *= 1000;
+    maxTimeBetweenBlinks *= 1000;
 
     //Init LEDS
     if (activateLEDModule) {
@@ -199,7 +201,7 @@ int main(int _argc, char** _argv) {
             showBaseExpression();
         }
 
-        usleep( getBlinkDelay() * 1000);
+        usleep(getBlinkDelay() * 1000);
         //blink for a random amount of times
         for (unsigned int blinks = getBlinkAmount(); blinks > 0; --blinks) {
             showBlinkExpression();
@@ -218,23 +220,9 @@ int main(int _argc, char** _argv) {
     return 0;
 }
 
-/**
- * Determine how long to wait between blinks
- * @return seconds, that are to wait between blink animation
- */
-unsigned int getBlinkDelay() {
-    if (minTimeBetweenBlinks == maxTimeBetweenBlinks) {
-        return (int) ((float)minTimeBetweenBlinks * (1/playbackSpeed)); //Cast to float to multiply with payback speed. Then cast back, as we need an integer.
-    }
-    return (int) ((float)(minTimeBetweenBlinks + (rand() % (maxTimeBetweenBlinks - minTimeBetweenBlinks))) * (1/playbackSpeed));
-}
-
-unsigned int getBlinkAmount() {
-    if (maxBlinks == 0) {
-        return 0;
-    }
-    return (rand() % maxBlinks) + 1;
-}
+//TODO: [ERORRS]
+//TODO: Doxygen
+//TODO: Reorder
 
 //region Arguments
 void parseArguments(int _argc, char** _argv) {
@@ -657,8 +645,8 @@ int countFilesInDir(char* _path) {
 /**
  * Writes all file names of an given directory into the given _list-Array
  * @param _path The path of the directory, it file names should be written into _list
- * @param _list Pointer to output array. Results get writen into here. //TODO: restructure with malloc and return array actually
- * @return If the directory was successfully open //TODO: could be improved to something better
+ * @param _list Pointer to output array. Results get writen into here.
+ * @return If the directory was successfully open
  */
 bool getFileList(const char* _path, char* _list[]) {
     DIR* d = opendir(_path);
@@ -717,7 +705,7 @@ ws2811_return_t initLEDs() {
             printf("[INFO] Initialized LEDs with code %d\n", r);
         }
     }
-    clearLEDs(); //TODO: try this
+    clearLEDs();
     return r;
 }
 
@@ -839,6 +827,7 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
             GifColorType* gifColor = _frame->color[x][y];
+            printf("AAAAAA luminance: %f\n", getLuminance(gifColor));
             ws2811_led_t color;
 
             if (activateLEDModule) {
@@ -849,6 +838,7 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
                     if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
                         //pixel[ledMatrixTranslation(x, y)] = _color;
                         color = _color;
+
                         //TODO: Adjust to brightness of gifColor given in GIF
                         // Right now it's flat the same gifColor to all pixels, that just _aren't_ black
                     } else {
@@ -858,6 +848,7 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
                 }
             }
 
+            //Map color to pixel based on given render device
             if (activateLEDModule) {
                 if (realTASBot) {
                     int index = TASBotIndex[y][x];
@@ -910,6 +901,39 @@ void freeAnimation(Animation* _animation) {
 }
 
 /**
+ * Determine how long to wait between blinks
+ * @return seconds, that are to wait between blink animation
+ */
+unsigned int getBlinkDelay() {
+    if (minTimeBetweenBlinks == maxTimeBetweenBlinks) {
+        return (int) ((float) minTimeBetweenBlinks * (1 /
+                                                      playbackSpeed)); //Cast to float to multiply with payback speed. Then cast back, as we need an integer.
+    }
+    return (int) ((float) (minTimeBetweenBlinks +
+                           (rand() % (maxTimeBetweenBlinks - minTimeBetweenBlinks))) * (1 / playbackSpeed));
+}
+
+/**
+ * Get an random amount of how many times TASBot should blink
+ * @return The amount of blinks
+ */
+unsigned int getBlinkAmount() {
+    if (maxBlinks == 0) {
+        return 0;
+    }
+    return (rand() % maxBlinks) + 1;
+}
+
+/**
+ * Get the luminance of a given color
+ * @param _color The color the luminance should be calculated of
+ * @return The luminance of the given color
+ */
+float getLuminance(GifColorType* _color) {
+    return (0.2126F * (float) _color->Red + 0.7152F * (float) _color->Green + 0.0722F * (float) _color->Blue);
+}
+
+/**
  * Translate the RGB (255,255,255) color structure into a hexadecimal value
  * @param _color The RGB color, that is to convert
  * @return The convert hexadecimal color
@@ -938,19 +962,19 @@ char* getFilePath(char* _path, char* _file) {
  * Main function to read a palette file, convert it into numerical values and providing the final color array
  * @param _path The color palette file, that is to read
  */
-void readPalette(char* _path){
+void readPalette(char* _path) {
     //Read raw palette from file into the rawPal variable
     int colorCount = countLines(_path);
     char* rawPal[colorCount];
     readPaletteFile(_path, colorCount, rawPal);
 
     //Read palette into final palette array
-    ws2811_led_t* pal = malloc(sizeof (ws2811_led_t) * colorCount);
+    ws2811_led_t* pal = malloc(sizeof(ws2811_led_t) * colorCount);
     for (int i = 0; i < colorCount; ++i) {
         int color = strtocol(rawPal[i]);
-        if(color != -1){
+        if (color != -1) {
             pal[i] = color;
-            if (verboseLogging){
+            if (verboseLogging) {
                 printf("[INFO] Convert string \"%s\" to integer in hex 0x%x\n", rawPal[i], pal[i]);
             }
         } else {
@@ -977,7 +1001,7 @@ void readPaletteFile(const char* _path, int _count, char** _palette) {
 
     //Read line after line into give palette
     for (int i = 0; i < _count; i++) {
-        _palette[i] = malloc(sizeof (unsigned int));
+        _palette[i] = malloc(sizeof(unsigned int));
         fscanf(ptr, "%s\n", _palette[i]);
     }
 
@@ -1027,7 +1051,8 @@ int strtocol(char* _color) {
     for (int i = 0; i < len; i++) {
         int hex = chtohex(_color[i]);
         if (hex != -1) {
-            result = result | hex << (len - i - 1) * 4; //Bit-shift by 4, because hex numbers use only lower 4 bits. OR all of it together.
+            result = result | hex << (len - i - 1) *
+                                     4; //Bit-shift by 4, because hex numbers use only lower 4 bits. OR all of it together.
         } else {
             printf("[ERROR] Can't read character '%c' color \"%s\". Please check formatting!\n", _color[i], _color);
             return -1;
