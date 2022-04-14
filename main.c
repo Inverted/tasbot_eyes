@@ -717,7 +717,7 @@ ws2811_return_t initLEDs() {
             printf("[INFO] Initialized LEDs with code %d\n", r);
         }
     }
-    //clearLEDs(); TODO: try this
+    clearLEDs(); //TODO: try this
     return r;
 }
 
