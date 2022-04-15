@@ -1,4 +1,0 @@
-/usr/bin/cmake -G "CodeBlocks - Unix Makefiles" -S /tmp/tmp.qcKuiEiVAA -B /tmp/tmp.qcKuiEiVAA/cmake-build-remote-host
--- Configuring done
--- Generating done
--- Build files have been written to: /tmp/tmp.qcKuiEiVAA/cmake-build-remote-host
