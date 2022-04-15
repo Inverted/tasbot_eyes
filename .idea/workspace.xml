@@ -15,6 +15,7 @@
   <component name="ChangeListManager">
     <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Done polishing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -52,6 +53,7 @@
     "cidr.known.project.marker": "true",
     "cmake.loaded.for.project": "true",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.editor",
     "structure.view.defaults.are.configured": "true"
   }
 }]]></component>
@@ -100,14 +102,7 @@
       <workItem from="1649797927044" duration="7737000" />
       <workItem from="1649892858619" duration="12000" />
       <workItem from="1649906485283" duration="3002000" />
-      <workItem from="1649954380387" duration="16958000" />
-    </task>
-    <task id="LOCAL-00083" summary="changed pin to tasbot default">
-      <created>1649809078694</created>
-      <option name="number" value="00083" />
-      <option name="presentableId" value="LOCAL-00083" />
-      <option name="project" value="LOCAL" />
-      <updated>1649809078694</updated>
+      <workItem from="1649954380387" duration="21440000" />
     </task>
     <task id="LOCAL-00084" summary="added support for blink pattern">
       <created>1649809491871</created>
@@ -445,7 +440,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649981275074</updated>
     </task>
-    <option name="localTasksCounter" value="132" />
+    <task id="LOCAL-00132" summary="Done polishing">
+      <created>1649981905958</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1649981905958</updated>
+    </task>
+    <option name="localTasksCounter" value="133" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
