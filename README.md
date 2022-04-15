@@ -57,7 +57,7 @@ next random animation
 
 | Argument           | Description                                                                                                                                                                                                                | Example                                                                                           |
 |--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
-| `-h`               | Print a help screen with this informations                                                                                                                                                                                 | -                                                                                                 |
+| `-h`               | Print a help screen with this information                                                                                                                                                                                 | -                                                                                                 |
 | `-v`               | Enable verbose logging                                                                                                                                                                                                     | -                                                                                                 |
 | `-r`               | Enable console renderer for frames                                                                                                                                                                                         | -                                                                                                 |
 | `-d [GPIO]`        | Change GPIO data pin. Possible options are between 2 to 27. Default is 10                                                                                                                                                  | `-d 18`                                                                                           |
@@ -77,12 +77,12 @@ To create a color palette, you can either:
 * Use the *tasBot Eye Color Analyzing Uniquified Search Engine (BECAUSE)* to create a color palette based on an
   image: https://github.com/R3tr0BoiDX/because
 * Paste the desired hex palette into a plain text document **WITHOUT** the leading '#'. For example, a valid entry for a
-  pale red would be "E78587" (no '#' in front). One color each line. BECAUSE creates `.tasbotPalette` files, but thats
+  pale red would be `E78587` (no '#' in front). One color each line. BECAUSE creates `.tasbotPalette` files, but that's
   not required.
 
 ## Known problems
 
-* Actually use the delay time between frames, thats encoded within the GIF. There is already a method implemented, that
+* Actually use the delay time between frames, that's encoded within the GIF. There is already a method implemented, that
   needs to be tested yet. In theory, `0xF9` is the identifier for the byte from the "Graphics Control Extension"-block,
   where the delay time is encoded. More on that here: http://giflib.sourceforge.net/whatsinagif/bits_and_bytes.html
 * When an animation is monochrome, it's pixels can be colored in a randomly chosen color, to make everything more

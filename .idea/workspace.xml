@@ -100,21 +100,7 @@
       <workItem from="1649797927044" duration="7737000" />
       <workItem from="1649892858619" duration="12000" />
       <workItem from="1649906485283" duration="3002000" />
-      <workItem from="1649954380387" duration="21814000" />
-    </task>
-    <task id="LOCAL-00090" summary="improved blink pattern">
-      <created>1649810994885</created>
-      <option name="number" value="00090" />
-      <option name="presentableId" value="LOCAL-00090" />
-      <option name="project" value="LOCAL" />
-      <updated>1649810994885</updated>
-    </task>
-    <task id="LOCAL-00091" summary="added support for path arguments">
-      <created>1649811487026</created>
-      <option name="number" value="00091" />
-      <option name="presentableId" value="LOCAL-00091" />
-      <option name="project" value="LOCAL" />
-      <updated>1649811487027</updated>
+      <workItem from="1649954380387" duration="21883000" />
     </task>
     <task id="LOCAL-00092" summary="improved path arguments">
       <created>1649811656343</created>
@@ -445,7 +431,21 @@
       <option name="project" value="LOCAL" />
       <updated>1649986721188</updated>
     </task>
-    <option name="localTasksCounter" value="139" />
+    <task id="LOCAL-00139" summary="Wrote a proper README.md">
+      <created>1649986758646</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1649986758646</updated>
+    </task>
+    <task id="LOCAL-00140" summary="Wrote a proper README.md">
+      <created>1649986796538</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1649986796538</updated>
+    </task>
+    <option name="localTasksCounter" value="141" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
