@@ -11,7 +11,8 @@
 
 1. Clone, compile and install the rpi_ws281x lib (requires cmake)
 2. Download, compile and install GIFLIB (found on SourceForge https://sourceforge.net/projects/giflib/, requires make)
-3. Clone and compile this repo (requires cmake)
+3. Clone and compile this repo (requires cmake)  
+**ATTENTION**: When compiling for real TASBot, you wanna edit main.c and change `bool realTASBot = false;` to `bool realTASBot = true;` 
 
 ## How it works
 
