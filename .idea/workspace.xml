@@ -13,10 +13,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Done polishing">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Wrote a proper README.md">
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,14 +100,7 @@
       <workItem from="1649797927044" duration="7737000" />
       <workItem from="1649892858619" duration="12000" />
       <workItem from="1649906485283" duration="3002000" />
-      <workItem from="1649954380387" duration="21440000" />
-    </task>
-    <task id="LOCAL-00084" summary="added support for blink pattern">
-      <created>1649809491871</created>
-      <option name="number" value="00084" />
-      <option name="presentableId" value="LOCAL-00084" />
-      <option name="project" value="LOCAL" />
-      <updated>1649809491871</updated>
+      <workItem from="1649954380387" duration="21598000" />
     </task>
     <task id="LOCAL-00085" summary="fixed bug with blink pattern">
       <created>1649810115141</created>
@@ -447,7 +438,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649981905958</updated>
     </task>
-    <option name="localTasksCounter" value="133" />
+    <task id="LOCAL-00133" summary="Wrote a proper README.md">
+      <created>1649986475632</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1649986475632</updated>
+    </task>
+    <option name="localTasksCounter" value="134" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -465,7 +463,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Worked on the arguments. Parsing complete" />
     <MESSAGE value="Some clean up" />
     <MESSAGE value="changed how leds are init" />
     <MESSAGE value="changed how leds are initialized" />
@@ -490,7 +487,8 @@
     <MESSAGE value="Add method to calculate luminance" />
     <MESSAGE value="Transfer" />
     <MESSAGE value="Done polishing" />
-    <option name="LAST_COMMIT_MESSAGE" value="Done polishing" />
+    <MESSAGE value="Wrote a proper README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="Wrote a proper README.md" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
