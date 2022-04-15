@@ -100,14 +100,7 @@
       <workItem from="1649797927044" duration="7737000" />
       <workItem from="1649892858619" duration="12000" />
       <workItem from="1649906485283" duration="3002000" />
-      <workItem from="1649954380387" duration="21778000" />
-    </task>
-    <task id="LOCAL-00089" summary="improved blink pattern">
-      <created>1649810853167</created>
-      <option name="number" value="00089" />
-      <option name="presentableId" value="LOCAL-00089" />
-      <option name="project" value="LOCAL" />
-      <updated>1649810853167</updated>
+      <workItem from="1649954380387" duration="21814000" />
     </task>
     <task id="LOCAL-00090" summary="improved blink pattern">
       <created>1649810994885</created>
@@ -445,7 +438,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649986662188</updated>
     </task>
-    <option name="localTasksCounter" value="138" />
+    <task id="LOCAL-00138" summary="Wrote a proper README.md">
+      <created>1649986721188</created>
+      <option name="number" value="00138" />
+      <option name="presentableId" value="LOCAL-00138" />
+      <option name="project" value="LOCAL" />
+      <updated>1649986721188</updated>
+    </task>
+    <option name="localTasksCounter" value="139" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
