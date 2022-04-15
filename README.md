@@ -37,7 +37,7 @@ The program looks within its current working directory, for a folder called `gif
     5. _n = n-1_
     6. If _n>0_, go to ii.
 4. Show random animation
-    * Check if the animation has its own color. If not, choose a random one and overwrite all white pixels
+    * Check if the animation has its own color. If not, choose a random one and overwrite all set pixels
 6. Go to 1.
 
 ### About blink pattern
