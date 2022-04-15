@@ -1,3 +1,0 @@
-/mnt/Dateien/Projekte/tasbot_eyes/cmake-build-debug/CMakeFiles/tasbot_eyes.dir
-/mnt/Dateien/Projekte/tasbot_eyes/cmake-build-debug/CMakeFiles/edit_cache.dir
-/mnt/Dateien/Projekte/tasbot_eyes/cmake-build-debug/CMakeFiles/rebuild_cache.dir
