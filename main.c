@@ -407,7 +407,7 @@ void printHelp() {
 
     printf("\n===[Hints]===\n");
     printf("- To bring TASBot in a state, where he is only blinking, execute with argument \"-p ./gifs/blinks/\". This will narrow all possible options for animations down to blinking ones, while keeping the support for blink patterns and the usual appearance. To further improve appearance, don't use with -c option.\n");
-    printf("\n- Use different working directories as \"different profiles\". This way, you could feature different sets of animations with different base frames if needed\n");
+    printf("\n- Use different working directories as \"profiles\". This way, you could feature different sets of animations with different base frames if needed\n");
 }
 //endregion
 
