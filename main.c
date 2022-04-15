@@ -46,61 +46,9 @@ typedef struct Animation {
 } Animation;
 
 //region Declarations
-void setupHandler();
-void finish(int _number);
-
-//Arguments
-void parseArguments(int _argc, char** _argv);
-void printHelp();
-bool checkIfFileExist(char* _file);
-bool checkIfDirectoryExist(char* _path);
-
-//GIF
-int countFilesInDir(char* _path);
-bool getFileList(const char* _path, char* _list[]);
-char* getRandomAnimation(char* list[], int _count);
-char* getFilePath(char* _path, char* _file);
-bool checkIfImageHasRightSize(GifFileType* _image);
-u_int16_t getDelayTime(SavedImage* _frame);
-AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _globalMap, bool* _monochrome);
-Animation* readAnimation(char* _file);
-
-//LEDs
-ws2811_return_t initLEDs();
-ws2811_return_t renderLEDs();
-ws2811_return_t clearLEDs();
-ws2811_led_t translateColor(GifColorType* _color);
-
-//TASBot
-void showBaseExpression();
-void showBlinkExpression();
-void showRandomExpression(char* _path, bool _useRandomColor);
-void showExpressionFromFilepath(char* _filePath);
-void playExpression(Animation* _animation, bool _useRandomColor);
-void showFrame(AnimationFrame* _frame,
-               ws2811_led_t _color); //color is only used, when picture is monochrome. Otherwise, it's used to indicate, that animation has its own color
-void freeAnimation(Animation* _animation);
-unsigned int getBlinkDelay();
-unsigned int getBlinkAmount();
-float getLuminance(GifColorType* _color);
-
-//Palette
-int chtohex(char _ch);
-int strtocol(char* _color);
-int countLines(const char* _path);
-void readPaletteFile(const char* _path, int _count, char** _palette);
-void readPalette(char* _path);
-
-//Development
-unsigned int ledMatrixTranslation(int _x, int _y);
-bool numberIsEven(int _number);
-
-//Variables
 bool running = true;
-
 ws2811_led_t* pixel;
 ws2811_t display;
-
 ws2811_led_t* palette;
 unsigned int paletteCount;
 
@@ -118,6 +66,57 @@ int maxBlinks = MAX_BLINKS;
 int minTimeBetweenBlinks = MIN_TIME_BETWEEN_BLINKS;
 int maxTimeBetweenBlinks = MAX_TIME_BETWEEN_BLINKS;
 float playbackSpeed = 1;
+
+//Signals
+void setupHandler();
+void finish(int _number);
+
+//Arguments
+void parseArguments(int _argc, char** _argv);
+void printHelp();
+
+//GIF
+char* getRandomAnimation(char* list[], int _count);
+bool checkIfImageHasRightSize(GifFileType* _image);
+u_int16_t getDelayTime(SavedImage* _frame);
+AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _globalMap, bool* _monochrome);
+Animation* readAnimation(char* _file);
+
+//LEDs
+ws2811_return_t initLEDs();
+ws2811_return_t renderLEDs();
+ws2811_return_t clearLEDs();
+ws2811_led_t translateColor(GifColorType* _color);
+
+//TASBot
+void showBaseExpression();
+void showBlinkExpression();
+void showRandomExpression(char* _path, bool _useRandomColor);
+void showExpressionFromFilepath(char* _filePath);
+void playExpression(Animation* _animation, bool _useRandomColor);
+void showFrame(AnimationFrame* _frame, ws2811_led_t _color);
+void freeAnimation(Animation* _animation);
+unsigned int getBlinkDelay();
+unsigned int getBlinkAmount();
+float getLuminance(GifColorType* _color);
+
+//Palette
+int chtohex(char _ch);
+int strtocol(char* _color);
+void readPalette(char* _path);
+
+//File system operations
+bool getFileList(const char* _path, char* _list[]);
+bool checkIfFileExist(char* _file);
+bool checkIfDirectoryExist(char* _path);
+int countFilesInDir(char* _path);
+int countLines(const char* _path);
+char* getFilePath(char* _path, char* _file);
+void readFile(const char* _path, int _count, char** _out);
+
+//Development
+unsigned int ledMatrixTranslation(int _x, int _y);
+bool numberIsEven(int _number);
 
 //Development function toggles
 bool activateLEDModule = true;
@@ -196,7 +195,7 @@ int main(int _argc, char** _argv) {
             firstIteration = false;
         }
 
-        //skip base expression, when no blinks
+        //skip base expression, when no blinks at all
         if (maxBlinks != 0 && minTimeBetweenBlinks != 0) {
             showBaseExpression();
         }
@@ -220,11 +219,10 @@ int main(int _argc, char** _argv) {
     return 0;
 }
 
-//TODO: [ERORRS]
-//TODO: Doxygen
-//TODO: Reorder
-
 //region Arguments
+/**
+ * Parse the program arguments from the console line
+ */
 void parseArguments(int _argc, char** _argv) {
     int c;
     while ((c = getopt(_argc, _argv, "hvrcd:b:s:B:i:p:z:P:")) != -1) {
@@ -246,7 +244,7 @@ void parseArguments(int _argc, char** _argv) {
                 int pin = (int) strtol(optarg, NULL, 10);
 
                 if (pin > 27 || pin < 2) {
-                    printf("[ERROR] GPIO pin %d doesnt exist. Pin ID must be between 2 and 27\n", pin);
+                    fprintf(stderr, "[ERROR] GPIO pin %d doesnt exist. Pin ID must be between 2 and 27\n", pin);
                     abort();
                 }
 
@@ -283,8 +281,9 @@ void parseArguments(int _argc, char** _argv) {
                     playbackSpeed = speed;
                     printf("[INFO] Set playback speed to %f\n", speed);
                 } else {
-                    printf("[ERROR] Can't use %f as playback speed. Please use a playback speed bigger than 0\n",
-                           speed);
+                    fprintf(stderr,
+                            "[ERROR] Can't use %f as playback speed. Please use a playback speed bigger than 0\n",
+                            speed);
                     abort();
                 }
                 break;
@@ -298,7 +297,7 @@ void parseArguments(int _argc, char** _argv) {
                 if (blinks < 0 || blinks > 9 ||
                     min < 0 || min > 9 ||
                     max < 0 || max > 9) {
-                    printf("[ERROR] Invalid pattern (%s). Please check pattern\n", optarg);
+                    fprintf(stderr, "[ERROR] Invalid pattern (%s). Please check pattern\n", optarg);
                     abort();
                 } else if (min > max) {
                     printf("[WARNING] Faulty pattern (%s). The minimum seconds between blinks can't be bigger than then the maximum seconds. Going to flip them!\n",
@@ -319,7 +318,7 @@ void parseArguments(int _argc, char** _argv) {
                     pathForAnimations = optarg;
                     printf("[INFO] Use animations from \"%s\"\n", optarg);
                 } else {
-                    printf("[ERROR] Can't open directory \"%s\"\n", optarg);
+                    fprintf(stderr, "[ERROR] Can't open directory \"%s\"\n", optarg);
                     abort();
                 }
                 break;
@@ -330,7 +329,7 @@ void parseArguments(int _argc, char** _argv) {
                     pathForBlinks = optarg;
                     printf("[INFO] Use blink animations from \"%s\"\n", optarg);
                 } else {
-                    printf("[ERROR] Can't open directory \"%s\"\n", optarg);
+                    fprintf(stderr, "[ERROR] Can't open directory \"%s\"\n", optarg);
                     abort();
                 }
                 break;
@@ -341,7 +340,7 @@ void parseArguments(int _argc, char** _argv) {
                     specificAnimationToShow = optarg;
                     printf("[INFO] Use specific animation \"%s\"\n", optarg);
                 } else {
-                    printf("[ERROR] Can't open file \"%s\"\n", optarg);
+                    fprintf(stderr, "[ERROR] Can't open file \"%s\"\n", optarg);
                     abort();
                 }
                 break;
@@ -352,7 +351,7 @@ void parseArguments(int _argc, char** _argv) {
                     pathForPalette = optarg;
                     printf("[INFO] Set color palette to \"%s\"\n", optarg);
                 } else {
-                    printf("[ERROR] Can't open file \"%s\"\n", optarg);
+                    fprintf(stderr, "[ERROR] Can't open file \"%s\"\n", optarg);
                     abort();
                 }
                 break;
@@ -378,6 +377,9 @@ void parseArguments(int _argc, char** _argv) {
     }
 }
 
+/**
+ * Print a help dialog to the console
+ */
 void printHelp() {
     printf("===[Debug options]===\n");
     printf("-h               Print this help screen\n");
@@ -388,13 +390,13 @@ void printHelp() {
     printf("\n===[Tune animation playback]===\n");
     printf("-c               Use random palette for monochrome animations\n");
     printf("-b [0-255]       Set maximum possible brightness. Default is 24\n");
-    printf("-s [MULTIPLIER]  Playback speed. Need to be bigger than 0\n");
-    printf("-B [PATTERN]     Controls the blinks. Highest number that can be used is within the pattern is 9\n");
+    printf("-s [MULTIPLIER]  Playback speed. Needs to be bigger than 0\n");
+    printf("-B [PATTERN]     Controls the blinks. Highest number that can be used within the pattern is 9\n");
     printf("                 -1st: Maximum number of blinks between animations\n");
-    printf("                 -2nd: Seconds minimum between blinks\n");
-    printf("                 -3rd: Seconds maximum between blinks\n");
+    printf("                 -2nd: Minimum seconds between blinks\n");
+    printf("                 -3rd: Maximum seconds between blinks\n");
     printf("                 Example: \"4-4-6\" (default)\n");
-    printf("                          -Maximum off 4 blinks between animations\n");
+    printf("                          -Maximum of 4 blinks between animations\n");
     printf("                          -4 to 6 seconds between each blink\n");
 
     printf("\n===[File arguments]===\n");
@@ -404,23 +406,7 @@ void printHelp() {
     printf("-P [FILE PATH]   Use color palette from text file. For formatting of palette file use tool or see example.\n");
 
     printf("\n===[Hints]===\n");
-    printf("To bring TASBot in a state, where he is only blinking, execute with argument \"-p ./gifs/blinks/\". This will narrow all possible options for animations down to blinking ones, while keeping the support for blink patterns and usual appearance. To further improve appearance, don't use with -c option.\n");
-}
-
-bool checkIfDirectoryExist(char* _path) {
-    DIR* dir = opendir(_path);
-    if (dir) {
-        closedir(dir);
-        return true;
-    }
-    return false;
-}
-
-bool checkIfFileExist(char* _file) {
-    if (access(_file, F_OK) == 0) {
-        return true;
-    }
-    return false;
+    printf("To bring TASBot in a state, where he is only blinking, execute with argument \"-p ./gifs/blinks/\". This will narrow all possible options for animations down to blinking ones, while keeping the support for blink patterns and the usual appearance. To further improve appearance, don't use with -c option.\n");
 }
 //endregion
 
@@ -428,7 +414,6 @@ bool checkIfFileExist(char* _file) {
 /**
  * @brief Registers the handler
  * Register the handler for SIGINT, SIGTERM and SIGKILL
- * All other Signals are other signals excluded
  */
 void setupHandler() {
     struct sigaction sa = {
@@ -620,51 +605,6 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
     return animationFrame;
 }
 
-//TODO: Both methods could probably tidied up into one method with some refactoring...somehow...I bet...I swear...I'm sure
-/**
- * Count the files in a given directory
- * @param _path The path of the directory, it's files should be counted
- * @return The number of files in that directory
- */
-int countFilesInDir(char* _path) {
-    DIR* d = opendir(_path);
-    if (d) {
-        int counter = 0;
-        struct dirent* dir;
-        while ((dir = readdir(d)) != NULL) {
-            if (dir->d_type == DT_REG) {
-                counter++;
-            }
-        }
-        closedir(d);
-        return counter;
-    }
-    return -1;
-}
-
-/**
- * Writes all file names of an given directory into the given _list-Array
- * @param _path The path of the directory, it file names should be written into _list
- * @param _list Pointer to output array. Results get writen into here.
- * @return If the directory was successfully open
- */
-bool getFileList(const char* _path, char* _list[]) {
-    DIR* d = opendir(_path);
-    if (d) {
-        int counter = 0;
-        struct dirent* dir;
-        while ((dir = readdir(d)) != NULL) {
-            if (dir->d_type == DT_REG) {
-                _list[counter] = dir->d_name;
-                counter++;
-            }
-        }
-        closedir(d);
-        return true;
-    }
-    return false;
-}
-
 /**
  * Get a random entry from a list
  * @param list List, from which the random item should be chosen
@@ -812,7 +752,7 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
             printf("[INFO] Render frame #%d \n", i);
         }
         showFrame(_animation->frames[i], color);
-        usleep((int) (_animation->frames[i]->delayTime * 1000 / playbackSpeed));
+        usleep((int) ((float) (_animation->frames[i]->delayTime * 1000) / playbackSpeed));
     }
 
     freeAnimation(_animation);
@@ -821,13 +761,12 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
 /**
  * Output the pixel data to the LED data structure, which then gets rendered.
  * @param _frame The frame, that is to render
- * @param _color The color, which should overwrite the actual color data from the frame. If equal 0, the color of the frame is actually used.
+ * @param _color The color, which should overwrite the actual color data from the frame and only used, when the animation is monochrome. Otherwise, it's NULL and used to indicate, that animation has its own color.
  */
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
             GifColorType* gifColor = _frame->color[x][y];
-            printf("AAAAAA luminance: %f\n", getLuminance(gifColor));
             ws2811_led_t color;
 
             if (activateLEDModule) {
@@ -838,9 +777,9 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
                     if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
                         //pixel[ledMatrixTranslation(x, y)] = _color;
                         color = _color;
-
                         //TODO: Adjust to brightness of gifColor given in GIF
                         // Right now it's flat the same gifColor to all pixels, that just _aren't_ black
+                        // Use function getLuminance() for that
                     } else {
                         //pixel[ledMatrixTranslation(x, y)] = 0; //set other pixels black
                         color = 0;
@@ -880,11 +819,11 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
     }
 }
 
-//TODO: Can someone check please, if I got it right?
 /**
  * Free up the allocated memory space for an animation
  * @param _animation The animation, that is to free from memory
  */
+//TODO: Can someone check please, if I got it right?
 void freeAnimation(Animation* _animation) {
     //dirty trick, close file here, after animation. That way DGifCloseFile() can't destroy the animation data
     int e = 0;
@@ -901,13 +840,13 @@ void freeAnimation(Animation* _animation) {
 }
 
 /**
- * Determine how long to wait between blinks
- * @return seconds, that are to wait between blink animation
+ * Determine How long to wait between blinks
+ * @return Seconds, that are to wait between blink animation
  */
 unsigned int getBlinkDelay() {
     if (minTimeBetweenBlinks == maxTimeBetweenBlinks) {
-        return (int) ((float) minTimeBetweenBlinks * (1 /
-                                                      playbackSpeed)); //Cast to float to multiply with payback speed. Then cast back, as we need an integer.
+        //Cast to float to multiply with payback speed. Then cast back, as we need an integer.
+        return (int) ((float) minTimeBetweenBlinks * (1 / playbackSpeed));
     }
     return (int) ((float) (minTimeBetweenBlinks +
                            (rand() % (maxTimeBetweenBlinks - minTimeBetweenBlinks))) * (1 / playbackSpeed));
@@ -941,20 +880,6 @@ float getLuminance(GifColorType* _color) {
 ws2811_led_t translateColor(GifColorType* _color) {
     return ((_color->Red & 0xff) << 16) + ((_color->Green & 0xff) << 8) + (_color->Blue & 0xff);
 }
-
-/**
- * Allocate memory for path complete file path and ditch path and filename together
- * @param _path relativ or absolut path, where the file is laying
- * @param _file filename
- * @return relative or absolut path to file
- */
-char* getFilePath(char* _path, char* _file) {
-    char* path = malloc(sizeof(char) * (MAX_PATH_LENGTH + MAX_FILENAME_LENGTH));
-    strcpy(path, _path);
-    strcat(path, _file);
-
-    return path;
-}
 //endregion
 
 //region Palette
@@ -966,7 +891,7 @@ void readPalette(char* _path) {
     //Read raw palette from file into the rawPal variable
     int colorCount = countLines(_path);
     char* rawPal[colorCount];
-    readPaletteFile(_path, colorCount, rawPal);
+    readFile(_path, colorCount, rawPal);
 
     //Read palette into final palette array
     ws2811_led_t* pal = malloc(sizeof(ws2811_led_t) * colorCount);
@@ -987,58 +912,6 @@ void readPalette(char* _path) {
 }
 
 /**
- * Read lines of a given file into a given array
- * @param _path The file, that should be parsed into the array
- * @param _count The count of lines, the file has
- * @param _palette The array, the lines should be read into
- */
-void readPaletteFile(const char* _path, int _count, char** _palette) {
-    //Check if file exists
-    FILE* ptr = fopen(_path, "r");
-    if (ptr == NULL) {
-        printf("[ERROR] File can't be opened \n");
-    }
-
-    //Read line after line into give palette
-    for (int i = 0; i < _count; i++) {
-        _palette[i] = malloc(sizeof(unsigned int));
-        fscanf(ptr, "%s\n", _palette[i]);
-    }
-
-    //Closing the file
-    fclose(ptr);
-}
-
-/**
- * Count the lines of a file
- * @param _path The file whose lines should be count
- * @return The number of lines
- */
-int countLines(const char* _path) {
-    //Check if file exists
-    FILE* ptr = fopen(_path, "r");
-    if (ptr == NULL) {
-        printf("[ERROR] File can't be opened \n");
-    }
-
-    //Read every character of the file and count new lines/line feeds
-    int newLines = 0;
-    int ch;
-    do {
-        ch = fgetc(ptr);
-        if (ch == '\n') {
-            newLines++;
-        }
-    } while (ch != EOF);
-
-    //Closing the file
-    fclose(ptr);
-
-    //Last line doesn't have a line feed, so add one
-    return newLines + 1;
-}
-
-/**
  * Converts a sequenz of hexadecimal characters into an actual integer. Meant to be used with hexadecimal color strings
  * @param _color The color string, that should be converted
  * @return An integer, that contains the actual numeric value of the given _color string
@@ -1054,7 +927,8 @@ int strtocol(char* _color) {
             result = result | hex << (len - i - 1) *
                                      4; //Bit-shift by 4, because hex numbers use only lower 4 bits. OR all of it together.
         } else {
-            printf("[ERROR] Can't read character '%c' color \"%s\". Please check formatting!\n", _color[i], _color);
+            fprintf(stderr, "[ERROR] Can't read character '%c' color \"%s\". Please check formatting!\n", _color[i],
+                    _color);
             return -1;
         }
     }
@@ -1083,7 +957,144 @@ int chtohex(char _ch) {
     }
     return result;
 }
+//endregion
 
+//region File system operations
+/**
+ * Allocate memory for path complete file path and ditch path and filename together
+ * @param _path relativ or absolut path, where the file is laying
+ * @param _file filename
+ * @return relative or absolut path to file
+ */
+char* getFilePath(char* _path, char* _file) {
+    char* path = malloc(sizeof(char) * (MAX_PATH_LENGTH + MAX_FILENAME_LENGTH));
+    strcpy(path, _path);
+    strcat(path, _file);
+
+    return path;
+}
+
+/**
+ * Check if a directory exists
+ * @param _path Path of the directory, that's supposed to be checked
+ * @return If the directory of the given path exists
+ */
+bool checkIfDirectoryExist(char* _path) {
+    DIR* dir = opendir(_path);
+    if (dir) {
+        closedir(dir);
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Check if a given file exists
+ * @param _file Path to the file, that should be checked
+ * @return If the file for the given path exists
+ */
+bool checkIfFileExist(char* _file) {
+    if (access(_file, F_OK) == 0) {
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Read lines of a given file into a given array
+ * @param _path The file, that should be parsed into the array
+ * @param _count The count of lines, the file has
+ * @param _out The array, the lines should be read into
+ */
+void readFile(const char* _path, int _count, char** _out) {
+    //Check if file exists
+    FILE* ptr = fopen(_path, "r");
+    if (ptr == NULL) {
+        fprintf(stderr, "[ERROR] File can't be opened \n");
+    }
+
+    //Read line after line into give array
+    for (int i = 0; i < _count; i++) {
+        _out[i] = malloc(sizeof(unsigned int));
+        fscanf(ptr, "%s\n", _out[i]);
+    }
+
+    //Closing the file
+    fclose(ptr);
+}
+
+/**
+ * Count the files in a given directory
+ * @param _path The path of the directory, it's files should be counted
+ * @return The number of files in that directory
+ */
+int countFilesInDir(char* _path) {
+    DIR* d = opendir(_path);
+    if (d) {
+        int counter = 0;
+        struct dirent* dir;
+        while ((dir = readdir(d)) != NULL) {
+            if (dir->d_type == DT_REG) {
+                counter++;
+            }
+        }
+        closedir(d);
+        return counter;
+    }
+    return -1;
+}
+
+/**
+ * Writes all file names of an given directory into the given _list-Array
+ * @param _path The path of the directory, it file names should be written into _list
+ * @param _list Pointer to output array. Results get writen into here.
+ * @return If the directory was successfully open
+ */
+bool getFileList(const char* _path, char* _list[]) {
+    DIR* d = opendir(_path);
+    if (d) {
+        int counter = 0;
+        struct dirent* dir;
+        while ((dir = readdir(d)) != NULL) {
+            if (dir->d_type == DT_REG) {
+                _list[counter] = dir->d_name;
+                counter++;
+            }
+        }
+        closedir(d);
+        return true;
+    }
+    return false;
+}
+
+/**
+ * Count the lines of a file
+ * @param _path The file whose lines should be count
+ * @return The number of lines
+ */
+int countLines(const char* _path) {
+    //Check if file exists
+    FILE* ptr = fopen(_path, "r");
+    if (ptr == NULL) {
+        fprintf(stderr, "[ERROR] File can't be opened \n");
+    }
+
+    //Read every character of the file and count new lines/line feeds
+    int newLines = 0;
+    int ch;
+    do {
+        ch = fgetc(ptr);
+        if (ch == '\n') {
+            newLines++;
+        }
+    } while (ch != EOF);
+
+    //Closing the file
+    fclose(ptr);
+
+    //Last line doesn't have a line feed, so add one
+    return newLines + 1;
+}
 //endregion
 
 //region Debug and Development
