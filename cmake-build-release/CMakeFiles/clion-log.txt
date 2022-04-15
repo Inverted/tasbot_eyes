@@ -1,4 +1,0 @@
-/snap/clion/189/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=/snap/clion/189/bin/ninja/linux/ninja -G Ninja -S /mnt/Dateien/Projekte/tasbot_eyes -B /mnt/Dateien/Projekte/tasbot_eyes/cmake-build-release
--- Configuring done
--- Generating done
--- Build files have been written to: /mnt/Dateien/Projekte/tasbot_eyes/cmake-build-release
