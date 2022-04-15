@@ -29,7 +29,7 @@ The program looks within its current working directory, for a folder called `gif
 1. Show base expression
 2. Sleep a random amount of time based on blink pattern
 3. Do a blink cycle, meaning  
-    0. Determine how many times TASBot blinks (_n_) based on pattern
+    o. Determine how many times TASBot blinks (_n_) based on pattern
     1. Blink
     2. Show base expression
     3. Sleep based on pattern
