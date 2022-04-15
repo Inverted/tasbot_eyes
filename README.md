@@ -34,9 +34,9 @@ The program looks within its current working directory, for a folder called `gif
     3. Show base expression
     4. Sleep based on pattern
     5. _n = n-1_
-    6. If _n>0_ left, go to ii.
+    6. If _n>0_, go to ii.
 4. Show random animation
-5. Go to 1
+5. Go to 1.
 
 ### About blink pattern
 
