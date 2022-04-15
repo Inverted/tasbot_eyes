@@ -500,7 +500,7 @@ u_int16_t getDelayTime(SavedImage* _frame) {
  */
 Animation* readAnimation(char* _file) {
     if (verboseLogging) {
-        printf("[INFO] Load _file %s\n", _file);
+        printf("[INFO] Load file %s\n", _file);
     }
 
     //Open _file
@@ -595,7 +595,10 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
 
                 //check if animation is monochrome. When a single frame contains color,
                 //then preserve the animations color later while rendering.
-                *_monochrome = !(color->Red == color->Green && color->Red == color->Blue);
+                //*_monochrome = !(color->Red == color->Green && color->Red == color->Blue);
+                if (!(color->Red == color->Green && color->Red == color->Blue)) {
+                    *_monochrome = false;
+                }
 
             } else {
                 printf("[WARNING] No color map given. Can't process picture. Skip frame");

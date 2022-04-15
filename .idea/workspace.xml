@@ -13,7 +13,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Transfer">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Done polishing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
@@ -100,14 +100,7 @@
       <workItem from="1649797927044" duration="7737000" />
       <workItem from="1649892858619" duration="12000" />
       <workItem from="1649906485283" duration="3002000" />
-      <workItem from="1649954380387" duration="16311000" />
-    </task>
-    <task id="LOCAL-00082" summary="added support for -b -s -d">
-      <created>1649809050589</created>
-      <option name="number" value="00082" />
-      <option name="presentableId" value="LOCAL-00082" />
-      <option name="project" value="LOCAL" />
-      <updated>1649809050589</updated>
+      <workItem from="1649954380387" duration="16958000" />
     </task>
     <task id="LOCAL-00083" summary="changed pin to tasbot default">
       <created>1649809078694</created>
@@ -445,7 +438,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649979334552</updated>
     </task>
-    <option name="localTasksCounter" value="131" />
+    <task id="LOCAL-00131" summary="Done polishing">
+      <created>1649981275074</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1649981275074</updated>
+    </task>
+    <option name="localTasksCounter" value="132" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -463,7 +463,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="transfer" />
     <MESSAGE value="Worked on the arguments. Parsing complete" />
     <MESSAGE value="Some clean up" />
     <MESSAGE value="changed how leds are init" />
@@ -488,7 +487,8 @@
     <MESSAGE value="clear LEDs after init" />
     <MESSAGE value="Add method to calculate luminance" />
     <MESSAGE value="Transfer" />
-    <option name="LAST_COMMIT_MESSAGE" value="Transfer" />
+    <MESSAGE value="Done polishing" />
+    <option name="LAST_COMMIT_MESSAGE" value="Done polishing" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
