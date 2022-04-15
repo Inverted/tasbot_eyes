@@ -1,4 +1,4 @@
-//Last working version from Mar 24, 2022
+/*! \file */
 #include <gif_lib.h> //https://sourceforge.net/projects/giflib/
 #include <ws2811/ws2811.h> //https://github.com/jgarff/rpi_ws281x
 
@@ -413,7 +413,6 @@ void printHelp() {
 
 //region Signal
 /**
- * @brief Registers the handler
  * Register the handler for SIGINT, SIGTERM and SIGKILL
  */
 void setupHandler() {
@@ -427,8 +426,7 @@ void setupHandler() {
 }
 
 /**
- * @brief Central handler for leaving the application
- * Handler for SIGINT, SIGTERM and SIGKILL. Gets also called after the endless loop
+ * Central handler for leaving the application. Handler for SIGINT, SIGTERM and SIGKILL. Gets also called after the endless loop
  * @param _number uwu
  */
 void finish(int _number) {
@@ -456,7 +454,8 @@ bool checkIfImageHasRightSize(GifFileType* _image) {
 }
 
 /**
- * @brief [DONT USE, NOT TESTED, DEAD CODE] Obtain the delay time between frames
+ * Obtain the delay time between frames
+ * @brief [DONT USE, NOT TESTED, DEAD CODE]
  * @param _frame Frame the delay shout get from
  * @return The delay between frames
  */
@@ -654,7 +653,6 @@ ws2811_return_t initLEDs() {
 }
 
 /**
- * @brief Update LEDs to new color
  * Updates the display's hardware LEDs color to the local pixel variables array
  * @return Infos about, if the LEDs where rendered successful
  */
@@ -678,7 +676,6 @@ ws2811_return_t renderLEDs() {
 }
 
 /**
- * @brief Turns of all the LEDs
  * Clears all the LEDs by setting their color to black and renders it
  */
 ws2811_return_t clearLEDs() {

@@ -13,7 +13,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Wrote a proper README.md">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Spelling">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -42,19 +43,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "cmake.loaded.for.project": "true",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.editor",
-    "structure.view.defaults.are.configured": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cmake.loaded.for.project&quot;: &quot;true&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
+    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cmake-build-debug/gifs" />
@@ -62,11 +63,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="tasbot_eyes" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v -r -c" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -100,14 +96,8 @@
       <workItem from="1649797927044" duration="7737000" />
       <workItem from="1649892858619" duration="12000" />
       <workItem from="1649906485283" duration="3002000" />
-      <workItem from="1649954380387" duration="21883000" />
-    </task>
-    <task id="LOCAL-00092" summary="improved path arguments">
-      <created>1649811656343</created>
-      <option name="number" value="00092" />
-      <option name="presentableId" value="LOCAL-00092" />
-      <option name="project" value="LOCAL" />
-      <updated>1649811656343</updated>
+      <workItem from="1649954380387" duration="22207000" />
+      <workItem from="1649988807280" duration="182000" />
     </task>
     <task id="LOCAL-00093" summary="Done implementing arguments (for now)">
       <created>1649812519263</created>
@@ -445,7 +435,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649986796538</updated>
     </task>
-    <option name="localTasksCounter" value="141" />
+    <task id="LOCAL-00141" summary="Spelling">
+      <created>1649986884646</created>
+      <option name="number" value="00141" />
+      <option name="presentableId" value="LOCAL-00141" />
+      <option name="project" value="LOCAL" />
+      <updated>1649986884646</updated>
+    </task>
+    <option name="localTasksCounter" value="142" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -463,7 +460,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Some clean up" />
     <MESSAGE value="changed how leds are init" />
     <MESSAGE value="changed how leds are initialized" />
     <MESSAGE value="added support for -b -s -d" />
@@ -488,7 +484,8 @@
     <MESSAGE value="Transfer" />
     <MESSAGE value="Done polishing" />
     <MESSAGE value="Wrote a proper README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="Wrote a proper README.md" />
+    <MESSAGE value="Spelling" />
+    <option name="LAST_COMMIT_MESSAGE" value="Spelling" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
