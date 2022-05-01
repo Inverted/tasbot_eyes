@@ -105,5 +105,5 @@ To create a color palette, you can either:
       is favoured (just because it gets picked repeatedly by the random generator)
 * Debate on if during a blink cycle (a period between the random animations), TASBot should use the same blink animation
   for all blinks or if that should stay random like it is right now. This could further smooth out the appearance.
-* Argument to change the different base frame
+* Argument to change the base frame
 * Argument if the playback speed, which can be set with `-s xx`, should also affect the delays between the animations or just the animation itself.
