@@ -121,7 +121,7 @@ bool numberIsEven(int _number);
 
 //Development function toggles
 bool activateLEDModule = true;
-bool realTASBot = false;
+bool realTASBot = true;
 //endregion
 
 //TASBot display conversation table
@@ -226,7 +226,7 @@ int main(int _argc, char** _argv) {
  */
 void parseArguments(int _argc, char** _argv) {
     int c;
-    while ((c = getopt(_argc, _argv, "hvrcDd:b:s:B:i:p:z:P:")) != -1) {
+    while ((c = getopt(_argc, _argv, "XhvrcDd:b:s:B:i:p:z:P:")) != -1) {
         switch (c) {
             case 'h':
                 printHelp();
@@ -242,6 +242,10 @@ void parseArguments(int _argc, char** _argv) {
                 break;
             case 'D':
                 playbackSpeedAffectBlinks = true;
+                printf("[INFO] Playback speed will affect blink delay\n");
+                break;
+            case 'X':
+                realTASBot = false;
                 printf("[INFO] Playback speed will affect blink delay\n");
                 break;
 
@@ -855,9 +859,8 @@ unsigned int getBlinkDelay() {
         //Cast to float to multiply with payback speed. Then cast back, as we need an integer.
         if (playbackSpeedAffectBlinks){
             return (int) ((float) minTimeBetweenBlinks * (1 / playbackSpeed));
-        } else {
-            return minTimeBetweenBlinks;
         }
+        return minTimeBetweenBlinks;
     }
 
     if (playbackSpeedAffectBlinks){
