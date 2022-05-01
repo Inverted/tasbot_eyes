@@ -40,7 +40,7 @@ The program looks within its current working directory, for a folder called `gif
     * Check if the animation has its own color. If not, choose a random one and overwrite all set pixels
 6. Go to 1.
 
-### About blink pattern
+### About blink patterns
 
 It can be defined, how many times at most TASBot blinks between every random animation, but at least always once (if
 pattern is not making skipping them, e.g. `0-x-y`). It can also be defined, how long are the periods are between the
@@ -66,7 +66,7 @@ next random animation
 | `-c`               | Use random palette for monochrome animations                                                                                                                                                                               | -                                                                                                 |
 | `-b [0-255]`       | Set maximum possible brightness. Default is 24                                                                                                                                                                             | `-b 100`                                                                                          |
 | `-s [MULTIPLIER]`  | Playback speed. Needs to be bigger than 0                                                                                                                                                                                  | `-s 1.25`                                                                                         |
-| `-B [PATTERN]`     | Controls the blinks. Highest number that can be used within the pattern is 9<br />* 1st: Maximum number of blinks between animations<br />* 2nd: Minimum seconds between blinks<br />* 3rd: Maximum seconds between blinks | `-B 4-4-6`<br />* Maximum of 4 blinks between animations<br />* 4 to 6 seconds between each blink |
+| `-B [PATTERN]`     | Controls the blinks. See the "*About blink patterns*" above for more infos | `-B 4-4-6` Maximum of 4 blinks between animations with 4 to 6 seconds between each blink |
 | `-p [FOLDER PATH]` | Play animations from a specific folder                                                                                                                                                                                     | `-p "/home/tasbot/display/animations"`                                                         |
 | `-z [FOLDER PATH]` | lay blink animation from specific folder                                                                                                                                                                                   | `-z "/home/tasbot/display/animations/blink`                                                    |
 | `-i [FILE PATH]`   | Play specific animation as endless loop. "-p" and "-z" become useless with this                                                                                                                                            | `-i "/home/tasbot/display/special_animations/magfest.gif"`                                     |
