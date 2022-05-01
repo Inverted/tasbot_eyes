@@ -67,9 +67,9 @@ next random animation
 | `-b [0-255]`       | Set maximum possible brightness. Default is 24                                                                                                                                                                             | `-b 100`                                                                                          |
 | `-s [MULTIPLIER]`  | Playback speed. Needs to be bigger than 0                                                                                                                                                                                  | `-s 1.25`                                                                                         |
 | `-B [PATTERN]`     | Controls the blinks. Highest number that can be used within the pattern is 9<br />* 1st: Maximum number of blinks between animations<br />* 2nd: Minimum seconds between blinks<br />* 3rd: Maximum seconds between blinks | `-B 4-4-6`<br />* Maximum of 4 blinks between animations<br />* 4 to 6 seconds between each blink |
-| `-p [FOLDER PATH]` | Play animations from a specific folder                                                                                                                                                                                     | `-p "/home/pi/tasbot/display/animations"`                                                         |
-| `-z [FOLDER PATH]` | lay blink animation from specific folder                                                                                                                                                                                   | `-z "/home/pi/tasbot/display/animations/blink`                                                    |
-| `-i [FILE PATH]`   | Play specific animation as endless loop. "-p" and "-z" become useless with this                                                                                                                                            | `-i "/home/pi/tasbot/display/special_animations/magfest.gif"`                                     |
+| `-p [FOLDER PATH]` | Play animations from a specific folder                                                                                                                                                                                     | `-p "/home/tasbot/display/animations"`                                                         |
+| `-z [FOLDER PATH]` | lay blink animation from specific folder                                                                                                                                                                                   | `-z "/home/tasbot/display/animations/blink`                                                    |
+| `-i [FILE PATH]`   | Play specific animation as endless loop. "-p" and "-z" become useless with this                                                                                                                                            | `-i "/home/tasbot/display/special_animations/magfest.gif"`                                     |
 | `-P [FILE PATH]`              | Use color palette from text file. For formatting of palette file use tool or see example                                                                                                                                   | `-P "/home/pi/tasbot/display/palettes/gameboy.tasbotPalette"`                                     |
 
 ## Create color palette
@@ -93,7 +93,8 @@ To create a color palette, you can either:
   black. Use the method `getLuminance()` for that.
 * It's the first time I used plain C. I hope I got all memory allocations right. I would appreciate, if someone could
   check my `malloc's, calloc's, memset's` and esp. `free's`.
-* Some methods got pretty blob like, that could be made :sparkles: prettier :sparkles:.
+* Some methods got pretty blob like, that could be made :sparkles: prettier :sparkles:
+* The entire main.c is a huge blob, that could be resolved into several files (.h and .c)
 
 ## Future ideas
 
@@ -105,3 +106,4 @@ To create a color palette, you can either:
 * Debate on if during a blink cycle (a period between the random animations), TASBot should use the same blink animation
   for all blinks or if that should stay random like it is right now. This could further smooth out the appearance.
 * Argument to change the different base frame
+* Argument to control of the playback speed, which can be set with `-s xx`, also affect the delays between
