@@ -56,6 +56,7 @@ unsigned int paletteCount;
 bool verboseLogging = false;
 bool consoleRenderer = false;
 bool useRandomColors = false;
+bool playbackSpeedAffectBlinks = false;
 char* specificAnimationToShow = NULL;
 char* pathForAnimations = OTHER_PATH;
 char* pathForBlinks = BLINK_PATH;
@@ -225,7 +226,7 @@ int main(int _argc, char** _argv) {
  */
 void parseArguments(int _argc, char** _argv) {
     int c;
-    while ((c = getopt(_argc, _argv, "hvrcd:b:s:B:i:p:z:P:")) != -1) {
+    while ((c = getopt(_argc, _argv, "hvrcDd:b:s:B:i:p:z:P:")) != -1) {
         switch (c) {
             case 'h':
                 printHelp();
@@ -238,6 +239,10 @@ void parseArguments(int _argc, char** _argv) {
             case 'r':
                 consoleRenderer = true;
                 printf("[INFO] Use console renderer\n");
+                break;
+            case 'D':
+                playbackSpeedAffectBlinks = true;
+                printf("[INFO] Playback speed will affect blink delay\n");
                 break;
 
             case 'd': {
@@ -389,6 +394,7 @@ void printHelp() {
 
     printf("\n===[Tune animation playback]===\n");
     printf("-c               Use random palette for monochrome animations\n");
+    printf("-D               Let playback speed affect blink delay\n");
     printf("-b [0-255]       Set maximum possible brightness. Default is 24\n");
     printf("-s [MULTIPLIER]  Playback speed. Needs to be bigger than 0\n");
     printf("-B [PATTERN]     Controls the blinks. Highest number that can be used within the pattern is 9\n");
@@ -659,9 +665,7 @@ ws2811_return_t initLEDs() {
 ws2811_return_t renderLEDs() {
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
-            //TODO: delete a lot of old code here. reinsure it still works
             display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x];
-            //printf("%x\n", pixel[y * LED_WIDTH + x]);
         }
     }
 
@@ -669,7 +673,9 @@ ws2811_return_t renderLEDs() {
     if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
         fprintf(stderr, "[ERROR] Failed to render: %s\n", ws2811_get_return_t_str(r));
     } else {
-        printf("[INFO] Rendered LEDs with code %d\n", r);
+        if (verboseLogging){
+            printf("[INFO] Rendered LEDs with code %d\n", r);
+        }
     }
 
     return r;
@@ -847,10 +853,19 @@ void freeAnimation(Animation* _animation) {
 unsigned int getBlinkDelay() {
     if (minTimeBetweenBlinks == maxTimeBetweenBlinks) {
         //Cast to float to multiply with payback speed. Then cast back, as we need an integer.
-        return (int) ((float) minTimeBetweenBlinks * (1 / playbackSpeed));
+        if (playbackSpeedAffectBlinks){
+            return (int) ((float) minTimeBetweenBlinks * (1 / playbackSpeed));
+        } else {
+            return minTimeBetweenBlinks;
+        }
     }
-    return (int) ((float) (minTimeBetweenBlinks +
-                           (rand() % (maxTimeBetweenBlinks - minTimeBetweenBlinks))) * (1 / playbackSpeed));
+
+    if (playbackSpeedAffectBlinks){
+        return (int) ((float) (minTimeBetweenBlinks + (rand() % (maxTimeBetweenBlinks - minTimeBetweenBlinks))) * (1 / playbackSpeed));
+    }
+
+    //default case
+    return (int) ((float) (minTimeBetweenBlinks + (rand() % (maxTimeBetweenBlinks - minTimeBetweenBlinks))));
 }
 
 /**
