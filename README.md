@@ -20,7 +20,7 @@ The program looks within its current working directory, for a folder called `gif
 
 | Path | Explanation                                                                       |
 | --- |-----------------------------------------------------------------------------------|
-|`./gifs/others`| Here go all the general animations. The is choosing randomly animations from here |
+|`./gifs/others`| Here go all the general animations. The program is choosing randomly animations from here |
 |`./gifs/blinks`| Here are all blinking animations, the program can choose from                     |
 |`./gifs/base.gif`| The frame, TASBots expression always returns to between the animations and blinks |
 
