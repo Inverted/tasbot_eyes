@@ -13,8 +13,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="transfer">
-      <change beforePath="$PROJECT_DIR$/.idea/other.xml" beforeDir="false" />
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Removed showBaseExpression() and replaced with showExpressionFromFilepath(BASE_PATH);">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
@@ -104,13 +103,6 @@
       <workItem from="1649906485283" duration="3002000" />
       <workItem from="1649954380387" duration="22207000" />
       <workItem from="1649988807280" duration="182000" />
-    </task>
-    <task id="LOCAL-00093" summary="Done implementing arguments (for now)">
-      <created>1649812519263</created>
-      <option name="number" value="00093" />
-      <option name="presentableId" value="LOCAL-00093" />
-      <option name="project" value="LOCAL" />
-      <updated>1649812519263</updated>
     </task>
     <task id="LOCAL-00094" summary="Done implementing arguments (for now)">
       <created>1649812758795</created>
@@ -448,7 +440,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649986884646</updated>
     </task>
-    <option name="localTasksCounter" value="142" />
+    <task id="LOCAL-00142" summary="Removed showBaseExpression() and replaced with showExpressionFromFilepath(BASE_PATH);">
+      <created>1651611536523</created>
+      <option name="number" value="00142" />
+      <option name="presentableId" value="LOCAL-00142" />
+      <option name="project" value="LOCAL" />
+      <updated>1651611536524</updated>
+    </task>
+    <option name="localTasksCounter" value="143" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -466,7 +465,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed how leds are init" />
     <MESSAGE value="changed how leds are initialized" />
     <MESSAGE value="added support for -b -s -d" />
     <MESSAGE value="changed pin to tasbot default" />
@@ -491,7 +489,8 @@
     <MESSAGE value="Done polishing" />
     <MESSAGE value="Wrote a proper README.md" />
     <MESSAGE value="Spelling" />
-    <option name="LAST_COMMIT_MESSAGE" value="Spelling" />
+    <MESSAGE value="Removed showBaseExpression() and replaced with showExpressionFromFilepath(BASE_PATH);" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed showBaseExpression() and replaced with showExpressionFromFilepath(BASE_PATH);" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

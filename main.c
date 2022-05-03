@@ -193,6 +193,7 @@ int main(int _argc, char** _argv) {
         if (!firstIteration) {
             showRandomExpression(pathForAnimations, true);
         } else {
+            showExpressionFromFilepath(STARTUP_PATH);
             firstIteration = false;
         }
 
