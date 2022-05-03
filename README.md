@@ -12,31 +12,33 @@
 1. Clone, compile and install the rpi_ws281x lib (requires cmake)
 2. Download, compile and install GIFLIB (found on SourceForge https://sourceforge.net/projects/giflib/, requires make)
 3. Clone and compile this repo (requires cmake)  
-:warning: **ATTENTION**: When compiling for real TASBot, you wanna edit `main.c` and change `bool realTASBot = false;` to `bool realTASBot = true;` 
+:warning: **ATTENTION**: When compiling for real TASBot, make sure `bool realTASBot` ist set to `true` (it is by default)
 
 ## How it works
 
 The program looks within its current working directory, for a folder called `gifs` and subdirectories within it.
 
-| Path | Explanation                                                                       |
-| --- |-----------------------------------------------------------------------------------|
-|`./gifs/others`| Here go all the general animations. The program is choosing randomly animations from here |
-|`./gifs/blinks`| Here are all blinking animations, the program can choose from                     |
-|`./gifs/base.gif`| The frame, TASBots expression always returns to between the animations and blinks |
+| Path                 | Explanation                                                                               |
+|----------------------|-------------------------------------------------------------------------------------------|
+| `./gifs/others`      | Here go all the general animations. The program is choosing randomly animations from here |
+| `./gifs/blinks`      | Here are all blinking animations, the program can choose from                             |
+| `./gifs/base.gif`    | The frame, TASBots expression always returns to between the animations and blinks         |
+| `./gifs/startup.gif` | The animation, that gets played exactly once, when the eye starts                         |
 
 ### Abstract program flow
 
 0. Start
-1. Show base expression
-2. Sleep a random amount of time based on blink pattern
-3. Do a blink cycle, meaning  
+1. Play startup animation
+2. Show base expression
+3. Sleep a random amount of time based on blink pattern
+4. Do a blink cycle, meaning  
     1. Determine how many times TASBot blinks (_n_) based on pattern
-    2. Blink
+    2. Choose and show random blink
     3. Show base expression
     4. Sleep based on pattern
     5. _n = n-1_
     6. If _n>0_, go to ii.
-4. Show random animation
+5. Show random animation
     * Check if the animation has its own color. If not, choose a random one and overwrite all set pixels
 6. Go to 1.
 
@@ -107,3 +109,5 @@ To create a color palette, you can either:
 * Debate on if during a blink cycle (a period between the random animations), TASBot should use the same blink animation
   for all blinks or if that should stay random like it is right now. This could further smooth out the appearance.
 * Argument to change the base frame
+* Gamma correction as hinted by *Inverted*
+* Loop argument for single frame mode

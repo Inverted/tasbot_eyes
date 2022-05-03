@@ -13,9 +13,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Removed showBaseExpression() and replaced with showExpressionFromFilepath(BASE_PATH);">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="TASBot plays now an startup animation when starting">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -103,13 +103,6 @@
       <workItem from="1649906485283" duration="3002000" />
       <workItem from="1649954380387" duration="22207000" />
       <workItem from="1649988807280" duration="182000" />
-    </task>
-    <task id="LOCAL-00094" summary="Done implementing arguments (for now)">
-      <created>1649812758795</created>
-      <option name="number" value="00094" />
-      <option name="presentableId" value="LOCAL-00094" />
-      <option name="project" value="LOCAL" />
-      <updated>1649812758795</updated>
     </task>
     <task id="LOCAL-00095" summary="Done implementing arguments (for now)">
       <created>1649812907318</created>
@@ -447,7 +440,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651611536524</updated>
     </task>
-    <option name="localTasksCounter" value="143" />
+    <task id="LOCAL-00143" summary="TASBot plays now an startup animation when starting">
+      <created>1651612293761</created>
+      <option name="number" value="00143" />
+      <option name="presentableId" value="LOCAL-00143" />
+      <option name="project" value="LOCAL" />
+      <updated>1651612293761</updated>
+    </task>
+    <option name="localTasksCounter" value="144" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -465,7 +465,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="changed how leds are initialized" />
     <MESSAGE value="added support for -b -s -d" />
     <MESSAGE value="changed pin to tasbot default" />
     <MESSAGE value="added support for blink pattern" />
@@ -490,7 +489,8 @@
     <MESSAGE value="Wrote a proper README.md" />
     <MESSAGE value="Spelling" />
     <MESSAGE value="Removed showBaseExpression() and replaced with showExpressionFromFilepath(BASE_PATH);" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed showBaseExpression() and replaced with showExpressionFromFilepath(BASE_PATH);" />
+    <MESSAGE value="TASBot plays now an startup animation when starting" />
+    <option name="LAST_COMMIT_MESSAGE" value="TASBot plays now an startup animation when starting" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
