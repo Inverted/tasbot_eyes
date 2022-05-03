@@ -12,8 +12,9 @@
 #include <ctype.h>
 #include <sysexits.h>
 
-#define OTHER_PATH              "./gifs/others/"
 #define BASE_PATH               "./gifs/base.gif"
+#define STARTUP_PATH            "./gifs/startup.gif"
+#define OTHER_PATH              "./gifs/others/"
 #define BLINK_PATH              "./gifs/blinks/"
 #define MAX_FILENAME_LENGTH     256
 #define MAX_PATH_LENGTH         4096
@@ -90,7 +91,6 @@ ws2811_return_t clearLEDs();
 ws2811_led_t translateColor(GifColorType* _color);
 
 //TASBot
-void showBaseExpression();
 void showBlinkExpression();
 void showRandomExpression(char* _path, bool _useRandomColor);
 void showExpressionFromFilepath(char* _filePath);
@@ -198,14 +198,14 @@ int main(int _argc, char** _argv) {
 
         //skip base expression, when no blinks at all
         if (maxBlinks != 0 && minTimeBetweenBlinks != 0) {
-            showBaseExpression();
+            showExpressionFromFilepath(BASE_PATH);
         }
 
         usleep(getBlinkDelay() * 1000);
         //blink for a random amount of times
         for (unsigned int blinks = getBlinkAmount(); blinks > 0; --blinks) {
             showBlinkExpression();
-            showBaseExpression();
+            showExpressionFromFilepath(BASE_PATH);
 
             unsigned int blinkTime = getBlinkDelay();
             if (verboseLogging) {
@@ -697,14 +697,6 @@ ws2811_return_t clearLEDs() {
 //endregion
 
 //region TASBot
-/**
- * Show the base, resp. idle expression of TASBot
- */
-void showBaseExpression() {
-    Animation* animation = readAnimation(BASE_PATH);
-    playExpression(animation, false);
-}
-
 /**
  * Show a random blink expression from BLINK_PATH
  */
