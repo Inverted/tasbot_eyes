@@ -63,6 +63,7 @@ char* pathForAnimations = OTHER_PATH;
 char* pathForBlinks = BLINK_PATH;
 char* pathForPalette = NULL;
 int brightness = BRIGHTNESS;
+ws2811_led_t defaultColor = -1;
 int dataPin = GPIO_PIN;
 int maxBlinks = MAX_BLINKS;
 int minTimeBetweenBlinks = MIN_TIME_BETWEEN_BLINKS;
@@ -103,7 +104,7 @@ float getLuminance(GifColorType* _color);
 
 //Palette
 int chtohex(char _ch);
-int strtocol(char* _color);
+ws2811_led_t strtocol(char* _color);
 void readPalette(char* _path);
 
 //File system operations
@@ -227,7 +228,7 @@ int main(int _argc, char** _argv) {
  */
 void parseArguments(int _argc, char** _argv) {
     int c;
-    while ((c = getopt(_argc, _argv, "XhvrcDd:b:s:B:i:p:z:P:")) != -1) {
+    while ((c = getopt(_argc, _argv, "XhvrcDd:b:s:B:i:p:z:P:C:")) != -1) {
         switch (c) {
             case 'h':
                 printHelp();
@@ -267,6 +268,13 @@ void parseArguments(int _argc, char** _argv) {
                 useRandomColors = true;
                 printf("[INFO] Use random color\n");
                 break;
+
+            case 'C': {
+                defaultColor = strtocol(optarg);
+
+                printf("[INFO] Set color to %d\n", defaultColor);
+                break;
+            }
 
             case 'b': {
                 int bright = (int) strtol(optarg, NULL, 10);
@@ -399,6 +407,7 @@ void printHelp() {
 
     printf("\n===[Tune animation playback]===\n");
     printf("-c               Use random palette for monochrome animations\n");
+    printf("-C [xxxxxx]      Default color that should be used for not colored animations\n");
     printf("-D               Let playback speed affect blink delay\n");
     printf("-b [0-255]       Set maximum possible brightness. Default is 24\n");
     printf("-s [MULTIPLIER]  Playback speed. Needs to be bigger than 0\n");
@@ -678,7 +687,7 @@ ws2811_return_t renderLEDs() {
     if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
         fprintf(stderr, "[ERROR] Failed to render: %s\n", ws2811_get_return_t_str(r));
     } else {
-        if (verboseLogging){
+        if (verboseLogging) {
             printf("[INFO] Rendered LEDs with code %d\n", r);
         }
     }
@@ -743,12 +752,16 @@ void showExpressionFromFilepath(char* _filePath) {
 void playExpression(Animation* _animation, bool _useRandomColor) {
 
     //when random color should be selected, make it depended on monochrome
+    //variable = (condition) ? expressionTrue : expressionFalse;
     bool randColor = _useRandomColor ? _animation->monochrome : false;
+    bool defColor = (defaultColor != -1) ? _animation->monochrome : false;
 
     ws2811_led_t color = 0;
     if (randColor) {
         int r = rand() % paletteCount;
         color = palette[r];
+    } else if (defColor) {
+        color = defaultColor;
     }
 
     for (int i = 0; i < _animation->frameCount; ++i) {
@@ -850,14 +863,15 @@ void freeAnimation(Animation* _animation) {
 unsigned int getBlinkDelay() {
     if (minTimeBetweenBlinks == maxTimeBetweenBlinks) {
         //Cast to float to multiply with payback speed. Then cast back, as we need an integer.
-        if (playbackSpeedAffectBlinks){
+        if (playbackSpeedAffectBlinks) {
             return (int) ((float) minTimeBetweenBlinks * (1 / playbackSpeed));
         }
         return minTimeBetweenBlinks;
     }
 
-    if (playbackSpeedAffectBlinks){
-        return (int) ((float) (minTimeBetweenBlinks + (rand() % (maxTimeBetweenBlinks - minTimeBetweenBlinks))) * (1 / playbackSpeed));
+    if (playbackSpeedAffectBlinks) {
+        return (int) ((float) (minTimeBetweenBlinks + (rand() % (maxTimeBetweenBlinks - minTimeBetweenBlinks))) *
+                      (1 / playbackSpeed));
     }
 
     //default case
@@ -928,8 +942,8 @@ void readPalette(char* _path) {
  * @param _color The color string, that should be converted
  * @return An integer, that contains the actual numeric value of the given _color string
  */
-int strtocol(char* _color) {
-    int result = 0;
+ws2811_led_t strtocol(char* _color) {
+    ws2811_led_t result = 0;
     int len = (int) strlen(_color);
 
     //Convert string character by character into an actual integer
@@ -939,8 +953,11 @@ int strtocol(char* _color) {
             result = result | hex << (len - i - 1) *
                                      4; //Bit-shift by 4, because hex numbers use only lower 4 bits. OR all of it together.
         } else {
-            fprintf(stderr, "[ERROR] Can't read character '%c' color \"%s\". Please check formatting!\n", _color[i],
-                    _color);
+            fprintf(stderr,
+                    "[ERROR] Can't read character '%c' color \"%s\". Please check formatting!\n",
+                    _color[i],
+                    _color
+                    );
             return -1;
         }
     }
