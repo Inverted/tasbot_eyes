@@ -760,6 +760,11 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
     bool randColor = _useRandomColor ? _animation->monochrome : false;
     bool defColor = (defaultColor != -1) ? _animation->monochrome : false;
 
+    if (verboseLogging){
+        printf("[INFO] Use a random color %s", randColor ? "true" : "false");
+        printf("[INFO] Use the default color %s", randColor ? "true" : "false");
+    }
+
     ws2811_led_t color = 0;
     if (randColor) {
         int r = rand() % paletteCount;
