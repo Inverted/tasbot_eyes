@@ -26,13 +26,13 @@
 #define LED_HEIGHT              8
 #define LED_WIDTH               28
 
-#define TARGET_FREQ             WS2811_TARGET_FREQ
+#define TARGET_FREQ             WS2811_TARGET_FREQ      //800000 Kbps
 #define GPIO_PIN                10
 #define DMA                     10
 #define LED_COUNT               (LED_WIDTH * LED_HEIGHT)
-#define STRIP_TYPE              WS2811_STRIP_BRG
+#define STRIP_TYPE              SK6812_STRIP            //TASBot
 #define INVERTED                false
-#define BRIGHTNESS              24
+#define BRIGHTNESS              4
 
 typedef struct AnimationFrame {
     GifColorType* color[LED_WIDTH][LED_HEIGHT];
@@ -63,12 +63,12 @@ char* pathForAnimations = OTHER_PATH;
 char* pathForBlinks = BLINK_PATH;
 char* pathForPalette = NULL;
 int brightness = BRIGHTNESS;
-ws2811_led_t defaultColor = -1;
 int dataPin = GPIO_PIN;
 int maxBlinks = MAX_BLINKS;
 int minTimeBetweenBlinks = MIN_TIME_BETWEEN_BLINKS;
 int maxTimeBetweenBlinks = MAX_TIME_BETWEEN_BLINKS;
 float playbackSpeed = 1;
+ws2811_led_t defaultColor = -1;
 
 //Signals
 void setupHandler();
@@ -272,7 +272,7 @@ void parseArguments(int _argc, char** _argv) {
             case 'C': {
                 defaultColor = strtocol(optarg);
 
-                printf("[INFO] Set color to %d\n", defaultColor);
+                printf("[INFO] Set color to %06x\n", defaultColor);
                 break;
             }
 
@@ -655,7 +655,11 @@ ws2811_return_t initLEDs() {
     channel->count = LED_COUNT;
     channel->invert = INVERTED;
     channel->brightness = brightness;
-    channel->strip_type = STRIP_TYPE;
+    if (realTASBot){
+        channel->strip_type = STRIP_TYPE;
+    } else {
+        channel->strip_type = WS2811_STRIP_BRG;
+    }
     display.channel[0] = *channel;
 
     ws2811_return_t r;
