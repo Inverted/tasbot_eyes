@@ -579,7 +579,7 @@ Animation* readAnimation(char* _file) {
         }
 
         if (verboseLogging) {
-            printf("[INFO] Animation is monochrome %s", animation->monochrome ? "true" : "false");
+            printf("[INFO] Animation is monochrome %s\n", animation->monochrome ? "true" : "false");
         }
 
     } else {
@@ -759,6 +759,11 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
     //when random color should be selected, make it depended on monochrome
     //variable = (condition) ? expressionTrue : expressionFalse;
     bool randColor = _useRandomColor ? _animation->monochrome : false;
+
+    printf(" defcolor i set to to %06x\n", defaultColor);
+    printf(" default color is set: %s\n", (defaultColor != -1) ? "true" : "false");
+
+
     bool defColor = (defaultColor != -1) ? _animation->monochrome : false;
 
     if (verboseLogging){
