@@ -577,8 +577,9 @@ Animation* readAnimation(char* _file) {
             animationFrames[i] = readFramePixels(frame, globalColorMap, &animation->monochrome);
             animationFrames[i]->delayTime = delayTime;
         }
+
         if (verboseLogging) {
-            printf("[INFO] Animation is monochrome: %d\n", animation->monochrome);
+            printf("[INFO] Animation is monochrome %s", animation->monochrome ? "true" : "false");
         }
 
     } else {
@@ -761,8 +762,8 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
     bool defColor = (defaultColor != -1) ? _animation->monochrome : false;
 
     if (verboseLogging){
-        printf("[INFO] Use a random color %s", randColor ? "true" : "false");
-        printf("[INFO] Use the default color %s", randColor ? "true" : "false");
+        printf("[INFO] Use a random color: %s\n", randColor ? "true" : "false");
+        printf("[INFO] Use the default color: %s\n", randColor ? "true" : "false");
     }
 
     ws2811_led_t color = 0;

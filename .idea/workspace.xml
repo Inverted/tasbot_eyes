@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
   <component name="CMakeRunConfigurationManager">
     <generated>
       <config projectName="tasbot_eyes" targetName="tasbot_eyes" />
@@ -13,9 +16,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="TASBot plays now an startup animation when starting">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Updates">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +30,11 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="default-color" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -45,6 +53,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;true&quot;,
@@ -63,12 +72,7 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="tasbot_eyes" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v -r -c" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
+    <configuration name="tasbot_eyes" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v -c -C 00ff00" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -102,35 +106,13 @@
       <workItem from="1649892858619" duration="12000" />
       <workItem from="1649906485283" duration="3002000" />
       <workItem from="1649954380387" duration="22207000" />
-      <workItem from="1649988807280" duration="182000" />
-    </task>
-    <task id="LOCAL-00095" summary="Done implementing arguments (for now)">
-      <created>1649812907318</created>
-      <option name="number" value="00095" />
-      <option name="presentableId" value="LOCAL-00095" />
-      <option name="project" value="LOCAL" />
-      <updated>1649812907318</updated>
-    </task>
-    <task id="LOCAL-00096" summary="Minor changes">
-      <created>1649814940663</created>
-      <option name="number" value="00096" />
-      <option name="presentableId" value="LOCAL-00096" />
-      <option name="project" value="LOCAL" />
-      <updated>1649814940663</updated>
-    </task>
-    <task id="LOCAL-00097" summary="Minor changes">
-      <created>1649815023098</created>
-      <option name="number" value="00097" />
-      <option name="presentableId" value="LOCAL-00097" />
-      <option name="project" value="LOCAL" />
-      <updated>1649815023098</updated>
-    </task>
-    <task id="LOCAL-00098" summary="Added support for palettes">
-      <created>1649908988912</created>
-      <option name="number" value="00098" />
-      <option name="presentableId" value="LOCAL-00098" />
-      <option name="project" value="LOCAL" />
-      <updated>1649908988913</updated>
+      <workItem from="1649988807280" duration="873000" />
+      <workItem from="1650242552950" duration="617000" />
+      <workItem from="1651446322456" duration="1601000" />
+      <workItem from="1651580687881" duration="7000" />
+      <workItem from="1655584187774" duration="815000" />
+      <workItem from="1656209572047" duration="687000" />
+      <workItem from="1656282590881" duration="3495000" />
     </task>
     <task id="LOCAL-00099" summary="Improving support for palettes">
       <created>1649955888084</created>
@@ -433,21 +415,49 @@
       <option name="project" value="LOCAL" />
       <updated>1649986884646</updated>
     </task>
-    <task id="LOCAL-00142" summary="Removed showBaseExpression() and replaced with showExpressionFromFilepath(BASE_PATH);">
-      <created>1651611536523</created>
+    <task id="LOCAL-00142" summary="Doxygen polishing">
+      <created>1649989016912</created>
       <option name="number" value="00142" />
       <option name="presentableId" value="LOCAL-00142" />
       <option name="project" value="LOCAL" />
-      <updated>1651611536524</updated>
+      <updated>1649989016913</updated>
     </task>
-    <task id="LOCAL-00143" summary="TASBot plays now an startup animation when starting">
-      <created>1651612293761</created>
+    <task id="LOCAL-00143" summary="Added Doxygen HTML documentation">
+      <created>1649989907059</created>
       <option name="number" value="00143" />
       <option name="presentableId" value="LOCAL-00143" />
       <option name="project" value="LOCAL" />
-      <updated>1651612293761</updated>
+      <updated>1649989907059</updated>
     </task>
-    <option name="localTasksCounter" value="144" />
+    <task id="LOCAL-00144" summary="Added support for argument &quot;-D&quot; and fixed missing verbose filtering for &quot;[INFO] Rendered LEDs with code X&quot;">
+      <created>1651447213725</created>
+      <option name="number" value="00144" />
+      <option name="presentableId" value="LOCAL-00144" />
+      <option name="project" value="LOCAL" />
+      <updated>1651447213726</updated>
+    </task>
+    <task id="LOCAL-00145" summary="realTASBot=true is now default (and added a little secret feature for me because of it :eyes:)">
+      <created>1651447684755</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1651447684755</updated>
+    </task>
+    <task id="LOCAL-00146" summary="Updates">
+      <created>1656284588302</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1656284588303</updated>
+    </task>
+    <task id="LOCAL-00147" summary="Updates">
+      <created>1656286188006</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1656286188006</updated>
+    </task>
+    <option name="localTasksCounter" value="148" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -465,9 +475,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added support for -b -s -d" />
-    <MESSAGE value="changed pin to tasbot default" />
-    <MESSAGE value="added support for blink pattern" />
     <MESSAGE value="fixed bug with blink pattern" />
     <MESSAGE value="improved blink parsing" />
     <MESSAGE value="improved blink pattern" />
@@ -488,9 +495,12 @@
     <MESSAGE value="Done polishing" />
     <MESSAGE value="Wrote a proper README.md" />
     <MESSAGE value="Spelling" />
-    <MESSAGE value="Removed showBaseExpression() and replaced with showExpressionFromFilepath(BASE_PATH);" />
-    <MESSAGE value="TASBot plays now an startup animation when starting" />
-    <option name="LAST_COMMIT_MESSAGE" value="TASBot plays now an startup animation when starting" />
+    <MESSAGE value="Doxygen polishing" />
+    <MESSAGE value="Added Doxygen HTML documentation" />
+    <MESSAGE value="Added support for argument &quot;-D&quot; and fixed missing verbose filtering for &quot;[INFO] Rendered LEDs with code X&quot;" />
+    <MESSAGE value="realTASBot=true is now default (and added a little secret feature for me because of it :eyes:)" />
+    <MESSAGE value="Updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updates" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
