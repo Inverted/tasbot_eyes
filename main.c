@@ -751,20 +751,26 @@ void showExpressionFromFilepath(char* _filePath) {
 
 /**
  * Play a given animation on TASBots display
+ *
+ * Priorities for colors are
+ * -1. Given colors within the animation if given (other than white)
+ * -2. If applies, random color
+ * -3. If applies, default color
+ * -4. Given colors within the animation if given (just white)
+ *
  * @param _animation The animation structure, that is to play
  * @param _useRandomColor If the animation should overwrite the animations palette with a random one, if its monochrome
  */
 void playExpression(Animation* _animation, bool _useRandomColor) {
-
-    //when random color should be selected, make it depended on monochrome
+    //When random color should be selected, make it depended on monochrome.
+    //Same for if the default color should be used.
     //variable = (condition) ? expressionTrue : expressionFalse;
     bool randColor = _useRandomColor ? _animation->monochrome : false;
 
     printf(" defcolor i set to to %06x\n", defaultColor);
     printf(" default color is set: %s\n", (defaultColor != -1) ? "true" : "false");
 
-
-    bool defColor = (defaultColor != -1) ? _animation->monochrome : false;
+    bool defColor = (defaultColor != -1) ? !_animation->monochrome : false;
 
     if (verboseLogging){
         printf("[INFO] Use a random color: %s\n", randColor ? "true" : "false");
