@@ -115,5 +115,5 @@ To create a color palette, you can either:
 * *dwangoAC* letting me debug on real TASBot
 * *jakobrs* for the original eye software and the index translation table
 * *Inverted* for pointing out gamma correction
-* *HeavyPodda* for helping to fix the monochrome detection bug
+* *HeavyPodda* for helping debugging
 * *Adafruit* for the gamma correction table

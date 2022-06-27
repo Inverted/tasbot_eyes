@@ -16,9 +16,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="(Re)implemented the -a flag. Forgot the push that, uups">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Reading delay time from frame now">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,14 +113,7 @@
       <workItem from="1656209572047" duration="687000" />
       <workItem from="1656282590881" duration="10922000" />
       <workItem from="1656334650283" duration="1095000" />
-      <workItem from="1656346722894" duration="2844000" />
-    </task>
-    <task id="LOCAL-00116" summary="Transferring">
-      <created>1649969964420</created>
-      <option name="number" value="00116" />
-      <option name="presentableId" value="LOCAL-00116" />
-      <option name="project" value="LOCAL" />
-      <updated>1649969964420</updated>
+      <workItem from="1656346722894" duration="3397000" />
     </task>
     <task id="LOCAL-00117" summary="Transferring">
       <created>1649971246132</created>
@@ -459,7 +451,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656325251493</updated>
     </task>
-    <option name="localTasksCounter" value="165" />
+    <task id="LOCAL-00165" summary="Reading delay time from frame now">
+      <created>1656349606819</created>
+      <option name="number" value="00165" />
+      <option name="presentableId" value="LOCAL-00165" />
+      <option name="project" value="LOCAL" />
+      <updated>1656349606820</updated>
+    </task>
+    <option name="localTasksCounter" value="166" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -477,7 +476,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="improved blink pattern" />
     <MESSAGE value="added support for path arguments" />
     <MESSAGE value="improved path arguments" />
     <MESSAGE value="Done implementing arguments (for now)" />
@@ -502,7 +500,8 @@
     <MESSAGE value="Updates" />
     <MESSAGE value="Fixed bug with wrong monochrome detection. Thanks HeavyPodda!" />
     <MESSAGE value="(Re)implemented the -a flag. Forgot the push that, uups" />
-    <option name="LAST_COMMIT_MESSAGE" value="(Re)implemented the -a flag. Forgot the push that, uups" />
+    <MESSAGE value="Reading delay time from frame now" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reading delay time from frame now" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
