@@ -112,14 +112,7 @@
       <workItem from="1651580687881" duration="7000" />
       <workItem from="1655584187774" duration="815000" />
       <workItem from="1656209572047" duration="687000" />
-      <workItem from="1656282590881" duration="5555000" />
-    </task>
-    <task id="LOCAL-00103" summary="Improving support for palettes">
-      <created>1649957413563</created>
-      <option name="number" value="00103" />
-      <option name="presentableId" value="LOCAL-00103" />
-      <option name="project" value="LOCAL" />
-      <updated>1649957413563</updated>
+      <workItem from="1656282590881" duration="6346000" />
     </task>
     <task id="LOCAL-00104" summary="Improving support for palettes">
       <created>1649957553258</created>
@@ -457,7 +450,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656288123765</updated>
     </task>
-    <option name="localTasksCounter" value="152" />
+    <task id="LOCAL-00152" summary="Updates">
+      <created>1656288363525</created>
+      <option name="number" value="00152" />
+      <option name="presentableId" value="LOCAL-00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1656288363525</updated>
+    </task>
+    <option name="localTasksCounter" value="153" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

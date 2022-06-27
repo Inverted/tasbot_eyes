@@ -81,6 +81,7 @@ void printHelp();
 //GIF
 char* getRandomAnimation(char* list[], int _count);
 bool checkIfImageHasRightSize(GifFileType* _image);
+bool isGrayScale(GifColorType* _color);
 u_int16_t getDelayTime(SavedImage* _frame);
 AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _globalMap, bool* _monochrome);
 Animation* readAnimation(char* _file);
@@ -616,8 +617,7 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
 
                 //check if animation is monochrome. When a single frame contains color,
                 //then preserve the animations color later while rendering.
-                //*_monochrome = !(color->Red == color->Green && color->Red == color->Blue);
-                if (!(color->Red == color->Green && color->Red == color->Blue)) {
+                if (!isGrayScale(color)) {
                     *_monochrome = true;
                 }
 
@@ -627,6 +627,10 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
         }
     }
     return animationFrame;
+}
+
+bool isGrayScale(GifColorType* _color){
+    return (_color->Red == _color->Green && _color->Red == _color->Blue);
 }
 
 /**
