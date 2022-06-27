@@ -61,6 +61,7 @@ bool useRandomColors = false;
 bool useRandomColorsForAll = false;
 bool playbackSpeedAffectBlinks = false;
 bool useGammaCorrection = false;
+bool skipStartupAnimation = false;
 char* specificAnimationToShow = NULL;
 char* pathForAnimations = OTHER_PATH;
 char* pathForBlinks = BLINK_PATH;
@@ -219,7 +220,9 @@ int main(int _argc, char** _argv) {
         if (!firstIteration) {
             showRandomExpression(pathForAnimations, useRandomColors);
         } else {
-            showExpressionFromFilepath(STARTUP_PATH, false);
+            if (!skipStartupAnimation){
+                showExpressionFromFilepath(STARTUP_PATH, false);
+            }
             firstIteration = false;
         }
 
@@ -253,7 +256,7 @@ int main(int _argc, char** _argv) {
  */
 void parseArguments(int _argc, char** _argv) {
     int c;
-    while ((c = getopt(_argc, _argv, "XhvgracDd:b:s:B:i:p:z:P:C:")) != -1) {
+    while ((c = getopt(_argc, _argv, "XhvgruacDd:b:s:B:i:p:z:P:C:")) != -1) {
         switch (c) {
             case 'h':
                 printHelp();
@@ -277,7 +280,11 @@ void parseArguments(int _argc, char** _argv) {
                 break;
             case 'X':
                 realTASBot = false;
-                printf("[INFO] Playback speed will affect blink delay\n");
+                printf("[INFO] SECRET NOT TASBOT MODE. FOR DEBUGGING ONLY!\n");
+                break;
+            case 'u':
+                skipStartupAnimation = false;
+                printf("[INFO] Skip startup animation\n");
                 break;
 
             case 'd': {
@@ -438,15 +445,16 @@ void printHelp() {
     printf("-v               Enable verbose logging\n");
     printf("-r               Enable console renderer for frames\n");
     printf("-d [GPIO]        Change GPIO data pin. Possible options are between 2 to 27. Default is 10\n");
+    printf("-g               Use gamma correction\n");
 
     printf("\n===[Tune animation playback]===\n");
     printf("-c               Use random color from palette for monochrome animations\n");
     printf("-a               Use random color from palette for monochrome animations as well as blinks and the base\n");
     printf("-C [xxxxxx]      Default color that should be used for not colored animations\n");
-    printf("-D               Let playback speed affect blink delay\n");
     printf("-b [0-255]       Set maximum possible brightness. Default is 24\n");
-    printf("-g               Use gamma correction\n");
-    printf("-s [MULTIPLIER]  Playback speed. Needs to be bigger than 0\n");
+    printf("-s [MULTIPLIER]  Sets Playback speed. Needs to be bigger than 0\n");
+    printf("-D               Let the playback speed affect blink delay\n");
+    printf("-u               Skip the startup animation\n");
     printf("-B [PATTERN]     Controls the blinks. Highest number that can be used within the pattern is 9\n");
     printf("                 -1st: Maximum number of blinks between animations\n");
     printf("                 -2nd: Minimum seconds between blinks\n");
