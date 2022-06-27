@@ -628,7 +628,7 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
             }
         }
     }
-    *_monochrome = keepColor;
+    *_monochrome = !keepColor;
     return animationFrame;
 }
 
