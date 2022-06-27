@@ -619,6 +619,7 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
                 //check if animation is monochrome. When a single frame contains color,
                 //then preserve the animations color later while rendering.
                 if (!isGrayScale(color)) {
+                    printf("color detected...somehow?\n");
                     keepColor = true;
                 }
 
