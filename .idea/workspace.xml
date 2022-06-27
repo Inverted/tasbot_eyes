@@ -16,7 +16,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Fixed bug with wrong monochrome detection. Thanks HeavyPodda!">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="(Re)implemented the -a flag. Forgot the push that, uups">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
@@ -72,11 +72,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="tasbot_eyes" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v -c -C 00ff00" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -118,13 +113,8 @@
       <workItem from="1655584187774" duration="815000" />
       <workItem from="1656209572047" duration="687000" />
       <workItem from="1656282590881" duration="10922000" />
-    </task>
-    <task id="LOCAL-00115" summary="Set build type in CMakeLists.txt">
-      <created>1649969396358</created>
-      <option name="number" value="00115" />
-      <option name="presentableId" value="LOCAL-00115" />
-      <option name="project" value="LOCAL" />
-      <updated>1649969396358</updated>
+      <workItem from="1656334650283" duration="1095000" />
+      <workItem from="1656346722894" duration="2844000" />
     </task>
     <task id="LOCAL-00116" summary="Transferring">
       <created>1649969964420</created>
@@ -462,7 +452,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656324905641</updated>
     </task>
-    <option name="localTasksCounter" value="164" />
+    <task id="LOCAL-00164" summary="(Re)implemented the -a flag. Forgot the push that, uups">
+      <created>1656325251493</created>
+      <option name="number" value="00164" />
+      <option name="presentableId" value="LOCAL-00164" />
+      <option name="project" value="LOCAL" />
+      <updated>1656325251493</updated>
+    </task>
+    <option name="localTasksCounter" value="165" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -480,7 +477,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="improved blink parsing" />
     <MESSAGE value="improved blink pattern" />
     <MESSAGE value="added support for path arguments" />
     <MESSAGE value="improved path arguments" />
@@ -505,7 +501,8 @@
     <MESSAGE value="realTASBot=true is now default (and added a little secret feature for me because of it :eyes:)" />
     <MESSAGE value="Updates" />
     <MESSAGE value="Fixed bug with wrong monochrome detection. Thanks HeavyPodda!" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed bug with wrong monochrome detection. Thanks HeavyPodda!" />
+    <MESSAGE value="(Re)implemented the -a flag. Forgot the push that, uups" />
+    <option name="LAST_COMMIT_MESSAGE" value="(Re)implemented the -a flag. Forgot the push that, uups" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

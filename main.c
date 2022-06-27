@@ -18,6 +18,7 @@
 #define BLINK_PATH              "./gifs/blinks/"
 #define MAX_FILENAME_LENGTH     256
 #define MAX_PATH_LENGTH         4096
+#define MIN_DELAY_TIME          35                      //Smallest delay time that is possible due to hardware limitations (1000ms/30fps=33.3'ms)
 #define DEFAULT_DELAY_TIME      100
 #define MAX_BLINKS              4                       //How many times does TASBot blink between animations
 #define MIN_TIME_BETWEEN_BLINKS 4                       //Based on human numbers. We Blink about every 4 to 6 seconds
@@ -84,7 +85,6 @@ void printHelp();
 char* getRandomAnimation(char* list[], int _count);
 bool checkIfImageHasRightSize(GifFileType* _image);
 bool isGrayScale(GifColorType* _color);
-u_int16_t getDelayTime(SavedImage* _frame);
 AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _globalMap, bool* _monochrome);
 Animation* readAnimation(char* _file);
 
@@ -510,50 +510,12 @@ bool checkIfImageHasRightSize(GifFileType* _image) {
 }
 
 /**
- * Obtain the delay time between frames
- * @brief [DONT USE, NOT TESTED, DEAD CODE]
- * @param _frame Frame the delay shout get from
- * @return The delay between frames
- */
-u_int16_t getDelayTime(SavedImage* _frame) {
-    //Read all the extension blocks - e as in extension
-    for (int e = 0; e < _frame->ExtensionBlockCount; ++e) {
-        if (verboseLogging) {
-            printf("[Extension Block] Bytes: %d; Function: %02X: ",
-                   _frame->ExtensionBlocks[e].ByteCount, _frame->ExtensionBlocks[e].Function);
-        }
-
-        //Let's read all the bytes in this block - b as in bytes
-        for (int b = 0; b < _frame->ExtensionBlocks[e].ByteCount; ++b) {
-            if (verboseLogging) {
-                printf("%02X ", _frame->ExtensionBlocks[e].Bytes[b]);
-            }
-
-            // this works just in theory and is not tested!
-            // wait for first "Graphics Control Extension"-block and assume all frames have the same delay
-            // TODO: Actually use the delay time of every _frame for the animation, rather than assuming all have the same
-            // http://giflib.sourceforge.net/whatsinagif/bits_and_bytes.html
-            // F9 is the identifier for "Graphics Control Extension"-blocks
-            if (_frame->ExtensionBlocks[e].Function == 0xF9) {
-                u_int8_t highByte = _frame->ExtensionBlocks[e].Bytes[2];
-                u_int8_t lowByte = _frame->ExtensionBlocks[e].Bytes[3];
-                return (highByte << 8) | lowByte;
-            }
-        }
-
-        if (verboseLogging) {
-            printf("\n");
-        }
-    }
-    return 0;
-}
-
-/**
  * Opens and reads the GIF file in a data structure. Container for AnimationFrames and various other needed infos
  * @param _file The GIF animation, that is to read
  * @return Data structure, that contains all needed information to display it on TASBots display
  * TODO: This is pretty blob like. Can probably be shorten.
  */
+
 Animation* readAnimation(char* _file) {
     if (verboseLogging) {
         printf("[INFO] Load file %s\n", _file);
@@ -563,13 +525,13 @@ Animation* readAnimation(char* _file) {
     int e;
     GifFileType* image = DGifOpenFileName(_file, &e);
     if (!image) {
-        fprintf(stderr, "[ERROR] EGifOpenFileName() failed. Could't find or open _file: %d\n", e);
+        fprintf(stderr, "[ERROR] EGifOpenFileName() failed. Couldn't find or open _file: %d\n", e);
         return false;
     }
 
     //"Slurp" infos into struct
     if (DGifSlurp(image) == GIF_ERROR) {
-        fprintf(stderr, "[ERROR] DGifSlurp() failed. Couldt load infos about GIF: %d\n", image->Error);
+        fprintf(stderr, "[ERROR] DGifSlurp() failed. Couldn't load infos about GIF: %d\n", image->Error);
         DGifCloseFile(image, &e);
         return false;
     }
@@ -593,22 +555,26 @@ Animation* readAnimation(char* _file) {
         animation->monochrome = true;
         animation->image = image;
 
+        GraphicsControlBlock gcb;
         for (int i = 0; i < image->ImageCount; ++i) {
             const SavedImage* frame = &image->SavedImages[i]; //get access to frame data
 
-            if (verboseLogging) {
-                printf("[INFO] (Frame %i info): Size: %ix%i; Left: %i, Top: %i; Local color map: %s\n",
-                       i, frame->ImageDesc.Width, frame->ImageDesc.Height, frame->ImageDesc.Left, frame->ImageDesc.Top,
-                       (frame->ImageDesc.ColorMap ? "Yes" : "No"));
+            u_int16_t delayTime = DEFAULT_DELAY_TIME;
+            if (DGifSavedExtensionToGCB(image, i, &gcb) == GIF_ERROR){
+                printf("[WARNING] Can't read frame delay. Using default delay time");
+            } else {
+                delayTime = gcb.DelayTime * 10;
+                if (delayTime < MIN_DELAY_TIME){
+                    printf("[WARNING] Delay time is smaller than allowed smallest delay time (%d ms). Using that.\n", MIN_DELAY_TIME);
+                    delayTime = MIN_DELAY_TIME;
+                }
             }
 
-            /*
-            u_int16_t delayTime = getDelayTime(frame);
-            if (delayTime == 0) {
-                delayTime = DEFAULT_DELAY_TIME;
+            if (verboseLogging) {
+                printf("[INFO] (Frame %i info): Size: %ix%i; Delay time: %i; Left: %i, Top: %i; Local color map: %s\n",
+                       i, frame->ImageDesc.Width, frame->ImageDesc.Height, delayTime, frame->ImageDesc.Left, frame->ImageDesc.Top,
+                       (frame->ImageDesc.ColorMap ? "Yes" : "No"));
             }
-             */
-            u_int16_t delayTime = DEFAULT_DELAY_TIME;
 
             animationFrames[i] = readFramePixels(frame, globalColorMap, &animation->monochrome);
             animationFrames[i]->delayTime = delayTime;
@@ -802,7 +768,6 @@ void showExpressionFromFilepath(char* _filePath, bool _useRandomColor) {
  * @param _useRandomColor If the animation should overwrite the animations palette with a random one, if its monochrome
  */
 void playExpression(Animation* _animation, bool _useRandomColor) {
-
     bool randColor;
     if (useRandomColorsForAll){
         //When animation is monochrome, use a random color, also for blinks and the base
