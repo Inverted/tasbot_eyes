@@ -112,14 +112,7 @@
       <workItem from="1651580687881" duration="7000" />
       <workItem from="1655584187774" duration="815000" />
       <workItem from="1656209572047" duration="687000" />
-      <workItem from="1656282590881" duration="10003000" />
-    </task>
-    <task id="LOCAL-00113" summary="Improving support for palettes">
-      <created>1649968784169</created>
-      <option name="number" value="00113" />
-      <option name="presentableId" value="LOCAL-00113" />
-      <option name="project" value="LOCAL" />
-      <updated>1649968784169</updated>
+      <workItem from="1656282590881" duration="10922000" />
     </task>
     <task id="LOCAL-00114" summary="Set build type in CMakeLists.txt">
       <created>1649969179194</created>
@@ -457,7 +450,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656292296062</updated>
     </task>
-    <option name="localTasksCounter" value="162" />
+    <task id="LOCAL-00162" summary="Updates">
+      <created>1656292806704</created>
+      <option name="number" value="00162" />
+      <option name="presentableId" value="LOCAL-00162" />
+      <option name="project" value="LOCAL" />
+      <updated>1656292806704</updated>
+    </task>
+    <option name="localTasksCounter" value="163" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

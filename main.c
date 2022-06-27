@@ -96,7 +96,7 @@ ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection);
 //TASBot
 void showBlinkExpression();
 void showRandomExpression(char* _path, bool _useRandomColor);
-void showExpressionFromFilepath(char* _filePath);
+void showExpressionFromFilepath(char* _filePath, bool _useRandomColor);
 void playExpression(Animation* _animation, bool _useRandomColor);
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color);
 void freeAnimation(Animation* _animation);
@@ -206,7 +206,7 @@ int main(int _argc, char** _argv) {
     //Option for playing give specific animation
     if (specificAnimationToShow != NULL) {
         while (running) {
-            showExpressionFromFilepath(specificAnimationToShow);
+            showExpressionFromFilepath(specificAnimationToShow, false);
         }
         return 0;
     }
@@ -218,20 +218,20 @@ int main(int _argc, char** _argv) {
         if (!firstIteration) {
             showRandomExpression(pathForAnimations, useRandomColors);
         } else {
-            showExpressionFromFilepath(STARTUP_PATH);
+            showExpressionFromFilepath(STARTUP_PATH, false);
             firstIteration = false;
         }
 
         //skip base expression, when no blinks at all
         if (maxBlinks != 0 && minTimeBetweenBlinks != 0) {
-            showExpressionFromFilepath(BASE_PATH);
+            showExpressionFromFilepath(BASE_PATH, false);
         }
 
         usleep(getBlinkDelay() * 1000);
         //blink for a random amount of times
         for (unsigned int blinks = getBlinkAmount(); blinks > 0; --blinks) {
             showBlinkExpression();
-            showExpressionFromFilepath(BASE_PATH);
+            showExpressionFromFilepath(BASE_PATH, false);
 
             unsigned int blinkTime = getBlinkDelay();
             if (verboseLogging) {
@@ -770,8 +770,7 @@ void showRandomExpression(char* _path, bool _useRandomColor) {
         char* file = getRandomAnimation(list, fileCount); //get random animation
         char* filePath = getFilePath(_path, file);
 
-        Animation* animation = readAnimation(filePath);
-        playExpression(animation, _useRandomColor);
+        showExpressionFromFilepath(filePath, _useRandomColor);
     } else {
         fprintf(stderr, "[ERROR] No files in %s. Please check directory\n", _path);
     }
@@ -781,9 +780,9 @@ void showRandomExpression(char* _path, bool _useRandomColor) {
  * Play one specific animation from given file
  * @param _filePath That should be played
  */
-void showExpressionFromFilepath(char* _filePath) {
+void showExpressionFromFilepath(char* _filePath, bool _useRandomColor) {
     Animation* animation = readAnimation(_filePath);
-    playExpression(animation, useRandomColors);
+    playExpression(animation, _useRandomColor);
 }
 
 /**
