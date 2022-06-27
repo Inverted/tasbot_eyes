@@ -607,6 +607,7 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
 
     AnimationFrame* animationFrame = malloc(sizeof(AnimationFrame));
 
+    bool keepColor = false;
     for (int y = 0; y < desc.Height; ++y) {
         for (int x = 0; x < desc.Width; ++x) {
             int c = frame->RasterBits[y * desc.Width + x];
@@ -618,7 +619,7 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
                 //check if animation is monochrome. When a single frame contains color,
                 //then preserve the animations color later while rendering.
                 if (!isGrayScale(color)) {
-                    *_monochrome = true;
+                    keepColor = true;
                 }
 
             } else {
@@ -626,6 +627,7 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
             }
         }
     }
+    *_monochrome = keepColor;
     return animationFrame;
 }
 
