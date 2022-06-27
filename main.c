@@ -839,6 +839,8 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
 
             if (activateLEDModule) {
                 if (_color == 0) {
+                    printf("vefore %d\n", gifColor->Red);
+
                     color = translateColor(gifColor, useGammaCorrection);
                 } else {
                     if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
