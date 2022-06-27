@@ -663,23 +663,29 @@ char* getRandomAnimation(char* list[], int _count) {
  * @return Infos about, if initialization was successful
  */
 ws2811_return_t initLEDs() {
+    //Setup display
     memset(&display, 0, sizeof(ws2811_t));
     display.freq = TARGET_FREQ;
     display.dmanum = DMA;
 
     ws2811_channel_t* channel = calloc(1, sizeof(ws2811_channel_t));
     channel->gpionum = dataPin;
-    channel->count = LED_COUNT;
+    //channel->count = LED_COUNT;
     channel->invert = INVERTED;
     channel->brightness = brightness;
     if (realTASBot){
+        channel->count = LED_COUNT;
         channel->strip_type = STRIP_TYPE;
     } else {
+        channel->count = LED_COUNT + (LED_HEIGHT + 2);
         channel->strip_type = WS2812_STRIP;
     }
     display.channel[0] = *channel;
+
+    //Setup color array
     pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
 
+    //Initialize hardware
     ws2811_return_t r;
     if ((r = ws2811_init(&display)) != WS2811_SUCCESS) {
         fprintf(stderr, "[ERROR] ws2811_init failed. Couldn't initialize LEDs: %s\n", ws2811_get_return_t_str(r));
