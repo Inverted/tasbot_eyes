@@ -57,6 +57,7 @@ unsigned int paletteCount;
 bool verboseLogging = false;
 bool consoleRenderer = false;
 bool useRandomColors = false;
+bool useRandomColorsForAll = false;
 bool playbackSpeedAffectBlinks = false;
 bool useGammaCorrection = false;
 char* specificAnimationToShow = NULL;
@@ -252,7 +253,7 @@ int main(int _argc, char** _argv) {
  */
 void parseArguments(int _argc, char** _argv) {
     int c;
-    while ((c = getopt(_argc, _argv, "XhvgrcDd:b:s:B:i:p:z:P:C:")) != -1) {
+    while ((c = getopt(_argc, _argv, "XhvgracDd:b:s:B:i:p:z:P:C:")) != -1) {
         switch (c) {
             case 'h':
                 printHelp();
@@ -295,6 +296,11 @@ void parseArguments(int _argc, char** _argv) {
             case 'c':
                 useRandomColors = true;
                 printf("[INFO] Use random color\n");
+                break;
+
+            case 'a':
+                useRandomColorsForAll = true;
+                printf("[INFO] Use random color, also for blinks and the base\n");
                 break;
 
             case 'C': {
@@ -434,7 +440,8 @@ void printHelp() {
     printf("-d [GPIO]        Change GPIO data pin. Possible options are between 2 to 27. Default is 10\n");
 
     printf("\n===[Tune animation playback]===\n");
-    printf("-c               Use random palette for monochrome animations\n");
+    printf("-c               Use random color from palette for monochrome animations\n");
+    printf("-a               Use random color from palette for monochrome animations as well as blinks and the base\n");
     printf("-C [xxxxxx]      Default color that should be used for not colored animations\n");
     printf("-D               Let playback speed affect blink delay\n");
     printf("-b [0-255]       Set maximum possible brightness. Default is 24\n");
@@ -795,9 +802,16 @@ void showExpressionFromFilepath(char* _filePath, bool _useRandomColor) {
  * @param _useRandomColor If the animation should overwrite the animations palette with a random one, if its monochrome
  */
 void playExpression(Animation* _animation, bool _useRandomColor) {
-    //When random color should be selected, make it depended on monochrome.
-    //variable = (condition) ? expressionTrue : expressionFalse;
-    bool randColor = _useRandomColor ? _animation->monochrome : false;
+
+    bool randColor;
+    if (useRandomColorsForAll){
+        //When animation is monochrome, use a random color, also for blinks and the base
+        randColor = _animation->monochrome;
+    } else {
+        //When random color should be selected, make it depended on monochrome.
+        //variable = (condition) ? expressionTrue : expressionFalse;
+        randColor = _useRandomColor ? _animation->monochrome : false;
+    }
 
     //When the default color is set and image is monochrome, then use the default color
     bool defColor = false;

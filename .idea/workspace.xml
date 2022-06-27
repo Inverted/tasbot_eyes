@@ -16,9 +16,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Updates">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Fixed bug with wrong monochrome detection. Thanks HeavyPodda!">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -119,13 +118,6 @@
       <workItem from="1655584187774" duration="815000" />
       <workItem from="1656209572047" duration="687000" />
       <workItem from="1656282590881" duration="10922000" />
-    </task>
-    <task id="LOCAL-00114" summary="Set build type in CMakeLists.txt">
-      <created>1649969179194</created>
-      <option name="number" value="00114" />
-      <option name="presentableId" value="LOCAL-00114" />
-      <option name="project" value="LOCAL" />
-      <updated>1649969179194</updated>
     </task>
     <task id="LOCAL-00115" summary="Set build type in CMakeLists.txt">
       <created>1649969396358</created>
@@ -463,7 +455,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656292806704</updated>
     </task>
-    <option name="localTasksCounter" value="163" />
+    <task id="LOCAL-00163" summary="Fixed bug with wrong monochrome detection. Thanks HeavyPodda!">
+      <created>1656324905640</created>
+      <option name="number" value="00163" />
+      <option name="presentableId" value="LOCAL-00163" />
+      <option name="project" value="LOCAL" />
+      <updated>1656324905641</updated>
+    </task>
+    <option name="localTasksCounter" value="164" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -481,7 +480,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed bug with blink pattern" />
     <MESSAGE value="improved blink parsing" />
     <MESSAGE value="improved blink pattern" />
     <MESSAGE value="added support for path arguments" />
@@ -506,7 +504,8 @@
     <MESSAGE value="Added support for argument &quot;-D&quot; and fixed missing verbose filtering for &quot;[INFO] Rendered LEDs with code X&quot;" />
     <MESSAGE value="realTASBot=true is now default (and added a little secret feature for me because of it :eyes:)" />
     <MESSAGE value="Updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updates" />
+    <MESSAGE value="Fixed bug with wrong monochrome detection. Thanks HeavyPodda!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed bug with wrong monochrome detection. Thanks HeavyPodda!" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
