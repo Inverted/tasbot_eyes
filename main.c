@@ -669,7 +669,7 @@ ws2811_return_t initLEDs() {
 
     ws2811_channel_t* channel = calloc(1, sizeof(ws2811_channel_t));
     channel->gpionum = dataPin;
-    //channel->count = LED_COUNT;
+    channel->count = LED_COUNT;
     channel->invert = INVERTED;
     channel->brightness = brightness;
     if (realTASBot){
@@ -678,17 +678,7 @@ ws2811_return_t initLEDs() {
         channel->strip_type = WS2812_STRIP;
     }
     display.channel[0] = *channel;
-
-    //pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
-
-    //todo: here
-    if (realTASBot){
-        channel->count = LED_COUNT;
-        pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
-    } else {
-        channel->count = LED_COUNT + (2*LED_HEIGHT);
-        pixel = malloc(sizeof(ws2811_led_t) * (LED_WIDTH + 2) * LED_HEIGHT);
-    }
+    pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
 
     ws2811_return_t r;
     if ((r = ws2811_init(&display)) != WS2811_SUCCESS) {
@@ -709,12 +699,7 @@ ws2811_return_t initLEDs() {
 ws2811_return_t renderLEDs() {
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
-            if (realTASBot){
-                display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x];
-            } else {
-                int index = (y * LED_WIDTH) + x + (2*LED_HEIGHT); //todo: here as well
-                display.channel[0].leds[index] = pixel[index];
-            }
+            display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x];
         }
     }
 
@@ -1197,9 +1182,9 @@ int countLines(const char* _path) {
  */
 unsigned int ledMatrixTranslation(int _x, int _y) {
     if (numberIsEven(_x)) {
-        return ((_x+2) * LED_HEIGHT + _y); //todo: here to
+        return (_x * LED_HEIGHT + _y);
     } else {
-        return ((_x+2) * LED_HEIGHT + LED_HEIGHT - 1 - _y);
+        return (_x * LED_HEIGHT + LED_HEIGHT - 1 - _y);
     }
 }
 
