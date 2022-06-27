@@ -209,7 +209,7 @@ int main(int _argc, char** _argv) {
     //Option for playing give specific animation
     if (specificAnimationToShow != NULL) {
         while (running) {
-            showExpressionFromFilepath(specificAnimationToShow, true, false);
+            showExpressionFromFilepath(specificAnimationToShow, false, false);
         }
         return 0;
     }
