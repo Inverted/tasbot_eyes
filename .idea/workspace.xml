@@ -16,8 +16,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Updates">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Skip startup animation argument">
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -114,14 +113,7 @@
       <workItem from="1656209572047" duration="687000" />
       <workItem from="1656282590881" duration="10922000" />
       <workItem from="1656334650283" duration="1095000" />
-      <workItem from="1656346722894" duration="5342000" />
-    </task>
-    <task id="LOCAL-00119" summary="Transferring">
-      <created>1649971619651</created>
-      <option name="number" value="00119" />
-      <option name="presentableId" value="LOCAL-00119" />
-      <option name="project" value="LOCAL" />
-      <updated>1649971619651</updated>
+      <workItem from="1656346722894" duration="5575000" />
     </task>
     <task id="LOCAL-00120" summary="Transferring">
       <created>1649971860879</created>
@@ -459,7 +451,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656354587150</updated>
     </task>
-    <option name="localTasksCounter" value="168" />
+    <task id="LOCAL-00168" summary="Skip startup animation argument">
+      <created>1656355335913</created>
+      <option name="number" value="00168" />
+      <option name="presentableId" value="LOCAL-00168" />
+      <option name="project" value="LOCAL" />
+      <updated>1656355335913</updated>
+    </task>
+    <option name="localTasksCounter" value="169" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -477,7 +476,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="improved path arguments" />
     <MESSAGE value="Done implementing arguments (for now)" />
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Added support for palettes" />
@@ -502,7 +500,8 @@
     <MESSAGE value="Reading delay time from frame now" />
     <MESSAGE value="Updated README.md" />
     <MESSAGE value="Updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updates" />
+    <MESSAGE value="Skip startup animation argument" />
+    <option name="LAST_COMMIT_MESSAGE" value="Skip startup animation argument" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
