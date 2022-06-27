@@ -98,7 +98,7 @@ ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection);
 
 //TASBot
 void showBlinkExpression();
-void showRandomExpression(char* _path, bool _useRandomColor, , bool _repeatAnimations);
+void showRandomExpression(char* _path, bool _useRandomColor, bool _repeatAnimations);
 void showExpressionFromFilepath(char* _filePath, bool _useRandomColor, bool _repeatAnimations);
 void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAnimations);
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color);
