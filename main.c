@@ -952,7 +952,7 @@ float getLuminance(GifColorType* _color) {
  * @return The convert hexadecimal color
  */
 ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection) {
-    if (useRandomColors){
+    if (_useGammaCorrection){
         _color->Red = gamma8[_color->Red];
         _color->Green = gamma8[_color->Green];
         _color->Blue = gamma8[_color->Blue];
