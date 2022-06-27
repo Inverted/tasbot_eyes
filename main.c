@@ -142,7 +142,7 @@ int TASBotIndex[8][28] = {
 
 //Gamma correction table
 //From https://learn.adafruit.com/led-tricks-gamma-correction/the-quick-fix
-//Written by Phillip Burgess
+//Article written by Phillip Burgess
 const uint8_t gamma8[256] = {
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,
@@ -647,7 +647,6 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
                 //Check if animation is monochrome.
                 //When a single frame contains color, then preserve the animations color later while rendering.
                 if (!isGrayScale(color)) {
-                    printf("color found");
                     keepColor = true;
                 }
 
@@ -657,9 +656,7 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
         }
     }
 
-    printf("keep the color: %s\n", keepColor ? "true" : "false");
-
-    *_monochrome = !keepColor;
+    *_monochrome &= !keepColor;
     return animationFrame;
 }
 
