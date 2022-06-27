@@ -313,7 +313,7 @@ void parseArguments(int _argc, char** _argv) {
             case 'C': {
                 defaultColor = strtocol(optarg);
 
-                printf("[INFO] Set color to %06x\n", defaultColor);
+                printf("[INFO] Set color to #%06x\n", defaultColor);
                 break;
             }
 
@@ -579,7 +579,7 @@ Animation* readAnimation(char* _file) {
             }
 
             if (verboseLogging) {
-                printf("[INFO] (Frame %i info): Size: %ix%i; Delay time: %i; Left: %i, Top: %i; Local color map: %s\n",
+                printf("[INFO] (Frame %i info): Size: %ix%i; Delay time: %i ms; Left: %i, Top: %i; Local color map: %s\n",
                        i, frame->ImageDesc.Width, frame->ImageDesc.Height, delayTime, frame->ImageDesc.Left, frame->ImageDesc.Top,
                        (frame->ImageDesc.ColorMap ? "Yes" : "No"));
             }
@@ -705,7 +705,7 @@ ws2811_return_t initLEDs() {
 ws2811_return_t renderLEDs() {
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
-            display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x];
+            display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x]; //todo; here
         }
     }
 
@@ -804,7 +804,7 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
         printf("[INFO] Use the default color: %s\n", randColor ? "true" : "false");
     }
 
-    ws2811_led_t color = 0;
+    ws2811_led_t color = -1;
     if (randColor) {
         int r = rand() % paletteCount;
         color = palette[r];
@@ -812,6 +812,8 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
         color = defaultColor;
     }
 
+
+    //output color and see if its broken for colored
     for (int i = 0; i < _animation->frameCount; ++i) {
         if (verboseLogging) {
             printf("[INFO] Render frame #%d \n", i);
@@ -835,18 +837,15 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
             ws2811_led_t color;
 
             if (activateLEDModule) {
-                if (_color == 0) {
-                    //pixel[ledMatrixTranslation(x, y)] = translateColor(gifColor);
+                if (_color == -1) {
                     color = translateColor(gifColor, useGammaCorrection);
                 } else {
                     if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
-                        //pixel[ledMatrixTranslation(x, y)] = _color;
                         color = _color;
                         //TODO: Adjust to brightness of gifColor given in GIF
                         // Right now it's flat the same gifColor to all pixels, that just _aren't_ black
                         // Use function getLuminance() for that
                     } else {
-                        //pixel[ledMatrixTranslation(x, y)] = 0; //set other pixels black
                         color = 0;
                     }
                 }
