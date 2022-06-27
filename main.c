@@ -804,7 +804,7 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
         printf("[INFO] Use the default color: %s\n", randColor ? "true" : "false");
     }
 
-    ws2811_led_t color = -1;
+    ws2811_led_t color = 0;
     if (randColor) {
         int r = rand() % paletteCount;
         color = palette[r];
@@ -838,7 +838,7 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
             ws2811_led_t color;
 
             if (activateLEDModule) {
-                if (_color == -1) {
+                if (_color == 0) {
                     color = translateColor(gifColor, useGammaCorrection);
                 } else {
                     if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
