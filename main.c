@@ -98,9 +98,9 @@ ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection);
 
 //TASBot
 void showBlinkExpression();
-void showRandomExpression(char* _path, bool _useRandomColor);
-void showExpressionFromFilepath(char* _filePath, bool _useRandomColor);
-void playExpression(Animation* _animation, bool _useRandomColor);
+void showRandomExpression(char* _path, bool _useRandomColor, , bool _repeatAnimations);
+void showExpressionFromFilepath(char* _filePath, bool _useRandomColor, bool _repeatAnimations);
+void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAnimations);
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color);
 void freeAnimation(Animation* _animation);
 unsigned int getBlinkDelay();
@@ -209,7 +209,7 @@ int main(int _argc, char** _argv) {
     //Option for playing give specific animation
     if (specificAnimationToShow != NULL) {
         while (running) {
-            showExpressionFromFilepath(specificAnimationToShow, false);
+            showExpressionFromFilepath(specificAnimationToShow, true, false);
         }
         return 0;
     }
@@ -219,24 +219,24 @@ int main(int _argc, char** _argv) {
     while (running) {
         //skip to base expression on first iteration, to not start on a random animation
         if (!firstIteration) {
-            showRandomExpression(pathForAnimations, useRandomColors);
+            showRandomExpression(pathForAnimations, useRandomColors, true);
         } else {
             if (!skipStartupAnimation){
-                showExpressionFromFilepath(STARTUP_PATH, false);
+                showExpressionFromFilepath(STARTUP_PATH, false, false);
             }
             firstIteration = false;
         }
 
         //skip base expression, when no blinks at all
         if (maxBlinks != 0 && minTimeBetweenBlinks != 0) {
-            showExpressionFromFilepath(BASE_PATH, false);
+            showExpressionFromFilepath(BASE_PATH, false, false);
         }
 
         usleep(getBlinkDelay() * 1000);
         //blink for a random amount of times
         for (unsigned int blinks = getBlinkAmount(); blinks > 0; --blinks) {
             showBlinkExpression();
-            showExpressionFromFilepath(BASE_PATH, false);
+            showExpressionFromFilepath(BASE_PATH, false, false);
 
             unsigned int blinkTime = getBlinkDelay();
             if (verboseLogging) {
@@ -760,7 +760,7 @@ void showBlinkExpression() {
  * @param _path Path, from where a random animation should be chosen from
  * @param _useRandomColor If the animation can be played with an randomly chosen color, if it's monochrome
  */
-void showRandomExpression(char* _path, bool _useRandomColor) {
+void showRandomExpression(char* _path, bool _useRandomColor, bool _repeatAnimations) {
     int fileCount = countFilesInDir(_path); //get file count
     if (fileCount != -1) {
         char* list[fileCount];
@@ -768,7 +768,7 @@ void showRandomExpression(char* _path, bool _useRandomColor) {
         char* file = getRandomAnimation(list, fileCount); //get random animation
         char* filePath = getFilePath(_path, file);
 
-        showExpressionFromFilepath(filePath, _useRandomColor);
+        showExpressionFromFilepath(filePath, _useRandomColor, _repeatAnimations);
     } else {
         fprintf(stderr, "[ERROR] No files in %s. Please check directory\n", _path);
     }
@@ -778,9 +778,9 @@ void showRandomExpression(char* _path, bool _useRandomColor) {
  * Play one specific animation from given file
  * @param _filePath That should be played
  */
-void showExpressionFromFilepath(char* _filePath, bool _useRandomColor) {
+void showExpressionFromFilepath(char* _filePath, bool _useRandomColor, bool _repeatAnimations) {
     Animation* animation = readAnimation(_filePath);
-    playExpression(animation, _useRandomColor);
+    playExpression(animation, _useRandomColor, _repeatAnimations);
 }
 
 /**
@@ -795,7 +795,7 @@ void showExpressionFromFilepath(char* _filePath, bool _useRandomColor) {
  * @param _animation The animation structure, that is to play
  * @param _useRandomColor If the animation should overwrite the animations palette with a random one, if its monochrome
  */
-void playExpression(Animation* _animation, bool _useRandomColor) {
+void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAnimations) {
     bool randColor;
     if (useRandomColorsForAll){
         //When animation is monochrome, use a random color, also for blinks and the base
