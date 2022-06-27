@@ -720,11 +720,7 @@ ws2811_return_t initLEDs() {
 ws2811_return_t renderLEDs() {
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
-            if (realTASBot){
-                display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x]; //todo; here
-            } else {
-                display.channel[0].leds[((y * LED_WIDTH) + x)] = pixel[y * LED_WIDTH + x]; //todo; here
-            }
+            display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x]; //todo; here
         }
     }
 
