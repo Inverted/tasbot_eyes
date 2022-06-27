@@ -280,7 +280,7 @@ void parseArguments(int _argc, char** _argv) {
                 break;
             case 'X':
                 realTASBot = false;
-                printf("[INFO] SECRET NOT TASBOT MODE. FOR DEBUGGING ONLY!\n");
+                printf("[INFO] SECRET NOT TASBot MODE. FOR DEBUGGING ONLY!\n");
                 break;
             case 'u':
                 skipStartupAnimation = true;
@@ -814,6 +814,7 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
 
 
     //output color and see if its broken for colored
+    printf("color is %06x\n", color);
     for (int i = 0; i < _animation->frameCount; ++i) {
         if (verboseLogging) {
             printf("[INFO] Render frame #%d \n", i);
