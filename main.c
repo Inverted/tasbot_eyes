@@ -819,6 +819,7 @@ void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAni
         printf("[INFO] Use the default color: %s\n", randColor ? "true" : "false");
     }
 
+    //If applies, choose color to overwrite
     ws2811_led_t color = 0;
     if (randColor) {
         int r = rand() % paletteCount;
@@ -827,7 +828,14 @@ void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAni
         color = defaultColor;
     }
 
-    for (int r = 0; r < repetitions; ++r) {
+    //Set correct amount of repetitions
+    int reps = repetitions;
+    if (!_repeatAnimations){
+        reps = 1;
+    }
+
+    //Show frame
+    for (int r = 0; r < reps; ++r) {
         for (int i = 0; i < _animation->frameCount; ++i) {
             if (verboseLogging) {
                 printf("[INFO] Render frame #%d \n", i);
@@ -837,6 +845,7 @@ void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAni
         }
     }
 
+    //Remove entire animation from memory
     freeAnimation(_animation);
 }
 
