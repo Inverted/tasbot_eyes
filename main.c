@@ -619,7 +619,6 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
                 //check if animation is monochrome. When a single frame contains color,
                 //then preserve the animations color later while rendering.
                 if (!isGrayScale(color)) {
-                    printf("color detected...somehow?\n");
                     keepColor = true;
                 }
 
@@ -772,9 +771,6 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
     //When random color should be selected, make it depended on monochrome.
     //variable = (condition) ? expressionTrue : expressionFalse;
     bool randColor = _useRandomColor ? _animation->monochrome : false;
-
-    printf(" defcolor i set to to %06x\n", defaultColor);
-    printf(" default color is set: %s\n", (defaultColor != -1) ? "true" : "false");
 
     //When the default color is set and image is monochrome, then use the default color
     bool defColor = false;
@@ -936,7 +932,7 @@ float getLuminance(GifColorType* _color) {
  * @param _color The RGB color, that is to convert
  * @return The convert hexadecimal color
  */
-ws2811_led_t translateColor(GifColorType* _color) {
+ws2811_led_t translateColor(GifColorType* _color) { //todo: param for gamma correction
     return ((_color->Red & 0xff) << 16) + ((_color->Green & 0xff) << 8) + (_color->Blue & 0xff);
 }
 //endregion
