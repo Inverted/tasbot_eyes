@@ -679,9 +679,14 @@ ws2811_return_t initLEDs() {
     }
     display.channel[0] = *channel;
 
-    ws2811_return_t r;
-    pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
+    //todo: here
+    if (realTASBot){
+        pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
+    } else {
+        pixel = malloc(sizeof(ws2811_led_t) * (LED_WIDTH + 2) * LED_HEIGHT);
+    }
 
+    ws2811_return_t r;
     if ((r = ws2811_init(&display)) != WS2811_SUCCESS) {
         fprintf(stderr, "[ERROR] ws2811_init failed. Couldn't initialize LEDs: %s\n", ws2811_get_return_t_str(r));
     } else {
@@ -1183,9 +1188,9 @@ int countLines(const char* _path) {
  */
 unsigned int ledMatrixTranslation(int _x, int _y) {
     if (numberIsEven(_x)) {
-        return (_x * LED_HEIGHT + _y);
+        return ((_x+2) * LED_HEIGHT + _y);
     } else {
-        return (_x * LED_HEIGHT + LED_HEIGHT - 1 - _y);
+        return ((_x+2) * LED_HEIGHT + LED_HEIGHT - 1 - _y);
     }
 }
 
