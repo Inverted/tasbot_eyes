@@ -656,6 +656,9 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
             }
         }
     }
+
+    printf("keep the color: %s\n", keepColor ? "true" : "false");
+
     *_monochrome = !keepColor;
     return animationFrame;
 }
@@ -799,8 +802,6 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
     //When random color should be selected, make it depended on monochrome.
     //variable = (condition) ? expressionTrue : expressionFalse;
     bool randColor = _useRandomColor ? _animation->monochrome : false;
-
-    printf("_useRandomColor:    %s\n", _useRandomColor ? "true" : "false");
 
     //When the default color is set and image is monochrome, then use the default color
     bool defColor = false;
