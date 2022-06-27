@@ -109,5 +109,11 @@ To create a color palette, you can either:
 * Debate on if during a blink cycle (a period between the random animations), TASBot should use the same blink animation
   for all blinks or if that should stay random like it is right now. This could further smooth out the appearance.
 * Argument to change the base frame
-* Gamma correction as hinted by *Inverted*
 * Loop argument for single frame mode
+
+# Thanks to
+* *dwangoAC* letting me debug on real TASBot
+* *jakobrs* for the original eye software and the index translation table
+* *Inverted* for pointing out gamma correction
+* *HeavyPodda* for helping debugging
+* *Adafruit* for the gamma correction table
