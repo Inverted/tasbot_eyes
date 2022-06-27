@@ -667,7 +667,7 @@ ws2811_return_t initLEDs() {
     if (realTASBot){
         channel->strip_type = STRIP_TYPE;
     } else {
-        channel->strip_type = WS2811_STRIP_BRG;
+        channel->strip_type = WS2812_STRIP;
     }
     display.channel[0] = *channel;
 
@@ -675,7 +675,7 @@ ws2811_return_t initLEDs() {
     pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
 
     if ((r = ws2811_init(&display)) != WS2811_SUCCESS) {
-        fprintf(stderr, "[ERROR] ws2811_init failed. Couldt initialize LEDs: %s\n", ws2811_get_return_t_str(r));
+        fprintf(stderr, "[ERROR] ws2811_init failed. Couldn't initialize LEDs: %s\n", ws2811_get_return_t_str(r));
     } else {
         if (verboseLogging) {
             printf("[INFO] Initialized LEDs with code %d\n", r);
