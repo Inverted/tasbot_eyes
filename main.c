@@ -61,6 +61,7 @@ bool useRandomColors = false;
 bool useRandomColorsForAll = false;
 bool playbackSpeedAffectBlinks = false;
 bool useGammaCorrection = false;
+bool skipStartupAnimation = false;
 char* specificAnimationToShow = NULL;
 char* pathForAnimations = OTHER_PATH;
 char* pathForBlinks = BLINK_PATH;
@@ -70,6 +71,7 @@ int dataPin = GPIO_PIN;
 int maxBlinks = MAX_BLINKS;
 int minTimeBetweenBlinks = MIN_TIME_BETWEEN_BLINKS;
 int maxTimeBetweenBlinks = MAX_TIME_BETWEEN_BLINKS;
+int repetitions = 1;
 float playbackSpeed = 1;
 ws2811_led_t defaultColor = -1;
 
@@ -96,9 +98,9 @@ ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection);
 
 //TASBot
 void showBlinkExpression();
-void showRandomExpression(char* _path, bool _useRandomColor);
-void showExpressionFromFilepath(char* _filePath, bool _useRandomColor);
-void playExpression(Animation* _animation, bool _useRandomColor);
+void showRandomExpression(char* _path, bool _useRandomColor, bool _repeatAnimations);
+void showExpressionFromFilepath(char* _filePath, bool _useRandomColor, bool _repeatAnimations);
+void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAnimations);
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color);
 void freeAnimation(Animation* _animation);
 unsigned int getBlinkDelay();
@@ -207,7 +209,7 @@ int main(int _argc, char** _argv) {
     //Option for playing give specific animation
     if (specificAnimationToShow != NULL) {
         while (running) {
-            showExpressionFromFilepath(specificAnimationToShow, false);
+            showExpressionFromFilepath(specificAnimationToShow, false, false);
         }
         return 0;
     }
@@ -217,22 +219,24 @@ int main(int _argc, char** _argv) {
     while (running) {
         //skip to base expression on first iteration, to not start on a random animation
         if (!firstIteration) {
-            showRandomExpression(pathForAnimations, useRandomColors);
+            showRandomExpression(pathForAnimations, useRandomColors, true);
         } else {
-            showExpressionFromFilepath(STARTUP_PATH, false);
+            if (!skipStartupAnimation){
+                showExpressionFromFilepath(STARTUP_PATH, false, false);
+            }
             firstIteration = false;
         }
 
         //skip base expression, when no blinks at all
         if (maxBlinks != 0 && minTimeBetweenBlinks != 0) {
-            showExpressionFromFilepath(BASE_PATH, false);
+            showExpressionFromFilepath(BASE_PATH, false, false);
         }
 
         usleep(getBlinkDelay() * 1000);
         //blink for a random amount of times
         for (unsigned int blinks = getBlinkAmount(); blinks > 0; --blinks) {
             showBlinkExpression();
-            showExpressionFromFilepath(BASE_PATH, false);
+            showExpressionFromFilepath(BASE_PATH, false, false);
 
             unsigned int blinkTime = getBlinkDelay();
             if (verboseLogging) {
@@ -253,7 +257,7 @@ int main(int _argc, char** _argv) {
  */
 void parseArguments(int _argc, char** _argv) {
     int c;
-    while ((c = getopt(_argc, _argv, "XhvgracDd:b:s:B:i:p:z:P:C:")) != -1) {
+    while ((c = getopt(_argc, _argv, "XhvgruacDd:b:s:B:i:p:z:P:C:R:")) != -1) {
         switch (c) {
             case 'h':
                 printHelp();
@@ -277,7 +281,11 @@ void parseArguments(int _argc, char** _argv) {
                 break;
             case 'X':
                 realTASBot = false;
-                printf("[INFO] Playback speed will affect blink delay\n");
+                printf("[INFO] SECRET NOT TASBot MODE. FOR DEBUGGING ONLY!\n");
+                break;
+            case 'u':
+                skipStartupAnimation = true;
+                printf("[INFO] Skip startup animation\n");
                 break;
 
             case 'd': {
@@ -306,7 +314,7 @@ void parseArguments(int _argc, char** _argv) {
             case 'C': {
                 defaultColor = strtocol(optarg);
 
-                printf("[INFO] Set color to %06x\n", defaultColor);
+                printf("[INFO] Set color to #%06x\n", defaultColor);
                 break;
             }
 
@@ -317,12 +325,25 @@ void parseArguments(int _argc, char** _argv) {
                     printf("[WARNING] Brightness given (%d) higher than 255. Gonna use 255\n", bright);
                     bright = 255;
                 } else if (bright < 0) {
-                    printf("[WARNING] Brightness given (%d) below 0. Gonna use 0\n", bright);
+                    printf("[WARNING] Brightness given (%d) smaller than 0. Gonna use 0\n", bright);
                     bright = 0;
                 }
 
                 brightness = bright;
-                printf("[INFO] Set bright to %d\n", bright);
+                printf("[INFO] Set bright to %d\n", brightness);
+                break;
+            }
+
+            case 'R': {
+                int reps = (int) strtol(optarg, NULL, 10);
+
+                if (reps < 1) {
+                    printf("[WARNING] Repetitions given (%d) smaller then 1. Gonna use 1\n", reps);
+                    reps = 1;
+                }
+
+                repetitions = reps;
+                printf("[INFO] Set repetitions to %d\n", repetitions);
                 break;
             }
 
@@ -438,15 +459,17 @@ void printHelp() {
     printf("-v               Enable verbose logging\n");
     printf("-r               Enable console renderer for frames\n");
     printf("-d [GPIO]        Change GPIO data pin. Possible options are between 2 to 27. Default is 10\n");
+    printf("-g               Use gamma correction. DONT USE, IT'S BROKEN!\n");
 
     printf("\n===[Tune animation playback]===\n");
     printf("-c               Use random color from palette for monochrome animations\n");
     printf("-a               Use random color from palette for monochrome animations as well as blinks and the base\n");
     printf("-C [xxxxxx]      Default color that should be used for not colored animations\n");
-    printf("-D               Let playback speed affect blink delay\n");
     printf("-b [0-255]       Set maximum possible brightness. Default is 24\n");
-    printf("-g               Use gamma correction\n");
-    printf("-s [MULTIPLIER]  Playback speed. Needs to be bigger than 0\n");
+    printf("-s [MULTIPLIER]  Sets Playback speed. Needs to be bigger than 0\n");
+    printf("-D               Let the playback speed affect blink delay\n");
+    printf("-u               Skip the startup animation\n");
+    printf("-R               Set how many times a animation should be repeated. Default is 1\n");
     printf("-B [PATTERN]     Controls the blinks. Highest number that can be used within the pattern is 9\n");
     printf("                 -1st: Maximum number of blinks between animations\n");
     printf("                 -2nd: Minimum seconds between blinks\n");
@@ -571,7 +594,7 @@ Animation* readAnimation(char* _file) {
             }
 
             if (verboseLogging) {
-                printf("[INFO] (Frame %i info): Size: %ix%i; Delay time: %i; Left: %i, Top: %i; Local color map: %s\n",
+                printf("[INFO] (Frame %i info): Size: %ix%i; Delay time: %i ms; Left: %i, Top: %i; Local color map: %s\n",
                        i, frame->ImageDesc.Width, frame->ImageDesc.Height, delayTime, frame->ImageDesc.Left, frame->ImageDesc.Top,
                        (frame->ImageDesc.ColorMap ? "Yes" : "No"));
             }
@@ -655,6 +678,7 @@ char* getRandomAnimation(char* list[], int _count) {
  * @return Infos about, if initialization was successful
  */
 ws2811_return_t initLEDs() {
+    //Setup display
     memset(&display, 0, sizeof(ws2811_t));
     display.freq = TARGET_FREQ;
     display.dmanum = DMA;
@@ -667,15 +691,17 @@ ws2811_return_t initLEDs() {
     if (realTASBot){
         channel->strip_type = STRIP_TYPE;
     } else {
-        channel->strip_type = WS2811_STRIP_BRG;
+        channel->strip_type = WS2812_STRIP;
     }
     display.channel[0] = *channel;
 
-    ws2811_return_t r;
+    //Setup color array
     pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
 
+    //Initialize hardware
+    ws2811_return_t r;
     if ((r = ws2811_init(&display)) != WS2811_SUCCESS) {
-        fprintf(stderr, "[ERROR] ws2811_init failed. Couldt initialize LEDs: %s\n", ws2811_get_return_t_str(r));
+        fprintf(stderr, "[ERROR] ws2811_init failed. Couldn't initialize LEDs: %s\n", ws2811_get_return_t_str(r));
     } else {
         if (verboseLogging) {
             printf("[INFO] Initialized LEDs with code %d\n", r);
@@ -724,7 +750,7 @@ ws2811_return_t clearLEDs() {
  * Show a random blink expression from BLINK_PATH
  */
 void showBlinkExpression() {
-    showRandomExpression(pathForBlinks, false);
+    showRandomExpression(pathForBlinks, false, false);
 }
 
 /**
@@ -732,7 +758,7 @@ void showBlinkExpression() {
  * @param _path Path, from where a random animation should be chosen from
  * @param _useRandomColor If the animation can be played with an randomly chosen color, if it's monochrome
  */
-void showRandomExpression(char* _path, bool _useRandomColor) {
+void showRandomExpression(char* _path, bool _useRandomColor, bool _repeatAnimations) {
     int fileCount = countFilesInDir(_path); //get file count
     if (fileCount != -1) {
         char* list[fileCount];
@@ -740,7 +766,7 @@ void showRandomExpression(char* _path, bool _useRandomColor) {
         char* file = getRandomAnimation(list, fileCount); //get random animation
         char* filePath = getFilePath(_path, file);
 
-        showExpressionFromFilepath(filePath, _useRandomColor);
+        showExpressionFromFilepath(filePath, _useRandomColor, _repeatAnimations);
     } else {
         fprintf(stderr, "[ERROR] No files in %s. Please check directory\n", _path);
     }
@@ -750,9 +776,9 @@ void showRandomExpression(char* _path, bool _useRandomColor) {
  * Play one specific animation from given file
  * @param _filePath That should be played
  */
-void showExpressionFromFilepath(char* _filePath, bool _useRandomColor) {
+void showExpressionFromFilepath(char* _filePath, bool _useRandomColor, bool _repeatAnimations) {
     Animation* animation = readAnimation(_filePath);
-    playExpression(animation, _useRandomColor);
+    playExpression(animation, _useRandomColor, _repeatAnimations);
 }
 
 /**
@@ -767,7 +793,7 @@ void showExpressionFromFilepath(char* _filePath, bool _useRandomColor) {
  * @param _animation The animation structure, that is to play
  * @param _useRandomColor If the animation should overwrite the animations palette with a random one, if its monochrome
  */
-void playExpression(Animation* _animation, bool _useRandomColor) {
+void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAnimations) {
     bool randColor;
     if (useRandomColorsForAll){
         //When animation is monochrome, use a random color, also for blinks and the base
@@ -791,6 +817,7 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
         printf("[INFO] Use the default color: %s\n", randColor ? "true" : "false");
     }
 
+    //If applies, choose color to overwrite
     ws2811_led_t color = 0;
     if (randColor) {
         int r = rand() % paletteCount;
@@ -799,14 +826,24 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
         color = defaultColor;
     }
 
-    for (int i = 0; i < _animation->frameCount; ++i) {
-        if (verboseLogging) {
-            printf("[INFO] Render frame #%d \n", i);
-        }
-        showFrame(_animation->frames[i], color);
-        usleep((int) ((float) (_animation->frames[i]->delayTime * 1000) / playbackSpeed));
+    //Set correct amount of repetitions
+    int reps = repetitions;
+    if (!_repeatAnimations){
+        reps = 1;
     }
 
+    //Show frame
+    for (int r = 0; r < reps; ++r) {
+        for (int i = 0; i < _animation->frameCount; ++i) {
+            if (verboseLogging) {
+                printf("[INFO] Render frame #%d \n", i);
+            }
+            showFrame(_animation->frames[i], color);
+            usleep((int) ((float) (_animation->frames[i]->delayTime * 1000) / playbackSpeed));
+        }
+    }
+
+    //Remove entire animation from memory
     freeAnimation(_animation);
 }
 
@@ -823,17 +860,14 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
 
             if (activateLEDModule) {
                 if (_color == 0) {
-                    //pixel[ledMatrixTranslation(x, y)] = translateColor(gifColor);
                     color = translateColor(gifColor, useGammaCorrection);
                 } else {
                     if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
-                        //pixel[ledMatrixTranslation(x, y)] = _color;
                         color = _color;
                         //TODO: Adjust to brightness of gifColor given in GIF
                         // Right now it's flat the same gifColor to all pixels, that just _aren't_ black
                         // Use function getLuminance() for that
                     } else {
-                        //pixel[ledMatrixTranslation(x, y)] = 0; //set other pixels black
                         color = 0;
                     }
                 }
@@ -939,7 +973,7 @@ float getLuminance(GifColorType* _color) {
  * @return The convert hexadecimal color
  */
 ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection) {
-    if (useRandomColors){
+    if (_useGammaCorrection){ //TODO: when used, breaks things
         _color->Red = gamma8[_color->Red];
         _color->Green = gamma8[_color->Green];
         _color->Blue = gamma8[_color->Blue];
