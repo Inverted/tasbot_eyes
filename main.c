@@ -953,6 +953,7 @@ float getLuminance(GifColorType* _color) {
  */
 ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection) {
     if (_useGammaCorrection){
+        printf("translate %d to %d\n", _color->Red, gamma8[_color->Red]);
         _color->Red = gamma8[_color->Red];
         _color->Green = gamma8[_color->Green];
         _color->Blue = gamma8[_color->Blue];

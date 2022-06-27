@@ -114,14 +114,7 @@
       <workItem from="1656209572047" duration="687000" />
       <workItem from="1656282590881" duration="10922000" />
       <workItem from="1656334650283" duration="1095000" />
-      <workItem from="1656346722894" duration="10165000" />
-    </task>
-    <task id="LOCAL-00128" summary="Add method to calculate luminance">
-      <created>1649978869197</created>
-      <option name="number" value="00128" />
-      <option name="presentableId" value="LOCAL-00128" />
-      <option name="project" value="LOCAL" />
-      <updated>1649978869197</updated>
+      <workItem from="1656346722894" duration="10436000" />
     </task>
     <task id="LOCAL-00129" summary="Transfer">
       <created>1649979253197</created>
@@ -459,7 +452,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656359817365</updated>
     </task>
-    <option name="localTasksCounter" value="177" />
+    <task id="LOCAL-00177" summary="Transfer">
+      <created>1656360020939</created>
+      <option name="number" value="00177" />
+      <option name="presentableId" value="LOCAL-00177" />
+      <option name="project" value="LOCAL" />
+      <updated>1656360020939</updated>
+    </task>
+    <option name="localTasksCounter" value="178" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
