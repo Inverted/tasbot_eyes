@@ -17,6 +17,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Transfer">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -113,14 +114,7 @@
       <workItem from="1656209572047" duration="687000" />
       <workItem from="1656282590881" duration="10922000" />
       <workItem from="1656334650283" duration="1095000" />
-      <workItem from="1656346722894" duration="10626000" />
-    </task>
-    <task id="LOCAL-00130" summary="Transfer">
-      <created>1649979334552</created>
-      <option name="number" value="00130" />
-      <option name="presentableId" value="LOCAL-00130" />
-      <option name="project" value="LOCAL" />
-      <updated>1649979334552</updated>
+      <workItem from="1656346722894" duration="12546000" />
     </task>
     <task id="LOCAL-00131" summary="Done polishing">
       <created>1649981275074</created>
@@ -458,7 +452,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656360291724</updated>
     </task>
-    <option name="localTasksCounter" value="179" />
+    <task id="LOCAL-00179" summary="Transfer">
+      <created>1656360481027</created>
+      <option name="number" value="00179" />
+      <option name="presentableId" value="LOCAL-00179" />
+      <option name="project" value="LOCAL" />
+      <updated>1656360481027</updated>
+    </task>
+    <option name="localTasksCounter" value="180" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

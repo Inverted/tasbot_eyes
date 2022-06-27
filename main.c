@@ -71,6 +71,7 @@ int dataPin = GPIO_PIN;
 int maxBlinks = MAX_BLINKS;
 int minTimeBetweenBlinks = MIN_TIME_BETWEEN_BLINKS;
 int maxTimeBetweenBlinks = MAX_TIME_BETWEEN_BLINKS;
+int repetitions = 1;
 float playbackSpeed = 1;
 ws2811_led_t defaultColor = -1;
 
@@ -256,7 +257,7 @@ int main(int _argc, char** _argv) {
  */
 void parseArguments(int _argc, char** _argv) {
     int c;
-    while ((c = getopt(_argc, _argv, "XhvgruacDd:b:s:B:i:p:z:P:C:")) != -1) {
+    while ((c = getopt(_argc, _argv, "XhvgruacDd:b:s:B:i:p:z:P:C:R:")) != -1) {
         switch (c) {
             case 'h':
                 printHelp();
@@ -324,12 +325,25 @@ void parseArguments(int _argc, char** _argv) {
                     printf("[WARNING] Brightness given (%d) higher than 255. Gonna use 255\n", bright);
                     bright = 255;
                 } else if (bright < 0) {
-                    printf("[WARNING] Brightness given (%d) below 0. Gonna use 0\n", bright);
+                    printf("[WARNING] Brightness given (%d) smaller than 0. Gonna use 0\n", bright);
                     bright = 0;
                 }
 
                 brightness = bright;
-                printf("[INFO] Set bright to %d\n", bright);
+                printf("[INFO] Set bright to %d\n", brightness);
+                break;
+            }
+
+            case 'R': {
+                int reps = (int) strtol(optarg, NULL, 10);
+
+                if (reps < 1) {
+                    printf("[WARNING] Repetitions given (%d) smaller then 1. Gonna use 1\n", reps);
+                    reps = 1;
+                }
+
+                repetitions = reps;
+                printf("[INFO] Set repetitions to %d\n", repetitions);
                 break;
             }
 
@@ -445,7 +459,7 @@ void printHelp() {
     printf("-v               Enable verbose logging\n");
     printf("-r               Enable console renderer for frames\n");
     printf("-d [GPIO]        Change GPIO data pin. Possible options are between 2 to 27. Default is 10\n");
-    printf("-g               Use gamma correction\n");
+    printf("-g               Use gamma correction. DONT USE, IT'S BROKEN!\n");
 
     printf("\n===[Tune animation playback]===\n");
     printf("-c               Use random color from palette for monochrome animations\n");
@@ -455,6 +469,7 @@ void printHelp() {
     printf("-s [MULTIPLIER]  Sets Playback speed. Needs to be bigger than 0\n");
     printf("-D               Let the playback speed affect blink delay\n");
     printf("-u               Skip the startup animation\n");
+    printf("-R               Set how many times a animation should be repeated. Default is 1\n");
     printf("-B [PATTERN]     Controls the blinks. Highest number that can be used within the pattern is 9\n");
     printf("                 -1st: Maximum number of blinks between animations\n");
     printf("                 -2nd: Minimum seconds between blinks\n");
@@ -812,15 +827,14 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
         color = defaultColor;
     }
 
-
-    //output color and see if its broken for colored
-    printf("color is %06x\n", color);
-    for (int i = 0; i < _animation->frameCount; ++i) {
-        if (verboseLogging) {
-            printf("[INFO] Render frame #%d \n", i);
+    for (int r = 0; r < repetitions; ++r) {
+        for (int i = 0; i < _animation->frameCount; ++i) {
+            if (verboseLogging) {
+                printf("[INFO] Render frame #%d \n", i);
+            }
+            showFrame(_animation->frames[i], color);
+            usleep((int) ((float) (_animation->frames[i]->delayTime * 1000) / playbackSpeed));
         }
-        showFrame(_animation->frames[i], color);
-        usleep((int) ((float) (_animation->frames[i]->delayTime * 1000) / playbackSpeed));
     }
 
     freeAnimation(_animation);
@@ -839,8 +853,6 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
 
             if (activateLEDModule) {
                 if (_color == 0) {
-                    printf("vefore %d\n", gifColor->Red);
-
                     color = translateColor(gifColor, useGammaCorrection);
                 } else {
                     if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
@@ -954,8 +966,7 @@ float getLuminance(GifColorType* _color) {
  * @return The convert hexadecimal color
  */
 ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection) {
-    if (_useGammaCorrection){
-        printf("translate %d to %d\n", _color->Red, gamma8[_color->Red]);
+    if (_useGammaCorrection){ //TODO: when used, breaks things
         _color->Red = gamma8[_color->Red];
         _color->Green = gamma8[_color->Green];
         _color->Blue = gamma8[_color->Blue];
