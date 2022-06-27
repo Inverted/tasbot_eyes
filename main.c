@@ -752,7 +752,7 @@ ws2811_return_t clearLEDs() {
  * Show a random blink expression from BLINK_PATH
  */
 void showBlinkExpression() {
-    showRandomExpression(pathForBlinks, false);
+    showRandomExpression(pathForBlinks, false, false);
 }
 
 /**
