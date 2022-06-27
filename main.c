@@ -723,7 +723,7 @@ ws2811_return_t renderLEDs() {
             if (realTASBot){
                 display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x]; //todo; here
             } else {
-                display.channel[0].leds[((y * LED_WIDTH) + x)+(2)] = pixel[y * LED_WIDTH + x]; //todo; here
+                display.channel[0].leds[((y * LED_WIDTH) + x)] = pixel[y * LED_WIDTH + x]; //todo; here
             }
         }
     }
