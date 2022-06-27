@@ -58,6 +58,7 @@ bool verboseLogging = false;
 bool consoleRenderer = false;
 bool useRandomColors = false;
 bool playbackSpeedAffectBlinks = false;
+bool useGammaCorrection = false;
 char* specificAnimationToShow = NULL;
 char* pathForAnimations = OTHER_PATH;
 char* pathForBlinks = BLINK_PATH;
@@ -90,7 +91,7 @@ Animation* readAnimation(char* _file);
 ws2811_return_t initLEDs();
 ws2811_return_t renderLEDs();
 ws2811_return_t clearLEDs();
-ws2811_led_t translateColor(GifColorType* _color);
+ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection);
 
 //TASBot
 void showBlinkExpression();
@@ -137,6 +138,28 @@ int TASBotIndex[8][28] = {
         {34, 35, 36, 37, 38, 39, 40, 41, -1, -1, -1,  -1,  -1, -1, -1, -1, -1, -1, -1, -1, 143, 142, 141, 140, 139, 138, 137, 136},
         {-1, 42, 43, 44, 45, 46, 47, -1, -1, -1, 68,  67,  66, 65, 64, 63, 62, 61, -1, -1, -1,  149, 148, 147, 146, 145, 144, -1},
         {-1, -1, 48, 49, 50, 51, -1, -1, -1, 69, 52,  53,  54, 55, 56, 57, 58, 59, 60, -1, -1,  -1,  153, 152, 151, 150, -1,  -1}
+};
+
+//Gamma correction table
+//From https://learn.adafruit.com/led-tricks-gamma-correction/the-quick-fix
+//Written by Phillip Burgess
+const uint8_t gamma8[256] = {
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
+    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,
+    1,  1,  1,  1,  1,  1,  1,  1,  1,  2,  2,  2,  2,  2,  2,  2,
+    2,  3,  3,  3,  3,  3,  3,  3,  4,  4,  4,  4,  4,  5,  5,  5,
+    5,  6,  6,  6,  6,  7,  7,  7,  7,  8,  8,  8,  9,  9,  9, 10,
+    10, 10, 11, 11, 11, 12, 12, 13, 13, 13, 14, 14, 15, 15, 16, 16,
+    17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 24, 24, 25,
+    25, 26, 27, 27, 28, 29, 29, 30, 31, 32, 32, 33, 34, 35, 35, 36,
+    37, 38, 39, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 50,
+    51, 52, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 66, 67, 68,
+    69, 70, 72, 73, 74, 75, 77, 78, 79, 81, 82, 83, 85, 86, 87, 89,
+    90, 92, 93, 95, 96, 98, 99,101,102,104,105,107,109,110,112,114,
+    115,117,119,120,122,124,126,127,129,131,133,135,137,138,140,142,
+    144,146,148,150,152,154,156,158,160,162,164,167,169,171,173,175,
+    177,180,182,184,186,189,191,193,196,198,200,203,205,208,210,213,
+    215,218,220,223,225,228,231,233,236,239,241,244,247,249,252,255
 };
 
 int main(int _argc, char** _argv) {
@@ -229,7 +252,7 @@ int main(int _argc, char** _argv) {
  */
 void parseArguments(int _argc, char** _argv) {
     int c;
-    while ((c = getopt(_argc, _argv, "XhvrcDd:b:s:B:i:p:z:P:C:")) != -1) {
+    while ((c = getopt(_argc, _argv, "XhvgrcDd:b:s:B:i:p:z:P:C:")) != -1) {
         switch (c) {
             case 'h':
                 printHelp();
@@ -242,6 +265,10 @@ void parseArguments(int _argc, char** _argv) {
             case 'r':
                 consoleRenderer = true;
                 printf("[INFO] Use console renderer\n");
+                break;
+            case 'g':
+                useGammaCorrection = true;
+                printf("[INFO] Use gamma correction\n");
                 break;
             case 'D':
                 playbackSpeedAffectBlinks = true;
@@ -411,6 +438,7 @@ void printHelp() {
     printf("-C [xxxxxx]      Default color that should be used for not colored animations\n");
     printf("-D               Let playback speed affect blink delay\n");
     printf("-b [0-255]       Set maximum possible brightness. Default is 24\n");
+    printf("-g               Use gamma correction\n");
     printf("-s [MULTIPLIER]  Playback speed. Needs to be bigger than 0\n");
     printf("-B [PATTERN]     Controls the blinks. Highest number that can be used within the pattern is 9\n");
     printf("                 -1st: Maximum number of blinks between animations\n");
@@ -772,6 +800,9 @@ void playExpression(Animation* _animation, bool _useRandomColor) {
     //variable = (condition) ? expressionTrue : expressionFalse;
     bool randColor = _useRandomColor ? _animation->monochrome : false;
 
+    printf("_useRandomColor:    %s\n", _useRandomColor ? "true" : "false");
+
+
     //When the default color is set and image is monochrome, then use the default color
     bool defColor = false;
     if (defaultColor != -1) {
@@ -818,7 +849,7 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
             if (activateLEDModule) {
                 if (_color == 0) {
                     //pixel[ledMatrixTranslation(x, y)] = translateColor(gifColor);
-                    color = translateColor(gifColor);
+                    color = translateColor(gifColor, useGammaCorrection);
                 } else {
                     if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
                         //pixel[ledMatrixTranslation(x, y)] = _color;
@@ -932,7 +963,12 @@ float getLuminance(GifColorType* _color) {
  * @param _color The RGB color, that is to convert
  * @return The convert hexadecimal color
  */
-ws2811_led_t translateColor(GifColorType* _color) { //todo: param for gamma correction
+ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection) {
+    if (useRandomColors){
+        _color->Red = gamma8[_color->Red];
+        _color->Green = gamma8[_color->Green];
+        _color->Blue = gamma8[_color->Blue];
+    }
     return ((_color->Red & 0xff) << 16) + ((_color->Green & 0xff) << 8) + (_color->Blue & 0xff);
 }
 //endregion
