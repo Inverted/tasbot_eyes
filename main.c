@@ -216,7 +216,7 @@ int main(int _argc, char** _argv) {
     while (running) {
         //skip to base expression on first iteration, to not start on a random animation
         if (!firstIteration) {
-            showRandomExpression(pathForAnimations, true);
+            showRandomExpression(pathForAnimations, useRandomColors);
         } else {
             showExpressionFromFilepath(STARTUP_PATH);
             firstIteration = false;
@@ -772,7 +772,6 @@ void showRandomExpression(char* _path, bool _useRandomColor) {
     } else {
         fprintf(stderr, "[ERROR] No files in %s. Please check directory\n", _path);
     }
-
 }
 
 /**
