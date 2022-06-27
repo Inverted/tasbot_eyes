@@ -583,7 +583,7 @@ Animation* readAnimation(char* _file) {
         AnimationFrame** animationFrames = malloc(sizeof(AnimationFrame*) * image->ImageCount);
         animation->frames = animationFrames;
         animation->frameCount = image->ImageCount;
-        animation->monochrome = useRandomColors; //set default value. When "useRandomColors" is true, overwrite it with false, if animation has a single colorful frame
+        animation->monochrome = true;
         animation->image = image;
 
         for (int i = 0; i < image->ImageCount; ++i) {
@@ -644,9 +644,10 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
                 GifColorType* color = &colorMap->Colors[c];
                 animationFrame->color[x][y] = color;
 
-                //check if animation is monochrome. When a single frame contains color,
-                //then preserve the animations color later while rendering.
+                //Check if animation is monochrome.
+                //When a single frame contains color, then preserve the animations color later while rendering.
                 if (!isGrayScale(color)) {
+                    printf("color found");
                     keepColor = true;
                 }
 
@@ -655,11 +656,7 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
             }
         }
     }
-
-    //When _monochrome (aka "useRandomColors" on default) is true, overwrite it with false, if animation has a single colorful frame
-    if (*_monochrome){
-        *_monochrome = !keepColor;
-    }
+    *_monochrome = !keepColor;
     return animationFrame;
 }
 
