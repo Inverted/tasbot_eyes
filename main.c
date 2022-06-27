@@ -579,7 +579,7 @@ Animation* readAnimation(char* _file) {
         }
 
         if (verboseLogging) {
-            printf("[INFO] Animation is monochrome %s\n", animation->monochrome ? "true" : "false");
+            printf("[INFO] Animation is monochrome: %s\n", animation->monochrome ? "true" : "false");
         }
 
     } else {
@@ -618,7 +618,7 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
                 //then preserve the animations color later while rendering.
                 //*_monochrome = !(color->Red == color->Green && color->Red == color->Blue);
                 if (!(color->Red == color->Green && color->Red == color->Blue)) {
-                    *_monochrome = false;
+                    *_monochrome = true;
                 }
 
             } else {
