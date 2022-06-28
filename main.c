@@ -16,6 +16,7 @@
 #define STARTUP_PATH            "./gifs/startup.gif"
 #define OTHER_PATH              "./gifs/others/"
 #define BLINK_PATH              "./gifs/blinks/"
+#define IMMEDIATE_ANIM_PATH     "./gifs/PLAYMENOW/"
 #define MAX_FILENAME_LENGTH     256
 #define MAX_PATH_LENGTH         4096
 #define MIN_DELAY_TIME          35                      //Smallest delay time that is possible due to hardware limitations (1000ms/30fps=33.3'ms)
@@ -243,7 +244,27 @@ int main(int _argc, char** _argv) {
                 printf("[INFO] Blink #%d for %d milliseconds \n", blinks, blinkTime);
             }
             usleep(blinkTime * 1000);
+
+						//Check for immediate animation to play back
+					  DIR *immediate_anim_dir = opendir(IMMEDIATE_ANIM_PATH);
+						struct dirent *dir;
+						if(immediate_anim_dir) {
+							struct dirent *dir;
+							do {
+								dir = readdir(immediate_anim_dir);
+								if(dir && strlen(dir->d_name) > 4 && !strcmp(dir->d_name + strlen(dir->d_name) - 4, ".gif")) {
+									char* path;
+									sprintf(path, "%s/%s", IMMEDIATE_ANIM_PATH, dir->d_name);
+									Animation* animation = readAnimation(path);
+							    playExpression(animation, false, false);
+									remove(path);
+									blinks = getBlinkAmount();
+									break;
+								}
+							} while(dir);
+						}
         }
+
     }
 
     //Clean up
