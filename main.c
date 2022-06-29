@@ -11,12 +11,14 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <sysexits.h>
+#include <sys/stat.h>
 
 #define BASE_PATH               "./gifs/base.gif"
 #define STARTUP_PATH            "./gifs/startup.gif"
 #define OTHER_PATH              "./gifs/others/"
 #define BLINK_PATH              "./gifs/blinks/"
 #define IMMEDIATE_ANIM_PATH     "./gifs/PLAYMENOW/"
+#define OVERRIDE_FILE_PATH      "./gifs/OVERRIDE/gif.gif"
 #define MAX_FILENAME_LENGTH     256
 #define MAX_PATH_LENGTH         4096
 #define MIN_DELAY_TIME          35                      //Smallest delay time that is possible due to hardware limitations (1000ms/30fps=33.3'ms)
@@ -125,6 +127,15 @@ void readFile(const char* _path, int _count, char** _out);
 //Development
 unsigned int ledMatrixTranslation(int _x, int _y);
 bool numberIsEven(int _number);
+void delay(useconds_t usec) { //Delay, but poll for override things in the meantime
+		for(useconds_t elapsed=0; elapsed<usec; elapsed+=10 * 1000) {
+			usleep(10 * 1000);
+			struct stat buf;
+			while(!stat(OVERRIDE_FILE_PATH, &buf)) {
+				showExpressionFromFilepath(OVERRIDE_FILE_PATH, false, false);
+			}
+		}
+}
 
 //Development function toggles
 bool activateLEDModule = true;
@@ -233,7 +244,7 @@ int main(int _argc, char** _argv) {
             showExpressionFromFilepath(BASE_PATH, false, false);
         }
 
-        usleep(getBlinkDelay() * 1000);
+        delay(getBlinkDelay() * 1000);
         //blink for a random amount of times
         for (unsigned int blinks = getBlinkAmount(); blinks > 0; --blinks) {
             showBlinkExpression();
@@ -243,7 +254,7 @@ int main(int _argc, char** _argv) {
             if (verboseLogging) {
                 printf("[INFO] Blink #%d for %d milliseconds \n", blinks, blinkTime);
             }
-            usleep(blinkTime * 1000);
+            delay(blinkTime * 1000);
 
 						//Check for immediate animation to play back
 					  DIR *immediate_anim_dir = opendir(IMMEDIATE_ANIM_PATH);
@@ -253,12 +264,14 @@ int main(int _argc, char** _argv) {
 							do {
 								dir = readdir(immediate_anim_dir);
 								if(dir && strlen(dir->d_name) > 4 && !strcmp(dir->d_name + strlen(dir->d_name) - 4, ".gif")) {
-									char* path;
-									sprintf(path, "%s/%s", IMMEDIATE_ANIM_PATH, dir->d_name);
+									char pathinter[PATH_MAX+1];
+									sprintf(pathinter, "%s/%s", IMMEDIATE_ANIM_PATH, dir->d_name);
+									char path[PATH_MAX+1];
+									realpath(pathinter, path);
 									Animation* animation = readAnimation(path);
 							    playExpression(animation, false, false);
 									remove(path);
-									blinks = getBlinkAmount();
+									blinks++;
 									break;
 								}
 							} while(dir);
