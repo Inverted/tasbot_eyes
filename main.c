@@ -127,10 +127,14 @@ void readFile(const char* _path, int _count, char** _out);
 //Development
 unsigned int ledMatrixTranslation(int _x, int _y);
 bool numberIsEven(int _number);
-void delay(useconds_t usec) { //Delay, but poll for override things in the meantime
+
+//delay(): Behaves like usleep(), but polls OVERRIDE_FILE_PATH in the meantime.
+//If that GIF exists, immediately show it.
+void delay(useconds_t usec) {
 		for(useconds_t elapsed=0; elapsed<usec; elapsed+=10 * 1000) {
 			usleep(10 * 1000);
 			struct stat buf;
+			//TODO: Properly check that this is indeed a GIF. Or does showExpressionFromFilepath handle that safely?
 			while(!stat(OVERRIDE_FILE_PATH, &buf)) {
 				showExpressionFromFilepath(OVERRIDE_FILE_PATH, false, false);
 			}
@@ -195,6 +199,11 @@ int main(int _argc, char** _argv) {
         //Default palette
         paletteCount = 8;
         palette = malloc(sizeof(ws2811_led_t) * paletteCount);
+				if (!palette) {
+					fprintf(stderr, "[ERROR] Failed to allocate palette memory");
+					clearLEDs();
+					exit(EXIT_FAILURE);
+				}
         palette[0] = 0xFF0000; // red
         palette[1] = 0xFF8000; // orange
         palette[2] = 0xFFFF00; // yellow
@@ -606,7 +615,17 @@ Animation* readAnimation(char* _file) {
 
         //Process frames
         animation = malloc(sizeof(Animation));
+				if (!animation) {
+					fprintf(stderr, "[ERROR] readAnimation: Failed to allocate Animation");
+					clearLEDs();
+					exit(EXIT_FAILURE);
+				}
         AnimationFrame** animationFrames = malloc(sizeof(AnimationFrame*) * image->ImageCount);
+				if (!animationFrames) {
+					fprintf(stderr, "[ERROR] readAnimation: Failed to allocate AnimationFrames");
+					clearLEDs();
+					exit(EXIT_FAILURE);
+				}
         animation->frames = animationFrames;
         animation->frameCount = image->ImageCount;
         animation->monochrome = true;
@@ -664,6 +683,11 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
                                                    : _globalMap; //choose either global or local color map
 
     AnimationFrame* animationFrame = malloc(sizeof(AnimationFrame));
+		if (!animationFrame) {
+			fprintf(stderr, "[ERROR] readFramePixels: Failed to allocate animationFrame");
+			clearLEDs();
+			exit(EXIT_FAILURE);
+		}
 
     bool keepColor = false;
     for (int y = 0; y < desc.Height; ++y) {
@@ -731,6 +755,11 @@ ws2811_return_t initLEDs() {
 
     //Setup color array
     pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
+		if (!pixel) {
+			fprintf(stderr, "[ERROR] initLEDs: Failed to allocate color array");
+			clearLEDs();
+			exit(EXIT_FAILURE);
+		}
 
     //Initialize hardware
     ws2811_return_t r;
@@ -1029,6 +1058,11 @@ void readPalette(char* _path) {
 
     //Read palette into final palette array
     ws2811_led_t* pal = malloc(sizeof(ws2811_led_t) * colorCount);
+		if (!pal) {
+			fprintf(stderr, "[ERROR] readPalette: Failed to allocate palette memory");
+			clearLEDs();
+			exit(EXIT_FAILURE);
+		}
     for (int i = 0; i < colorCount; ++i) {
         int color = strtocol(rawPal[i]);
         if (color != -1) {
@@ -1153,7 +1187,12 @@ void readFile(const char* _path, int _count, char** _out) {
     //Read line after line into give array
     for (int i = 0; i < _count; i++) {
         _out[i] = malloc(sizeof(unsigned int));
-        fscanf(ptr, "%s\n", _out[i]);
+				if (!_out[i]) {
+					fprintf(stderr, "[ERROR] readFile: Failed to allocate memory");
+					clearLEDs();
+					exit(EXIT_FAILURE);
+				}
+        if (fscanf(ptr, "%s\n", _out[i]) != 1) fprintf(stderr, "[ERROR] readFile: Failed to read line %d\n", i);
     }
 
     //Closing the file
