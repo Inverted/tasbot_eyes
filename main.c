@@ -82,6 +82,7 @@ ws2811_led_t defaultColor = -1;
 int* hue;
 int huePid = -1;
 bool rainbowMode = false;
+AnimationFrame currentFrame;
 
 //Signals
 void setupHandler();
@@ -889,6 +890,7 @@ void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAni
             }
 
             showFrame(_animation->frames[i], color);
+            //memcpy(&currentFrame, _animation->frames[i], sizeof (AnimationFrame));
             usleep((int) ((float) (_animation->frames[i]->delayTime * 1000) / playbackSpeed));
         }
     }
