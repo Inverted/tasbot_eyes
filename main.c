@@ -599,6 +599,7 @@ Animation* readAnimation(char* _file) {
     if (DGifSlurp(image) == GIF_ERROR) {
         fprintf(stderr, "[ERROR] DGifSlurp() failed. Couldn't load infos about GIF: %d\n", image->Error);
         DGifCloseFile(image, &e);
+				if (e != GIF_OK) fprintf(stderr, "[WARNING] readAnimation: DGifCloseFile returned%d\n", e);
         return false;
     }
 
@@ -976,6 +977,7 @@ void freeAnimation(Animation* _animation) {
     //dirty trick, close file here, after animation. That way DGifCloseFile() can't destroy the animation data
     int e = 0;
     DGifCloseFile(_animation->image, &e);
+		if (e != GIF_OK) fprintf(stderr, "[WARNING] freeAnimation: DGifCloseFile returned%d\n", e);
     if (verboseLogging) {
         printf("[INFO] Closed GIF with code %d\n", e);
     }
