@@ -12,6 +12,7 @@
 #include <ctype.h>
 #include <sysexits.h>
 #include <sys/stat.h>
+#include <errno.h>
 
 #define BASE_PATH               "./gifs/base.gif"
 #define STARTUP_PATH            "./gifs/startup.gif"
@@ -841,7 +842,8 @@ void showRandomExpression(char* _path, bool _useRandomColor, bool _repeatAnimati
  */
 void showExpressionFromFilepath(char* _filePath, bool _useRandomColor, bool _repeatAnimations) {
     Animation* animation = readAnimation(_filePath);
-    playExpression(animation, _useRandomColor, _repeatAnimations);
+		if(!animation) fprintf(stderr, "[WARNING] showExpressionFromFilepath: animation is NULL, skipping\n");
+    else playExpression(animation, _useRandomColor, _repeatAnimations);
 }
 
 /**
