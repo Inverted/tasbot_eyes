@@ -198,6 +198,7 @@ int main(int _argc, char** _argv) {
         //Parent process continues
     } else if (rainbowMode) {
         printf("[WARNING] Rainbow mode can only be used with -c or -a. Turning it off again!\n");
+        rainbowMode = false;
     }
 
     //Init palette
@@ -844,6 +845,8 @@ void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAni
         }
     }
 
+    bool rainMode = rainbowMode ? _animation->monochrome : false;
+
     if (verboseLogging) {
         printf("[INFO] Use a random color: %s\n", randColor ? "true" : "false");
         printf("[INFO] Use the default color: %s\n", randColor ? "true" : "false");
@@ -851,22 +854,13 @@ void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAni
 
     //If applies, choose color to overwrite
     ws2811_led_t color = 0;
-    if (randColor && rainbowMode) {
-        float rgb[3];
-        hsv2rgb(hueToFloat(*hue), 1, 1, rgb);
-
-        GifColorType rgbColor;
-        rgbColor.Red = valueToInt(rgb[0]);
-        rgbColor.Green = valueToInt(rgb[1]);
-        rgbColor.Blue = valueToInt(rgb[2]);
-
-        color = translateColor(&rgbColor, useGammaCorrection);
-
-    } else if (randColor) {
-        int r = rand() % paletteCount;
-        color = palette[r];
-    } else if (defColor) {
-        color = defaultColor;
+    if (!rainMode) {
+        if (randColor) {
+            int r = rand() % paletteCount;
+            color = palette[r];
+        } else if (defColor) {
+            color = defaultColor;
+        }
     }
 
     //Set correct amount of repetitions
@@ -881,6 +875,19 @@ void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAni
             if (verboseLogging) {
                 printf("[INFO] Render frame #%d \n", i);
             }
+
+            if (rainMode && randColor) {
+                float rgb[3];
+                hsv2rgb(hueToFloat(*hue), 1, 1, rgb);
+
+                GifColorType rgbColor;
+                rgbColor.Red = valueToInt(rgb[0]);
+                rgbColor.Green = valueToInt(rgb[1]);
+                rgbColor.Blue = valueToInt(rgb[2]);
+
+                color = translateColor(&rgbColor, useGammaCorrection);
+            }
+
             showFrame(_animation->frames[i], color);
             usleep((int) ((float) (_animation->frames[i]->delayTime * 1000) / playbackSpeed));
         }
