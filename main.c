@@ -590,7 +590,7 @@ Animation* readAnimation(char* _file) {
 
     //Open _file
     int e;
-    GifFileType* image = DGifOpenFileName(_file, &e);
+	    GifFileType* image = DGifOpenFileName(_file, &e);
     if (!image) {
         fprintf(stderr, "[ERROR] EGifOpenFileName() failed. Couldn't find or open _file: %d\n", e);
         return false;
@@ -599,8 +599,7 @@ Animation* readAnimation(char* _file) {
     //"Slurp" infos into struct
     if (DGifSlurp(image) == GIF_ERROR) {
         fprintf(stderr, "[ERROR] DGifSlurp() failed. Couldn't load infos about GIF: %d\n", image->Error);
-        DGifCloseFile(image, &e);
-				if (e != GIF_OK) fprintf(stderr, "[WARNING] readAnimation: DGifCloseFile returned%d\n", e);
+				if (DGifCloseFile(image, &e) != GIF_OK) fprintf(stderr, "[WARNING] readAnimation: DGifCloseFile returned%d\n", e);
         return false;
     }
 
@@ -978,8 +977,7 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
 void freeAnimation(Animation* _animation) {
     //dirty trick, close file here, after animation. That way DGifCloseFile() can't destroy the animation data
     int e = 0;
-    DGifCloseFile(_animation->image, &e);
-		if (e != GIF_OK) fprintf(stderr, "[WARNING] freeAnimation: DGifCloseFile returned%d\n", e);
+		if (DGifCloseFile(_animation->image, &e); != GIF_OK) fprintf(stderr, "[WARNING] freeAnimation: DGifCloseFile returned%d\n", e);
     if (verboseLogging) {
         printf("[INFO] Closed GIF with code %d\n", e);
     }
