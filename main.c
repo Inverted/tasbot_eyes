@@ -285,6 +285,7 @@ int main(int _argc, char** _argv) {
 									break;
 								}
 							} while(dir);
+							closedir(immediate_anim_dir);
 						}
         }
 
