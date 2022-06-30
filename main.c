@@ -11,6 +11,9 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <sysexits.h>
+#include <sys/mman.h>
+
+#include "color.h"
 
 #define BASE_PATH               "./gifs/base.gif"
 #define STARTUP_PATH            "./gifs/startup.gif"
@@ -23,6 +26,7 @@
 #define MAX_BLINKS              4                       //How many times does TASBot blink between animations
 #define MIN_TIME_BETWEEN_BLINKS 4                       //Based on human numbers. We Blink about every 4 to 6 seconds
 #define MAX_TIME_BETWEEN_BLINKS 6
+#define COLOR_FADE_SPEED        100
 
 #define LED_HEIGHT              8
 #define LED_WIDTH               28
@@ -74,6 +78,10 @@ int maxTimeBetweenBlinks = MAX_TIME_BETWEEN_BLINKS;
 int repetitions = 1;
 float playbackSpeed = 1;
 ws2811_led_t defaultColor = -1;
+
+int* hue;
+int huePid = -1;
+bool rainbowMode = false;
 
 //Signals
 void setupHandler();
@@ -132,38 +140,30 @@ bool realTASBot = true;
 
 //TASBot display conversation table
 //Based on https://github.com/jakobrs/tasbot-display/blob/master/src/tasbot.rs
-int TASBotIndex[8][28] = {
-        {-1, -1, 0,  1,  2,  3,  -1, -1, -1, -1, 101, 100, 99, 98, 97, 96, 95, 94, -1, -1, -1,  -1,  105, 104, 103, 102, -1,  -1},
-        {-1, 4,  5,  6,  7,  8,  9,  -1, -1, 84, 85,  86,  87, 88, 89, 90, 91, 92, 93, -1, -1,  111, 110, 109, 108, 107, 106, -1},
-        {10, 11, 12, 13, 14, 15, 16, 17, -1, -1, -1,  -1,  -1, -1, -1, -1, -1, -1, -1, -1, 119, 118, 117, 116, 115, 114, 113, 112},
-        {18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1,  83,  82, 81, 80, 79, 78, -1, -1, -1, 127, 126, 125, 124, 123, 122, 121, 120},
-        {26, 27, 28, 29, 30, 31, 32, 33, -1, -1, 70,  71,  72, 73, 74, 75, 76, 77, -1, -1, 135, 134, 133, 132, 131, 130, 129, 128},
-        {34, 35, 36, 37, 38, 39, 40, 41, -1, -1, -1,  -1,  -1, -1, -1, -1, -1, -1, -1, -1, 143, 142, 141, 140, 139, 138, 137, 136},
-        {-1, 42, 43, 44, 45, 46, 47, -1, -1, -1, 68,  67,  66, 65, 64, 63, 62, 61, -1, -1, -1,  149, 148, 147, 146, 145, 144, -1},
-        {-1, -1, 48, 49, 50, 51, -1, -1, -1, 69, 52,  53,  54, 55, 56, 57, 58, 59, 60, -1, -1,  -1,  153, 152, 151, 150, -1,  -1}
-};
+int TASBotIndex[8][28] = {{-1, -1, 0,  1,  2,  3,  -1, -1, -1, -1, 101, 100, 99, 98, 97, 96, 95, 94, -1, -1, -1,  -1,  105, 104, 103, 102, -1,  -1},
+                          {-1, 4,  5,  6,  7,  8,  9,  -1, -1, 84, 85,  86,  87, 88, 89, 90, 91, 92, 93, -1, -1,  111, 110, 109, 108, 107, 106, -1},
+                          {10, 11, 12, 13, 14, 15, 16, 17, -1, -1, -1,  -1,  -1, -1, -1, -1, -1, -1, -1, -1, 119, 118, 117, 116, 115, 114, 113, 112},
+                          {18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1,  83,  82, 81, 80, 79, 78, -1, -1, -1, 127, 126, 125, 124, 123, 122, 121, 120},
+                          {26, 27, 28, 29, 30, 31, 32, 33, -1, -1, 70,  71,  72, 73, 74, 75, 76, 77, -1, -1, 135, 134, 133, 132, 131, 130, 129, 128},
+                          {34, 35, 36, 37, 38, 39, 40, 41, -1, -1, -1,  -1,  -1, -1, -1, -1, -1, -1, -1, -1, 143, 142, 141, 140, 139, 138, 137, 136},
+                          {-1, 42, 43, 44, 45, 46, 47, -1, -1, -1, 68,  67,  66, 65, 64, 63, 62, 61, -1, -1, -1,  149, 148, 147, 146, 145, 144, -1},
+                          {-1, -1, 48, 49, 50, 51, -1, -1, -1, 69, 52,  53,  54, 55, 56, 57, 58, 59, 60, -1, -1,  -1,  153, 152, 151, 150, -1,  -1}};
 
 //Gamma correction table
 //From https://learn.adafruit.com/led-tricks-gamma-correction/the-quick-fix
 //Article written by Phillip Burgess
-const uint8_t gamma8[256] = {
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,
-    1,  1,  1,  1,  1,  1,  1,  1,  1,  2,  2,  2,  2,  2,  2,  2,
-    2,  3,  3,  3,  3,  3,  3,  3,  4,  4,  4,  4,  4,  5,  5,  5,
-    5,  6,  6,  6,  6,  7,  7,  7,  7,  8,  8,  8,  9,  9,  9, 10,
-    10, 10, 11, 11, 11, 12, 12, 13, 13, 13, 14, 14, 15, 15, 16, 16,
-    17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 24, 24, 25,
-    25, 26, 27, 27, 28, 29, 29, 30, 31, 32, 32, 33, 34, 35, 35, 36,
-    37, 38, 39, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 50,
-    51, 52, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 66, 67, 68,
-    69, 70, 72, 73, 74, 75, 77, 78, 79, 81, 82, 83, 85, 86, 87, 89,
-    90, 92, 93, 95, 96, 98, 99,101,102,104,105,107,109,110,112,114,
-    115,117,119,120,122,124,126,127,129,131,133,135,137,138,140,142,
-    144,146,148,150,152,154,156,158,160,162,164,167,169,171,173,175,
-    177,180,182,184,186,189,191,193,196,198,200,203,205,208,210,213,
-    215,218,220,223,225,228,231,233,236,239,241,244,247,249,252,255
-};
+const uint8_t gamma8[256] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1,
+                             1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4,
+                             4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 7, 8, 8, 8, 9, 9, 9, 10, 10, 10, 11, 11, 11, 12, 12,
+                             13, 13, 13, 14, 14, 15, 15, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 24,
+                             24, 25, 25, 26, 27, 27, 28, 29, 29, 30, 31, 32, 32, 33, 34, 35, 35, 36, 37, 38, 39, 39, 40,
+                             41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 50, 51, 52, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,
+                             64, 66, 67, 68, 69, 70, 72, 73, 74, 75, 77, 78, 79, 81, 82, 83, 85, 86, 87, 89, 90, 92, 93,
+                             95, 96, 98, 99, 101, 102, 104, 105, 107, 109, 110, 112, 114, 115, 117, 119, 120, 122, 124,
+                             126, 127, 129, 131, 133, 135, 137, 138, 140, 142, 144, 146, 148, 150, 152, 154, 156, 158,
+                             160, 162, 164, 167, 169, 171, 173, 175, 177, 180, 182, 184, 186, 189, 191, 193, 196, 198,
+                             200, 203, 205, 208, 210, 213, 215, 218, 220, 223, 225, 228, 231, 233, 236, 239, 241, 244,
+                             247, 249, 252, 255};
 
 int main(int _argc, char** _argv) {
     //can't use LED hardware on desktops
@@ -175,6 +175,30 @@ int main(int _argc, char** _argv) {
     srand(time(NULL));
     setupHandler();
     parseArguments(_argc, _argv);
+
+    //Setup child for calculating current hue
+    if (rainbowMode && useRandomColors || rainbowMode && useRandomColorsForAll) {
+        hue = mmap(NULL, sizeof(*hue), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
+        *hue = 0;
+
+        huePid = fork();
+        if (huePid == 0) { // Child process
+            while (true) {
+                if (*hue < 256) {
+                    *hue = *hue + 1;
+                } else {
+                    *hue = 0;
+                }
+                usleep(1000 * COLOR_FADE_SPEED);
+            }
+        } else if (huePid < 0) {
+            printf("[ERROR] Can't fork to start child for hue calculation! Revert back to deactivating rainbow mode!\n");
+            rainbowMode = false;
+        }
+        //Parent process continues
+    } else if (rainbowMode) {
+        printf("[WARNING] Rainbow mode can only be used with -c or -a. Turning it off again!\n");
+    }
 
     //Init palette
     if (pathForPalette != NULL) {
@@ -221,7 +245,7 @@ int main(int _argc, char** _argv) {
         if (!firstIteration) {
             showRandomExpression(pathForAnimations, useRandomColors, true);
         } else {
-            if (!skipStartupAnimation){
+            if (!skipStartupAnimation) {
                 showExpressionFromFilepath(STARTUP_PATH, false, false);
             }
             firstIteration = false;
@@ -257,7 +281,7 @@ int main(int _argc, char** _argv) {
  */
 void parseArguments(int _argc, char** _argv) {
     int c;
-    while ((c = getopt(_argc, _argv, "XhvgruacDd:b:s:B:i:p:z:P:C:R:")) != -1) {
+    while ((c = getopt(_argc, _argv, "XhvgwruacDd:b:s:B:i:p:z:P:C:R:")) != -1) {
         switch (c) {
             case 'h':
                 printHelp();
@@ -309,6 +333,11 @@ void parseArguments(int _argc, char** _argv) {
             case 'a':
                 useRandomColorsForAll = true;
                 printf("[INFO] Use random color, also for blinks and the base\n");
+                break;
+
+            case 'w':
+                rainbowMode = true;
+                printf("[INFO] Rainbow mode activated!\n");
                 break;
 
             case 'C': {
@@ -367,9 +396,7 @@ void parseArguments(int _argc, char** _argv) {
                 int min = optarg[2] - '0';
                 int max = optarg[4] - '0';
 
-                if (blinks < 0 || blinks > 9 ||
-                    min < 0 || min > 9 ||
-                    max < 0 || max > 9) {
+                if (blinks < 0 || blinks > 9 || min < 0 || min > 9 || max < 0 || max > 9) {
                     fprintf(stderr, "[ERROR] Invalid pattern (%s). Please check pattern\n", optarg);
                     abort();
                 } else if (min > max) {
@@ -464,6 +491,7 @@ void printHelp() {
     printf("\n===[Tune animation playback]===\n");
     printf("-c               Use random color from palette for monochrome animations\n");
     printf("-a               Use random color from palette for monochrome animations as well as blinks and the base\n");
+    printf("-w               Activate rainbow mode. Needs to be used with -c or -a to define scope\n");
     printf("-C [xxxxxx]      Default color that should be used for not colored animations\n");
     printf("-b [0-255]       Set maximum possible brightness. Default is 24\n");
     printf("-s [MULTIPLIER]  Sets Playback speed. Needs to be bigger than 0\n");
@@ -495,9 +523,7 @@ void printHelp() {
  * Register the handler for SIGINT, SIGTERM and SIGKILL
  */
 void setupHandler() {
-    struct sigaction sa = {
-            .sa_handler = finish,
-    };
+    struct sigaction sa = {.sa_handler = finish,};
     sigemptyset(&sa.sa_mask);
     sigaction(SIGINT, &sa, NULL);
     sigaction(SIGTERM, &sa, NULL);
@@ -509,15 +535,21 @@ void setupHandler() {
  * @param _number uwu
  */
 void finish(int _number) {
-    printf("\n"); //pretty uwu
+    if (huePid != 0) { //exclude child
+        printf("\n"); //pretty uwu
 
-    running = false;
-    if (activateLEDModule) {
-        clearLEDs();
-        ws2811_render(&display);
-        ws2811_fini(&display);
+        running = false;
+        if (activateLEDModule) {
+            clearLEDs();
+            ws2811_render(&display);
+            ws2811_fini(&display);
+        }
+        free(pixel); //did this for good measurement, but I guess since next command is exit, this is unnecessary, since complete process memory get freed anyway?
+
+        if (huePid > 0) { //catch failed forks
+            kill(huePid, SIGTERM);
+        }
     }
-    free(pixel); //did this for good measurement, but I guess since next command is exit, this is unnecessary, since complete process memory get freed anyway?
     exit(EX_OK);
 }
 //endregion
@@ -566,8 +598,8 @@ Animation* readAnimation(char* _file) {
         //Obtain global color map if available
         ColorMapObject* globalColorMap = image->SColorMap;
         if (verboseLogging) {
-            printf("[INFO] (Image info): Size: %ix%i; Frames: %i; Path: \"%s\"\n",
-                   image->SWidth, image->SHeight, image->ImageCount, _file);
+            printf("[INFO] (Image info): Size: %ix%i; Frames: %i; Path: \"%s\"\n", image->SWidth, image->SHeight,
+                   image->ImageCount, _file);
         }
 
         //Process frames
@@ -583,20 +615,21 @@ Animation* readAnimation(char* _file) {
             const SavedImage* frame = &image->SavedImages[i]; //get access to frame data
 
             u_int16_t delayTime = DEFAULT_DELAY_TIME;
-            if (DGifSavedExtensionToGCB(image, i, &gcb) == GIF_ERROR){
+            if (DGifSavedExtensionToGCB(image, i, &gcb) == GIF_ERROR) {
                 printf("[WARNING] Can't read frame delay. Using default delay time");
             } else {
                 delayTime = gcb.DelayTime * 10;
-                if (delayTime < MIN_DELAY_TIME){
-                    printf("[WARNING] Delay time is smaller than allowed smallest delay time (%d ms). Using that.\n", MIN_DELAY_TIME);
+                if (delayTime < MIN_DELAY_TIME) {
+                    printf("[WARNING] Delay time is smaller than allowed smallest delay time (%d ms). Using that.\n",
+                           MIN_DELAY_TIME);
                     delayTime = MIN_DELAY_TIME;
                 }
             }
 
             if (verboseLogging) {
                 printf("[INFO] (Frame %i info): Size: %ix%i; Delay time: %i ms; Left: %i, Top: %i; Local color map: %s\n",
-                       i, frame->ImageDesc.Width, frame->ImageDesc.Height, delayTime, frame->ImageDesc.Left, frame->ImageDesc.Top,
-                       (frame->ImageDesc.ColorMap ? "Yes" : "No"));
+                       i, frame->ImageDesc.Width, frame->ImageDesc.Height, delayTime, frame->ImageDesc.Left,
+                       frame->ImageDesc.Top, (frame->ImageDesc.ColorMap ? "Yes" : "No"));
             }
 
             animationFrames[i] = readFramePixels(frame, globalColorMap, &animation->monochrome);
@@ -609,8 +642,7 @@ Animation* readAnimation(char* _file) {
 
     } else {
         fprintf(stderr, "[ERROR] Image has wrong size (%dx%d). Required is (%dx%d)", image->SWidth, image->SHeight,
-                LED_WIDTH,
-                LED_HEIGHT);
+                LED_WIDTH, LED_HEIGHT);
         return false;
     }
 
@@ -656,7 +688,7 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
     return animationFrame;
 }
 
-bool isGrayScale(GifColorType* _color){
+bool isGrayScale(GifColorType* _color) {
     return (_color->Red == _color->Green && _color->Red == _color->Blue);
 }
 
@@ -688,7 +720,7 @@ ws2811_return_t initLEDs() {
     channel->count = LED_COUNT;
     channel->invert = INVERTED;
     channel->brightness = brightness;
-    if (realTASBot){
+    if (realTASBot) {
         channel->strip_type = STRIP_TYPE;
     } else {
         channel->strip_type = WS2812_STRIP;
@@ -795,7 +827,7 @@ void showExpressionFromFilepath(char* _filePath, bool _useRandomColor, bool _rep
  */
 void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAnimations) {
     bool randColor;
-    if (useRandomColorsForAll){
+    if (useRandomColorsForAll) {
         //When animation is monochrome, use a random color, also for blinks and the base
         randColor = _animation->monochrome;
     } else {
@@ -807,19 +839,30 @@ void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAni
     //When the default color is set and image is monochrome, then use the default color
     bool defColor = false;
     if (defaultColor != -1) {
-        if (_animation->monochrome){
+        if (_animation->monochrome) {
             defColor = true;
         }
     }
 
-    if (verboseLogging){
+    if (verboseLogging) {
         printf("[INFO] Use a random color: %s\n", randColor ? "true" : "false");
         printf("[INFO] Use the default color: %s\n", randColor ? "true" : "false");
     }
 
     //If applies, choose color to overwrite
     ws2811_led_t color = 0;
-    if (randColor) {
+    if (randColor && rainbowMode) {
+        float rgb[3];
+        hsv2rgb(hueToFloat(*hue), 1, 1, rgb);
+
+        GifColorType rgbColor;
+        rgbColor.Red = valueToInt(rgb[0]);
+        rgbColor.Green = valueToInt(rgb[1]);
+        rgbColor.Blue = valueToInt(rgb[2]);
+
+        color = translateColor(&rgbColor, useGammaCorrection);
+
+    } else if (randColor) {
         int r = rand() % paletteCount;
         color = palette[r];
     } else if (defColor) {
@@ -828,7 +871,7 @@ void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAni
 
     //Set correct amount of repetitions
     int reps = repetitions;
-    if (!_repeatAnimations){
+    if (!_repeatAnimations) {
         reps = 1;
     }
 
@@ -973,7 +1016,7 @@ float getLuminance(GifColorType* _color) {
  * @return The convert hexadecimal color
  */
 ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection) {
-    if (_useGammaCorrection){ //TODO: when used, breaks things
+    if (_useGammaCorrection) { //TODO: when used, breaks things
         _color->Red = gamma8[_color->Red];
         _color->Green = gamma8[_color->Green];
         _color->Blue = gamma8[_color->Blue];
@@ -1027,11 +1070,8 @@ ws2811_led_t strtocol(char* _color) {
             result = result | hex << (len - i - 1) *
                                      4; //Bit-shift by 4, because hex numbers use only lower 4 bits. OR all of it together.
         } else {
-            fprintf(stderr,
-                    "[ERROR] Can't read character '%c' color \"%s\". Please check formatting!\n",
-                    _color[i],
-                    _color
-                    );
+            fprintf(stderr, "[ERROR] Can't read character '%c' color \"%s\". Please check formatting!\n", _color[i],
+                    _color);
             return -1;
         }
     }
