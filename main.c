@@ -265,10 +265,10 @@ int main(int _argc, char** _argv) {
             }
             delay(blinkTime * 1000);
 
-						//Check for immediate animation to play back
+						//Check for immediate animation to play back.
 					  DIR *immediate_anim_dir = opendir(IMMEDIATE_ANIM_PATH);
 						struct dirent *dir;
-						if(immediate_anim_dir) {
+						if(immediate_anim_dir) { //Null is discarded as this directory is not always expected to exist.
 							struct dirent *dir;
 							do {
 								dir = readdir(immediate_anim_dir);
@@ -757,7 +757,6 @@ ws2811_return_t initLEDs() {
     pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
 		if (!pixel) {
 			fprintf(stderr, "[ERROR] initLEDs: Failed to allocate color array");
-			clearLEDs();
 			exit(EXIT_FAILURE);
 		}
 
@@ -1073,6 +1072,7 @@ void readPalette(char* _path) {
         } else {
             printf("[WARNING] Skip color %s because of parsing error", rawPal[i]);
         }
+				free(rawPal[i]);
     }
 
     paletteCount = colorCount;
@@ -1156,6 +1156,7 @@ bool checkIfDirectoryExist(char* _path) {
         closedir(dir);
         return true;
     }
+		fprintf(stderr, "[WARNING]: directory %s does not exist. Errno is %d\n", _path, errno);
     return false;
 }
 
@@ -1217,6 +1218,7 @@ int countFilesInDir(char* _path) {
         closedir(d);
         return counter;
     }
+		fprintf(stderr, "[WARNING]: countFilesInDir() called on nonexistent directory %s. Errno is %d\n", _path, errno);
     return -1;
 }
 
@@ -1240,6 +1242,7 @@ bool getFileList(const char* _path, char* _list[]) {
         closedir(d);
         return true;
     }
+		fprintf(stderr, "[WARNING]: getFileList() called on nonexistent directory %s. Errno is %d\n", _path, errno);
     return false;
 }
 
