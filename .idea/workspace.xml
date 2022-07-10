@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
   <component name="CMakeRunConfigurationManager">
     <generated>
       <config projectName="tasbot_eyes" targetName="tasbot_eyes" />
@@ -13,9 +16,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="TASBot plays now an startup animation when starting">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Transfer">
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +29,11 @@
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="default-color" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -45,6 +52,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;true&quot;,
@@ -63,12 +71,7 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="tasbot_eyes" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v -r -c" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
+    <configuration name="tasbot_eyes" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v -c -C 00ff00" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -102,329 +105,15 @@
       <workItem from="1649892858619" duration="12000" />
       <workItem from="1649906485283" duration="3002000" />
       <workItem from="1649954380387" duration="22207000" />
-      <workItem from="1649988807280" duration="182000" />
-    </task>
-    <task id="LOCAL-00095" summary="Done implementing arguments (for now)">
-      <created>1649812907318</created>
-      <option name="number" value="00095" />
-      <option name="presentableId" value="LOCAL-00095" />
-      <option name="project" value="LOCAL" />
-      <updated>1649812907318</updated>
-    </task>
-    <task id="LOCAL-00096" summary="Minor changes">
-      <created>1649814940663</created>
-      <option name="number" value="00096" />
-      <option name="presentableId" value="LOCAL-00096" />
-      <option name="project" value="LOCAL" />
-      <updated>1649814940663</updated>
-    </task>
-    <task id="LOCAL-00097" summary="Minor changes">
-      <created>1649815023098</created>
-      <option name="number" value="00097" />
-      <option name="presentableId" value="LOCAL-00097" />
-      <option name="project" value="LOCAL" />
-      <updated>1649815023098</updated>
-    </task>
-    <task id="LOCAL-00098" summary="Added support for palettes">
-      <created>1649908988912</created>
-      <option name="number" value="00098" />
-      <option name="presentableId" value="LOCAL-00098" />
-      <option name="project" value="LOCAL" />
-      <updated>1649908988913</updated>
-    </task>
-    <task id="LOCAL-00099" summary="Improving support for palettes">
-      <created>1649955888084</created>
-      <option name="number" value="00099" />
-      <option name="presentableId" value="LOCAL-00099" />
-      <option name="project" value="LOCAL" />
-      <updated>1649955888084</updated>
-    </task>
-    <task id="LOCAL-00100" summary="Improving support for palettes">
-      <created>1649956027375</created>
-      <option name="number" value="00100" />
-      <option name="presentableId" value="LOCAL-00100" />
-      <option name="project" value="LOCAL" />
-      <updated>1649956027375</updated>
-    </task>
-    <task id="LOCAL-00101" summary="Improving support for palettes">
-      <created>1649956083573</created>
-      <option name="number" value="00101" />
-      <option name="presentableId" value="LOCAL-00101" />
-      <option name="project" value="LOCAL" />
-      <updated>1649956083573</updated>
-    </task>
-    <task id="LOCAL-00102" summary="Improving support for palettes">
-      <created>1649956396804</created>
-      <option name="number" value="00102" />
-      <option name="presentableId" value="LOCAL-00102" />
-      <option name="project" value="LOCAL" />
-      <updated>1649956396804</updated>
-    </task>
-    <task id="LOCAL-00103" summary="Improving support for palettes">
-      <created>1649957413563</created>
-      <option name="number" value="00103" />
-      <option name="presentableId" value="LOCAL-00103" />
-      <option name="project" value="LOCAL" />
-      <updated>1649957413563</updated>
-    </task>
-    <task id="LOCAL-00104" summary="Improving support for palettes">
-      <created>1649957553258</created>
-      <option name="number" value="00104" />
-      <option name="presentableId" value="LOCAL-00104" />
-      <option name="project" value="LOCAL" />
-      <updated>1649957553258</updated>
-    </task>
-    <task id="LOCAL-00105" summary="Improving support for palettes">
-      <created>1649957632079</created>
-      <option name="number" value="00105" />
-      <option name="presentableId" value="LOCAL-00105" />
-      <option name="project" value="LOCAL" />
-      <updated>1649957632079</updated>
-    </task>
-    <task id="LOCAL-00106" summary="Improving support for palettes">
-      <created>1649958172384</created>
-      <option name="number" value="00106" />
-      <option name="presentableId" value="LOCAL-00106" />
-      <option name="project" value="LOCAL" />
-      <updated>1649958172384</updated>
-    </task>
-    <task id="LOCAL-00107" summary="Improving support for palettes">
-      <created>1649958525501</created>
-      <option name="number" value="00107" />
-      <option name="presentableId" value="LOCAL-00107" />
-      <option name="project" value="LOCAL" />
-      <updated>1649958525501</updated>
-    </task>
-    <task id="LOCAL-00108" summary="Improving support for palettes">
-      <created>1649958572321</created>
-      <option name="number" value="00108" />
-      <option name="presentableId" value="LOCAL-00108" />
-      <option name="project" value="LOCAL" />
-      <updated>1649958572322</updated>
-    </task>
-    <task id="LOCAL-00109" summary="Improving support for palettes">
-      <created>1649968464872</created>
-      <option name="number" value="00109" />
-      <option name="presentableId" value="LOCAL-00109" />
-      <option name="project" value="LOCAL" />
-      <updated>1649968464873</updated>
-    </task>
-    <task id="LOCAL-00110" summary="Improving support for palettes">
-      <created>1649968579539</created>
-      <option name="number" value="00110" />
-      <option name="presentableId" value="LOCAL-00110" />
-      <option name="project" value="LOCAL" />
-      <updated>1649968579539</updated>
-    </task>
-    <task id="LOCAL-00111" summary="Improving support for palettes">
-      <created>1649968645233</created>
-      <option name="number" value="00111" />
-      <option name="presentableId" value="LOCAL-00111" />
-      <option name="project" value="LOCAL" />
-      <updated>1649968645235</updated>
-    </task>
-    <task id="LOCAL-00112" summary="Improving support for palettes">
-      <created>1649968744471</created>
-      <option name="number" value="00112" />
-      <option name="presentableId" value="LOCAL-00112" />
-      <option name="project" value="LOCAL" />
-      <updated>1649968744471</updated>
-    </task>
-    <task id="LOCAL-00113" summary="Improving support for palettes">
-      <created>1649968784169</created>
-      <option name="number" value="00113" />
-      <option name="presentableId" value="LOCAL-00113" />
-      <option name="project" value="LOCAL" />
-      <updated>1649968784169</updated>
-    </task>
-    <task id="LOCAL-00114" summary="Set build type in CMakeLists.txt">
-      <created>1649969179194</created>
-      <option name="number" value="00114" />
-      <option name="presentableId" value="LOCAL-00114" />
-      <option name="project" value="LOCAL" />
-      <updated>1649969179194</updated>
-    </task>
-    <task id="LOCAL-00115" summary="Set build type in CMakeLists.txt">
-      <created>1649969396358</created>
-      <option name="number" value="00115" />
-      <option name="presentableId" value="LOCAL-00115" />
-      <option name="project" value="LOCAL" />
-      <updated>1649969396358</updated>
-    </task>
-    <task id="LOCAL-00116" summary="Transferring">
-      <created>1649969964420</created>
-      <option name="number" value="00116" />
-      <option name="presentableId" value="LOCAL-00116" />
-      <option name="project" value="LOCAL" />
-      <updated>1649969964420</updated>
-    </task>
-    <task id="LOCAL-00117" summary="Transferring">
-      <created>1649971246132</created>
-      <option name="number" value="00117" />
-      <option name="presentableId" value="LOCAL-00117" />
-      <option name="project" value="LOCAL" />
-      <updated>1649971246132</updated>
-    </task>
-    <task id="LOCAL-00118" summary="Transferring">
-      <created>1649971537250</created>
-      <option name="number" value="00118" />
-      <option name="presentableId" value="LOCAL-00118" />
-      <option name="project" value="LOCAL" />
-      <updated>1649971537250</updated>
-    </task>
-    <task id="LOCAL-00119" summary="Transferring">
-      <created>1649971619651</created>
-      <option name="number" value="00119" />
-      <option name="presentableId" value="LOCAL-00119" />
-      <option name="project" value="LOCAL" />
-      <updated>1649971619651</updated>
-    </task>
-    <task id="LOCAL-00120" summary="Transferring">
-      <created>1649971860879</created>
-      <option name="number" value="00120" />
-      <option name="presentableId" value="LOCAL-00120" />
-      <option name="project" value="LOCAL" />
-      <updated>1649971860879</updated>
-    </task>
-    <task id="LOCAL-00121" summary="Transferring">
-      <created>1649971949853</created>
-      <option name="number" value="00121" />
-      <option name="presentableId" value="LOCAL-00121" />
-      <option name="project" value="LOCAL" />
-      <updated>1649971949853</updated>
-    </task>
-    <task id="LOCAL-00122" summary="Transferring">
-      <created>1649972549118</created>
-      <option name="number" value="00122" />
-      <option name="presentableId" value="LOCAL-00122" />
-      <option name="project" value="LOCAL" />
-      <updated>1649972549118</updated>
-    </task>
-    <task id="LOCAL-00123" summary="Transferring">
-      <created>1649974039538</created>
-      <option name="number" value="00123" />
-      <option name="presentableId" value="LOCAL-00123" />
-      <option name="project" value="LOCAL" />
-      <updated>1649974039538</updated>
-    </task>
-    <task id="LOCAL-00124" summary="Init memory for display struct with zeros using calloc and memset">
-      <created>1649975820394</created>
-      <option name="number" value="00124" />
-      <option name="presentableId" value="LOCAL-00124" />
-      <option name="project" value="LOCAL" />
-      <updated>1649975820394</updated>
-    </task>
-    <task id="LOCAL-00125" summary="Playback speed affect now blink time">
-      <created>1649977011516</created>
-      <option name="number" value="00125" />
-      <option name="presentableId" value="LOCAL-00125" />
-      <option name="project" value="LOCAL" />
-      <updated>1649977011516</updated>
-    </task>
-    <task id="LOCAL-00126" summary="Resolved line 625 into a one-liner">
-      <created>1649977382815</created>
-      <option name="number" value="00126" />
-      <option name="presentableId" value="LOCAL-00126" />
-      <option name="project" value="LOCAL" />
-      <updated>1649977382815</updated>
-    </task>
-    <task id="LOCAL-00127" summary="clear LEDs after init">
-      <created>1649977538768</created>
-      <option name="number" value="00127" />
-      <option name="presentableId" value="LOCAL-00127" />
-      <option name="project" value="LOCAL" />
-      <updated>1649977538768</updated>
-    </task>
-    <task id="LOCAL-00128" summary="Add method to calculate luminance">
-      <created>1649978869197</created>
-      <option name="number" value="00128" />
-      <option name="presentableId" value="LOCAL-00128" />
-      <option name="project" value="LOCAL" />
-      <updated>1649978869197</updated>
-    </task>
-    <task id="LOCAL-00129" summary="Transfer">
-      <created>1649979253197</created>
-      <option name="number" value="00129" />
-      <option name="presentableId" value="LOCAL-00129" />
-      <option name="project" value="LOCAL" />
-      <updated>1649979253197</updated>
-    </task>
-    <task id="LOCAL-00130" summary="Transfer">
-      <created>1649979334552</created>
-      <option name="number" value="00130" />
-      <option name="presentableId" value="LOCAL-00130" />
-      <option name="project" value="LOCAL" />
-      <updated>1649979334552</updated>
-    </task>
-    <task id="LOCAL-00131" summary="Done polishing">
-      <created>1649981275074</created>
-      <option name="number" value="00131" />
-      <option name="presentableId" value="LOCAL-00131" />
-      <option name="project" value="LOCAL" />
-      <updated>1649981275074</updated>
-    </task>
-    <task id="LOCAL-00132" summary="Done polishing">
-      <created>1649981905958</created>
-      <option name="number" value="00132" />
-      <option name="presentableId" value="LOCAL-00132" />
-      <option name="project" value="LOCAL" />
-      <updated>1649981905958</updated>
-    </task>
-    <task id="LOCAL-00133" summary="Wrote a proper README.md">
-      <created>1649986475632</created>
-      <option name="number" value="00133" />
-      <option name="presentableId" value="LOCAL-00133" />
-      <option name="project" value="LOCAL" />
-      <updated>1649986475632</updated>
-    </task>
-    <task id="LOCAL-00134" summary="Wrote a proper README.md">
-      <created>1649986540758</created>
-      <option name="number" value="00134" />
-      <option name="presentableId" value="LOCAL-00134" />
-      <option name="project" value="LOCAL" />
-      <updated>1649986540758</updated>
-    </task>
-    <task id="LOCAL-00135" summary="Wrote a proper README.md">
-      <created>1649986590574</created>
-      <option name="number" value="00135" />
-      <option name="presentableId" value="LOCAL-00135" />
-      <option name="project" value="LOCAL" />
-      <updated>1649986590574</updated>
-    </task>
-    <task id="LOCAL-00136" summary="Wrote a proper README.md">
-      <created>1649986627325</created>
-      <option name="number" value="00136" />
-      <option name="presentableId" value="LOCAL-00136" />
-      <option name="project" value="LOCAL" />
-      <updated>1649986627325</updated>
-    </task>
-    <task id="LOCAL-00137" summary="Wrote a proper README.md">
-      <created>1649986662188</created>
-      <option name="number" value="00137" />
-      <option name="presentableId" value="LOCAL-00137" />
-      <option name="project" value="LOCAL" />
-      <updated>1649986662188</updated>
-    </task>
-    <task id="LOCAL-00138" summary="Wrote a proper README.md">
-      <created>1649986721188</created>
-      <option name="number" value="00138" />
-      <option name="presentableId" value="LOCAL-00138" />
-      <option name="project" value="LOCAL" />
-      <updated>1649986721188</updated>
-    </task>
-    <task id="LOCAL-00139" summary="Wrote a proper README.md">
-      <created>1649986758646</created>
-      <option name="number" value="00139" />
-      <option name="presentableId" value="LOCAL-00139" />
-      <option name="project" value="LOCAL" />
-      <updated>1649986758646</updated>
-    </task>
-    <task id="LOCAL-00140" summary="Wrote a proper README.md">
-      <created>1649986796538</created>
-      <option name="number" value="00140" />
-      <option name="presentableId" value="LOCAL-00140" />
-      <option name="project" value="LOCAL" />
-      <updated>1649986796538</updated>
+      <workItem from="1649988807280" duration="873000" />
+      <workItem from="1650242552950" duration="617000" />
+      <workItem from="1651446322456" duration="1601000" />
+      <workItem from="1651580687881" duration="7000" />
+      <workItem from="1655584187774" duration="815000" />
+      <workItem from="1656209572047" duration="687000" />
+      <workItem from="1656282590881" duration="10922000" />
+      <workItem from="1656334650283" duration="1095000" />
+      <workItem from="1656346722894" duration="13863000" />
     </task>
     <task id="LOCAL-00141" summary="Spelling">
       <created>1649986884646</created>
@@ -433,21 +122,343 @@
       <option name="project" value="LOCAL" />
       <updated>1649986884646</updated>
     </task>
-    <task id="LOCAL-00142" summary="Removed showBaseExpression() and replaced with showExpressionFromFilepath(BASE_PATH);">
-      <created>1651611536523</created>
+    <task id="LOCAL-00142" summary="Doxygen polishing">
+      <created>1649989016912</created>
       <option name="number" value="00142" />
       <option name="presentableId" value="LOCAL-00142" />
       <option name="project" value="LOCAL" />
-      <updated>1651611536524</updated>
+      <updated>1649989016913</updated>
     </task>
-    <task id="LOCAL-00143" summary="TASBot plays now an startup animation when starting">
-      <created>1651612293761</created>
+    <task id="LOCAL-00143" summary="Added Doxygen HTML documentation">
+      <created>1649989907059</created>
       <option name="number" value="00143" />
       <option name="presentableId" value="LOCAL-00143" />
       <option name="project" value="LOCAL" />
-      <updated>1651612293761</updated>
+      <updated>1649989907059</updated>
     </task>
-    <option name="localTasksCounter" value="144" />
+    <task id="LOCAL-00144" summary="Added support for argument &quot;-D&quot; and fixed missing verbose filtering for &quot;[INFO] Rendered LEDs with code X&quot;">
+      <created>1651447213725</created>
+      <option name="number" value="00144" />
+      <option name="presentableId" value="LOCAL-00144" />
+      <option name="project" value="LOCAL" />
+      <updated>1651447213726</updated>
+    </task>
+    <task id="LOCAL-00145" summary="realTASBot=true is now default (and added a little secret feature for me because of it :eyes:)">
+      <created>1651447684755</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1651447684755</updated>
+    </task>
+    <task id="LOCAL-00146" summary="Updates">
+      <created>1656284588302</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1656284588303</updated>
+    </task>
+    <task id="LOCAL-00147" summary="Updates">
+      <created>1656286188006</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1656286188006</updated>
+    </task>
+    <task id="LOCAL-00148" summary="Updates">
+      <created>1656286300120</created>
+      <option name="number" value="00148" />
+      <option name="presentableId" value="LOCAL-00148" />
+      <option name="project" value="LOCAL" />
+      <updated>1656286300120</updated>
+    </task>
+    <task id="LOCAL-00149" summary="Updates">
+      <created>1656286837383</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1656286837384</updated>
+    </task>
+    <task id="LOCAL-00150" summary="Updates">
+      <created>1656287678687</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1656287678687</updated>
+    </task>
+    <task id="LOCAL-00151" summary="Updates">
+      <created>1656288123765</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1656288123765</updated>
+    </task>
+    <task id="LOCAL-00152" summary="Updates">
+      <created>1656288363525</created>
+      <option name="number" value="00152" />
+      <option name="presentableId" value="LOCAL-00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1656288363525</updated>
+    </task>
+    <task id="LOCAL-00153" summary="Updates">
+      <created>1656289150154</created>
+      <option name="number" value="00153" />
+      <option name="presentableId" value="LOCAL-00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1656289150154</updated>
+    </task>
+    <task id="LOCAL-00154" summary="Updates">
+      <created>1656289240070</created>
+      <option name="number" value="00154" />
+      <option name="presentableId" value="LOCAL-00154" />
+      <option name="project" value="LOCAL" />
+      <updated>1656289240070</updated>
+    </task>
+    <task id="LOCAL-00155" summary="Updates">
+      <created>1656289318997</created>
+      <option name="number" value="00155" />
+      <option name="presentableId" value="LOCAL-00155" />
+      <option name="project" value="LOCAL" />
+      <updated>1656289318997</updated>
+    </task>
+    <task id="LOCAL-00156" summary="Updates">
+      <created>1656289383035</created>
+      <option name="number" value="00156" />
+      <option name="presentableId" value="LOCAL-00156" />
+      <option name="project" value="LOCAL" />
+      <updated>1656289383035</updated>
+    </task>
+    <task id="LOCAL-00157" summary="Updates">
+      <created>1656289635479</created>
+      <option name="number" value="00157" />
+      <option name="presentableId" value="LOCAL-00157" />
+      <option name="project" value="LOCAL" />
+      <updated>1656289635479</updated>
+    </task>
+    <task id="LOCAL-00158" summary="Updates">
+      <created>1656290795390</created>
+      <option name="number" value="00158" />
+      <option name="presentableId" value="LOCAL-00158" />
+      <option name="project" value="LOCAL" />
+      <updated>1656290795390</updated>
+    </task>
+    <task id="LOCAL-00159" summary="Updates">
+      <created>1656291447269</created>
+      <option name="number" value="00159" />
+      <option name="presentableId" value="LOCAL-00159" />
+      <option name="project" value="LOCAL" />
+      <updated>1656291447269</updated>
+    </task>
+    <task id="LOCAL-00160" summary="Updates">
+      <created>1656291811696</created>
+      <option name="number" value="00160" />
+      <option name="presentableId" value="LOCAL-00160" />
+      <option name="project" value="LOCAL" />
+      <updated>1656291811696</updated>
+    </task>
+    <task id="LOCAL-00161" summary="Updates">
+      <created>1656292296062</created>
+      <option name="number" value="00161" />
+      <option name="presentableId" value="LOCAL-00161" />
+      <option name="project" value="LOCAL" />
+      <updated>1656292296062</updated>
+    </task>
+    <task id="LOCAL-00162" summary="Updates">
+      <created>1656292806704</created>
+      <option name="number" value="00162" />
+      <option name="presentableId" value="LOCAL-00162" />
+      <option name="project" value="LOCAL" />
+      <updated>1656292806704</updated>
+    </task>
+    <task id="LOCAL-00163" summary="Fixed bug with wrong monochrome detection. Thanks HeavyPodda!">
+      <created>1656324905640</created>
+      <option name="number" value="00163" />
+      <option name="presentableId" value="LOCAL-00163" />
+      <option name="project" value="LOCAL" />
+      <updated>1656324905641</updated>
+    </task>
+    <task id="LOCAL-00164" summary="(Re)implemented the -a flag. Forgot the push that, uups">
+      <created>1656325251493</created>
+      <option name="number" value="00164" />
+      <option name="presentableId" value="LOCAL-00164" />
+      <option name="project" value="LOCAL" />
+      <updated>1656325251493</updated>
+    </task>
+    <task id="LOCAL-00165" summary="Reading delay time from frame now">
+      <created>1656349606819</created>
+      <option name="number" value="00165" />
+      <option name="presentableId" value="LOCAL-00165" />
+      <option name="project" value="LOCAL" />
+      <updated>1656349606820</updated>
+    </task>
+    <task id="LOCAL-00166" summary="Updated README.md">
+      <created>1656350143748</created>
+      <option name="number" value="00166" />
+      <option name="presentableId" value="LOCAL-00166" />
+      <option name="project" value="LOCAL" />
+      <updated>1656350143748</updated>
+    </task>
+    <task id="LOCAL-00167" summary="Updates">
+      <created>1656354587150</created>
+      <option name="number" value="00167" />
+      <option name="presentableId" value="LOCAL-00167" />
+      <option name="project" value="LOCAL" />
+      <updated>1656354587150</updated>
+    </task>
+    <task id="LOCAL-00168" summary="Skip startup animation argument">
+      <created>1656355335913</created>
+      <option name="number" value="00168" />
+      <option name="presentableId" value="LOCAL-00168" />
+      <option name="project" value="LOCAL" />
+      <updated>1656355335913</updated>
+    </task>
+    <task id="LOCAL-00169" summary="Transfer">
+      <created>1656355429561</created>
+      <option name="number" value="00169" />
+      <option name="presentableId" value="LOCAL-00169" />
+      <option name="project" value="LOCAL" />
+      <updated>1656355429561</updated>
+    </task>
+    <task id="LOCAL-00170" summary="Transfer">
+      <created>1656355699457</created>
+      <option name="number" value="00170" />
+      <option name="presentableId" value="LOCAL-00170" />
+      <option name="project" value="LOCAL" />
+      <updated>1656355699457</updated>
+    </task>
+    <task id="LOCAL-00171" summary="Transfer">
+      <created>1656356085967</created>
+      <option name="number" value="00171" />
+      <option name="presentableId" value="LOCAL-00171" />
+      <option name="project" value="LOCAL" />
+      <updated>1656356085968</updated>
+    </task>
+    <task id="LOCAL-00172" summary="Transfer">
+      <created>1656356205610</created>
+      <option name="number" value="00172" />
+      <option name="presentableId" value="LOCAL-00172" />
+      <option name="project" value="LOCAL" />
+      <updated>1656356205610</updated>
+    </task>
+    <task id="LOCAL-00173" summary="Transfer">
+      <created>1656356884945</created>
+      <option name="number" value="00173" />
+      <option name="presentableId" value="LOCAL-00173" />
+      <option name="project" value="LOCAL" />
+      <updated>1656356884945</updated>
+    </task>
+    <task id="LOCAL-00174" summary="Transfer">
+      <created>1656359633854</created>
+      <option name="number" value="00174" />
+      <option name="presentableId" value="LOCAL-00174" />
+      <option name="project" value="LOCAL" />
+      <updated>1656359633854</updated>
+    </task>
+    <task id="LOCAL-00175" summary="Transfer">
+      <created>1656359748203</created>
+      <option name="number" value="00175" />
+      <option name="presentableId" value="LOCAL-00175" />
+      <option name="project" value="LOCAL" />
+      <updated>1656359748203</updated>
+    </task>
+    <task id="LOCAL-00176" summary="Transfer">
+      <created>1656359817365</created>
+      <option name="number" value="00176" />
+      <option name="presentableId" value="LOCAL-00176" />
+      <option name="project" value="LOCAL" />
+      <updated>1656359817365</updated>
+    </task>
+    <task id="LOCAL-00177" summary="Transfer">
+      <created>1656360020939</created>
+      <option name="number" value="00177" />
+      <option name="presentableId" value="LOCAL-00177" />
+      <option name="project" value="LOCAL" />
+      <updated>1656360020939</updated>
+    </task>
+    <task id="LOCAL-00178" summary="Transfer">
+      <created>1656360291724</created>
+      <option name="number" value="00178" />
+      <option name="presentableId" value="LOCAL-00178" />
+      <option name="project" value="LOCAL" />
+      <updated>1656360291724</updated>
+    </task>
+    <task id="LOCAL-00179" summary="Transfer">
+      <created>1656360481027</created>
+      <option name="number" value="00179" />
+      <option name="presentableId" value="LOCAL-00179" />
+      <option name="project" value="LOCAL" />
+      <updated>1656360481027</updated>
+    </task>
+    <task id="LOCAL-00180" summary="Transfer">
+      <created>1656362406359</created>
+      <option name="number" value="00180" />
+      <option name="presentableId" value="LOCAL-00180" />
+      <option name="project" value="LOCAL" />
+      <updated>1656362406359</updated>
+    </task>
+    <task id="LOCAL-00181" summary="Transfer">
+      <created>1656362834397</created>
+      <option name="number" value="00181" />
+      <option name="presentableId" value="LOCAL-00181" />
+      <option name="project" value="LOCAL" />
+      <updated>1656362834397</updated>
+    </task>
+    <task id="LOCAL-00182" summary="Transfer">
+      <created>1656362876848</created>
+      <option name="number" value="00182" />
+      <option name="presentableId" value="LOCAL-00182" />
+      <option name="project" value="LOCAL" />
+      <updated>1656362876848</updated>
+    </task>
+    <task id="LOCAL-00183" summary="Transfer">
+      <created>1656362917699</created>
+      <option name="number" value="00183" />
+      <option name="presentableId" value="LOCAL-00183" />
+      <option name="project" value="LOCAL" />
+      <updated>1656362917699</updated>
+    </task>
+    <task id="LOCAL-00184" summary="Transfer">
+      <created>1656363133793</created>
+      <option name="number" value="00184" />
+      <option name="presentableId" value="LOCAL-00184" />
+      <option name="project" value="LOCAL" />
+      <updated>1656363133793</updated>
+    </task>
+    <task id="LOCAL-00185" summary="Transfer">
+      <created>1656363342446</created>
+      <option name="number" value="00185" />
+      <option name="presentableId" value="LOCAL-00185" />
+      <option name="project" value="LOCAL" />
+      <updated>1656363342446</updated>
+    </task>
+    <task id="LOCAL-00186" summary="Transfer">
+      <created>1656363380052</created>
+      <option name="number" value="00186" />
+      <option name="presentableId" value="LOCAL-00186" />
+      <option name="project" value="LOCAL" />
+      <updated>1656363380052</updated>
+    </task>
+    <task id="LOCAL-00187" summary="Transfer">
+      <created>1656363417523</created>
+      <option name="number" value="00187" />
+      <option name="presentableId" value="LOCAL-00187" />
+      <option name="project" value="LOCAL" />
+      <updated>1656363417524</updated>
+    </task>
+    <task id="LOCAL-00188" summary="Transfer">
+      <created>1656363481954</created>
+      <option name="number" value="00188" />
+      <option name="presentableId" value="LOCAL-00188" />
+      <option name="project" value="LOCAL" />
+      <updated>1656363481954</updated>
+    </task>
+    <task id="LOCAL-00189" summary="Transfer">
+      <created>1656363565648</created>
+      <option name="number" value="00189" />
+      <option name="presentableId" value="LOCAL-00189" />
+      <option name="project" value="LOCAL" />
+      <updated>1656363565648</updated>
+    </task>
+    <option name="localTasksCounter" value="190" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -465,14 +476,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added support for -b -s -d" />
-    <MESSAGE value="changed pin to tasbot default" />
-    <MESSAGE value="added support for blink pattern" />
-    <MESSAGE value="fixed bug with blink pattern" />
-    <MESSAGE value="improved blink parsing" />
-    <MESSAGE value="improved blink pattern" />
-    <MESSAGE value="added support for path arguments" />
-    <MESSAGE value="improved path arguments" />
     <MESSAGE value="Done implementing arguments (for now)" />
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Added support for palettes" />
@@ -484,13 +487,21 @@
     <MESSAGE value="Resolved line 625 into a one-liner" />
     <MESSAGE value="clear LEDs after init" />
     <MESSAGE value="Add method to calculate luminance" />
-    <MESSAGE value="Transfer" />
     <MESSAGE value="Done polishing" />
     <MESSAGE value="Wrote a proper README.md" />
     <MESSAGE value="Spelling" />
-    <MESSAGE value="Removed showBaseExpression() and replaced with showExpressionFromFilepath(BASE_PATH);" />
-    <MESSAGE value="TASBot plays now an startup animation when starting" />
-    <option name="LAST_COMMIT_MESSAGE" value="TASBot plays now an startup animation when starting" />
+    <MESSAGE value="Doxygen polishing" />
+    <MESSAGE value="Added Doxygen HTML documentation" />
+    <MESSAGE value="Added support for argument &quot;-D&quot; and fixed missing verbose filtering for &quot;[INFO] Rendered LEDs with code X&quot;" />
+    <MESSAGE value="realTASBot=true is now default (and added a little secret feature for me because of it :eyes:)" />
+    <MESSAGE value="Fixed bug with wrong monochrome detection. Thanks HeavyPodda!" />
+    <MESSAGE value="(Re)implemented the -a flag. Forgot the push that, uups" />
+    <MESSAGE value="Reading delay time from frame now" />
+    <MESSAGE value="Updated README.md" />
+    <MESSAGE value="Updates" />
+    <MESSAGE value="Skip startup animation argument" />
+    <MESSAGE value="Transfer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Transfer" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
