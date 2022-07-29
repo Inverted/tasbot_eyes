@@ -11,11 +11,15 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <sysexits.h>
+#include <sys/stat.h>
+#include <errno.h>
 
 #define BASE_PATH               "./gifs/base.gif"
 #define STARTUP_PATH            "./gifs/startup.gif"
 #define OTHER_PATH              "./gifs/others/"
 #define BLINK_PATH              "./gifs/blinks/"
+#define IMMEDIATE_ANIM_PATH     "./gifs/PLAYMENOW/"
+#define OVERRIDE_FILE_PATH      "./gifs/OVERRIDE/gif.gif"
 #define MAX_FILENAME_LENGTH     256
 #define MAX_PATH_LENGTH         4096
 #define MIN_DELAY_TIME          35                      //Smallest delay time that is possible due to hardware limitations (1000ms/30fps=33.3'ms)
@@ -125,6 +129,19 @@ void readFile(const char* _path, int _count, char** _out);
 unsigned int ledMatrixTranslation(int _x, int _y);
 bool numberIsEven(int _number);
 
+//delay(): Behaves like usleep(), but polls OVERRIDE_FILE_PATH in the meantime.
+//If that GIF exists, immediately show it.
+void delay(useconds_t usec) {
+		for(useconds_t elapsed=0; elapsed<usec; elapsed+=10 * 1000) {
+			usleep(10 * 1000);
+			struct stat buf;
+			//TODO: Properly check that this is indeed a GIF. Or does showExpressionFromFilepath handle that safely?
+			while(!stat(OVERRIDE_FILE_PATH, &buf)) {
+				showExpressionFromFilepath(OVERRIDE_FILE_PATH, false, false);
+			}
+		}
+}
+
 //Development function toggles
 bool activateLEDModule = true;
 bool realTASBot = true;
@@ -183,6 +200,11 @@ int main(int _argc, char** _argv) {
         //Default palette
         paletteCount = 8;
         palette = malloc(sizeof(ws2811_led_t) * paletteCount);
+				if (!palette) {
+					fprintf(stderr, "[ERROR] Failed to allocate palette memory");
+					clearLEDs();
+					exit(EXIT_FAILURE);
+				}
         palette[0] = 0xFF0000; // red
         palette[1] = 0xFF8000; // orange
         palette[2] = 0xFFFF00; // yellow
@@ -232,7 +254,7 @@ int main(int _argc, char** _argv) {
             showExpressionFromFilepath(BASE_PATH, false, false);
         }
 
-        usleep(getBlinkDelay() * 1000);
+        delay(getBlinkDelay() * 1000);
         //blink for a random amount of times
         for (unsigned int blinks = getBlinkAmount(); blinks > 0; --blinks) {
             showBlinkExpression();
@@ -242,8 +264,31 @@ int main(int _argc, char** _argv) {
             if (verboseLogging) {
                 printf("[INFO] Blink #%d for %d milliseconds \n", blinks, blinkTime);
             }
-            usleep(blinkTime * 1000);
+            delay(blinkTime * 1000);
+
+						//Check for immediate animation to play back.
+					  DIR *immediate_anim_dir = opendir(IMMEDIATE_ANIM_PATH);
+						struct dirent *dir;
+						if(immediate_anim_dir) { //Null is discarded as this directory is not always expected to exist.
+							struct dirent *dir;
+							do {
+								dir = readdir(immediate_anim_dir);
+								if(dir && strlen(dir->d_name) > 4 && !strcmp(dir->d_name + strlen(dir->d_name) - 4, ".gif")) {
+									char pathinter[PATH_MAX+1];
+									sprintf(pathinter, "%s/%s", IMMEDIATE_ANIM_PATH, dir->d_name);
+									char path[PATH_MAX+1];
+									realpath(pathinter, path);
+									Animation* animation = readAnimation(path);
+							    playExpression(animation, false, false);
+									remove(path);
+									blinks++;
+									break;
+								}
+							} while(dir);
+							closedir(immediate_anim_dir);
+						}
         }
+
     }
 
     //Clean up
@@ -546,7 +591,7 @@ Animation* readAnimation(char* _file) {
 
     //Open _file
     int e;
-    GifFileType* image = DGifOpenFileName(_file, &e);
+	    GifFileType* image = DGifOpenFileName(_file, &e);
     if (!image) {
         fprintf(stderr, "[ERROR] EGifOpenFileName() failed. Couldn't find or open _file: %d\n", e);
         return false;
@@ -555,7 +600,7 @@ Animation* readAnimation(char* _file) {
     //"Slurp" infos into struct
     if (DGifSlurp(image) == GIF_ERROR) {
         fprintf(stderr, "[ERROR] DGifSlurp() failed. Couldn't load infos about GIF: %d\n", image->Error);
-        DGifCloseFile(image, &e);
+				if (DGifCloseFile(image, &e) != GIF_OK) fprintf(stderr, "[WARNING] readAnimation: DGifCloseFile returned%d\n", e);
         return false;
     }
 
@@ -572,7 +617,17 @@ Animation* readAnimation(char* _file) {
 
         //Process frames
         animation = malloc(sizeof(Animation));
+				if (!animation) {
+					fprintf(stderr, "[ERROR] readAnimation: Failed to allocate Animation");
+					clearLEDs();
+					exit(EXIT_FAILURE);
+				}
         AnimationFrame** animationFrames = malloc(sizeof(AnimationFrame*) * image->ImageCount);
+				if (!animationFrames) {
+					fprintf(stderr, "[ERROR] readAnimation: Failed to allocate AnimationFrames");
+					clearLEDs();
+					exit(EXIT_FAILURE);
+				}
         animation->frames = animationFrames;
         animation->frameCount = image->ImageCount;
         animation->monochrome = true;
@@ -630,6 +685,11 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
                                                    : _globalMap; //choose either global or local color map
 
     AnimationFrame* animationFrame = malloc(sizeof(AnimationFrame));
+		if (!animationFrame) {
+			fprintf(stderr, "[ERROR] readFramePixels: Failed to allocate animationFrame");
+			clearLEDs();
+			exit(EXIT_FAILURE);
+		}
 
     bool keepColor = false;
     for (int y = 0; y < desc.Height; ++y) {
@@ -697,6 +757,10 @@ ws2811_return_t initLEDs() {
 
     //Setup color array
     pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
+		if (!pixel) {
+			fprintf(stderr, "[ERROR] initLEDs: Failed to allocate color array");
+			exit(EXIT_FAILURE);
+		}
 
     //Initialize hardware
     ws2811_return_t r;
@@ -778,7 +842,8 @@ void showRandomExpression(char* _path, bool _useRandomColor, bool _repeatAnimati
  */
 void showExpressionFromFilepath(char* _filePath, bool _useRandomColor, bool _repeatAnimations) {
     Animation* animation = readAnimation(_filePath);
-    playExpression(animation, _useRandomColor, _repeatAnimations);
+		if(!animation) fprintf(stderr, "[WARNING] showExpressionFromFilepath: animation is NULL, skipping\n");
+    else playExpression(animation, _useRandomColor, _repeatAnimations);
 }
 
 /**
@@ -913,7 +978,7 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
 void freeAnimation(Animation* _animation) {
     //dirty trick, close file here, after animation. That way DGifCloseFile() can't destroy the animation data
     int e = 0;
-    DGifCloseFile(_animation->image, &e);
+		if (DGifCloseFile(_animation->image, &e) != GIF_OK) fprintf(stderr, "[WARNING] freeAnimation: DGifCloseFile returned%d\n", e);
     if (verboseLogging) {
         printf("[INFO] Closed GIF with code %d\n", e);
     }
@@ -995,6 +1060,11 @@ void readPalette(char* _path) {
 
     //Read palette into final palette array
     ws2811_led_t* pal = malloc(sizeof(ws2811_led_t) * colorCount);
+		if (!pal) {
+			fprintf(stderr, "[ERROR] readPalette: Failed to allocate palette memory");
+			clearLEDs();
+			exit(EXIT_FAILURE);
+		}
     for (int i = 0; i < colorCount; ++i) {
         int color = strtocol(rawPal[i]);
         if (color != -1) {
@@ -1005,6 +1075,7 @@ void readPalette(char* _path) {
         } else {
             printf("[WARNING] Skip color %s because of parsing error", rawPal[i]);
         }
+				free(rawPal[i]);
     }
 
     paletteCount = colorCount;
@@ -1088,6 +1159,7 @@ bool checkIfDirectoryExist(char* _path) {
         closedir(dir);
         return true;
     }
+		fprintf(stderr, "[WARNING]: directory %s does not exist. Errno is %d\n", _path, errno);
     return false;
 }
 
@@ -1119,7 +1191,12 @@ void readFile(const char* _path, int _count, char** _out) {
     //Read line after line into give array
     for (int i = 0; i < _count; i++) {
         _out[i] = malloc(sizeof(unsigned int));
-        fscanf(ptr, "%s\n", _out[i]);
+				if (!_out[i]) {
+					fprintf(stderr, "[ERROR] readFile: Failed to allocate memory");
+					clearLEDs();
+					exit(EXIT_FAILURE);
+				}
+        if (fscanf(ptr, "%s\n", _out[i]) != 1) fprintf(stderr, "[ERROR] readFile: Failed to read line %d\n", i);
     }
 
     //Closing the file
@@ -1144,6 +1221,7 @@ int countFilesInDir(char* _path) {
         closedir(d);
         return counter;
     }
+		fprintf(stderr, "[WARNING]: countFilesInDir() called on nonexistent directory %s. Errno is %d\n", _path, errno);
     return -1;
 }
 
@@ -1167,6 +1245,7 @@ bool getFileList(const char* _path, char* _list[]) {
         closedir(d);
         return true;
     }
+		fprintf(stderr, "[WARNING]: getFileList() called on nonexistent directory %s. Errno is %d\n", _path, errno);
     return false;
 }
 
