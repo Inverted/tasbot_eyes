@@ -12,17 +12,16 @@
 
 //By Karsten "postspectacular" Schmidt
 //From https://gist.github.com/postspectacular/2a4a8db092011c6743a7#file-hsv2rgb-ino-L29
-float fract(float x);// { return x - (int) x; }
+float fract(float x);
 
-float mix(float a, float b, float t);// { return a + (b - a) * t; }
+float mix(float a, float b, float t);
 
-float constrain(float x, float low, float high);// { return ((x) < (low) ? (low) : ((x) > (high) ? (high) : (x))); }
-
-float* hsv2rgb(float h, float s, float b, float* rgb);
+float constrain(float x, float low, float high);
 
 float hueToFloat(int _hue);
 
 int valueToInt(float _value);
 
+float* hsv2rgb(float h, float s, float b, float* rgb);
 
 #endif //TASBOT_EYES_COLOR_H

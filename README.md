@@ -59,21 +59,7 @@ next random animation
 
 ## Usage
 
-| Argument           | Description                                                                                                                                                                                                                | Example                                                                                           |
-|--------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------|
-| `-h`               | Print a help screen with this information                                                                                                                                                                                 | -                                                                                                 |
-| `-v`               | Enable verbose logging                                                                                                                                                                                                     | -                                                                                                 |
-| `-r`               | Enable console renderer for frames                                                                                                                                                                                         | -                                                                                                 |
-| `-d [GPIO]`        | Change GPIO data pin. Possible options are between 2 to 27. Default is 10                                                                                                                                                  | `-d 18`                                                                                           |
-| `-c`               | Use random palette for monochrome animations                                                                                                                                                                               | -                                                                                                 |
-| `-D`               | Let playback speed affect blink delay                                                                                                                                                                               | -                                                                                                 |
-| `-b [0-255]`       | Set maximum possible brightness. Default is 24                                                                                                                                                                             | `-b 100`                                                                                          |
-| `-s [MULTIPLIER]`  | Playback speed. Needs to be bigger than 0                                                                                                                                                                                  | `-s 1.25`                                                                                         |
-| `-B [PATTERN]`     | Controls the blinks. See the "*About blink patterns*" above for more infos | `-B 4-4-6` |
-| `-p [FOLDER PATH]` | Play animations from a specific folder                                                                                                                                                                                     | `-p "/home/tasbot/display/animations"`                                                         |
-| `-z [FOLDER PATH]` | Play blink animation from specific folder                                                                                                                                                                                   | `-z "/home/tasbot/display/animations/blink`                                                    |
-| `-i [FILE PATH]`   | Play specific animation as endless loop. "-p" and "-z" become useless with this                                                                                                                                            | `-i "/home/tasbot/display/special_animations/magfest.gif"`                                     |
-| `-P [FILE PATH]`   | Use color palette from text file. For formatting of palette file use tool or see example                                                                                                                                   | `-P "/home/tasbot/display/palettes/gameboy.tasbotPalette"`                                     |
+See the build-in `-h` option or `main.c:501` to get an overview of all available arguments. There are some for changing the playback speed, setting the data pin, playing a specific animation and many more!
 
 ## Create color palette
 
@@ -87,15 +73,12 @@ To create a color palette, you can either:
 
 ## Known problems
 
-* Actually use the delay time between frames, that's encoded within the GIF. There is already a method implemented, that
-  needs to be tested yet. In theory, `0xF9` is the identifier for the byte from the "Graphics Control Extension"-block,
-  where the delay time is encoded. More on that here: http://giflib.sourceforge.net/whatsinagif/bits_and_bytes.html
+* There's a teeny tiny memory leak.
+* Gamma correction is behaving extremely really weird. It's breaking the LED indexing even tho it should not.
 * When an animation is monochrome, it's pixels can be colored in a randomly chosen color, to make everything more
   colorful (using the `-c` argument). However, the color that is used to overwrite isn't adjusting to the brightness of
   the given color within the frame. Right now it's flat overwriting the same color to all pixels, that just _aren't_
   black. Use the method `getLuminance()` for that.
-* It's the first time I used plain C. I hope I got all memory allocations right. I would appreciate, if someone could
-  check my `malloc's, calloc's, memset's` and esp. `free's`.
 * Some methods got pretty blob like, that could be made :sparkles: prettier :sparkles:
 * The entire main.c is a huge blob, that could be resolved into several files (.h and .c)
 
@@ -106,7 +89,7 @@ To create a color palette, you can either:
     * Replace the current random selection of the animations with a queue. When queue is empty create a new one. This
       would prevent having the same animation chosen multiple times in a row or the impression, that a certain animation
       is favoured (just because it gets picked repeatedly by the random generator)
-* Debate on if during a blink cycle (a period between the random animations), TASBot should use the same blink animation
+* Debate on, if during a blink cycle (a period between the random animations), TASBot should use the same blink animation
   for all blinks or if that should stay random like it is right now. This could further smooth out the appearance.
 * Argument to change the base frame
 * Loop argument for single frame mode
@@ -116,4 +99,5 @@ To create a color palette, you can either:
 * *jakobrs* for the original eye software and the index translation table
 * *Inverted* for pointing out gamma correction
 * *HeavyPodda* for helping debugging
+* *CompuCat* helping with features
 * *Adafruit* for the gamma correction table
