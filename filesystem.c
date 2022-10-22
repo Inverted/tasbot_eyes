@@ -14,6 +14,8 @@ char* pathForBlinks = BLINK_PATH;
 char* pathForPalette = NULL;
 //end keep
 
+//todo: migrate modified versions
+
 /**
  * Allocate memory for path complete file path and ditch path and filename together
  * @param _path relativ or absolut path, where the file is laying

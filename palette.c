@@ -33,7 +33,7 @@ void readPalette(char* _path) {
         if (color != -1) {
             pal[i] = color;
             if (verboseLogging) {
-                printf("[INFO] Convert string \"%s\" to integer in hex 0x%x\n", rawPal[i], pal[i]);
+                printf("[INFO] Converted string \"%s\" to integer in hex 0x%x\n", rawPal[i], pal[i]);
             }
         } else {
             printf("[WARNING] Skip color %s because of parsing error", rawPal[i]);
