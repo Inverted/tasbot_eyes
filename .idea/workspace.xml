@@ -19,16 +19,26 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Updates">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Preparing restructuring">
+      <change afterPath="$PROJECT_DIR$/arguments.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/arguments.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/filesystem.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/filesystem.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gif.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gif.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/led.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/led.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/palette.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/palette.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tasbot.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/animation_stack.c" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/animation_stack.h" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/color.c" beforeDir="false" afterPath="$PROJECT_DIR$/color.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/color.h" beforeDir="false" afterPath="$PROJECT_DIR$/color.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doxygen_html.zip" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.h" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,7 +66,9 @@
     <option name="minorVersion" value="3.3" />
   </component>
   <component name="ProjectId" id="266wl80fOYk7EPafoqrSzsf42so" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -132,14 +144,7 @@
       <workItem from="1666190315865" duration="3843000" />
       <workItem from="1666247796859" duration="609000" />
       <workItem from="1666340803089" duration="1619000" />
-      <workItem from="1666356784383" duration="2140000" />
-    </task>
-    <task id="LOCAL-00115" summary="Set build type in CMakeLists.txt">
-      <created>1649969396358</created>
-      <option name="number" value="00115" />
-      <option name="presentableId" value="LOCAL-00115" />
-      <option name="project" value="LOCAL" />
-      <updated>1649969396358</updated>
+      <workItem from="1666356784383" duration="8820000" />
     </task>
     <task id="LOCAL-00116" summary="Transferring">
       <created>1649969964420</created>
@@ -477,7 +482,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656293728283</updated>
     </task>
-    <option name="localTasksCounter" value="164" />
+    <task id="LOCAL-00164" summary="Preparing restructuring">
+      <created>1666390392122</created>
+      <option name="number" value="00164" />
+      <option name="presentableId" value="LOCAL-00164" />
+      <option name="project" value="LOCAL" />
+      <updated>1666390392123</updated>
+    </task>
+    <option name="localTasksCounter" value="165" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -495,7 +507,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="fixed bug with blink pattern" />
     <MESSAGE value="improved blink parsing" />
     <MESSAGE value="improved blink pattern" />
     <MESSAGE value="added support for path arguments" />
@@ -520,7 +531,8 @@
     <MESSAGE value="Added support for argument &quot;-D&quot; and fixed missing verbose filtering for &quot;[INFO] Rendered LEDs with code X&quot;" />
     <MESSAGE value="realTASBot=true is now default (and added a little secret feature for me because of it :eyes:)" />
     <MESSAGE value="Updates" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updates" />
+    <MESSAGE value="Preparing restructuring" />
+    <option name="LAST_COMMIT_MESSAGE" value="Preparing restructuring" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

@@ -1,17 +1,8 @@
-//
-// Created by mirco on 30.06.22.
-//
-
 #ifndef TASBOT_EYES_COLOR_H
 #define TASBOT_EYES_COLOR_H
 
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#include <math.h>
+extern const unsigned char gamma8[256];
 
-//By Karsten "postspectacular" Schmidt
-//From https://gist.github.com/postspectacular/2a4a8db092011c6743a7#file-hsv2rgb-ino-L29
 float fract(float x);
 
 float mix(float a, float b, float t);

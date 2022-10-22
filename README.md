@@ -12,7 +12,8 @@
 1. Clone, compile and install the rpi_ws281x lib (requires cmake)
 2. Download, compile and install GIFLIB (found on SourceForge https://sourceforge.net/projects/giflib/, requires make)
 3. Clone and compile this repo (requires cmake)  
-:warning: **ATTENTION**: When compiling for real TASBot, make sure `bool realTASBot` ist set to `true` (it is by default)
+   :warning: **ATTENTION**: When compiling for real TASBot, make sure `bool realTASBot` ist set to `true` (it is by
+   default)
 
 ## How it works
 
@@ -31,7 +32,7 @@ The program looks within its current working directory, for a folder called `gif
 1. Play startup animation
 2. Show base expression
 3. Sleep a random amount of time based on blink pattern
-4. Do a blink cycle, meaning  
+4. Do a blink cycle, meaning
     1. Determine how many times TASBot blinks (_n_) based on pattern
     2. Choose and show random blink
     3. Show base expression
@@ -59,7 +60,8 @@ next random animation
 
 ## Usage
 
-See the build-in `-h` option or `main.c:501` to get an overview of all available arguments. There are some for changing the playback speed, setting the data pin, playing a specific animation and many more!
+See the build-in `-h` option or `main.c:501` to get an overview of all available arguments. There are some for changing
+the playback speed, setting the data pin, playing a specific animation and many more!
 
 ## Create color palette
 
@@ -89,12 +91,14 @@ To create a color palette, you can either:
     * Replace the current random selection of the animations with a queue. When queue is empty create a new one. This
       would prevent having the same animation chosen multiple times in a row or the impression, that a certain animation
       is favoured (just because it gets picked repeatedly by the random generator)
-* Debate on, if during a blink cycle (a period between the random animations), TASBot should use the same blink animation
+* Debate on, if during a blink cycle (a period between the random animations), TASBot should use the same blink
+  animation
   for all blinks or if that should stay random like it is right now. This could further smooth out the appearance.
 * Argument to change the base frame
 * Loop argument for single frame mode
 
 # Thanks to
+
 * *dwangoAC* letting me debug on real TASBot
 * *jakobrs* for the original eye software and the index translation table
 * *Inverted* for pointing out gamma correction
