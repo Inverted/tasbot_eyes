@@ -3,8 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <errno.h>
 
 #include "filesystem.h"
+#include "led.h"
 
 //keep
 char* pathForAnimations = OTHER_PATH;
@@ -37,6 +39,7 @@ bool checkIfDirectoryExist(char* _path) {
         closedir(dir);
         return true;
     }
+    fprintf(stderr, "[WARNING] Directory %s does not exist. Errno is %d\n", _path, errno);
     return false;
 }
 
@@ -67,8 +70,15 @@ void readFile(const char* _path, int _count, char** _out) {
 
     //Read line after line into give array
     for (int i = 0; i < _count; i++) {
-        _out[i] = malloc(sizeof(unsigned int));
-        fscanf(ptr, "%s\n", _out[i]);
+        _out[i] = malloc(sizeof(unsigned int)); //todo: inspect
+        if (!_out[i]) {
+            fprintf(stderr, "[ERROR] readFile: Failed to allocate memory for reading file");
+            clearLEDs();
+            exit(EXIT_FAILURE);
+        }
+        if (fscanf(ptr, "%s\n", _out[i]) != 1) {
+            fprintf(stderr, "[ERROR] readFile: Failed to read line %d\n", i);
+        }
     }
 
     //Closing the file
@@ -93,6 +103,7 @@ int countFilesInDir(char* _path) {
         closedir(d);
         return counter;
     }
+    fprintf(stderr, "[WARNING] countFilesInDir() called on nonexistent directory %s. Errno is %d\n", _path, errno);
     return -1;
 }
 
@@ -116,6 +127,7 @@ bool getFileList(const char* _path, char* _list[]) {
         closedir(d);
         return true;
     }
+    fprintf(stderr, "[WARNING] getFileList() called on nonexistent directory %s. Errno is %d\n", _path, errno);
     return false;
 }
 

@@ -73,7 +73,12 @@ void showRandomExpression(char* _path, bool _useRandomColor, bool _repeatAnimati
  */
 void showExpressionFromFilepath(char* _filePath, bool _useRandomColor, bool _repeatAnimations) {
     Animation* animation = readAnimation(_filePath);
-    playExpression(animation, _useRandomColor, _repeatAnimations);
+
+    if (!animation) {
+        fprintf(stderr, "[WARNING] showExpressionFromFilepath: animation is NULL, skipping it\n");
+    } else {
+        playExpression(animation, _useRandomColor, _repeatAnimations);
+    }
 }
 
 /**
@@ -226,7 +231,10 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
 void freeAnimation(Animation* _animation) {
     //dirty trick, close file here, after animation. That way DGifCloseFile() can't destroy the animation data
     int e = 0;
-    DGifCloseFile(_animation->image, &e);
+    if (DGifCloseFile(_animation->image, &e) != GIF_OK) {
+        fprintf(stderr, "[WARNING] freeAnimation: DGifCloseFile returned%d\n", e);
+    }
+
     if (verboseLogging) {
         printf("[INFO] Closed GIF with code %d\n", e);
     }

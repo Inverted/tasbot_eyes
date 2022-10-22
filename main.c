@@ -53,18 +53,11 @@ void setupHandler() {
     sigaction(SIGKILL, &sa, NULL);
 }
 
-int main(int _argc, char** _argv) {
-    //can't use LED hardware on desktops
-#if defined(__x86_64__)
-    activateLEDModule = false;
-#endif
-
-    //Init program
-    srand(time(NULL));
-    setupHandler();
-    parseArguments(_argc, _argv);
-
-    //Setup child for calculating current hue //todo: screw this
+/**
+ * Setup child for calculating current hue
+ * todo: screw this
+ */
+void initRainbowMode(){
     if (rainbowMode && useRandomColors || rainbowMode && useRandomColorsForAll) {
         hue = mmap(NULL, sizeof(*hue), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
         *hue = 0;
@@ -88,14 +81,20 @@ int main(int _argc, char** _argv) {
         printf("[WARNING] Rainbow mode can only be used with -c or -a. Turning it off again!\n");
         rainbowMode = false;
     }
+}
 
-    //Init palette
+void initPalette(){
     if (pathForPalette != NULL) {
         readPalette(pathForPalette);
     } else {
         //Default palette
         paletteCount = 8;
         palette = malloc(sizeof(ws2811_led_t) * paletteCount);
+        if (!palette) {
+            fprintf(stderr, "[ERROR] Failed to allocate memory for palette");
+            clearLEDs();
+            exit(EXIT_FAILURE);
+        }
         palette[0] = 0xFF0000; // red
         palette[1] = 0xFF8000; // orange
         palette[2] = 0xFFFF00; // yellow
@@ -105,19 +104,28 @@ int main(int _argc, char** _argv) {
         palette[6] = 0xFF00FF; // magenta
         palette[7] = 0xFF80FF; // pink
     }
+}
 
-    //Init blink times
+void initBlinking(){
     minTimeBetweenBlinks *= 1000;
     maxTimeBetweenBlinks *= 1000;
+}
 
-    //Init LEDS
-    if (activateLEDModule) {
-        ws2811_return_t r = initLEDs();
-        if (r != WS2811_SUCCESS) {
-            fprintf(stderr, "[ERROR] Can't run program. Did you started it with root privileges?\n");
-            return r;
-        }
-    }
+int main(int _argc, char** _argv) {
+    srand(time(NULL));
+
+    //can't use LED hardware on desktops
+#if defined(__x86_64__)
+    activateLEDModule = false;
+#endif
+
+    //Init things
+    setupHandler();
+    parseArguments(_argc, _argv);
+    initRainbowMode();
+    initPalette();
+    initBlinking();
+    initLEDs();
 
     //Option for playing give specific animation
     if (specificAnimationToShow != NULL) {

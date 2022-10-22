@@ -36,7 +36,9 @@ Animation* readAnimation(char* _file) {
     //"Slurp" infos into struct
     if (DGifSlurp(image) == GIF_ERROR) {
         fprintf(stderr, "[ERROR] DGifSlurp() failed. Couldn't load infos about GIF: %d\n", image->Error);
-        DGifCloseFile(image, &e);
+        if (DGifCloseFile(image, &e) != GIF_OK){
+            fprintf(stderr, "[WARNING] readAnimation: DGifCloseFile returned%d\n", e);
+        }
         return false;
     }
 
@@ -53,7 +55,17 @@ Animation* readAnimation(char* _file) {
 
         //Process frames
         animation = malloc(sizeof(Animation));
+        if (!animation) {
+            fprintf(stderr, "[ERROR] readAnimation: Failed to allocate memory for Animation structure");
+            clearLEDs();
+            exit(EXIT_FAILURE);
+        }
         AnimationFrame** animationFrames = malloc(sizeof(AnimationFrame*) * image->ImageCount);
+        if (!animationFrames) {
+            fprintf(stderr, "[ERROR] readAnimation: Failed to allocate memory for AnimationFrame structure");
+            clearLEDs();
+            exit(EXIT_FAILURE);
+        }
         animation->frames = animationFrames;
         animation->frameCount = image->ImageCount;
         animation->monochrome = true;
@@ -111,6 +123,11 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
                                                    : _globalMap; //choose either global or local color map
 
     AnimationFrame* animationFrame = malloc(sizeof(AnimationFrame));
+    if (!animationFrame) {
+        fprintf(stderr, "[ERROR] readFramePixels: Failed to allocate memory for AnimationFrame structure");
+        clearLEDs();
+        exit(EXIT_FAILURE);
+    }
 
     bool keepColor = false;
     for (int y = 0; y < desc.Height; ++y) {

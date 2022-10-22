@@ -19,26 +19,15 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Preparing restructuring">
-      <change afterPath="$PROJECT_DIR$/arguments.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/arguments.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/filesystem.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/filesystem.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gif.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gif.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/led.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/led.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/palette.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/palette.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tasbot.h" afterDir="false" />
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Split up the huge main.c blob into several files.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/color.c" beforeDir="false" afterPath="$PROJECT_DIR$/color.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/color.h" beforeDir="false" afterPath="$PROJECT_DIR$/color.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/filesystem.c" beforeDir="false" afterPath="$PROJECT_DIR$/filesystem.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gif.c" beforeDir="false" afterPath="$PROJECT_DIR$/gif.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/led.c" beforeDir="false" afterPath="$PROJECT_DIR$/led.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/led.h" beforeDir="false" afterPath="$PROJECT_DIR$/led.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/palette.c" beforeDir="false" afterPath="$PROJECT_DIR$/palette.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,11 +84,6 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="tasbot_eyes" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v -c -C 00ff00" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -144,14 +128,8 @@
       <workItem from="1666190315865" duration="3843000" />
       <workItem from="1666247796859" duration="609000" />
       <workItem from="1666340803089" duration="1619000" />
-      <workItem from="1666356784383" duration="8820000" />
-    </task>
-    <task id="LOCAL-00116" summary="Transferring">
-      <created>1649969964420</created>
-      <option name="number" value="00116" />
-      <option name="presentableId" value="LOCAL-00116" />
-      <option name="project" value="LOCAL" />
-      <updated>1649969964420</updated>
+      <workItem from="1666356784383" duration="9897000" />
+      <workItem from="1666432596964" duration="4161000" />
     </task>
     <task id="LOCAL-00117" summary="Transferring">
       <created>1649971246132</created>
@@ -489,7 +467,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666390392123</updated>
     </task>
-    <option name="localTasksCounter" value="165" />
+    <task id="LOCAL-00165" summary="Split up the huge main.c blob into several files.">
+      <created>1666397539683</created>
+      <option name="number" value="00165" />
+      <option name="presentableId" value="LOCAL-00165" />
+      <option name="project" value="LOCAL" />
+      <updated>1666397539683</updated>
+    </task>
+    <option name="localTasksCounter" value="166" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -507,7 +492,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="improved blink parsing" />
     <MESSAGE value="improved blink pattern" />
     <MESSAGE value="added support for path arguments" />
     <MESSAGE value="improved path arguments" />
@@ -532,7 +516,8 @@
     <MESSAGE value="realTASBot=true is now default (and added a little secret feature for me because of it :eyes:)" />
     <MESSAGE value="Updates" />
     <MESSAGE value="Preparing restructuring" />
-    <option name="LAST_COMMIT_MESSAGE" value="Preparing restructuring" />
+    <MESSAGE value="Split up the huge main.c blob into several files." />
+    <option name="LAST_COMMIT_MESSAGE" value="Split up the huge main.c blob into several files." />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

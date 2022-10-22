@@ -5,6 +5,7 @@
 #include "palette.h"
 #include "arguments.h"
 #include "filesystem.h"
+#include "led.h"
 
 ws2811_led_t* palette;
 unsigned int paletteCount;
@@ -21,6 +22,12 @@ void readPalette(char* _path) {
 
     //Read palette into final palette array
     ws2811_led_t* pal = malloc(sizeof(ws2811_led_t) * colorCount);
+    if (!pal) {
+        fprintf(stderr, "[ERROR] readPalette: Failed to allocate palette memory");
+        clearLEDs();
+        exit(EXIT_FAILURE);
+    }
+
     for (int i = 0; i < colorCount; ++i) {
         int color = strtocol(rawPal[i]);
         if (color != -1) {
@@ -31,6 +38,7 @@ void readPalette(char* _path) {
         } else {
             printf("[WARNING] Skip color %s because of parsing error", rawPal[i]);
         }
+        free(rawPal[i]);
     }
 
     paletteCount = colorCount;

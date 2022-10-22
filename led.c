@@ -16,37 +16,47 @@ ws2811_t display;
  * @return Infos about, if initialization was successful
  */
 ws2811_return_t initLEDs() {
-    //Setup display
-    memset(&display, 0, sizeof(ws2811_t));
-    display.freq = TARGET_FREQ;
-    display.dmanum = DMA;
+    if (activateLEDModule) {
+        //Setup display
+        memset(&display, 0, sizeof(ws2811_t));
+        display.freq = TARGET_FREQ;
+        display.dmanum = DMA;
 
-    ws2811_channel_t* channel = calloc(1, sizeof(ws2811_channel_t));
-    channel->gpionum = dataPin;
-    channel->count = LED_COUNT;
-    channel->invert = INVERTED;
-    channel->brightness = brightness;
-    if (realTASBot) {
+        ws2811_channel_t* channel = calloc(1, sizeof(ws2811_channel_t));
+        channel->gpionum = dataPin;
+        channel->count = LED_COUNT;
+        channel->invert = INVERTED;
+        channel->brightness = brightness;
         channel->strip_type = STRIP_TYPE;
-    } else {
-        channel->strip_type = WS2812_STRIP;
-    }
-    display.channel[0] = *channel;
+        display.channel[0] = *channel; //todo: free at end
 
-    //Setup color array
-    pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
-
-    //Initialize hardware
-    ws2811_return_t r;
-    if ((r = ws2811_init(&display)) != WS2811_SUCCESS) {
-        fprintf(stderr, "[ERROR] ws2811_init failed. Couldn't initialize LEDs: %s\n", ws2811_get_return_t_str(r));
-    } else {
-        if (verboseLogging) {
-            printf("[INFO] Initialized LEDs with code %d\n", r);
+        //Setup color array
+        pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
+        if (!pixel) {
+            fprintf(stderr, "[ERROR] initLEDs: Failed to allocate memory for render buffer");
+            exit(EXIT_FAILURE);
         }
+
+        //Initialize hardware
+        ws2811_return_t r;
+        if ((r = ws2811_init(&display)) != WS2811_SUCCESS) {
+            fprintf(stderr, "[ERROR] ws2811_init failed. Couldn't initialize LEDs: %s\n", ws2811_get_return_t_str(r));
+        } else {
+            if (verboseLogging) {
+                printf("[INFO] Initialized LEDs with code %d\n", r);
+            }
+        }
+        clearLEDs();
+
+        if (r != WS2811_SUCCESS) {
+            fprintf(stderr, "[ERROR] Can't run program. Did you started with root privileges?\n");
+            exit(EXIT_FAILURE);
+        }
+        return r;
+    } //else
+    if (verboseLogging) {
+        printf("[INFO] Starting program without LED module");
     }
-    clearLEDs();
-    return r;
 }
 
 /**
