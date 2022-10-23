@@ -11,6 +11,7 @@ typedef struct string_t {
 void initstr(string_t* _str, char* _content);
 void initcstr(string_t* _str, size_t _cap);
 string_t* allocstr(char* _content);
+string_t* alloccstr(size_t _cap);
 void freestr(string_t* _str);
 
 void shuffle(int* array, size_t n);

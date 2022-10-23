@@ -15,7 +15,7 @@ ws2811_t display;
  * Initialize the LEDs and their data structure
  * @return Infos about, if initialization was successful
  */
-ws2811_return_t initLEDs() {
+void initLEDs() {
     if (activateLEDModule) {
         //Setup display
         memset(&display, 0, sizeof(ws2811_t));
@@ -52,7 +52,6 @@ ws2811_return_t initLEDs() {
             fprintf(stderr, "[ERROR] Can't run program. Did you started with root privileges?\n");
             exit(EXIT_FAILURE);
         }
-        return r;
     } //else
     if (verboseLogging) {
         printf("[INFO] Starting program without LED module");

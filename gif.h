@@ -4,6 +4,7 @@
 #include <gif_lib.h>
 #include <stdbool.h>
 #include "led.h"
+#include "utils.h"
 
 #define MIN_DELAY_TIME          35                      //Smallest delay time that is possible due to hardware limitations (1000ms/30fps=33.3'ms)
 #define DEFAULT_DELAY_TIME      100
@@ -20,7 +21,7 @@ typedef struct Animation {
     GifFileType* image; //needed for very dirty trick to get around weird behavior, where DGifCloseFile() manipulates the animation data for some reason
 } Animation;
 
-char* getRandomAnimation(char* list[], int _count);
+string_t* getRandomAnimation(string_t* list[], int _count);
 bool checkIfImageHasRightSize(GifFileType* _image);
 bool isGrayScale(GifColorType* _color);
 AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _globalMap, bool* _monochrome);

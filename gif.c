@@ -56,17 +56,19 @@ Animation* readAnimation(char* _file) {
         //Process frames
         animation = malloc(sizeof(Animation));
         if (!animation) {
-            fprintf(stderr, "[ERROR] readAnimation: Failed to allocate memory for Animation structure");
-            clearLEDs();
-            exit(EXIT_FAILURE);
+            string_t message;
+            initstr(&message, "[ERROR] readAnimation: Failed to allocate memory for Animation structure");
+            failExit(&message);
         }
+
         AnimationFrame** animationFrames = malloc(sizeof(AnimationFrame*) * image->ImageCount);
         if (!animationFrames) {
-            fprintf(stderr, "[ERROR] readAnimation: Failed to allocate memory for AnimationFrame structure");
-            clearLEDs();
-            exit(EXIT_FAILURE);
+            string_t message;
+            initstr(&message, "[ERROR] readAnimation: Failed to allocate memory for AnimationFrame structure");
+            failExit(&message);
         }
-        animation->frames = animationFrames;
+
+        animation->frames = animationFrames; //cant be reached, when Animation or AnimationFrames is empty
         animation->frameCount = image->ImageCount;
         animation->monochrome = true;
         animation->image = image;
@@ -164,7 +166,7 @@ bool isGrayScale(GifColorType* _color) {
  * @param _count Length of list
  * @return A random item from the list
  */
-char* getRandomAnimation(char* list[], int _count) {
-    int randomGif = rand() % _count;
-    return list[randomGif];
+string_t* getRandomAnimation(string_t* list[], int _count) {
+    int r = rand() % _count;
+    return list[r];
 }

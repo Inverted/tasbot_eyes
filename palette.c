@@ -14,10 +14,11 @@ unsigned int paletteCount;
  * Main function to read a palette file, convert it into numerical values and providing the final color array
  * @param _path The color palette file, that is to read
  */
-void readPalette(char* _path) {
+void readPalette(string_t* _path) {
     //Read raw palette from file into the rawPal variable
+
     int colorCount = countLines(_path);
-    char* rawPal[colorCount];
+    string_t* rawPal[colorCount];
     readFile(_path, colorCount, rawPal);
 
     //Read palette into final palette array
@@ -29,16 +30,16 @@ void readPalette(char* _path) {
     }
 
     for (int i = 0; i < colorCount; ++i) {
-        int color = strtocol(rawPal[i]);
+        ws2811_led_t color = strtocol(rawPal[i]->buffer);
         if (color != -1) {
             pal[i] = color;
             if (verboseLogging) {
-                printf("[INFO] Converted string \"%s\" to integer in hex 0x%x\n", rawPal[i], pal[i]);
+                printf("[INFO] Converted string \"%s\" to integer in hex 0x%x\n", rawPal[i]->buffer, pal[i]);
             }
         } else {
-            printf("[WARNING] Skip color %s because of parsing error", rawPal[i]);
+            printf("[WARNING] Skip color %s because of parsing error", rawPal[i]->buffer);
         }
-        free(rawPal[i]);
+        freestr(rawPal[i]);
     }
 
     paletteCount = colorCount;
@@ -58,8 +59,8 @@ ws2811_led_t strtocol(char* _color) {
     for (int i = 0; i < len; i++) {
         int hex = chtohex(_color[i]);
         if (hex != -1) {
-            result = result | hex << (len - i - 1) *
-                                     4; //Bit-shift by 4, because hex numbers use only lower 4 bits. OR all of it together.
+            //Bit-shift by 4, because hex numbers use only lower 4 bits OR all of it together.
+            result = result | hex << (len - i - 1) * 4;
         } else {
             fprintf(stderr, "[ERROR] Can't read character '%c' color \"%s\". Please check formatting!\n", _color[i],
                     _color);

@@ -96,6 +96,7 @@ To create a color palette, you can either:
   for all blinks or if that should stay random like it is right now. This could further smooth out the appearance.
 * Argument to change the base frame
 * Loop argument for single frame mode
+* Replace all `char*` resp. `char[]` with `string_t` 
 
 # Thanks to
 

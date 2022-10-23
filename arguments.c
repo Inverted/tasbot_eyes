@@ -29,7 +29,6 @@ void parseArguments(int _argc, char** _argv) {
             case 'h':
                 printHelp();
                 exit(EXIT_SUCCESS);
-                break;
             case 'v':
                 verboseLogging = true;
                 printf("[INFO] Use verbose logging\n");
@@ -157,7 +156,9 @@ void parseArguments(int _argc, char** _argv) {
             }
 
             case 'p': {
-                if (checkIfDirectoryExist(optarg)) {
+                string_t path;
+                initstr(&path, optarg);
+                if (checkIfDirectoryExist(&path)) {
                     pathForAnimations = optarg;
                     printf("[INFO] Use animations from \"%s\"\n", optarg);
                 } else {
@@ -168,7 +169,9 @@ void parseArguments(int _argc, char** _argv) {
             }
 
             case 'z': {
-                if (checkIfDirectoryExist(optarg)) {
+                string_t path;
+                initstr(&path, optarg);
+                if (checkIfDirectoryExist(&path)) {
                     pathForBlinks = optarg;
                     printf("[INFO] Use blink animations from \"%s\"\n", optarg);
                 } else {
@@ -179,7 +182,9 @@ void parseArguments(int _argc, char** _argv) {
             }
 
             case 'i': {
-                if (checkIfFileExist(optarg)) {
+                string_t path;
+                initstr(&path, optarg);
+                if (checkIfFileExist(&path)) {
                     specificAnimationToShow = optarg;
                     printf("[INFO] Use specific animation \"%s\"\n", optarg);
                 } else {
@@ -190,7 +195,9 @@ void parseArguments(int _argc, char** _argv) {
             }
 
             case 'P': {
-                if (checkIfFileExist(optarg)) {
+                string_t path;
+                initstr(&path, optarg);
+                if (checkIfFileExist(&path)) {
                     pathForPalette = optarg;
                     printf("[INFO] Set color palette to \"%s\"\n", optarg);
                 } else {
@@ -203,7 +210,7 @@ void parseArguments(int _argc, char** _argv) {
             case '?':
                 if (optopt == 'b' || optopt == 's' || optopt == 'B' || optopt == 'i' || optopt == 'p' ||
                     optopt == 'z' || optopt == 'P') {
-                    fprintf(stderr, "Argument -%c requires an argument.\n", optopt);
+                    fprintf(stderr, "Argument -%c requires an parameter.\n", optopt);
                 } else if (isprint (optopt)) {
                     fprintf(stderr, "Unknown argument `-%c'. Use -h for more information\n", optopt);
                 } else {

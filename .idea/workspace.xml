@@ -19,17 +19,25 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Added fixes made my CompuCat">
-      <change afterPath="$PROJECT_DIR$/network.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/network.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/stack.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/stack.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils.c" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils.h" afterDir="false" />
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Partial added new features. Not fully integrated yet.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arguments.c" beforeDir="false" afterPath="$PROJECT_DIR$/arguments.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/filesystem.c" beforeDir="false" afterPath="$PROJECT_DIR$/filesystem.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/filesystem.h" beforeDir="false" afterPath="$PROJECT_DIR$/filesystem.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gif.c" beforeDir="false" afterPath="$PROJECT_DIR$/gif.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gif.h" beforeDir="false" afterPath="$PROJECT_DIR$/gif.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/led.c" beforeDir="false" afterPath="$PROJECT_DIR$/led.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/led.h" beforeDir="false" afterPath="$PROJECT_DIR$/led.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network.c" beforeDir="false" afterPath="$PROJECT_DIR$/network.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/palette.c" beforeDir="false" afterPath="$PROJECT_DIR$/palette.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/palette.h" beforeDir="false" afterPath="$PROJECT_DIR$/palette.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasbot.h" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.c" beforeDir="false" afterPath="$PROJECT_DIR$/utils.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.h" beforeDir="false" afterPath="$PROJECT_DIR$/utils.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -87,12 +95,12 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="tasbot_eyes" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v -c -C 00ff00" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
+    <configuration name="tasbot_eyes" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -138,14 +146,8 @@
       <workItem from="1666340803089" duration="1619000" />
       <workItem from="1666356784383" duration="9897000" />
       <workItem from="1666432596964" duration="7037000" />
-      <workItem from="1666451891819" duration="3039000" />
-    </task>
-    <task id="LOCAL-00118" summary="Transferring">
-      <created>1649971537250</created>
-      <option name="number" value="00118" />
-      <option name="presentableId" value="LOCAL-00118" />
-      <option name="project" value="LOCAL" />
-      <updated>1649971537250</updated>
+      <workItem from="1666451891819" duration="3085000" />
+      <workItem from="1666520655754" duration="8184000" />
     </task>
     <task id="LOCAL-00119" summary="Transferring">
       <created>1649971619651</created>
@@ -483,7 +485,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666437761359</updated>
     </task>
-    <option name="localTasksCounter" value="167" />
+    <task id="LOCAL-00167" summary="Partial added new features. Not fully integrated yet.">
+      <created>1666463482677</created>
+      <option name="number" value="00167" />
+      <option name="presentableId" value="LOCAL-00167" />
+      <option name="project" value="LOCAL" />
+      <updated>1666463482677</updated>
+    </task>
+    <option name="localTasksCounter" value="168" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -501,7 +510,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added support for path arguments" />
     <MESSAGE value="improved path arguments" />
     <MESSAGE value="Done implementing arguments (for now)" />
     <MESSAGE value="Minor changes" />
@@ -526,7 +534,8 @@
     <MESSAGE value="Preparing restructuring" />
     <MESSAGE value="Split up the huge main.c blob into several files." />
     <MESSAGE value="Added fixes made my CompuCat" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added fixes made my CompuCat" />
+    <MESSAGE value="Partial added new features. Not fully integrated yet." />
+    <option name="LAST_COMMIT_MESSAGE" value="Partial added new features. Not fully integrated yet." />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

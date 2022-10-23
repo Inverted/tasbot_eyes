@@ -21,7 +21,7 @@ extern int dataPin;
 extern ws2811_led_t* pixel; //todo: rename to buffer
 extern ws2811_t display;
 
-ws2811_return_t initLEDs();
+void initLEDs();
 ws2811_return_t renderLEDs();
 ws2811_return_t clearLEDs();
 ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection);

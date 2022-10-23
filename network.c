@@ -15,7 +15,8 @@ bool running = true;
 void* UDPSocketServer(void* vargp) {
     int sockfd;
     char buffer[DATAGRAM_SIZE_LIMIT];
-    struct sockaddr_in serverAddress, clientAddress;
+    struct sockaddr_in serverAddress;
+    struct sockaddr_in clientAddress;
 
     // Creating socket file descriptor
     if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {

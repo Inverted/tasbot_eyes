@@ -2,6 +2,7 @@
 #include <time.h>
 #include <stdio.h>
 #include "utils.h"
+#include "led.h"
 
 /**
  * Initialize a given string with the capacity based on given content
@@ -59,6 +60,35 @@ string_t* allocstr(char* _content) {
     return s;
 }
 
+/**
+ * Allocate memory and create a new string with given capacity
+ * @param _cap The capacity for this string
+ * @return The pointer to this new allocated string
+ */
+string_t* alloccstr(size_t _cap) {
+    //Allocate memory for string structure
+    string_t* s = (string_t*) malloc(sizeof(string_t));
+    if (!s) {
+        string_t message;
+        initstr(&message, "[ERROR] alloccstr: Failed to allocate memory for string");
+        failExit(&message);
+    }
+
+    //Get length of content and set it
+    s->capacity = _cap;
+
+    //Allocate memory for string content based on determined length
+    char* buffer = (char*) malloc(_cap * sizeof(char));
+    if (!buffer) {
+        string_t message;
+        initstr(&message, "[ERROR] alloccstr: Failed to allocate memory for string buffer");
+        failExit(&message);
+    }
+
+    //Return pointer to finalized string
+    return s;
+}
+
 void freestr(string_t* _str) {
     free(_str->buffer);
     free(_str);
@@ -78,6 +108,6 @@ void shuffle(int* array, size_t n) {
 
 void failExit(string_t* _message){
     fprintf(stderr, "%s", _message->buffer);
-    //todo:clearLEDs();
+    clearLEDs();
     exit(EXIT_FAILURE);
 }

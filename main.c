@@ -15,9 +15,9 @@
 #include "tasbot.h"
 #include "palette.h"
 #include "filesystem.h"
+#include "network.h"
 
 #define COLOR_FADE_SPEED        100
-bool running = true;
 
 /**
  * Central handler for leaving the application. Handler for SIGINT, SIGTERM and SIGKILL. Gets also called after the endless loop
@@ -85,7 +85,9 @@ void initRainbowMode(){
 
 void initPalette(){
     if (pathForPalette != NULL) {
-        readPalette(pathForPalette);
+        string_t path;
+        initstr(&path, pathForPalette);
+        readPalette(&path);
     } else {
         //Default palette
         paletteCount = 8;
@@ -129,8 +131,10 @@ int main(int _argc, char** _argv) {
 
     //Option for playing give specific animation
     if (specificAnimationToShow != NULL) {
+        string_t path;
+        initstr(&path, specificAnimationToShow);
         while (running) {
-            showExpressionFromFilepath(specificAnimationToShow, false, false);
+            showExpressionFromFilepath(&path, false, false);
         }
         return 0;
     }
@@ -140,24 +144,32 @@ int main(int _argc, char** _argv) {
     while (running) {
         //skip to base expression on first iteration, to not start on a random animation
         if (!firstIteration) {
-            showRandomExpression(pathForAnimations, useRandomColors, true);
+            string_t path;
+            initstr(&path, pathForAnimations);
+            showRandomExpression(&path, useRandomColors, true);
         } else {
             if (!skipStartupAnimation) {
-                showExpressionFromFilepath(STARTUP_PATH, false, false);
+                string_t path;
+                initstr(&path, STARTUP_PATH);
+                showExpressionFromFilepath(&path, false, false);
             }
             firstIteration = false;
         }
 
         //skip base expression, when no blinks at all
         if (maxBlinks != 0 && minTimeBetweenBlinks != 0) {
-            showExpressionFromFilepath(BASE_PATH, false, false);
+            string_t path;
+            initstr(&path, BASE_PATH);
+            showExpressionFromFilepath(&path, false, false);
         }
 
         usleep(getBlinkDelay() * 1000);
         //blink for a random amount of times
         for (unsigned int blinks = getBlinkAmount(); blinks > 0; --blinks) {
             showBlinkExpression();
-            showExpressionFromFilepath(BASE_PATH, false, false);
+            string_t path;
+            initstr(&path, BASE_PATH);
+            showExpressionFromFilepath(&path, false, false);
 
             unsigned int blinkTime = getBlinkDelay();
             if (verboseLogging) {

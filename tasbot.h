@@ -2,6 +2,7 @@
 #define TASBOT_EYES_TASBOT_H
 
 #include "gif.h"
+#include "utils.h"
 
 #define MAX_BLINKS              4                       //How many times does TASBot blink between animations
 #define MIN_TIME_BETWEEN_BLINKS 4                       //Based on human numbers. We Blink about every 4 to 6 seconds
@@ -24,11 +25,11 @@ extern bool useRandomColorsForAll;
 extern int* hue;
 extern int huePid;
 extern bool rainbowMode;
-extern AnimationFrame currentFrame;
+//extern AnimationFrame currentFrame;
 
 void showBlinkExpression();
-void showRandomExpression(char* _path, bool _useRandomColor, bool _repeatAnimations);
-void showExpressionFromFilepath(char* _filePath, bool _useRandomColor, bool _repeatAnimations);
+void showRandomExpression(string_t* _path, bool _useRandomColor, bool _repeatAnimations);
+void showExpressionFromFilepath(string_t* _filePath, bool _useRandomColor, bool _repeatAnimations);
 void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAnimations);
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color);
 void freeAnimation(Animation* _animation);

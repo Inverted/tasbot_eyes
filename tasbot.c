@@ -45,7 +45,9 @@ bool rainbowMode = false;
  * Show a random blink expression from BLINK_PATH
  */
 void showBlinkExpression() {
-    showRandomExpression(pathForBlinks, false, false);
+    string_t path;
+    initstr(&path, pathForBlinks);
+    showRandomExpression(&path, false, false);
 }
 
 /**
@@ -53,17 +55,21 @@ void showBlinkExpression() {
  * @param _path Path, from where a random animation should be chosen from
  * @param _useRandomColor If the animation can be played with an randomly chosen color, if it's monochrome
  */
-void showRandomExpression(char* _path, bool _useRandomColor, bool _repeatAnimations) {
+void showRandomExpression(string_t* _path, bool _useRandomColor, bool _repeatAnimations) {
     int fileCount = countFilesInDir(_path); //get file count
     if (fileCount != -1) {
-        char* list[fileCount];
+        //char* list[fileCount];
+        //getFileList(_path, list); //get list of files
+
+        string_t* list[fileCount];
         getFileList(_path, list); //get list of files
-        char* file = getRandomAnimation(list, fileCount); //get random animation
-        char* filePath = getFilePath(_path, file);
+
+        string_t* file = getRandomAnimation(list, fileCount); //get random animation
+        string_t* filePath = getFilePath(_path, file);
 
         showExpressionFromFilepath(filePath, _useRandomColor, _repeatAnimations);
     } else {
-        fprintf(stderr, "[ERROR] No files in %s. Please check directory\n", _path);
+        fprintf(stderr, "[ERROR] No files in %s. Please check directory\n", _path->buffer);
     }
 }
 
@@ -71,8 +77,8 @@ void showRandomExpression(char* _path, bool _useRandomColor, bool _repeatAnimati
  * Play one specific animation from given file
  * @param _filePath That should be played
  */
-void showExpressionFromFilepath(char* _filePath, bool _useRandomColor, bool _repeatAnimations) {
-    Animation* animation = readAnimation(_filePath);
+void showExpressionFromFilepath(string_t* _filePath, bool _useRandomColor, bool _repeatAnimations) {
+    Animation* animation = readAnimation(_filePath->buffer);
 
     if (!animation) {
         fprintf(stderr, "[WARNING] showExpressionFromFilepath: animation is NULL, skipping it\n");
@@ -123,7 +129,7 @@ void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAni
     ws2811_led_t color = 0;
     if (!rainMode) {
         if (randColor) {
-            int r = rand() % paletteCount;
+            unsigned int r = rand() % paletteCount;
             color = palette[r];
         } else if (defColor) {
             color = defaultColor;
@@ -298,9 +304,8 @@ float getLuminance(GifColorType* _color) {
 unsigned int ledMatrixTranslation(int _x, int _y) {
     if (numberIsEven(_x)) {
         return (_x * LED_HEIGHT + _y);
-    } else {
-        return (_x * LED_HEIGHT + LED_HEIGHT - 1 - _y);
-    }
+    } //else
+    return (_x * LED_HEIGHT + LED_HEIGHT - 1 - _y);
 }
 
 /**
