@@ -19,25 +19,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Partial added new features. Not fully integrated yet.">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="filesystem.h is now using the string_t type. WARNING: Something prevents loading the blink animation. Thats for next week">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arguments.c" beforeDir="false" afterPath="$PROJECT_DIR$/arguments.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/filesystem.c" beforeDir="false" afterPath="$PROJECT_DIR$/filesystem.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/filesystem.h" beforeDir="false" afterPath="$PROJECT_DIR$/filesystem.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gif.c" beforeDir="false" afterPath="$PROJECT_DIR$/gif.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gif.h" beforeDir="false" afterPath="$PROJECT_DIR$/gif.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/led.c" beforeDir="false" afterPath="$PROJECT_DIR$/led.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/led.h" beforeDir="false" afterPath="$PROJECT_DIR$/led.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network.c" beforeDir="false" afterPath="$PROJECT_DIR$/network.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/palette.c" beforeDir="false" afterPath="$PROJECT_DIR$/palette.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/palette.h" beforeDir="false" afterPath="$PROJECT_DIR$/palette.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasbot.h" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.c" beforeDir="false" afterPath="$PROJECT_DIR$/utils.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.h" beforeDir="false" afterPath="$PROJECT_DIR$/utils.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,14 +132,7 @@
       <workItem from="1666356784383" duration="9897000" />
       <workItem from="1666432596964" duration="7037000" />
       <workItem from="1666451891819" duration="3085000" />
-      <workItem from="1666520655754" duration="8184000" />
-    </task>
-    <task id="LOCAL-00119" summary="Transferring">
-      <created>1649971619651</created>
-      <option name="number" value="00119" />
-      <option name="presentableId" value="LOCAL-00119" />
-      <option name="project" value="LOCAL" />
-      <updated>1649971619651</updated>
+      <workItem from="1666520655754" duration="8874000" />
     </task>
     <task id="LOCAL-00120" summary="Transferring">
       <created>1649971860879</created>
@@ -492,7 +470,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666463482677</updated>
     </task>
-    <option name="localTasksCounter" value="168" />
+    <task id="LOCAL-00168" summary="filesystem.h is now using the string_t type. WARNING: Something prevents loading the blink animation. Thats for next week">
+      <created>1666531306030</created>
+      <option name="number" value="00168" />
+      <option name="presentableId" value="LOCAL-00168" />
+      <option name="project" value="LOCAL" />
+      <updated>1666531306030</updated>
+    </task>
+    <option name="localTasksCounter" value="169" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -510,7 +495,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="improved path arguments" />
     <MESSAGE value="Done implementing arguments (for now)" />
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Added support for palettes" />
@@ -535,7 +519,8 @@
     <MESSAGE value="Split up the huge main.c blob into several files." />
     <MESSAGE value="Added fixes made my CompuCat" />
     <MESSAGE value="Partial added new features. Not fully integrated yet." />
-    <option name="LAST_COMMIT_MESSAGE" value="Partial added new features. Not fully integrated yet." />
+    <MESSAGE value="filesystem.h is now using the string_t type. WARNING: Something prevents loading the blink animation. Thats for next week" />
+    <option name="LAST_COMMIT_MESSAGE" value="filesystem.h is now using the string_t type. WARNING: Something prevents loading the blink animation. Thats for next week" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

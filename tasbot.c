@@ -61,6 +61,8 @@ void showRandomExpression(string_t* _path, bool _useRandomColor, bool _repeatAni
         //char* list[fileCount];
         //getFileList(_path, list); //get list of files
 
+        //todo: I guess this function is faulty...somehow?
+
         string_t* list[fileCount];
         getFileList(_path, list); //get list of files
 

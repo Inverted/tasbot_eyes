@@ -25,7 +25,7 @@ Animation* readAnimation(char* _file) {
         printf("[INFO] Load file %s\n", _file);
     }
 
-    //Open _file
+    //Open file
     int e;
     GifFileType* image = DGifOpenFileName(_file, &e);
     if (!image) {
@@ -34,7 +34,7 @@ Animation* readAnimation(char* _file) {
     }
 
     //"Slurp" infos into struct
-    if (DGifSlurp(image) == GIF_ERROR) {
+    if (DGifSlurp(image) == GIF_ERROR) { //TODO: this ONLY fails, when showRandomExpression() is called? weird
         fprintf(stderr, "[ERROR] DGifSlurp() failed. Couldn't load infos about GIF: %d\n", image->Error);
         if (DGifCloseFile(image, &e) != GIF_OK){
             fprintf(stderr, "[WARNING] readAnimation: DGifCloseFile returned%d\n", e);
