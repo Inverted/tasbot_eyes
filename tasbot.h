@@ -35,6 +35,8 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color);
 void freeAnimation(Animation* _animation);
 unsigned int getBlinkDelay();
 unsigned int getBlinkAmount();
+string_t* getRandomAnimation(string_t* list[], int _count);
+
 float getLuminance(GifColorType* _color);
 
 //Debug

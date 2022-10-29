@@ -80,7 +80,10 @@ void showRandomExpression(string_t* _path, bool _useRandomColor, bool _repeatAni
  * @param _filePath That should be played
  */
 void showExpressionFromFilepath(string_t* _filePath, bool _useRandomColor, bool _repeatAnimations) {
-    Animation* animation = readAnimation(_filePath->buffer);
+
+    printf("%s\n", _filePath->buffer);
+
+    Animation* animation = readAnimation(_filePath);
 
     if (!animation) {
         fprintf(stderr, "[WARNING] showExpressionFromFilepath: animation is NULL, skipping it\n");
@@ -285,6 +288,17 @@ unsigned int getBlinkAmount() {
         return 0;
     }
     return (rand() % maxBlinks) + 1;
+}
+
+/**
+ * Get a random entry from a list
+ * @param list List, from which the random item should be chosen
+ * @param _count Length of list
+ * @return A random item from the list
+ */
+string_t* getRandomAnimation(string_t* list[], int _count) {
+    int r = rand() % _count;
+    return list[r];
 }
 
 /**

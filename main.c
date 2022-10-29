@@ -19,11 +19,7 @@
 
 #define COLOR_FADE_SPEED        100
 
-/**
- * Central handler for leaving the application. Handler for SIGINT, SIGTERM and SIGKILL. Gets also called after the endless loop
- * @param _number uwu
- */
-void finish(int _number) {
+void finish() {
     if (huePid != 0) { //exclude child
         printf("\n"); //pretty uwu
 
@@ -43,10 +39,18 @@ void finish(int _number) {
 }
 
 /**
+ * Central handler for leaving the application. Handler for SIGINT, SIGTERM and SIGKILL. Gets also called after the endless loop
+ * @param _number uwu
+ */
+void exitHandler(int _number) {
+    finish();
+}
+
+/**
  * Register the handler for SIGINT, SIGTERM and SIGKILL
  */
 void setupHandler() {
-    struct sigaction sa = {.sa_handler = finish,};
+    struct sigaction sa = {.sa_handler = exitHandler,};
     sigemptyset(&sa.sa_mask);
     sigaction(SIGINT, &sa, NULL);
     sigaction(SIGTERM, &sa, NULL);
@@ -113,33 +117,18 @@ void initBlinking(){
     maxTimeBetweenBlinks *= 1000;
 }
 
-int main(int _argc, char** _argv) {
-    srand(time(NULL));
-
-    //can't use LED hardware on desktops
-#if defined(__x86_64__)
-    activateLEDModule = false;
-#endif
-
-    //Init things
-    setupHandler();
-    parseArguments(_argc, _argv);
-    initRainbowMode();
-    initPalette();
-    initBlinking();
-    initLEDs();
-
-    //Option for playing give specific animation
+void specificAnimation(){
     if (specificAnimationToShow != NULL) {
         string_t path;
         initstr(&path, specificAnimationToShow);
         while (running) {
             showExpressionFromFilepath(&path, false, false);
         }
-        return 0;
+        //finish(); //should not be mandatory, because running should be false at this point, so main loop gets skippe completely
     }
+}
 
-    //Main loop
+void tasbotsEyes(){
     bool firstIteration = true;
     while (running) {
         //skip to base expression on first iteration, to not start on a random animation
@@ -178,8 +167,43 @@ int main(int _argc, char** _argv) {
             usleep(blinkTime * 1000);
         }
     }
+}
+
+int main(int _argc, char** _argv) {
+    srand(time(NULL));
+
+    //can't use LED hardware on desktops
+#if defined(__x86_64__)
+    activateLEDModule = false;
+#endif
+
+    //Init things
+    setupHandler();
+    parseArguments(_argc, _argv);
+    initRainbowMode();
+    initPalette();
+    initBlinking();
+    initLEDs();
+
+    //Option for playing give specific animation
+    //specificAnimation();
+
+    //Main loop
+    //tasbotsEyes();
+
+
+    //this works
+    string_t path;
+    initstr(&path, STARTUP_PATH);
+    showExpressionFromFilepath(&path, false, false);
+
+
+    //this ain't working
+    string_t path2;
+    initstr(&path2, pathForAnimations);
+    showRandomExpression(&path2, false, true);
 
     //Clean up
-    finish(0);
+    finish();
     return 0;
 }

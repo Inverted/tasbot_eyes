@@ -3,17 +3,16 @@
 ## Dependencies and credit
 
 * jgarff's rpi_ws281x lib under the BSD 2-Clause "Simplified" License, project found
-  here: https://github.com/jgarff/rpi_ws281x
+  [here](https://github.com/jgarff/rpi_ws281x)
 * Eric S. Raymond's GIFLIB under "an X Consortium-like open-source license", project found
-  here: http://giflib.sourceforge.net/
+  [here](http://giflib.sourceforge.net/)
 
 ## Install
 
 1. Clone, compile and install the rpi_ws281x lib (requires cmake)
-2. Download, compile and install GIFLIB (found on SourceForge https://sourceforge.net/projects/giflib/, requires make)
+2. Download, compile and install GIFLIB (found [here](https://sourceforge.net/projects/giflib/) on SourceForge, requires make)
 3. Clone and compile this repo (requires cmake)  
-   :warning: **ATTENTION**: When compiling for real TASBot, make sure `bool realTASBot` ist set to `true` (it is by
-   default)
+   :warning: **ATTENTION**: When compiling for real TASBot, make sure `bool realTASBot` ist set to `true` (it is by default)
 
 ## How it works
 
@@ -45,55 +44,39 @@ The program looks within its current working directory, for a folder called `gif
 
 ### About blink patterns
 
-It can be defined, how many times at most TASBot blinks between every random animation, but at least always once (if
-pattern is not making skipping them, e.g. `0-x-y`). It can also be defined, how long are the periods are between the
-blinks.  
+It can be defined, how many times at most TASBot blinks between every random animation, but at least always once (if pattern is not making skipping them, e.g. `0-x-y`). It can also be defined, how long are the periods are between the blinks.  
 **Example**: `3-4-6`
 
 1. `3`: Maximum amount of blinks between blinks
 2. `4`: At least 4 seconds between each blink...
 3. `6`: ...but at most 6 seconds.
 
-The actual amount of seconds the program sleeps between the blinks is randomly generated in milliseconds. In this
-example, TASBot could wait _4581 ms_, just as _5987 ms_. He could blink at least once, but at most 3 times, before the
-next random animation
+The actual amount of seconds the program sleeps between the blinks is randomly generated in milliseconds. In this example, TASBot could wait _4581 ms_, just as _5987 ms_. He could blink at least once, but at most 3 times, before the next random animation
 
 ## Usage
 
-See the build-in `-h` option or `main.c:501` to get an overview of all available arguments. There are some for changing
-the playback speed, setting the data pin, playing a specific animation and many more!
+See the build-in `-h` option or [`arguments.c:233`](https://github.com/R3tr0BoiDX/tasbot_eyes/blob/develop-branch/arguments.c#L233) to get an overview of all available arguments. There are some for changing the playback speed, setting the data pin, playing a specific animation and many more!
 
 ## Create color palette
 
-To create a color palette, you can either:
+Color palettes are the random colors TASBot can choose from when playing a monochrome animation and colorful mode is activated. To create a color palette, you can either:
 
-* Use the *tasBot Eye Color Analyzing Uniquified Search Engine (BECAUSE)* to create a color palette based on an
-  image: https://github.com/R3tr0BoiDX/because
-* Paste the desired hex palette into a plain text document **WITHOUT** the leading '#'. For example, a valid entry for a
-  pale red would be `E78587` (no '#' in front). One color each line. BECAUSE creates `.tasbotPalette` files, but that's
-  not required.
+* Use the [*TAS**B**ot **E**ye **C**olor **A**nalyzing **U**niquified **S**earch **E**ngine (BECAUSE)*](https://github.com/R3tr0BoiDX/TASBot-Toolkit#because) to create a color palette based on an image
+* Paste the desired hex palette into a plain text document **WITHOUT** the leading '#'. For example, a valid entry for a  pale red would be `E78587` (no '#' in front). One color per line. BECAUSE creates `.tbp` files, but those are just text files. File extension not required.
+
 
 ## Known problems
 
 * There's a teeny tiny memory leak.
 * Gamma correction is behaving extremely really weird. It's breaking the LED indexing even tho it should not.
-* When an animation is monochrome, it's pixels can be colored in a randomly chosen color, to make everything more
-  colorful (using the `-c` argument). However, the color that is used to overwrite isn't adjusting to the brightness of
-  the given color within the frame. Right now it's flat overwriting the same color to all pixels, that just _aren't_
-  black. Use the method `getLuminance()` for that.
+* When an animation is monochrome, it's pixels can be colored in a randomly chosen color, to make everything more colorful (using the `-c` argument). However, the color that is used to overwrite isn't adjusting to the brightness of the given color within the frame. Right now it's flat overwriting the same color to all pixels, that just _aren't_ black. Use the method `getLuminance()` for that.
 * Some methods got pretty blob like, that could be made :sparkles: prettier :sparkles:
-* The entire main.c is a huge blob, that could be resolved into several files (.h and .c)
+
 
 ## Future ideas
 
-* Create a playlist support in two senses:
-    * An honest to goodness playlist, in which animations can be queued as desired
-    * Replace the current random selection of the animations with a queue. When queue is empty create a new one. This
-      would prevent having the same animation chosen multiple times in a row or the impression, that a certain animation
-      is favoured (just because it gets picked repeatedly by the random generator)
-* Debate on, if during a blink cycle (a period between the random animations), TASBot should use the same blink
-  animation
-  for all blinks or if that should stay random like it is right now. This could further smooth out the appearance.
+* An honest to goodness playlist support, in which animations can be queued as desired on startup
+* Debate on, if during a blink cycle (a period between the random animations), TASBot should use the same blink animation for all blinks or if that should stay random like it is right now. This could further smooth out the appearance.
 * Argument to change the base frame
 * Loop argument for single frame mode
 * Replace all `char*` resp. `char[]` with `string_t` 

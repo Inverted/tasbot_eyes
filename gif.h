@@ -21,10 +21,9 @@ typedef struct Animation {
     GifFileType* image; //needed for very dirty trick to get around weird behavior, where DGifCloseFile() manipulates the animation data for some reason
 } Animation;
 
-string_t* getRandomAnimation(string_t* list[], int _count);
 bool checkIfImageHasRightSize(GifFileType* _image);
 bool isGrayScale(GifColorType* _color);
 AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _globalMap, bool* _monochrome);
-Animation* readAnimation(char* _file);
+Animation* readAnimation(string_t * _filePath);
 
 #endif //TASBOT_EYES_GIF_H

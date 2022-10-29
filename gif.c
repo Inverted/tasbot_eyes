@@ -20,14 +20,14 @@ bool checkIfImageHasRightSize(GifFileType* _image) {
  * TODO: This is pretty blob like. Can probably be shorten.
  */
 
-Animation* readAnimation(char* _file) {
+Animation* readAnimation(string_t* _filePath) {
     if (verboseLogging) {
-        printf("[INFO] Load file %s\n", _file);
+        printf("[INFO] Load file %s\n", _filePath->buffer);
     }
 
     //Open file
     int e;
-    GifFileType* image = DGifOpenFileName(_file, &e);
+    GifFileType* image = DGifOpenFileName(_filePath->buffer, &e);
     if (!image) {
         fprintf(stderr, "[ERROR] EGifOpenFileName() failed. Couldn't find or open _file: %d\n", e);
         return false;
@@ -50,7 +50,7 @@ Animation* readAnimation(char* _file) {
         ColorMapObject* globalColorMap = image->SColorMap;
         if (verboseLogging) {
             printf("[INFO] (Image info): Size: %ix%i; Frames: %i; Path: \"%s\"\n", image->SWidth, image->SHeight,
-                   image->ImageCount, _file);
+                   image->ImageCount, _filePath->buffer);
         }
 
         //Process frames
@@ -158,15 +158,4 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
 
 bool isGrayScale(GifColorType* _color) {
     return (_color->Red == _color->Green && _color->Red == _color->Blue);
-}
-
-/**
- * Get a random entry from a list
- * @param list List, from which the random item should be chosen
- * @param _count Length of list
- * @return A random item from the list
- */
-string_t* getRandomAnimation(string_t* list[], int _count) {
-    int r = rand() % _count;
-    return list[r];
 }

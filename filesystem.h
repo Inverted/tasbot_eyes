@@ -6,7 +6,8 @@
 
 //keep
 #define BASE_PATH               "./gifs/base.gif"
-#define STARTUP_PATH            "./gifs/startup.gif"
+//#define STARTUP_PATH            "./gifs/startup.gif"
+#define STARTUP_PATH            "./gifs/others/colorful.gif"
 #define OTHER_PATH              "./gifs/others/"
 #define BLINK_PATH              "./gifs/blinks/"
 

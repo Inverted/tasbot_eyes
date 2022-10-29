@@ -54,7 +54,7 @@ void initLEDs() {
         }
     } //else
     if (verboseLogging) {
-        printf("[INFO] Starting program without LED module");
+        printf("[INFO] Starting program without LED module\n");
     }
 }
 
