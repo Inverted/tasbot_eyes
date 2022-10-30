@@ -22,16 +22,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="small valgrind fixes">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Rewording">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arguments.c" beforeDir="false" afterPath="$PROJECT_DIR$/arguments.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/led.c" beforeDir="false" afterPath="$PROJECT_DIR$/led.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network.c" beforeDir="false" afterPath="$PROJECT_DIR$/network.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network.h" beforeDir="false" afterPath="$PROJECT_DIR$/network.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/stack.c" beforeDir="false" afterPath="$PROJECT_DIR$/stack.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,20 +144,6 @@
       <workItem from="1667071794988" duration="1181000" />
       <workItem from="1667075138173" duration="3237000" />
       <workItem from="1667120992419" duration="6179000" />
-    </task>
-    <task id="LOCAL-00126" summary="Resolved line 625 into a one-liner">
-      <created>1649977382815</created>
-      <option name="number" value="00126" />
-      <option name="presentableId" value="LOCAL-00126" />
-      <option name="project" value="LOCAL" />
-      <updated>1649977382815</updated>
-    </task>
-    <task id="LOCAL-00127" summary="clear LEDs after init">
-      <created>1649977538768</created>
-      <option name="number" value="00127" />
-      <option name="presentableId" value="LOCAL-00127" />
-      <option name="project" value="LOCAL" />
-      <updated>1649977538768</updated>
     </task>
     <task id="LOCAL-00128" summary="Add method to calculate luminance">
       <created>1649978869197</created>
@@ -495,7 +474,21 @@
       <option name="project" value="LOCAL" />
       <updated>1667148843373</updated>
     </task>
-    <option name="localTasksCounter" value="175" />
+    <task id="LOCAL-00175" summary="Integrated network queue injection.">
+      <created>1667165418130</created>
+      <option name="number" value="00175" />
+      <option name="presentableId" value="LOCAL-00175" />
+      <option name="project" value="LOCAL" />
+      <updated>1667165418131</updated>
+    </task>
+    <task id="LOCAL-00176" summary="Rewording">
+      <created>1667165640794</created>
+      <option name="number" value="00176" />
+      <option name="presentableId" value="LOCAL-00176" />
+      <option name="project" value="LOCAL" />
+      <updated>1667165640795</updated>
+    </task>
+    <option name="localTasksCounter" value="177" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -513,8 +506,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Playback speed affect now blink time" />
-    <MESSAGE value="Resolved line 625 into a one-liner" />
     <MESSAGE value="clear LEDs after init" />
     <MESSAGE value="Add method to calculate luminance" />
     <MESSAGE value="Transfer" />
@@ -538,7 +529,9 @@
     <MESSAGE value="Some smaller clean up" />
     <MESSAGE value="Valgrind note" />
     <MESSAGE value="small valgrind fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="small valgrind fixes" />
+    <MESSAGE value="Integrated network queue injection." />
+    <MESSAGE value="Rewording" />
+    <option name="LAST_COMMIT_MESSAGE" value="Rewording" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

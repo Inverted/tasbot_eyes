@@ -68,7 +68,7 @@ See the build-in `-h` option or [`arguments.c:233`](https://github.com/R3tr0BoiD
 
 Color palettes are the random colors TASBot can choose from when playing a monochrome animation and colorful mode is activated. To create a color palette, you can either:
 
-* Use the [*TAS**B**ot **E**ye **C**olor **A**nalyzing **U**niquified **S**earch **E**ngine (BECAUSE)*](https://github.com/R3tr0BoiDX/TASBot-Toolkit#because) to create a color palette based on an image
+* Use the [TAS**B**ot **E**ye **C**olor **A**nalyzing **U**niquified **S**earch **E**ngine (BECAUSE)](https://github.com/R3tr0BoiDX/TASBot-Toolkit#because) to create a color palette based on an image
 * Paste the desired hex palette into a plain text document **WITHOUT** the leading '#'. For example, a valid entry for a  pale red would be `E78587` (no '#' in front). One color per line. BECAUSE creates `.tbp` files, but those are just text files. File extension not required.
 
 
