@@ -29,13 +29,15 @@ int maxBlinks = MAX_BLINKS;
 int minTimeBetweenBlinks = MIN_TIME_BETWEEN_BLINKS;
 int maxTimeBetweenBlinks = MAX_TIME_BETWEEN_BLINKS;
 int repetitions = 1;
-int hue = 0;
+int* hue;
 float playbackSpeed = 1;
 ws2811_led_t defaultColor = -1;
 bool playbackSpeedAffectBlinks = false;
 bool useGammaCorrection = false;
 bool useRandomColors = false;
 bool useRandomColorsForAll = false;
+bool rainbowMode = false;
+
 
 void fillStack(char* _sourceFolder) {
     int fileCount = countFilesInDir(_sourceFolder); //get file count

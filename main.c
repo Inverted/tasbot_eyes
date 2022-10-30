@@ -7,8 +7,7 @@
 #include <time.h>
 #include <signal.h>
 #include <unistd.h>
-#include <sysexits.h>
-#include <sys/mman.h>
+#include <pthread.h>
 
 #include "led.h"
 #include "arguments.h"
@@ -17,8 +16,6 @@
 #include "filesystem.h"
 #include "network.h"
 #include "stack.h"
-
-#define COLOR_FADE_SPEED        100
 
 void finish() {
     printf("\n"); //pretty uwu
@@ -31,7 +28,8 @@ void finish() {
     }
     free(pixel); //did this for good measurement, but I guess since next command is exit, this is unnecessary, since complete process memory get freed anyway?
 
-    exit(EX_OK);
+    pthread_exit(NULL);
+    exit(EXIT_SUCCESS);
 }
 
 /**
@@ -53,7 +51,7 @@ void setupHandler() {
     sigaction(SIGKILL, &sa, NULL);
 }
 
-void initPalette(){
+void initPalette() {
     if (pathForPalette != NULL) {
         readPalette(pathForPalette);
     } else {
@@ -76,27 +74,26 @@ void initPalette(){
     }
 }
 
-void initBlinking(){
+void initBlinking() {
     minTimeBetweenBlinks *= 1000;
     maxTimeBetweenBlinks *= 1000;
 }
 
-void specificAnimation(){
+void specificAnimation() {
     if (specificAnimationToShow != NULL) {
         while (running) {
             playAnimationFromFilepath(specificAnimationToShow, false, false);
         }
-        //finish(); //should not be mandatory, because running should be false at this point, so main loop gets skippe completely
     }
 }
 
-void tasbotsEyes(){
+void tasbotsEyes() {
     bool firstIteration = true;
     while (running) {
 
         //play startup animation in first iteration
         if (!firstIteration) {
-            if (isEmpty()){
+            if (isEmpty()) {
                 fillStack(pathForAnimations);
             }
 
@@ -153,8 +150,9 @@ int main(int _argc, char** _argv) {
     initPalette();
     initBlinking();
     initLEDs();
+    //startServer();
 
-    //Option for playing give specific animation
+    //Option for playing a given specific animation
     specificAnimation();
 
     //Main loop
@@ -164,29 +162,3 @@ int main(int _argc, char** _argv) {
     finish();
     return 0;
 }
-
-/*
-int newLoop() {
-    srand(time(NULL));
-
-    createNewStack();
-    startServer();
-
-    while (true){
-
-        printf("Sleep\n");
-        sleep(5);
-
-        if(!isEmpty()){
-            string_t* spop = (string_t*) pop();
-            printf("Play (%s)\n", spop->buffer);
-        } else{
-            createNewStack();
-        }
-    }
-
-    running = false;
-    pthread_exit(NULL);
-    exit(EXIT_SUCCESS);
-}
- */

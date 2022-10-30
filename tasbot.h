@@ -14,7 +14,7 @@ extern int maxBlinks;
 extern int minTimeBetweenBlinks;
 extern int maxTimeBetweenBlinks;
 extern int repetitions;
-extern int hue; //todo: separate thread for resp. hue calculation and rendering
+extern int* hue; //todo: separate thread for resp. hue calculation and rendering
 extern float playbackSpeed;
 extern ws2811_led_t defaultColor;
 extern bool playbackSpeedAffectBlinks;

@@ -22,24 +22,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Removed string_t, which caused too much trouble then helping. Working again.">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Removed string_t, which caused too much trouble then helping. Working again. Also removed rainbow mode for now again.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arguments.c" beforeDir="false" afterPath="$PROJECT_DIR$/arguments.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arguments.h" beforeDir="false" afterPath="$PROJECT_DIR$/arguments.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/filesystem.c" beforeDir="false" afterPath="$PROJECT_DIR$/filesystem.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/filesystem.h" beforeDir="false" afterPath="$PROJECT_DIR$/filesystem.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gif.c" beforeDir="false" afterPath="$PROJECT_DIR$/gif.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gif.h" beforeDir="false" afterPath="$PROJECT_DIR$/gif.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/led.c" beforeDir="false" afterPath="$PROJECT_DIR$/led.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network.c" beforeDir="false" afterPath="$PROJECT_DIR$/network.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network.h" beforeDir="false" afterPath="$PROJECT_DIR$/network.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/palette.c" beforeDir="false" afterPath="$PROJECT_DIR$/palette.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/palette.h" beforeDir="false" afterPath="$PROJECT_DIR$/palette.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasbot.h" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.c" beforeDir="false" afterPath="$PROJECT_DIR$/utils.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils.h" beforeDir="false" afterPath="$PROJECT_DIR$/utils.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +76,7 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "cmake.loaded.for.project": "true",
-    "last_opened_file_path": "/home/mirco/Projekte/Test_CLion",
+    "last_opened_file_path": "/mnt/Dateien/Projekte/tasbot_eyes/CMakeLists.txt",
     "nodejs_package_manager_path": "npm",
     "run.code.analysis.last.selected.profile": "aDefault",
     "settings.editor.selected.configurable": "preferences.editor",
@@ -103,6 +90,11 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="tasbot_eyes" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v -u" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -154,13 +146,6 @@
       <workItem from="1667071794988" duration="1181000" />
       <workItem from="1667075138173" duration="3237000" />
       <workItem from="1667120992419" duration="6179000" />
-    </task>
-    <task id="LOCAL-00122" summary="Transferring">
-      <created>1649972549118</created>
-      <option name="number" value="00122" />
-      <option name="presentableId" value="LOCAL-00122" />
-      <option name="project" value="LOCAL" />
-      <updated>1649972549118</updated>
     </task>
     <task id="LOCAL-00123" summary="Transferring">
       <created>1649974039538</created>
@@ -498,7 +483,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667078150101</updated>
     </task>
-    <option name="localTasksCounter" value="171" />
+    <task id="LOCAL-00171" summary="Removed string_t, which caused too much trouble then helping. Working again. Also removed rainbow mode for now again.">
+      <created>1667138240910</created>
+      <option name="number" value="00171" />
+      <option name="presentableId" value="LOCAL-00171" />
+      <option name="project" value="LOCAL" />
+      <updated>1667138240910</updated>
+    </task>
+    <option name="localTasksCounter" value="172" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -516,7 +508,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Improving support for palettes" />
     <MESSAGE value="Set build type in CMakeLists.txt" />
     <MESSAGE value="Transferring" />
     <MESSAGE value="Init memory for display struct with zeros using calloc and memset" />
@@ -541,7 +532,8 @@
     <MESSAGE value="Added some todos. WARNING: still faulty" />
     <MESSAGE value="Some README.md changes and some digging because of bug. WARNING: still faulty" />
     <MESSAGE value="Removed string_t, which caused too much trouble then helping. Working again." />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed string_t, which caused too much trouble then helping. Working again." />
+    <MESSAGE value="Removed string_t, which caused too much trouble then helping. Working again. Also removed rainbow mode for now again." />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed string_t, which caused too much trouble then helping. Working again. Also removed rainbow mode for now again." />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
