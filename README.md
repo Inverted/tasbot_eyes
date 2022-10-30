@@ -61,7 +61,7 @@ The actual amount of seconds the program sleeps between the blinks is randomly g
 
 ## Usage
 
-See the build-in `-h` option or [`arguments.c:233`](https://github.com/R3tr0BoiDX/tasbot_eyes/blob/develop-branch/arguments.c#L233) to get an overview of all available arguments. There are some for changing the playback speed, setting the data pin, playing a specific animation and many more!
+See the build-in `-h` option or [`arguments.c:225`](https://github.com/R3tr0BoiDX/tasbot_eyes/blob/develop-branch/arguments.c#L225) to get an overview of all available arguments. There are some for changing the playback speed, setting the data pin, playing a specific animation and many more!
 
 
 ### Create color palette
