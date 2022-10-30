@@ -16,6 +16,7 @@
 #include "palette.h"
 #include "filesystem.h"
 #include "network.h"
+#include "stack.h"
 
 #define COLOR_FADE_SPEED        100
 
@@ -122,7 +123,7 @@ void specificAnimation(){
         string_t path;
         initstr(&path, specificAnimationToShow);
         while (running) {
-            showExpressionFromFilepath(&path, false, false);
+            playAnimationFromFilepath(&path, false, false);
         }
         //finish(); //should not be mandatory, because running should be false at this point, so main loop gets skippe completely
     }
@@ -135,12 +136,12 @@ void tasbotsEyes(){
         if (!firstIteration) {
             string_t path;
             initstr(&path, pathForAnimations);
-            showRandomExpression(&path, useRandomColors, true);
+            playRandomAnimationFromDirectory(&path, useRandomColors, true);
         } else {
             if (!skipStartupAnimation) {
                 string_t path;
                 initstr(&path, STARTUP_PATH);
-                showExpressionFromFilepath(&path, false, false);
+                playAnimationFromFilepath(&path, false, false);
             }
             firstIteration = false;
         }
@@ -149,16 +150,16 @@ void tasbotsEyes(){
         if (maxBlinks != 0 && minTimeBetweenBlinks != 0) {
             string_t path;
             initstr(&path, BASE_PATH);
-            showExpressionFromFilepath(&path, false, false);
+            playAnimationFromFilepath(&path, false, false);
         }
 
         usleep(getBlinkDelay() * 1000);
         //blink for a random amount of times
         for (unsigned int blinks = getBlinkAmount(); blinks > 0; --blinks) {
-            showBlinkExpression();
+            playBlink();
             string_t path;
             initstr(&path, BASE_PATH);
-            showExpressionFromFilepath(&path, false, false);
+            playAnimationFromFilepath(&path, false, false);
 
             unsigned int blinkTime = getBlinkDelay();
             if (verboseLogging) {
@@ -191,19 +192,68 @@ int main(int _argc, char** _argv) {
     //Main loop
     //tasbotsEyes();
 
-
+    /*
     //this works
     string_t path;
     initstr(&path, STARTUP_PATH);
-    showExpressionFromFilepath(&path, false, false);
-
+    playAnimationFromFilepath(&path, false, false);
 
     //this ain't working
     string_t path2;
     initstr(&path2, pathForAnimations);
-    showRandomExpression(&path2, false, true);
+    playRandomAnimationFromDirectory(&path2, false, true);
+     */
+
+    createNewStack();
+
+    while (running){
+        sleep(1);
+        if (!isEmpty()){
+            //Get animation from stack
+            string_t* animation = (string_t*) pop();
+
+            //Get combined path
+            string_t path;
+            initstr(&path, OTHER_PATH);
+            string_t* filePath = getFilePath(&path, animation);
+
+            //Play animation
+            //playAnimationFromFilepath(filePath, false, false);
+            printf("%s\n", animation->buffer);
+
+            //todo: played animation must be freed?
+        } else {
+            createNewStack();
+        }
+    }
 
     //Clean up
     finish();
     return 0;
 }
+
+/*
+int newLoop() {
+    srand(time(NULL));
+
+    createNewStack();
+    startServer();
+
+    while (true){
+
+        printf("Sleep\n");
+        sleep(5);
+
+        if(!isEmpty()){
+            string_t* spop = (string_t*) pop();
+            printf("Play (%s)\n", spop->buffer);
+        } else{
+            createNewStack();
+        }
+    }
+
+    running = false;
+    pthread_exit(NULL);
+    exit(EXIT_SUCCESS);
+}
+ */

@@ -27,10 +27,14 @@ extern int huePid;
 extern bool rainbowMode;
 //extern AnimationFrame currentFrame;
 
-void showBlinkExpression();
-void showRandomExpression(string_t* _path, bool _useRandomColor, bool _repeatAnimations);
-void showExpressionFromFilepath(string_t* _filePath, bool _useRandomColor, bool _repeatAnimations);
-void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAnimations);
+void createNewStack();
+void fillStack(string_t* _sourceFolder);
+bool addToStack(string_t* _path);
+
+void playBlink();
+void playRandomAnimationFromDirectory(string_t* _path, bool _useRandomColor, bool _repeatAnimations);
+void playAnimationFromFilepath(string_t* _filePath, bool _useRandomColor, bool _repeatAnimations);
+void playAnimation(Animation* _animation, bool _useRandomColor, bool _repeatAnimations);
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color);
 void freeAnimation(Animation* _animation);
 unsigned int getBlinkDelay();

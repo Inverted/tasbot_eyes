@@ -10,6 +10,7 @@
 #include "palette.h"
 #include "led.h"
 #include "filesystem.h"
+#include "stack.h"
 
 //TASBot display conversation table
 //Based on https://github.com/jakobrs/tasbot-display/blob/master/src/tasbot.rs
@@ -41,13 +42,62 @@ bool rainbowMode = false;
 //AnimationFrame currentFrame;
 
 
+void createNewStack() {
+    string_t s;
+    initstr(&s, OTHER_PATH);
+    fillStack(&s);
+}
+
+void fillStack(string_t* _sourceFolder) {
+    int fileCount = countFilesInDir(_sourceFolder); //get file count
+
+    //if (fileCount != -1) {
+    if (fileCount > 0) {
+
+        //Fill array with all possible indices
+        int index[fileCount];
+        for (int i = 0; i < fileCount; ++i) {
+            index[i] = i;
+        }
+
+        //Shuffle said array
+        shuffle(index, fileCount);
+
+        //char* list[fileCount];
+        string_t* list[fileCount];
+        getFileList(_sourceFolder, list); //get list of files
+
+        for (int i = 0; i < fileCount; ++i) {
+            addToStack(list[index[i]]);
+        }
+    }
+}
+
+//todo: use this also in networking
+/**
+ * Add a given path to the animation stack
+ * @param _path Path to an animation that's allocated in memory already!
+ */
+bool addToStack(string_t* _path) {
+    if (push(_path)) {
+        string_t* speek = (string_t*) peek();
+        printf("[INFO] Successfully added (%s) to animation stack\n",
+               speek->buffer); //Using peeked value to reinsure it got added properly
+        return true;
+    } //else
+    printf("[WARNING] Failed to add (%s) to animation stack. Stack most likely full\n", _path->buffer);
+    return false;
+
+    //todo: consume and free
+}
+
 /**
  * Show a random blink expression from BLINK_PATH
  */
-void showBlinkExpression() {
+void playBlink() {
     string_t path;
     initstr(&path, pathForBlinks);
-    showRandomExpression(&path, false, false);
+    playRandomAnimationFromDirectory(&path, false, false);
 }
 
 /**
@@ -55,7 +105,7 @@ void showBlinkExpression() {
  * @param _path Path, from where a random animation should be chosen from
  * @param _useRandomColor If the animation can be played with an randomly chosen color, if it's monochrome
  */
-void showRandomExpression(string_t* _path, bool _useRandomColor, bool _repeatAnimations) {
+void playRandomAnimationFromDirectory(string_t* _path, bool _useRandomColor, bool _repeatAnimations) {
     int fileCount = countFilesInDir(_path); //get file count
     if (fileCount != -1) {
         //char* list[fileCount];
@@ -69,7 +119,7 @@ void showRandomExpression(string_t* _path, bool _useRandomColor, bool _repeatAni
         string_t* file = getRandomAnimation(list, fileCount); //get random animation
         string_t* filePath = getFilePath(_path, file);
 
-        showExpressionFromFilepath(filePath, _useRandomColor, _repeatAnimations);
+        playAnimationFromFilepath(filePath, _useRandomColor, _repeatAnimations);
     } else {
         fprintf(stderr, "[ERROR] No files in %s. Please check directory\n", _path->buffer);
     }
@@ -79,16 +129,15 @@ void showRandomExpression(string_t* _path, bool _useRandomColor, bool _repeatAni
  * Play one specific animation from given file
  * @param _filePath That should be played
  */
-void showExpressionFromFilepath(string_t* _filePath, bool _useRandomColor, bool _repeatAnimations) {
-
+void playAnimationFromFilepath(string_t* _filePath, bool _useRandomColor, bool _repeatAnimations) {
     printf("%s\n", _filePath->buffer);
 
     Animation* animation = readAnimation(_filePath);
 
     if (!animation) {
-        fprintf(stderr, "[WARNING] showExpressionFromFilepath: animation is NULL, skipping it\n");
+        fprintf(stderr, "[WARNING] playAnimationFromFilepath: animation is NULL, skipping it\n");
     } else {
-        playExpression(animation, _useRandomColor, _repeatAnimations);
+        playAnimation(animation, _useRandomColor, _repeatAnimations);
     }
 }
 
@@ -104,7 +153,7 @@ void showExpressionFromFilepath(string_t* _filePath, bool _useRandomColor, bool 
  * @param _animation The animation structure, that is to play
  * @param _useRandomColor If the animation should overwrite the animations palette with a random one, if its monochrome
  */
-void playExpression(Animation* _animation, bool _useRandomColor, bool _repeatAnimations) {
+void playAnimation(Animation* _animation, bool _useRandomColor, bool _repeatAnimations) {
     bool randColor;
     if (useRandomColorsForAll) {
         //When animation is monochrome, use a random color, also for blinks and the base

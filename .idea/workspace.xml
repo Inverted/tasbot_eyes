@@ -19,14 +19,13 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Added some todos. WARNING: still faulty">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Some README.md changes and some digging because of bug. WARNING: still faulty">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/filesystem.c" beforeDir="false" afterPath="$PROJECT_DIR$/filesystem.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/filesystem.h" beforeDir="false" afterPath="$PROJECT_DIR$/filesystem.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gif.c" beforeDir="false" afterPath="$PROJECT_DIR$/gif.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gif.h" beforeDir="false" afterPath="$PROJECT_DIR$/gif.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/led.c" beforeDir="false" afterPath="$PROJECT_DIR$/led.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network.c" beforeDir="false" afterPath="$PROJECT_DIR$/network.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasbot.h" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.h" afterDir="false" />
     </list>
@@ -64,21 +63,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cmake.loaded.for.project&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/mirco/Projekte/Test_CLion&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.editor&quot;,
-    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "true",
+    "WebServerToolWindowPanel.toolwindow.highlight.mappings": "true",
+    "WebServerToolWindowPanel.toolwindow.highlight.symlinks": "true",
+    "WebServerToolWindowPanel.toolwindow.show.date": "false",
+    "WebServerToolWindowPanel.toolwindow.show.permissions": "false",
+    "WebServerToolWindowPanel.toolwindow.show.size": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "cmake.loaded.for.project": "true",
+    "last_opened_file_path": "/home/mirco/Projekte/Test_CLion",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.editor",
+    "structure.view.defaults.are.configured": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/cmake-build-debug/gifs" />
@@ -135,14 +139,8 @@
       <workItem from="1666451891819" duration="3085000" />
       <workItem from="1666520655754" duration="8996000" />
       <workItem from="1667071794988" duration="1181000" />
-      <workItem from="1667075138173" duration="2783000" />
-    </task>
-    <task id="LOCAL-00121" summary="Transferring">
-      <created>1649971949853</created>
-      <option name="number" value="00121" />
-      <option name="presentableId" value="LOCAL-00121" />
-      <option name="project" value="LOCAL" />
-      <updated>1649971949853</updated>
+      <workItem from="1667075138173" duration="3237000" />
+      <workItem from="1667120992419" duration="6179000" />
     </task>
     <task id="LOCAL-00122" summary="Transferring">
       <created>1649972549118</created>
@@ -480,7 +478,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666532080355</updated>
     </task>
-    <option name="localTasksCounter" value="170" />
+    <task id="LOCAL-00170" summary="Some README.md changes and some digging because of bug. WARNING: still faulty">
+      <created>1667078150101</created>
+      <option name="number" value="00170" />
+      <option name="presentableId" value="LOCAL-00170" />
+      <option name="project" value="LOCAL" />
+      <updated>1667078150101</updated>
+    </task>
+    <option name="localTasksCounter" value="171" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -498,7 +503,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Minor changes" />
     <MESSAGE value="Added support for palettes" />
     <MESSAGE value="Improving support for palettes" />
     <MESSAGE value="Set build type in CMakeLists.txt" />
@@ -523,7 +527,8 @@
     <MESSAGE value="Partial added new features. Not fully integrated yet." />
     <MESSAGE value="filesystem.h is now using the string_t type. WARNING: Something prevents loading the blink animation. Thats for next week" />
     <MESSAGE value="Added some todos. WARNING: still faulty" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added some todos. WARNING: still faulty" />
+    <MESSAGE value="Some README.md changes and some digging because of bug. WARNING: still faulty" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some README.md changes and some digging because of bug. WARNING: still faulty" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

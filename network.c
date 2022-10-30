@@ -1,6 +1,7 @@
 #include "network.h"
 #include "utils.h"
 #include "stack.h"
+#include "tasbot.h"
 
 #include <stdio.h>
 #include <unistd.h>

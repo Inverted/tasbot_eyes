@@ -7,62 +7,9 @@
 #include "filesystem.h"
 #include "stack.h"
 
-//keep
 char* pathForAnimations = OTHER_PATH;
 char* pathForBlinks = BLINK_PATH;
 char* pathForPalette = NULL;
-//end keep
-
-//todo: migrate modified versions
-
-void createNewStack() {
-    string_t s;
-    initstr(&s, OTHER_PATH);
-    fillStack(&s);
-}
-
-void fillStack(string_t* _sourceFolder) {
-    int fileCount = countFilesInDir(_sourceFolder); //get file count
-
-    //if (fileCount != -1) {
-    if (fileCount > 0) {
-
-        //Fill array with all possible indices
-        int index[fileCount];
-        for (int i = 0; i < fileCount; ++i) {
-            index[i] = i;
-        }
-
-        //Shuffle said array
-        shuffle(index, fileCount);
-
-        //char* list[fileCount];
-        string_t* list[fileCount];
-        getFileList(_sourceFolder, list); //get list of files
-
-        for (int i = 0; i < fileCount; ++i) {
-            addToStack(list[index[i]]);
-        }
-    }
-}
-
-//todo: use this also in networking
-/**
- * Add a given path to the animation stack
- * @param _path Path to an animation that's allocated in memory already!
- */
-bool addToStack(string_t* _path) {
-    if (push(_path)) {
-        string_t* speek = (string_t*) peek();
-        printf("[INFO] Successfully added (%s) to animation stack\n",
-               speek->buffer); //Using peeked value to reinsure it got added properly
-        return true;
-    } //else
-    printf("[WARNING] Failed to add (%s) to animation stack. Stack most likely full\n", _path->buffer);
-    return false;
-
-    //todo: consume and free
-}
 
 /**
  * Allocate memory for path complete file path and ditch path and filename together
@@ -181,8 +128,8 @@ bool getFileList(const string_t* _path, string_t* _list[]) {
         closedir(d);
         return true;
     }
-    fprintf(stderr, "[WARNING] getFileList() called on nonexistent directory (%s). Errno is %d\n", _path->buffer,
-            errno);
+    fprintf(stderr, "[WARNING] getFileList() called on nonexistent directory (%s). Errno is %d\n",
+            _path->buffer, errno);
     return false;
 }
 

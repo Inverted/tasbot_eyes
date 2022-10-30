@@ -22,22 +22,22 @@ bool checkIfImageHasRightSize(GifFileType* _image) {
 
 Animation* readAnimation(string_t* _filePath) {
     if (verboseLogging) {
-        printf("[INFO] Load file %s\n", _filePath->buffer);
+        printf("[INFO] Going to try loading file %s\n", _filePath->buffer);
     }
 
     //Open file
     int e;
     GifFileType* image = DGifOpenFileName(_filePath->buffer, &e);
     if (!image) {
-        fprintf(stderr, "[ERROR] EGifOpenFileName() failed. Couldn't find or open _file: %d\n", e);
+        fprintf(stderr, "[ERROR] readAnimation: Can't find or open GIF file (%s). DGifOpenFileName gave error code %d\n", _filePath->buffer, e);
         return false;
     }
 
     //"Slurp" infos into struct
-    if (DGifSlurp(image) == GIF_ERROR) { //TODO: this ONLY fails, when showRandomExpression() is called? weird
-        fprintf(stderr, "[ERROR] DGifSlurp() failed. Couldn't load infos about GIF: %d\n", image->Error);
+    if (DGifSlurp(image) == GIF_ERROR) { //TODO: this ONLY fails, when playRandomAnimationFromDirectory() is called? weird
+        fprintf(stderr, "[ERROR] readAnimation: Can't load infos about GIF file. DGifSlurp gave error %d\n", image->Error);
         if (DGifCloseFile(image, &e) != GIF_OK){
-            fprintf(stderr, "[WARNING] readAnimation: DGifCloseFile returned%d\n", e);
+            fprintf(stderr, "[WARNING] readAnimation: Could not close image. DGifCloseFile gave error code %d\n", e);
         }
         return false;
     }
