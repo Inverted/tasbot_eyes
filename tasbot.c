@@ -54,12 +54,12 @@ void fillStack(char* _sourceFolder) {
         //Shuffle said array
         shuffle(index, fileCount);
 
+        //get list of files
         char* list[fileCount];
-        getFileList(_sourceFolder, list); //get list of files
+        getFileList(_sourceFolder, list);
 
         for (int i = 0; i < fileCount; ++i) {
-            unsigned long length = strlen(list[index[i]]);
-            char* path = malloc(sizeof(char) * length);
+            char* path = malloc(strlen(list[index[i]]) + 1);
             strcpy(path, list[index[i]]);
 
             addToStack(path);
@@ -93,9 +93,10 @@ bool addToStack(char* _path) {
  * @param _useRandomColor If the animation can be played with an randomly chosen color, if it's monochrome
  */
 void playRandomAnimationFromDirectory(char* _path, bool _useRandomColor, bool _repeatAnimations) {
-    int fileCount = countFilesInDir(_path); //get file count
-    if (fileCount != -1) {
+    //get count of files in directory
+    int fileCount = countFilesInDir(_path);
 
+    if (fileCount != -1) {
         //get list of files
         char* list[fileCount];
         getFileList(_path, list);
@@ -272,7 +273,7 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
  */
 //TODO: Can someone check please, if I got it right?
 void freeAnimation(Animation* _animation) {
-    //dirty trick, close file here, after animation. That way DGifCloseFile() can't destroy the animation data
+    //dirty trick, close file here, after animation. That way DGifCloseFile() can't mess with the animation data
     int e = 0;
     if (DGifCloseFile(_animation->image, &e) != GIF_OK) {
         fprintf(stderr, "[WARNING] freeAnimation: Closing GIF failed. DGifCloseFile returned %d\n", e);

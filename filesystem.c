@@ -18,7 +18,7 @@ char* pathForPalette = NULL;
  * @return relative or absolut path to file
  */
 char* getFilePath(char* _path, char* _file) {
-    char* path = malloc(sizeof(char) * (MAX_PATH_LENGTH));
+    char* path = malloc(sizeof(char) * (MAX_PATH_LENGTH) + 1);
     strcpy(path, _path);
     strcat(path, _file);
 
