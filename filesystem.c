@@ -59,7 +59,6 @@ bool checkIfFileExist(char* _file) {
  * @param _out The array, the lines should be read into
  */
 
-//todo: make sure readPalette() inits out array
 void readFile(const char* _path, int _count, char* _out[]) {
     //Check if file exists
     FILE* ptr = fopen(_path, "r");
@@ -69,7 +68,7 @@ void readFile(const char* _path, int _count, char* _out[]) {
 
     //Read line after line into give array
     for (int i = 0; i < _count; i++) {
-        _out[i] = malloc(sizeof(unsigned int)); //todo: inspect
+        _out[i] = malloc(sizeof(unsigned int)); //todo: is this freed?
         if (!_out[i]) {
             failExit("[ERROR] readFile: Failed to allocate memory for reading file");
         }

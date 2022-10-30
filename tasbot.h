@@ -21,7 +21,7 @@ extern bool playbackSpeedAffectBlinks;
 extern bool useGammaCorrection;
 extern bool useRandomColors;
 extern bool useRandomColorsForAll;
-extern bool rainbowMode; //todo
+extern bool rainbowMode; //todo too
 
 void fillStack(char* _sourceFolder);
 bool addToStack(char* _path);

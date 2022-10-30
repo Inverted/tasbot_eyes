@@ -30,6 +30,13 @@ void initLEDs() {
         channel->strip_type = STRIP_TYPE;
         display.channel[0] = *channel; //todo: free at end
 
+        //Setup color array
+        pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
+        if (!pixel) {
+            fprintf(stderr, "[ERROR] initLEDs: Failed to allocate memory for render buffer");
+            exit(EXIT_FAILURE);
+        }
+
         //Initialize hardware
         ws2811_return_t r;
         if ((r = ws2811_init(&display)) != WS2811_SUCCESS) {
@@ -39,19 +46,13 @@ void initLEDs() {
                 printf("[INFO] Initialized LEDs with code %d\n", r);
             }
         }
+        clearLEDs();
 
         if (r != WS2811_SUCCESS) {
             fprintf(stderr, "[ERROR] Can't run program. Did you started with root privileges?\n");
             exit(EXIT_FAILURE);
         }
-        clearLEDs();
 
-        //Setup color array
-        pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
-        if (!pixel) {
-            fprintf(stderr, "[ERROR] initLEDs: Failed to allocate memory for render buffer");
-            exit(EXIT_FAILURE);
-        }
     } //else
     if (verbose) {
         printf("[INFO] Starting program without LED module\n");

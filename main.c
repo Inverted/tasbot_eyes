@@ -146,7 +146,7 @@ int main(int _argc, char** _argv) {
     initPalette();
     initBlinking();
     initLEDs();
-    startServer();
+    //startServer();
 
     //Option for playing a given specific animation
     specificAnimation();
