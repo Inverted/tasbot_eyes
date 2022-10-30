@@ -22,11 +22,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Removed string_t, which caused too much trouble then helping. Working again. Also removed rainbow mode for now again.">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Some smaller clean up">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gif.c" beforeDir="false" afterPath="$PROJECT_DIR$/gif.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasbot.h" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,13 +145,6 @@
       <workItem from="1667071794988" duration="1181000" />
       <workItem from="1667075138173" duration="3237000" />
       <workItem from="1667120992419" duration="6179000" />
-    </task>
-    <task id="LOCAL-00123" summary="Transferring">
-      <created>1649974039538</created>
-      <option name="number" value="00123" />
-      <option name="presentableId" value="LOCAL-00123" />
-      <option name="project" value="LOCAL" />
-      <updated>1649974039538</updated>
     </task>
     <task id="LOCAL-00124" summary="Init memory for display struct with zeros using calloc and memset">
       <created>1649975820394</created>
@@ -490,7 +482,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667138240910</updated>
     </task>
-    <option name="localTasksCounter" value="172" />
+    <task id="LOCAL-00172" summary="Some smaller clean up">
+      <created>1667138713904</created>
+      <option name="number" value="00172" />
+      <option name="presentableId" value="LOCAL-00172" />
+      <option name="project" value="LOCAL" />
+      <updated>1667138713904</updated>
+    </task>
+    <option name="localTasksCounter" value="173" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -508,7 +507,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Set build type in CMakeLists.txt" />
     <MESSAGE value="Transferring" />
     <MESSAGE value="Init memory for display struct with zeros using calloc and memset" />
     <MESSAGE value="Playback speed affect now blink time" />
@@ -533,7 +531,8 @@
     <MESSAGE value="Some README.md changes and some digging because of bug. WARNING: still faulty" />
     <MESSAGE value="Removed string_t, which caused too much trouble then helping. Working again." />
     <MESSAGE value="Removed string_t, which caused too much trouble then helping. Working again. Also removed rainbow mode for now again." />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed string_t, which caused too much trouble then helping. Working again. Also removed rainbow mode for now again." />
+    <MESSAGE value="Some smaller clean up" />
+    <option name="LAST_COMMIT_MESSAGE" value="Some smaller clean up" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

@@ -34,7 +34,7 @@ Animation* readAnimation(char* _filePath) {
     }
 
     //"Slurp" infos into struct
-    if (DGifSlurp(image) == GIF_ERROR) { //TODO: this ONLY fails, when playRandomAnimationFromDirectory() is called? weird
+    if (DGifSlurp(image) == GIF_ERROR) {
         fprintf(stderr, "[ERROR] readAnimation: Can't load infos about GIF file. DGifSlurp gave error %d\n", image->Error);
         if (DGifCloseFile(image, &e) != GIF_OK){
             fprintf(stderr, "[WARNING] readAnimation: Could not close image. DGifCloseFile gave error code %d\n", e);
@@ -54,6 +54,9 @@ Animation* readAnimation(char* _filePath) {
         }
 
         //Process frames
+        /*todo: valgrind says: 27,268 (24 direct, 27,244 indirect) bytes in 1 blocks are definitely lost in loss record 16 of 16
+         * however, tasbot.c:freeAnimation() should free all of the animation structure?
+         */
         animation = malloc(sizeof(Animation));
         if (!animation) {
             failExit("[ERROR] readAnimation: Failed to allocate memory for Animation structure");

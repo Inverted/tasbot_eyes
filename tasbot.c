@@ -275,7 +275,7 @@ void freeAnimation(Animation* _animation) {
     //dirty trick, close file here, after animation. That way DGifCloseFile() can't destroy the animation data
     int e = 0;
     if (DGifCloseFile(_animation->image, &e) != GIF_OK) {
-        fprintf(stderr, "[WARNING] freeAnimation: DGifCloseFile returned%d\n", e);
+        fprintf(stderr, "[WARNING] freeAnimation: Closing GIF failed. DGifCloseFile returned %d\n", e);
     }
 
     if (verbose) {
