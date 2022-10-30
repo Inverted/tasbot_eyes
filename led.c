@@ -42,7 +42,7 @@ void initLEDs() {
         if ((r = ws2811_init(&display)) != WS2811_SUCCESS) {
             fprintf(stderr, "[ERROR] ws2811_init failed. Couldn't initialize LEDs: %s\n", ws2811_get_return_t_str(r));
         } else {
-            if (verboseLogging) {
+            if (verbose) {
                 printf("[INFO] Initialized LEDs with code %d\n", r);
             }
         }
@@ -53,7 +53,7 @@ void initLEDs() {
             exit(EXIT_FAILURE);
         }
     } //else
-    if (verboseLogging) {
+    if (verbose) {
         printf("[INFO] Starting program without LED module\n");
     }
 }
@@ -73,7 +73,7 @@ ws2811_return_t renderLEDs() {
     if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
         fprintf(stderr, "[ERROR] Failed to render: %s\n", ws2811_get_return_t_str(r));
     } else {
-        if (verboseLogging) {
+        if (verbose) {
             printf("[INFO] Rendered LEDs with code %d\n", r);
         }
     }

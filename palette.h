@@ -9,6 +9,6 @@ extern unsigned int paletteCount;
 
 int chtohex(char _ch);
 ws2811_led_t strtocol(char* _color);
-void readPalette(string_t* _path);
+void readPalette(char* _path);
 
 #endif //TASBOT_EYES_PALETTE_H

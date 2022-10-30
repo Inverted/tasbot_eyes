@@ -20,16 +20,16 @@ bool checkIfImageHasRightSize(GifFileType* _image) {
  * TODO: This is pretty blob like. Can probably be shorten.
  */
 
-Animation* readAnimation(string_t* _filePath) {
-    if (verboseLogging) {
-        printf("[INFO] Going to try loading file %s\n", _filePath->buffer);
+Animation* readAnimation(char* _filePath) {
+    if (verbose) {
+        printf("[INFO] Going to try loading file %s\n", _filePath);
     }
 
     //Open file
     int e;
-    GifFileType* image = DGifOpenFileName(_filePath->buffer, &e);
+    GifFileType* image = DGifOpenFileName(_filePath, &e);
     if (!image) {
-        fprintf(stderr, "[ERROR] readAnimation: Can't find or open GIF file (%s). DGifOpenFileName gave error code %d\n", _filePath->buffer, e);
+        fprintf(stderr, "[ERROR] readAnimation: Can't find or open GIF file (%s). DGifOpenFileName gave error code %d\n", _filePath, e);
         return false;
     }
 
@@ -48,24 +48,20 @@ Animation* readAnimation(string_t* _filePath) {
 
         //Obtain global color map if available
         ColorMapObject* globalColorMap = image->SColorMap;
-        if (verboseLogging) {
+        if (verbose) {
             printf("[INFO] (Image info): Size: %ix%i; Frames: %i; Path: \"%s\"\n", image->SWidth, image->SHeight,
-                   image->ImageCount, _filePath->buffer);
+                   image->ImageCount, _filePath);
         }
 
         //Process frames
         animation = malloc(sizeof(Animation));
         if (!animation) {
-            string_t message;
-            initstr(&message, "[ERROR] readAnimation: Failed to allocate memory for Animation structure");
-            failExit(&message);
+            failExit("[ERROR] readAnimation: Failed to allocate memory for Animation structure");
         }
 
         AnimationFrame** animationFrames = malloc(sizeof(AnimationFrame*) * image->ImageCount);
         if (!animationFrames) {
-            string_t message;
-            initstr(&message, "[ERROR] readAnimation: Failed to allocate memory for AnimationFrame structure");
-            failExit(&message);
+            failExit("[ERROR] readAnimation: Failed to allocate memory for AnimationFrame structure");
         }
 
         animation->frames = animationFrames; //cant be reached, when Animation or AnimationFrames is empty
@@ -89,8 +85,8 @@ Animation* readAnimation(string_t* _filePath) {
                 }
             }
 
-            if (verboseLogging) {
-                printf("[INFO] (Frame %i info): Size: %ix%i; Delay time: %i ms; Left: %i, Top: %i; Local color map: %s\n",
+            if (verbose) {
+                printf("[INFO] (Frame #%i info): Size: %ix%i; Delay time: %i ms; Left: %i, Top: %i; Local color map: %s\n",
                        i, frame->ImageDesc.Width, frame->ImageDesc.Height, delayTime, frame->ImageDesc.Left,
                        frame->ImageDesc.Top, (frame->ImageDesc.ColorMap ? "Yes" : "No"));
             }
@@ -99,7 +95,7 @@ Animation* readAnimation(string_t* _filePath) {
             animationFrames[i]->delayTime = delayTime;
         }
 
-        if (verboseLogging) {
+        if (verbose) {
             printf("[INFO] Animation is monochrome: %s\n", animation->monochrome ? "true" : "false");
         }
 

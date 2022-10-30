@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
+#include <string.h>
 #include "tasbot.h"
 #include "gif.h"
 #include "arguments.h"
@@ -28,6 +29,7 @@ int maxBlinks = MAX_BLINKS;
 int minTimeBetweenBlinks = MIN_TIME_BETWEEN_BLINKS;
 int maxTimeBetweenBlinks = MAX_TIME_BETWEEN_BLINKS;
 int repetitions = 1;
+int hue = 0;
 float playbackSpeed = 1;
 ws2811_led_t defaultColor = -1;
 bool playbackSpeedAffectBlinks = false;
@@ -35,20 +37,7 @@ bool useGammaCorrection = false;
 bool useRandomColors = false;
 bool useRandomColorsForAll = false;
 
-//Rainbow mode
-int* hue;
-int huePid = -1;
-bool rainbowMode = false;
-//AnimationFrame currentFrame;
-
-
-void createNewStack() {
-    string_t s;
-    initstr(&s, OTHER_PATH);
-    fillStack(&s);
-}
-
-void fillStack(string_t* _sourceFolder) {
+void fillStack(char* _sourceFolder) {
     int fileCount = countFilesInDir(_sourceFolder); //get file count
 
     //if (fileCount != -1) {
@@ -63,12 +52,15 @@ void fillStack(string_t* _sourceFolder) {
         //Shuffle said array
         shuffle(index, fileCount);
 
-        //char* list[fileCount];
-        string_t* list[fileCount];
+        char* list[fileCount];
         getFileList(_sourceFolder, list); //get list of files
 
         for (int i = 0; i < fileCount; ++i) {
-            addToStack(list[index[i]]);
+            unsigned long length = strlen(list[index[i]]);
+            char* path = malloc(sizeof(char) * length);
+            strcpy(path, list[index[i]]);
+
+            addToStack(path);
         }
     }
 }
@@ -78,26 +70,19 @@ void fillStack(string_t* _sourceFolder) {
  * Add a given path to the animation stack
  * @param _path Path to an animation that's allocated in memory already!
  */
-bool addToStack(string_t* _path) {
+bool addToStack(char* _path) {
+    bool result;
     if (push(_path)) {
-        string_t* speek = (string_t*) peek();
-        printf("[INFO] Successfully added (%s) to animation stack\n",
-               speek->buffer); //Using peeked value to reinsure it got added properly
-        return true;
-    } //else
-    printf("[WARNING] Failed to add (%s) to animation stack. Stack most likely full\n", _path->buffer);
-    return false;
+        char* speek = (char*) peek();
+        printf("[INFO] Successfully added (%s) to animation stack\n", speek); //Using peeked value to reinsure it got added properly
+        result = true;
+    } else{
+        printf("[WARNING] Failed to add (%s) to animation stack. Stack most likely full\n", _path);
+        result = false;
+    }
 
+    return result;
     //todo: consume and free
-}
-
-/**
- * Show a random blink expression from BLINK_PATH
- */
-void playBlink() {
-    string_t path;
-    initstr(&path, pathForBlinks);
-    playRandomAnimationFromDirectory(&path, false, false);
 }
 
 /**
@@ -105,23 +90,22 @@ void playBlink() {
  * @param _path Path, from where a random animation should be chosen from
  * @param _useRandomColor If the animation can be played with an randomly chosen color, if it's monochrome
  */
-void playRandomAnimationFromDirectory(string_t* _path, bool _useRandomColor, bool _repeatAnimations) {
+void playRandomAnimationFromDirectory(char* _path, bool _useRandomColor, bool _repeatAnimations) {
     int fileCount = countFilesInDir(_path); //get file count
     if (fileCount != -1) {
-        //char* list[fileCount];
-        //getFileList(_path, list); //get list of files
 
-        //todo: I guess this function is faulty...somehow?
+        //get list of files
+        char* list[fileCount];
+        getFileList(_path, list);
 
-        string_t* list[fileCount];
-        getFileList(_path, list); //get list of files
-
-        string_t* file = getRandomAnimation(list, fileCount); //get random animation
-        string_t* filePath = getFilePath(_path, file);
+        //get random animation;
+        char* file = getRandomAnimation(list, fileCount);
+        char* filePath = getFilePath(_path, file);
 
         playAnimationFromFilepath(filePath, _useRandomColor, _repeatAnimations);
+        free(filePath);
     } else {
-        fprintf(stderr, "[ERROR] No files in %s. Please check directory\n", _path->buffer);
+        fprintf(stderr, "[ERROR] No files in %s. Please check directory\n", _path);
     }
 }
 
@@ -129,9 +113,7 @@ void playRandomAnimationFromDirectory(string_t* _path, bool _useRandomColor, boo
  * Play one specific animation from given file
  * @param _filePath That should be played
  */
-void playAnimationFromFilepath(string_t* _filePath, bool _useRandomColor, bool _repeatAnimations) {
-    printf("%s\n", _filePath->buffer);
-
+void playAnimationFromFilepath(char* _filePath, bool _useRandomColor, bool _repeatAnimations) {
     Animation* animation = readAnimation(_filePath);
 
     if (!animation) {
@@ -174,7 +156,7 @@ void playAnimation(Animation* _animation, bool _useRandomColor, bool _repeatAnim
 
     bool rainMode = rainbowMode ? _animation->monochrome : false;
 
-    if (verboseLogging) {
+    if (verbose) {
         printf("[INFO] Use a random color: %s\n", randColor ? "true" : "false");
         printf("[INFO] Use the default color: %s\n", randColor ? "true" : "false");
     }
@@ -199,7 +181,7 @@ void playAnimation(Animation* _animation, bool _useRandomColor, bool _repeatAnim
     //Show frame
     for (int r = 0; r < reps; ++r) {
         for (int i = 0; i < _animation->frameCount; ++i) {
-            if (verboseLogging) {
+            if (verbose) {
                 printf("[INFO] Render frame #%d \n", i);
             }
 
@@ -216,7 +198,6 @@ void playAnimation(Animation* _animation, bool _useRandomColor, bool _repeatAnim
             }
 
             showFrame(_animation->frames[i], color);
-            //memcpy(&currentFrame, _animation->frames[i], sizeof (AnimationFrame));
             usleep((int) ((float) (_animation->frames[i]->delayTime * 1000) / playbackSpeed));
         }
     }
@@ -295,7 +276,7 @@ void freeAnimation(Animation* _animation) {
         fprintf(stderr, "[WARNING] freeAnimation: DGifCloseFile returned%d\n", e);
     }
 
-    if (verboseLogging) {
+    if (verbose) {
         printf("[INFO] Closed GIF with code %d\n", e);
     }
 
@@ -345,7 +326,7 @@ unsigned int getBlinkAmount() {
  * @param _count Length of list
  * @return A random item from the list
  */
-string_t* getRandomAnimation(string_t* list[], int _count) {
+char* getRandomAnimation(char* list[], int _count) {
     int r = rand() % _count;
     return list[r];
 }

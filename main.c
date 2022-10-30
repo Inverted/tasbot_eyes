@@ -21,21 +21,16 @@
 #define COLOR_FADE_SPEED        100
 
 void finish() {
-    if (huePid != 0) { //exclude child
-        printf("\n"); //pretty uwu
+    printf("\n"); //pretty uwu
 
-        running = false;
-        if (activateLEDModule) {
-            clearLEDs();
-            ws2811_render(&display);
-            ws2811_fini(&display);
-        }
-        free(pixel); //did this for good measurement, but I guess since next command is exit, this is unnecessary, since complete process memory get freed anyway?
-
-        if (huePid > 0) { //catch failed forks
-            kill(huePid, SIGTERM);
-        }
+    running = false;
+    if (activateLEDModule) {
+        clearLEDs();
+        ws2811_render(&display);
+        ws2811_fini(&display);
     }
+    free(pixel); //did this for good measurement, but I guess since next command is exit, this is unnecessary, since complete process memory get freed anyway?
+
     exit(EX_OK);
 }
 
@@ -58,41 +53,9 @@ void setupHandler() {
     sigaction(SIGKILL, &sa, NULL);
 }
 
-/**
- * Setup child for calculating current hue
- * todo: screw this
- */
-void initRainbowMode(){
-    if (rainbowMode && useRandomColors || rainbowMode && useRandomColorsForAll) {
-        hue = mmap(NULL, sizeof(*hue), PROT_READ | PROT_WRITE, MAP_SHARED | MAP_ANONYMOUS, -1, 0);
-        *hue = 0;
-
-        huePid = fork();
-        if (huePid == 0) { // Child process
-            while (true) {
-                if (*hue < 256) {
-                    *hue = *hue + 1;
-                } else {
-                    *hue = 0;
-                }
-                usleep(1000 * COLOR_FADE_SPEED);
-            }
-        } else if (huePid < 0) {
-            printf("[ERROR] Can't fork to start child for hue calculation! Revert back to deactivating rainbow mode!\n");
-            rainbowMode = false;
-        }
-        //Parent process continues
-    } else if (rainbowMode) {
-        printf("[WARNING] Rainbow mode can only be used with -c or -a. Turning it off again!\n");
-        rainbowMode = false;
-    }
-}
-
 void initPalette(){
     if (pathForPalette != NULL) {
-        string_t path;
-        initstr(&path, pathForPalette);
-        readPalette(&path);
+        readPalette(pathForPalette);
     } else {
         //Default palette
         paletteCount = 8;
@@ -120,10 +83,8 @@ void initBlinking(){
 
 void specificAnimation(){
     if (specificAnimationToShow != NULL) {
-        string_t path;
-        initstr(&path, specificAnimationToShow);
         while (running) {
-            playAnimationFromFilepath(&path, false, false);
+            playAnimationFromFilepath(specificAnimationToShow, false, false);
         }
         //finish(); //should not be mandatory, because running should be false at this point, so main loop gets skippe completely
     }
@@ -132,37 +93,45 @@ void specificAnimation(){
 void tasbotsEyes(){
     bool firstIteration = true;
     while (running) {
-        //skip to base expression on first iteration, to not start on a random animation
+
+        //play startup animation in first iteration
         if (!firstIteration) {
-            string_t path;
-            initstr(&path, pathForAnimations);
-            playRandomAnimationFromDirectory(&path, useRandomColors, true);
+            if (isEmpty()){
+                fillStack(pathForAnimations);
+            }
+
+            //Get animation from stack
+            char* file = (char*) pop();
+
+            //Get combined path
+            char* filePath = getFilePath(OTHER_PATH, file);
+
+            //Play animation
+            playAnimationFromFilepath(filePath, useRandomColors, true);
+
+            free(file);
+            free(filePath);
+
         } else {
             if (!skipStartupAnimation) {
-                string_t path;
-                initstr(&path, STARTUP_PATH);
-                playAnimationFromFilepath(&path, false, false);
+                playAnimationFromFilepath(STARTUP_PATH, false, false);
             }
             firstIteration = false;
         }
 
-        //skip base expression, when no blinks at all
-        if (maxBlinks != 0 && minTimeBetweenBlinks != 0) {
-            string_t path;
-            initstr(&path, BASE_PATH);
-            playAnimationFromFilepath(&path, false, false);
+        //show base
+        if (maxBlinks != 0 && minTimeBetweenBlinks != 0) { //skip base, when no blinks at all
+            playAnimationFromFilepath(BASE_PATH, false, false);
         }
 
-        usleep(getBlinkDelay() * 1000);
         //blink for a random amount of times
+        usleep(getBlinkDelay() * 1000);
         for (unsigned int blinks = getBlinkAmount(); blinks > 0; --blinks) {
-            playBlink();
-            string_t path;
-            initstr(&path, BASE_PATH);
-            playAnimationFromFilepath(&path, false, false);
+            playRandomAnimationFromDirectory(pathForBlinks, false, false);
+            playAnimationFromFilepath(BASE_PATH, false, false);
 
             unsigned int blinkTime = getBlinkDelay();
-            if (verboseLogging) {
+            if (verbose) {
                 printf("[INFO] Blink #%d for %d milliseconds \n", blinks, blinkTime);
             }
             usleep(blinkTime * 1000);
@@ -181,51 +150,15 @@ int main(int _argc, char** _argv) {
     //Init things
     setupHandler();
     parseArguments(_argc, _argv);
-    initRainbowMode();
     initPalette();
     initBlinking();
     initLEDs();
 
     //Option for playing give specific animation
-    //specificAnimation();
+    specificAnimation();
 
     //Main loop
-    //tasbotsEyes();
-
-    /*
-    //this works
-    string_t path;
-    initstr(&path, STARTUP_PATH);
-    playAnimationFromFilepath(&path, false, false);
-
-    //this ain't working
-    string_t path2;
-    initstr(&path2, pathForAnimations);
-    playRandomAnimationFromDirectory(&path2, false, true);
-     */
-
-    createNewStack();
-
-    while (running){
-        sleep(1);
-        if (!isEmpty()){
-            //Get animation from stack
-            string_t* animation = (string_t*) pop();
-
-            //Get combined path
-            string_t path;
-            initstr(&path, OTHER_PATH);
-            string_t* filePath = getFilePath(&path, animation);
-
-            //Play animation
-            //playAnimationFromFilepath(filePath, false, false);
-            printf("%s\n", animation->buffer);
-
-            //todo: played animation must be freed?
-        } else {
-            createNewStack();
-        }
-    }
+    tasbotsEyes();
 
     //Clean up
     finish();

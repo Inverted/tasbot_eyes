@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "stack.h"
 #include "tasbot.h"
+#include "arguments.h"
 
 #include <stdio.h>
 #include <unistd.h>
@@ -55,33 +56,28 @@ void* UDPSocketServer(void* vargp) {
 
         //Cut off playback style from path
         unsigned long length = strlen(buffer);
-        char path[length - 2];
+        char* path = malloc(sizeof(char) * length - 2);
         memcpy(path, &buffer[2], length - 2);
         path[length - 2] = '\0';
-        printf("%s\n", path);
+
+        printf("received %s\n", path);
 
         //Forming answer
-        string_t answer;
-        initcstr(&answer, DATAGRAM_SIZE_LIMIT);
-
+        char answer[DATAGRAM_SIZE_LIMIT];
         if (immediately) {
-            sprintf(answer.buffer, "Playing [%s] now!\n", path);
+            sprintf(answer, "[INFO] Playing [%s] now!\n", path);
             //todo: play now
         } else {
-            //Creating string_t on heap
-            string_t* s = allocstr(path);
-
-            if (addToStack(s)) {
-                sprintf( answer.buffer,"Successfully added (%s) to animation stack\n", s->buffer);
-            } else{
-                sprintf(answer.buffer, "Failed to add (%s) to animation stack. Stack most likely full\n", s->buffer);
+            if (addToStack(path)) {
+                sprintf(answer, "[INFO] Successfully added (%s) to animation stack\n", path);
+            } else {
+                sprintf(answer, "[WARNING] Failed to add (%s) to animation stack. Stack most likely full\n", path);
             }
         }
 
         //Printing out and sending back answer
-        printf("%s", answer.buffer);
-        sendto(sockfd, answer.buffer, strlen(answer.buffer), MSG_CONFIRM, (const struct sockaddr*) &clientAddress,
-               size);
+        printf("%s", answer);
+        sendto(sockfd, answer, strlen(answer), MSG_CONFIRM, (const struct sockaddr*) &clientAddress, size);
     }
 
     printf("[INFO] Shutting down UDP socket server on port %d\n", PORT);
@@ -91,5 +87,7 @@ void* UDPSocketServer(void* vargp) {
 void startServer() {
     pthread_t server;
     pthread_create(&server, NULL, UDPSocketServer, NULL);
-    printf("[INFO] Started thread for UDP server with TID %lu\n", server);
+    if (verbose){
+        printf("[INFO] Started thread for UDP server with TID %lu\n", server);
+    }
 }

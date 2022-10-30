@@ -10,7 +10,7 @@
 #include <stdbool.h>
 #include <ctype.h>
 
-bool verboseLogging = false;
+bool verbose = false;
 bool consoleRenderer = false;
 bool skipStartupAnimation = false;
 char* specificAnimationToShow = NULL;
@@ -30,7 +30,7 @@ void parseArguments(int _argc, char** _argv) {
                 printHelp();
                 exit(EXIT_SUCCESS);
             case 'v':
-                verboseLogging = true;
+                verbose = true;
                 printf("[INFO] Use verbose logging\n");
                 break;
             case 'r':
@@ -156,9 +156,7 @@ void parseArguments(int _argc, char** _argv) {
             }
 
             case 'p': {
-                string_t path;
-                initstr(&path, optarg);
-                if (checkIfDirectoryExist(&path)) {
+                if (checkIfDirectoryExist(optarg)) {
                     pathForAnimations = optarg;
                     printf("[INFO] Use animations from \"%s\"\n", optarg);
                 } else {
@@ -169,9 +167,7 @@ void parseArguments(int _argc, char** _argv) {
             }
 
             case 'z': {
-                string_t path;
-                initstr(&path, optarg);
-                if (checkIfDirectoryExist(&path)) {
+                if (checkIfDirectoryExist(optarg)) {
                     pathForBlinks = optarg;
                     printf("[INFO] Use blink animations from \"%s\"\n", optarg);
                 } else {
@@ -182,9 +178,7 @@ void parseArguments(int _argc, char** _argv) {
             }
 
             case 'i': {
-                string_t path;
-                initstr(&path, optarg);
-                if (checkIfFileExist(&path)) {
+                if (checkIfFileExist(optarg)) {
                     specificAnimationToShow = optarg;
                     printf("[INFO] Use specific animation \"%s\"\n", optarg);
                 } else {
@@ -195,9 +189,7 @@ void parseArguments(int _argc, char** _argv) {
             }
 
             case 'P': {
-                string_t path;
-                initstr(&path, optarg);
-                if (checkIfFileExist(&path)) {
+                if (checkIfFileExist(optarg)) {
                     pathForPalette = optarg;
                     printf("[INFO] Set color palette to \"%s\"\n", optarg);
                 } else {
@@ -236,12 +228,12 @@ void printHelp() {
     printf("-v               Enable verbose logging\n");
     printf("-r               Enable console renderer for frames\n");
     printf("-d [GPIO]        Change GPIO data pin. Possible options are between 2 to 27. Default is 10\n");
-    printf("-g               Use gamma correction. DONT USE, IT'S BROKEN!\n");
+    printf("-g               Use gamma correction. DON'T USE, IT'S BROKEN!\n");
 
     printf("\n===[Tune animation playback]===\n");
     printf("-c               Use random color from palette for monochrome animations\n");
     printf("-a               Use random color from palette for monochrome animations as well as blinks and the base\n");
-    printf("-w               Activate rainbow mode. Needs to be used with -c or -a to define scope\n");
+    printf("-w               Activate rainbow mode. Needs to be used with -c or -a to define scope. USELESS RIGHT NOW!\n");
     printf("-C [xxxxxx]      Default color that should be used for not colored animations\n");
     printf("-b [0-255]       Set maximum possible brightness. Default is 24\n");
     printf("-s [MULTIPLIER]  Sets Playback speed. Needs to be bigger than 0\n");

@@ -14,15 +14,14 @@ unsigned int paletteCount;
  * Main function to read a palette file, convert it into numerical values and providing the final color array
  * @param _path The color palette file, that is to read
  */
-void readPalette(string_t* _path) {
+void readPalette(char* _path) {
     //Read raw palette from file into the rawPal variable
-
     int colorCount = countLines(_path);
-    string_t* rawPal[colorCount];
+    char* rawPal[colorCount];
     readFile(_path, colorCount, rawPal);
 
     //Read palette into final palette array
-    ws2811_led_t* pal = malloc(sizeof(ws2811_led_t) * colorCount);
+    ws2811_led_t* pal = malloc(sizeof(ws2811_led_t) * colorCount); //todo: free?
     if (!pal) {
         fprintf(stderr, "[ERROR] readPalette: Failed to allocate palette memory");
         clearLEDs();
@@ -30,20 +29,20 @@ void readPalette(string_t* _path) {
     }
 
     for (int i = 0; i < colorCount; ++i) {
-        ws2811_led_t color = strtocol(rawPal[i]->buffer);
+        ws2811_led_t color = strtocol(rawPal[i]);
         if (color != -1) {
             pal[i] = color;
-            if (verboseLogging) {
-                printf("[INFO] Converted string \"%s\" to integer in hex 0x%x\n", rawPal[i]->buffer, pal[i]);
+            if (verbose) {
+                printf("[INFO] Converted string \"%s\" to integer in hex 0x%x\n", rawPal[i], pal[i]);
             }
         } else {
-            printf("[WARNING] Skip color %s because of parsing error", rawPal[i]->buffer);
+            printf("[WARNING] Skip color %s because of parsing error", rawPal[i]);
         }
-        freestr(rawPal[i]);
+        free(rawPal[i]);
     }
 
     paletteCount = colorCount;
-    palette = pal;
+    palette = pal; //todo: return pal instead of setting like this?
 }
 
 /**

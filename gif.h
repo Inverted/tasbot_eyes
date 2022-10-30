@@ -24,6 +24,6 @@ typedef struct Animation {
 bool checkIfImageHasRightSize(GifFileType* _image);
 bool isGrayScale(GifColorType* _color);
 AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _globalMap, bool* _monochrome);
-Animation* readAnimation(string_t * _filePath);
+Animation* readAnimation(char* _filePath);
 
 #endif //TASBOT_EYES_GIF_H

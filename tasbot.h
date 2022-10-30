@@ -14,32 +14,26 @@ extern int maxBlinks;
 extern int minTimeBetweenBlinks;
 extern int maxTimeBetweenBlinks;
 extern int repetitions;
+extern int hue; //todo: separate thread for resp. hue calculation and rendering
 extern float playbackSpeed;
 extern ws2811_led_t defaultColor;
 extern bool playbackSpeedAffectBlinks;
 extern bool useGammaCorrection;
 extern bool useRandomColors;
 extern bool useRandomColorsForAll;
+extern bool rainbowMode; //todo
 
-//Rainbow mode
-extern int* hue;
-extern int huePid;
-extern bool rainbowMode;
-//extern AnimationFrame currentFrame;
+void fillStack(char* _sourceFolder);
+bool addToStack(char* _path);
 
-void createNewStack();
-void fillStack(string_t* _sourceFolder);
-bool addToStack(string_t* _path);
-
-void playBlink();
-void playRandomAnimationFromDirectory(string_t* _path, bool _useRandomColor, bool _repeatAnimations);
-void playAnimationFromFilepath(string_t* _filePath, bool _useRandomColor, bool _repeatAnimations);
+void playRandomAnimationFromDirectory(char* _path, bool _useRandomColor, bool _repeatAnimations);
+void playAnimationFromFilepath(char* _filePath, bool _useRandomColor, bool _repeatAnimations);
 void playAnimation(Animation* _animation, bool _useRandomColor, bool _repeatAnimations);
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color);
 void freeAnimation(Animation* _animation);
 unsigned int getBlinkDelay();
 unsigned int getBlinkAmount();
-string_t* getRandomAnimation(string_t* list[], int _count);
+char* getRandomAnimation(char* list[], int _count);
 
 float getLuminance(GifColorType* _color);
 

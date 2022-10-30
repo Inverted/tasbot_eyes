@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="CMakePresetLoader">{
   &quot;useNewFormat&quot;: true
 }</component>
@@ -19,15 +22,24 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Some README.md changes and some digging because of bug. WARNING: still faulty">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Removed string_t, which caused too much trouble then helping. Working again.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arguments.c" beforeDir="false" afterPath="$PROJECT_DIR$/arguments.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arguments.h" beforeDir="false" afterPath="$PROJECT_DIR$/arguments.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/filesystem.c" beforeDir="false" afterPath="$PROJECT_DIR$/filesystem.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/filesystem.h" beforeDir="false" afterPath="$PROJECT_DIR$/filesystem.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gif.c" beforeDir="false" afterPath="$PROJECT_DIR$/gif.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gif.h" beforeDir="false" afterPath="$PROJECT_DIR$/gif.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/led.c" beforeDir="false" afterPath="$PROJECT_DIR$/led.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network.c" beforeDir="false" afterPath="$PROJECT_DIR$/network.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network.h" beforeDir="false" afterPath="$PROJECT_DIR$/network.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/palette.c" beforeDir="false" afterPath="$PROJECT_DIR$/palette.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/palette.h" beforeDir="false" afterPath="$PROJECT_DIR$/palette.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasbot.h" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.c" beforeDir="false" afterPath="$PROJECT_DIR$/utils.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.h" beforeDir="false" afterPath="$PROJECT_DIR$/utils.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,6 +91,7 @@
     "cmake.loaded.for.project": "true",
     "last_opened_file_path": "/home/mirco/Projekte/Test_CLion",
     "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "aDefault",
     "settings.editor.selected.configurable": "preferences.editor",
     "structure.view.defaults.are.configured": "true"
   }
@@ -90,7 +103,7 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="tasbot_eyes" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
+    <configuration name="tasbot_eyes" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v -u" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -503,7 +516,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added support for palettes" />
     <MESSAGE value="Improving support for palettes" />
     <MESSAGE value="Set build type in CMakeLists.txt" />
     <MESSAGE value="Transferring" />
@@ -528,7 +540,8 @@
     <MESSAGE value="filesystem.h is now using the string_t type. WARNING: Something prevents loading the blink animation. Thats for next week" />
     <MESSAGE value="Added some todos. WARNING: still faulty" />
     <MESSAGE value="Some README.md changes and some digging because of bug. WARNING: still faulty" />
-    <option name="LAST_COMMIT_MESSAGE" value="Some README.md changes and some digging because of bug. WARNING: still faulty" />
+    <MESSAGE value="Removed string_t, which caused too much trouble then helping. Working again." />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed string_t, which caused too much trouble then helping. Working again." />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
