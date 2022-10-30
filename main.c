@@ -28,7 +28,7 @@ void finish() {
     }
     free(pixel); //did this for good measurement, but I guess since next command is exit, this is unnecessary, since complete process memory get freed anyway?
 
-    pthread_exit(NULL);
+    //pthread_exit(NULL);
     exit(EXIT_SUCCESS);
 }
 
@@ -100,14 +100,10 @@ void tasbotsEyes() {
             //Get animation from stack
             char* file = (char*) pop();
 
-            //Get combined path
-            char* filePath = getFilePath(OTHER_PATH, file);
-
             //Play animation
-            playAnimationFromFilepath(filePath, useRandomColors, true);
+            playAnimationFromFilepath(file, useRandomColors, true);
 
             free(file);
-            free(filePath);
 
         } else {
             if (!skipStartupAnimation) {
@@ -150,7 +146,7 @@ int main(int _argc, char** _argv) {
     initPalette();
     initBlinking();
     initLEDs();
-    //startServer();
+    startServer();
 
     //Option for playing a given specific animation
     specificAnimation();

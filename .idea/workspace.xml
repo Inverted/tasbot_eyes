@@ -22,9 +22,15 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Valgrind note">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="small valgrind fixes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/filesystem.c" beforeDir="false" afterPath="$PROJECT_DIR$/filesystem.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arguments.c" beforeDir="false" afterPath="$PROJECT_DIR$/arguments.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/led.c" beforeDir="false" afterPath="$PROJECT_DIR$/led.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network.c" beforeDir="false" afterPath="$PROJECT_DIR$/network.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network.h" beforeDir="false" afterPath="$PROJECT_DIR$/network.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/stack.c" beforeDir="false" afterPath="$PROJECT_DIR$/stack.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -145,13 +151,6 @@
       <workItem from="1667071794988" duration="1181000" />
       <workItem from="1667075138173" duration="3237000" />
       <workItem from="1667120992419" duration="6179000" />
-    </task>
-    <task id="LOCAL-00125" summary="Playback speed affect now blink time">
-      <created>1649977011516</created>
-      <option name="number" value="00125" />
-      <option name="presentableId" value="LOCAL-00125" />
-      <option name="project" value="LOCAL" />
-      <updated>1649977011516</updated>
     </task>
     <task id="LOCAL-00126" summary="Resolved line 625 into a one-liner">
       <created>1649977382815</created>
@@ -489,7 +488,14 @@
       <option name="project" value="LOCAL" />
       <updated>1667147424232</updated>
     </task>
-    <option name="localTasksCounter" value="174" />
+    <task id="LOCAL-00174" summary="small valgrind fixes">
+      <created>1667148843373</created>
+      <option name="number" value="00174" />
+      <option name="presentableId" value="LOCAL-00174" />
+      <option name="project" value="LOCAL" />
+      <updated>1667148843373</updated>
+    </task>
+    <option name="localTasksCounter" value="175" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -507,7 +513,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Init memory for display struct with zeros using calloc and memset" />
     <MESSAGE value="Playback speed affect now blink time" />
     <MESSAGE value="Resolved line 625 into a one-liner" />
     <MESSAGE value="clear LEDs after init" />
@@ -532,7 +537,8 @@
     <MESSAGE value="Removed string_t, which caused too much trouble then helping. Working again. Also removed rainbow mode for now again." />
     <MESSAGE value="Some smaller clean up" />
     <MESSAGE value="Valgrind note" />
-    <option name="LAST_COMMIT_MESSAGE" value="Valgrind note" />
+    <MESSAGE value="small valgrind fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="small valgrind fixes" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

@@ -15,20 +15,23 @@
 bool running = true;
 
 void* UDPSocketServer(void* vargp) {
-    int sockfd;
-    char buffer[DATAGRAM_SIZE_LIMIT];
-    struct sockaddr_in serverAddress;
-    struct sockaddr_in clientAddress;
 
     // Creating socket file descriptor
+    int sockfd;
     if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
         perror("[ERROR] Socket creation failed\n");
         exit(EXIT_FAILURE);
     } else {
-        printf("[INFO] Created socket on domain %d and type %d\n", AF_INET, SOCK_DGRAM);
+        if (verbose){
+            printf("[INFO] Created socket on domain %d and type %d\n", AF_INET, SOCK_DGRAM);
+        }
     }
 
+    //Setting up address structures
+    struct sockaddr_in serverAddress;
     memset(&serverAddress, 0, sizeof(serverAddress));
+
+    struct sockaddr_in clientAddress;
     memset(&clientAddress, 0, sizeof(clientAddress));
 
     // Filling server information
@@ -41,9 +44,12 @@ void* UDPSocketServer(void* vargp) {
         perror("[ERROR] Binding port failed\n");
         exit(EXIT_FAILURE);
     } else {
-        printf("[INFO] Bound socket to port %d\n", PORT);
+        if (verbose){
+            printf("[INFO] Bound socket to port %d\n", PORT);
+        }
     }
 
+    char buffer[DATAGRAM_SIZE_LIMIT];
     while (running) {
         //Receiving string via UDP socket
         unsigned int size = sizeof(clientAddress);
@@ -60,12 +66,15 @@ void* UDPSocketServer(void* vargp) {
         memcpy(path, &buffer[2], length - 2);
         path[length - 2] = '\0';
 
-        printf("received %s\n", path);
-
         //Forming answer
         char answer[DATAGRAM_SIZE_LIMIT];
         if (immediately) {
-            sprintf(answer, "[INFO] Playing [%s] now!\n", path);
+            //sprintf(answer, "[INFO] Playing [%s] now!\n", path);
+            sprintf(answer, "[INFO] Immediate playback is not yet supported!\n");
+            if (verbose){
+                printf("%s", answer);
+            }
+
             //todo: play now
         } else {
             if (addToStack(path)) {
@@ -75,12 +84,13 @@ void* UDPSocketServer(void* vargp) {
             }
         }
 
-        //Printing out and sending back answer
-        printf("%s", answer);
+        //Sending answer back
         sendto(sockfd, answer, strlen(answer), MSG_CONFIRM, (const struct sockaddr*) &clientAddress, size);
     }
 
-    printf("[INFO] Shutting down UDP socket server on port %d\n", PORT);
+    if (verbose){
+        printf("[INFO] Shutting down UDP socket server on port %d\n", PORT);
+    }
     return NULL;
 }
 

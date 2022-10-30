@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <string.h>
+
 #include "tasbot.h"
 #include "gif.h"
 #include "arguments.h"
@@ -59,15 +60,12 @@ void fillStack(char* _sourceFolder) {
         getFileList(_sourceFolder, list);
 
         for (int i = 0; i < fileCount; ++i) {
-            char* path = malloc(strlen(list[index[i]]) + 1);
-            strcpy(path, list[index[i]]);
-
-            addToStack(path);
+            char* filePath = getFilePath(pathForAnimations, list[index[i]]);
+            addToStack(filePath);
         }
     }
 }
 
-//todo: use this also in networking
 /**
  * Add a given path to the animation stack
  * @param _path Path to an animation that's allocated in memory already!
@@ -76,7 +74,9 @@ bool addToStack(char* _path) {
     bool result;
     if (push(_path)) {
         char* speek = (char*) peek();
-        printf("[INFO] Successfully added (%s) to animation stack\n", speek); //Using peeked value to reinsure it got added properly
+        if (verbose){
+            printf("[INFO] Successfully added (%s) to animation stack\n", speek); //Using peeked value to reinsure it got added properly
+        }
         result = true;
     } else{
         printf("[WARNING] Failed to add (%s) to animation stack. Stack most likely full\n", _path);
@@ -84,7 +84,6 @@ bool addToStack(char* _path) {
     }
 
     return result;
-    //todo: consume and free
 }
 
 /**

@@ -12,7 +12,6 @@
 extern bool running;
 
 void* UDPSocketServer(void* vargp);
-void processRequest(char* _message);
 void startServer();
 
 #endif //TASBOT_EYES_NETWORK_H

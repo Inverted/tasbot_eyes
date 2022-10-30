@@ -1,5 +1,6 @@
 # tasbot_eyes
 
+
 ## Dependencies and credit
 
 * jgarff's rpi_ws281x lib under the BSD 2-Clause "Simplified" License, project found
@@ -7,12 +8,14 @@
 * Eric S. Raymond's GIFLIB under "an X Consortium-like open-source license", project found
   [here](http://giflib.sourceforge.net/)
 
+
 ## Install
 
 1. Clone, compile and install the rpi_ws281x lib (requires cmake)
 2. Download, compile and install GIFLIB (found [here](https://sourceforge.net/projects/giflib/) on SourceForge, requires make)
 3. Clone and compile this repo (requires cmake)  
    :warning: **ATTENTION**: When compiling for real TASBot, make sure `bool realTASBot` ist set to `true` (it is by default)
+
 
 ## How it works
 
@@ -24,6 +27,7 @@ The program looks within its current working directory, for a folder called `gif
 | `./gifs/blinks`      | Here are all blinking animations, the program can choose from                             |
 | `./gifs/base.gif`    | The frame, TASBots expression always returns to between the animations and blinks         |
 | `./gifs/startup.gif` | The animation, that gets played exactly once, when the eye starts                         |
+
 
 ### Abstract program flow
 
@@ -42,6 +46,7 @@ The program looks within its current working directory, for a folder called `gif
     * Check if the animation has its own color. If not, choose a random one and overwrite all set pixels
 6. Go to 1.
 
+
 ### About blink patterns
 
 It can be defined, how many times at most TASBot blinks between every random animation, but at least always once (if pattern is not making skipping them, e.g. `0-x-y`). It can also be defined, how long are the periods are between the blinks.  
@@ -53,16 +58,28 @@ It can be defined, how many times at most TASBot blinks between every random ani
 
 The actual amount of seconds the program sleeps between the blinks is randomly generated in milliseconds. In this example, TASBot could wait _4581 ms_, just as _5987 ms_. He could blink at least once, but at most 3 times, before the next random animation
 
+
 ## Usage
 
 See the build-in `-h` option or [`arguments.c:233`](https://github.com/R3tr0BoiDX/tasbot_eyes/blob/develop-branch/arguments.c#L233) to get an overview of all available arguments. There are some for changing the playback speed, setting the data pin, playing a specific animation and many more!
 
-## Create color palette
+
+### Create color palette
 
 Color palettes are the random colors TASBot can choose from when playing a monochrome animation and colorful mode is activated. To create a color palette, you can either:
 
 * Use the [*TAS**B**ot **E**ye **C**olor **A**nalyzing **U**niquified **S**earch **E**ngine (BECAUSE)*](https://github.com/R3tr0BoiDX/TASBot-Toolkit#because) to create a color palette based on an image
 * Paste the desired hex palette into a plain text document **WITHOUT** the leading '#'. For example, a valid entry for a  pale red would be `E78587` (no '#' in front). One color per line. BECAUSE creates `.tbp` files, but those are just text files. File extension not required.
+
+
+### Inject animation
+To inject any animation :warning: **that is already stored on TASBot** :warning: send a UDP datagram to 8080. An abstract payload could look like `T;animation.gif`.
+* `T` is the playback style, how the animation gets played. It can either be:
+  * `Q` for queueing the animation by adding it on top of the current animation stack. It will be the next animation to be played after the blinks.
+  * `I` for immediate playback. Stops the current animation and plays this. :warning: Not implemented yet!
+* `animation.gif` is a locally, already on TASBot stored animation! Full or relative paths are supported, as long as the file exists on TASBot!
+
+To make injecting animations easier, you can use the [**An**imation **Inj**ector **A**lpha (aNinja)](https://github.com/R3tr0BoiDX/TASBot-Toolkit#aninja) from the TASBot-Eyes-Toolkit if you want to.
 
 
 ## Known problems
@@ -80,6 +97,7 @@ Color palettes are the random colors TASBot can choose from when playing a monoc
 * Argument to change the base frame
 * Loop argument for single frame mode
 * Replace all `char*` resp. `char[]` with `string_t` 
+
 
 # Thanks to
 

@@ -47,7 +47,7 @@ void parseArguments(int _argc, char** _argv) {
                 break;
             case 'X':
                 realTASBot = false;
-                printf("[INFO] SECRET NOT TASBot MODE. FOR DEBUGGING ONLY!\n");
+                printf("[INFO] SECRET **NOT** TASBot MODE. FOR DEBUGGING ONLY!\n");
                 break;
             case 'u':
                 skipStartupAnimation = true;

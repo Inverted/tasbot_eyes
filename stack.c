@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "stack.h"
+#include "arguments.h"
 
 int top = -1;
 void* stack[MAX_SIZE];
@@ -32,7 +33,9 @@ void* pop() {
     if (!isEmpty()) {
         void* item = stack[top];
         top--;
-        printf("[INFO] Stack size is now %d\n", top);
+        if (verbose){
+            printf("[INFO] Stack size is now %d\n", top);
+        }
         return item;
     }
 
@@ -43,7 +46,9 @@ void* pop() {
 bool push(void* _item) {
     if (!isFull()) {
         top++;
-        printf("[INFO] Stack size is now %d\n", top);
+        if (verbose){
+            printf("[INFO] Stack size is now %d\n", top);
+        }
         stack[top] = _item; //not the same object
 
         return true;
