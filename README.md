@@ -96,7 +96,6 @@ To make injecting animations easier, you can use the [**An**imation **Inj**ector
 * Debate on, if during a blink cycle (a period between the random animations), TASBot should use the same blink animation for all blinks or if that should stay random like it is right now. This could further smooth out the appearance.
 * Argument to change the base frame
 * Loop argument for single frame mode
-* Replace all `char*` resp. `char[]` with `string_t` 
 
 
 # Thanks to
