@@ -73,7 +73,7 @@ Color palettes are the random colors TASBot can choose from when playing a monoc
 
 
 ### Inject animation
-To inject any animation :warning: **that is already stored on TASBot** :warning: send a UDP datagram to 8080. An abstract payload could look like `T;animation.gif`.
+To inject any animation :warning: **that is already stored on TASBot** :warning: send a UDP datagram to 8080. An abstract payload could look like `T;./path/to/animation.gif`.
 * `T` is the playback type, how the animation gets played. It can either be:
   * `Q` for queueing the animation by adding it on top of the current animation stack. It will be the next animation to be played after the blinks.
   * `I` for immediate playback. Stops the current animation and plays this. :warning: Not implemented yet!
