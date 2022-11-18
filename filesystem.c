@@ -116,8 +116,7 @@ bool getFileList(const char* _path, char* _out[]) {
         struct dirent* dir;
         while ((dir = readdir(d)) != NULL) {
             if (dir->d_type == DT_REG) {
-                _out[counter] = malloc(sizeof(char) * sizeof(dir->d_name) + 1);
-                strncpy(_out[counter], dir->d_name, sizeof(dir->d_name));
+                _out[counter] = strdup(dir->d_name);
                 counter++;
             }
         }
