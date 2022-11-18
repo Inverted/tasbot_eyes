@@ -102,8 +102,7 @@ To make injecting animations easier, you can use the [**An**imation **Inj**ector
 
 * *dwangoAC* letting me debug on real TASBot
 * *jakobrs* for the original eye software and the index translation table
-* *Inverted* for pointing out gamma correction
+* *Inverted* for pointing out gamma correction and helping fixing bugs
 * *HeavyPodda* for helping debugging
 * *CompuCat* helping with features
-* *Inverted* for helping fixing bugs
 * *Adafruit* for the gamma correction table
