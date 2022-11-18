@@ -26,9 +26,18 @@ void finish() {
         ws2811_render(&display);
         ws2811_fini(&display);
     }
-    free(pixel); //did this for good measurement, but I guess since next command is exit, this is unnecessary, since complete process memory get freed anyway?
 
-    //pthread_exit(NULL);
+    while (!isEmpty()) {
+        char* file = (char*) pop();
+        free(file);
+    }
+
+    free(pixel);
+    free(palette);
+
+    pthread_kill(server, SIGKILL);
+    pthread_exit(NULL);
+
     exit(EXIT_SUCCESS);
 }
 

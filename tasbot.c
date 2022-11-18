@@ -62,6 +62,7 @@ void fillStack(char* _sourceFolder) {
         for (int i = 0; i < fileCount; ++i) {
             char* filePath = getFilePath(pathForAnimations, list[index[i]]);
             addToStack(filePath);
+            free(list[index[i]]);
         }
     }
 }
@@ -105,6 +106,10 @@ void playRandomAnimationFromDirectory(char* _path, bool _useRandomColor, bool _r
         char* filePath = getFilePath(_path, file);
 
         playAnimationFromFilepath(filePath, _useRandomColor, _repeatAnimations);
+
+        for (int i = 0; i < fileCount; ++i) {
+            free(list[i]);
+        }
         free(filePath);
     } else {
         fprintf(stderr, "[ERROR] No files in %s. Please check directory\n", _path);
@@ -200,7 +205,7 @@ void playAnimation(Animation* _animation, bool _useRandomColor, bool _repeatAnim
             }
 
             showFrame(_animation->frames[i], color);
-            usleep((int) ((float) (_animation->frames[i]->delayTime * 1000) / playbackSpeed));
+            // usleep((int) ((float) (_animation->frames[i]->delayTime * 1000) / playbackSpeed));
         }
     }
 
