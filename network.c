@@ -13,6 +13,7 @@
 #include <pthread.h>
 
 bool running = true;
+pthread_t server;
 
 void* UDPSocketServer(void* vargp) {
 
@@ -95,7 +96,6 @@ void* UDPSocketServer(void* vargp) {
 }
 
 void startServer() {
-    pthread_t server;
     pthread_create(&server, NULL, UDPSocketServer, NULL);
     if (verbose){
         printf("[INFO] Started thread for UDP server with TID %lu\n", server);

@@ -2,6 +2,8 @@
 #define TASBOT_EYES_NETWORK_H
 
 #include <stdbool.h>
+#include <pthread.h>
+
 #include "utils.h"
 #include "filesystem.h"
 
@@ -10,6 +12,7 @@
 #define DATAGRAM_SIZE_LIMIT     (MAX_PATH_LENGTH+MAX_ANSWER_LENGTH)
 
 extern bool running;
+extern pthread_t server;
 
 void* UDPSocketServer(void* vargp);
 void startServer();
