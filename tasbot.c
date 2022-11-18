@@ -205,7 +205,7 @@ void playAnimation(Animation* _animation, bool _useRandomColor, bool _repeatAnim
             }
 
             showFrame(_animation->frames[i], color);
-            // usleep((int) ((float) (_animation->frames[i]->delayTime * 1000) / playbackSpeed));
+            usleep((int) ((float) (_animation->frames[i]->delayTime * 1000) / playbackSpeed));
         }
     }
 
