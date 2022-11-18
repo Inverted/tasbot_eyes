@@ -105,4 +105,5 @@ To make injecting animations easier, you can use the [**An**imation **Inj**ector
 * *Inverted* for pointing out gamma correction
 * *HeavyPodda* for helping debugging
 * *CompuCat* helping with features
+* *Inverted* for helping fixing bugs
 * *Adafruit* for the gamma correction table
