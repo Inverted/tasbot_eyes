@@ -73,7 +73,7 @@ ws2811_return_t renderLEDs(){
         for (int y = 0; y < LED_HEIGHT; y++) {
 
             //rainbow mode color fade
-            if (rainbowMode && buffer[(y * LED_WIDTH) + x] > 0){
+            if (rainbowMode && buffer[(y * LED_WIDTH) + x] == 0xffffff){
 
                 float rgb[3];
                 hsv2rgb(hueToFloat(hue), 1, 1, rgb);
