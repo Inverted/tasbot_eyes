@@ -40,8 +40,6 @@ unsigned int getBlinkDelay();
 unsigned int getBlinkAmount();
 char* getRandomAnimation(char* list[], int _count);
 
-unsigned int mapIndexToRenderer(int _x, int _y);
-
 float getLuminance(GifColorType* _color);
 void setNoseLED(unsigned int _index, GifColorType _color);
 

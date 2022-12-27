@@ -156,14 +156,12 @@ void receiveRealtimeControl(int sockfd) {
 
         lockBuffer();
         for (int i = 2; i < n; i += 3) {
-            if (verbose) {
-                GifColorType color;
-                color.Red = buffer[i];
-                color.Blue = buffer[i + 1];
-                color.Green = buffer[i + 2];
+            GifColorType color;
+            color.Red = buffer[i];
+            color.Blue = buffer[i + 1];
+            color.Green = buffer[i + 2];
 
-                setNoseLED(i/3, color);
-            }
+            setNoseLED(i/3, color);
         }
         unlockBuffer();
         renderLEDs();
