@@ -243,7 +243,7 @@ void setBufferAtIndex(unsigned int _x, unsigned int _y, ws2811_led_t _color) {
  */
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
 
-    lockBuffer();
+//    lockBuffer();
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
 
@@ -287,7 +287,7 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
             printf("\n");
         }
     }
-    unlockBuffer();
+    //unlockBuffer();
 
     if (activateLEDModule) {
         renderLEDs();

@@ -68,13 +68,13 @@ void initLEDs() {
  */
 ws2811_return_t renderLEDs() {
 
-    lockBuffer();
+    //lockBuffer();
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
             display.channel[0].leds[(y * LED_WIDTH) + x] = buffer[(y * LED_WIDTH) + x];
         }
     }
-    unlockBuffer();
+    //unlockBuffer();
 
     ws2811_return_t r;
     if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
@@ -89,15 +89,17 @@ ws2811_return_t renderLEDs() {
 }
 
 void lockBuffer() {
-    //pthread_mutex_lock(&bufferMutex);
+    pthread_mutex_lock(&bufferMutex);
 }
 
 void setSpecificPixel(unsigned int _index, ws2811_led_t _color) {
+    lockBuffer();
     buffer[_index] = _color;
+    unlockBuffer();
 }
 
 void unlockBuffer() {
-    //pthread_mutex_unlock(&bufferMutex);
+    pthread_mutex_unlock(&bufferMutex);
 }
 
 /**
