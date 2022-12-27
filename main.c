@@ -157,6 +157,10 @@ int main(int _argc, char** _argv) {
 
     if (useRealtimeControl){
         startRealtimeControlServer();
+        if (verbose){
+            printf("[WARNING] Can't use verbose mode with realtime control, as the logging adds to muc overhead. Turning it off");
+            verbose = false;
+        }
     }
 
     /*

@@ -154,11 +154,8 @@ void receiveRealtimeControl(int sockfd) {
         while ((n = recvfrom(sockfd, recvBuffer, DATAGRAM_SIZE_LIMIT_REALTIME, MSG_DONTWAIT, (struct sockaddr*) &cliaddr, &clilen)) > 0) {
             recvBuffer[n] = '\0';
 
-            if (verbose){
-                printf("[INFO] Received datagram with: Mode: %d, Timeout: %d\n", recvBuffer[0], recvBuffer[1]);
-            }
-
             if (recvBuffer[0] == 2){ //ensure right mode
+
                 lockBuffer();
                 for (int i = 2; i < n; i += 3) {
                     GifColorType color;
