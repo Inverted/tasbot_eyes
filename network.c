@@ -149,6 +149,8 @@ void receiveRealtimeControl(int sockfd) {
     // Receive data from the client
     unsigned char recvBuffer[DATAGRAM_SIZE_LIMIT_REALTIME];
     long n;
+
+    printf("lool\n");
     while ((n = recvfrom(sockfd, recvBuffer, DATAGRAM_SIZE_LIMIT_REALTIME, MSG_DONTWAIT, (struct sockaddr*) &cliaddr, &clilen)) > 0) {
         recvBuffer[n] = '\0';
 
