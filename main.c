@@ -155,7 +155,11 @@ int main(int _argc, char** _argv) {
     initLEDs();
     startAnimationInjectionServer();
 
+    //Start rendering
     startRenderThread();
+    if (rainbowMode){
+        startHueThread();
+    }
 
     if (useRealtimeControl){
         if (verbose){

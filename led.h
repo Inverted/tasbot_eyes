@@ -16,22 +16,21 @@
 #define LED_WIDTH               28
 #define LED_COUNT               (LED_WIDTH * LED_HEIGHT)
 
+#define RENDER_DELAY            10 //ms
+
 extern int brightness;
 extern int dataPin;
 
 extern ws2811_led_t* buffer;
 extern ws2811_t display;
+extern pthread_t renderThread;
 
 void initLEDs();
-ws2811_return_t renderLEDs();
 ws2811_return_t clearLEDs();
 ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection);
 
-//todo: discard
-void setSpecificPixel(unsigned int _index, ws2811_led_t _color);
-
-//todo
+//render thread
 void startRenderThread();
-void* runRenderThread(void* vargp);
+void* renderLEDs(void* vargp);
 
 #endif //TASBOT_EYES_LED_H

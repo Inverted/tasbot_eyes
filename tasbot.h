@@ -9,9 +9,11 @@
 #define FIELD_WIDTH             8
 #define FIELD_HEIGHT            6
 
-#define MAX_BLINKS              4                       //How many times does TASBot blink between animations
-#define MIN_TIME_BETWEEN_BLINKS 4                       //Based on human numbers. We Blink about every 4 to 6 seconds
+#define MAX_BLINKS              4 //How many times does TASBot blink between animations
+#define MIN_TIME_BETWEEN_BLINKS 4 //Based on human numbers. We Blink about every 4 to 6 seconds
 #define MAX_TIME_BETWEEN_BLINKS 6
+
+#define HUE_THREAD_SLEEP        100 //ms
 
 extern int TASBotIndex[8][28];
 
@@ -19,14 +21,16 @@ extern int maxBlinks;
 extern int minTimeBetweenBlinks;
 extern int maxTimeBetweenBlinks;
 extern int repetitions;
-extern int* hue; //todo: separate thread for resp. hue calculation and rendering
 extern float playbackSpeed;
 extern ws2811_led_t defaultColor;
 extern bool playbackSpeedAffectBlinks;
 extern bool useGammaCorrection;
 extern bool useRandomColors;
 extern bool useRandomColorsForAll;
-extern bool rainbowMode; //todo: too
+
+extern bool rainbowMode;
+extern int hue; //max 255
+extern pthread_t hueThread;
 
 //stack
 void fillStack(char* _sourceFolder);
@@ -50,6 +54,8 @@ void setNoseLED(unsigned int _index, GifColorType _color);
 
 //misc
 float getLuminance(GifColorType* _color);
+void startHueThread();
+void* fadeHue(void* vargp);
 
 //Debug
 unsigned int ledMatrixTranslation(unsigned int _x, unsigned int _y);

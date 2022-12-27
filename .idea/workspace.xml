@@ -25,16 +25,19 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Removed mutex again">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Offload rendering to dedicated thread">
+      <change afterPath="$PROJECT_DIR$/misc/colorchord.conf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arguments.c" beforeDir="false" afterPath="$PROJECT_DIR$/arguments.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arguments.h" beforeDir="false" afterPath="$PROJECT_DIR$/arguments.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/filesystem.c" beforeDir="false" afterPath="$PROJECT_DIR$/filesystem.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gif.c" beforeDir="false" afterPath="$PROJECT_DIR$/gif.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/led.c" beforeDir="false" afterPath="$PROJECT_DIR$/led.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/led.h" beforeDir="false" afterPath="$PROJECT_DIR$/led.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network.c" beforeDir="false" afterPath="$PROJECT_DIR$/network.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network.h" beforeDir="false" afterPath="$PROJECT_DIR$/network.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/palette.c" beforeDir="false" afterPath="$PROJECT_DIR$/palette.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasbot.h" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,6 +111,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/misc" />
       <recent name="$PROJECT_DIR$/cmake-build-debug/gifs" />
       <recent name="$PROJECT_DIR$/cmake-build-debug/gifs/others" />
     </key>
@@ -175,14 +179,7 @@
       <workItem from="1667120992419" duration="6179000" />
       <workItem from="1672139564497" duration="11693000" />
       <workItem from="1672156575122" duration="2199000" />
-      <workItem from="1672165176728" duration="6389000" />
-    </task>
-    <task id="LOCAL-00161" summary="Updates">
-      <created>1656292296062</created>
-      <option name="number" value="00161" />
-      <option name="presentableId" value="LOCAL-00161" />
-      <option name="project" value="LOCAL" />
-      <updated>1656292296062</updated>
+      <workItem from="1672165176728" duration="11707000" />
     </task>
     <task id="LOCAL-00162" summary="Updates">
       <created>1656292806704</created>
@@ -520,7 +517,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672170808069</updated>
     </task>
-    <option name="localTasksCounter" value="210" />
+    <task id="LOCAL-00210" summary="Offload rendering to dedicated thread">
+      <created>1672171618862</created>
+      <option name="number" value="00210" />
+      <option name="presentableId" value="LOCAL-00210" />
+      <option name="project" value="LOCAL" />
+      <updated>1672171618862</updated>
+    </task>
+    <option name="localTasksCounter" value="211" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -538,7 +542,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added fixes made my CompuCat" />
     <MESSAGE value="Partial added new features. Not fully integrated yet." />
     <MESSAGE value="filesystem.h is now using the string_t type. WARNING: Something prevents loading the blink animation. Thats for next week" />
     <MESSAGE value="Added some todos. WARNING: still faulty" />
@@ -563,7 +566,8 @@
     <MESSAGE value="Revived mutex lock" />
     <MESSAGE value="And there it goes againnn...." />
     <MESSAGE value="Removed mutex again" />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed mutex again" />
+    <MESSAGE value="Offload rendering to dedicated thread" />
+    <option name="LAST_COMMIT_MESSAGE" value="Offload rendering to dedicated thread" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

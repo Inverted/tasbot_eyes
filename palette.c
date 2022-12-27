@@ -42,7 +42,7 @@ void readPalette(char* _path) {
     }
 
     paletteCount = colorCount;
-    palette = pal; //todo: return pal instead of setting like this?
+    palette = pal;
 }
 
 /**

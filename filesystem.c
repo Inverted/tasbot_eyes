@@ -68,7 +68,7 @@ void readFile(const char* _path, int _count, char* _out[]) {
 
     //Read line after line into give array
     for (int i = 0; i < _count; i++) {
-        _out[i] = malloc(sizeof(unsigned int)); //todo: is this freed?
+        _out[i] = malloc(sizeof(unsigned int));
         if (!_out[i]) {
             failExit("[ERROR] readFile: Failed to allocate memory for reading file");
         }

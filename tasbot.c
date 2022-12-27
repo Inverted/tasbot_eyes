@@ -30,15 +30,36 @@ int maxBlinks = MAX_BLINKS;
 int minTimeBetweenBlinks = MIN_TIME_BETWEEN_BLINKS;
 int maxTimeBetweenBlinks = MAX_TIME_BETWEEN_BLINKS;
 int repetitions = 1;
-int* hue;
 float playbackSpeed = 1;
 ws2811_led_t defaultColor = -1;
 bool playbackSpeedAffectBlinks = false;
 bool useGammaCorrection = false;
 bool useRandomColors = false;
 bool useRandomColorsForAll = false;
-bool rainbowMode = false;
 
+int hue;
+bool rainbowMode = false;
+pthread_t hueThread;
+
+void* fadeHue(void* vargp) {
+    while (running){
+        if (hue < 255){
+            hue++;
+        } else {
+            hue = 0;
+        }
+        usleep(HUE_THREAD_SLEEP * 1000);
+    }
+
+    return NULL;
+}
+
+void startHueThread() {
+    pthread_create(&hueThread, NULL, fadeHue, NULL);
+    if (verbose) {
+        printf("[INFO] Started thread for hue fading with TID %lu\n", hueThread);
+    }
+}
 
 void fillStack(char* _sourceFolder) {
     int fileCount = countFilesInDir(_sourceFolder); //get file count
@@ -195,7 +216,7 @@ void playAnimation(Animation* _animation, bool _useRandomColor, bool _repeatAnim
 
             if (rainMode && randColor) {
                 float rgb[3];
-                hsv2rgb(hueToFloat(*hue), 1, 1, rgb);
+                hsv2rgb(hueToFloat(hue), 1, 1, rgb);
 
                 GifColorType rgbColor;
                 rgbColor.Red = valueToInt(rgb[0]);
@@ -225,12 +246,10 @@ void setBufferAtIndex(unsigned int _x, unsigned int _y, ws2811_led_t _color) {
         if (realTASBot) {
             int index = TASBotIndex[_y][_x];
             if (index >= 0) {
-                setSpecificPixel(index, _color);
-                //buffer[index] = color;
+                buffer[index] = _color;
             }
         } else {
-            setSpecificPixel(ledMatrixTranslation(_x, _y), _color);
-            //buffer[ledMatrixTranslation(x, y)] = color;
+            buffer[ledMatrixTranslation(_x, _y)] = _color;
         }
     }
 }
@@ -242,8 +261,6 @@ void setBufferAtIndex(unsigned int _x, unsigned int _y, ws2811_led_t _color) {
  * animation is monochrome. Otherwise, it's NULL and used to indicate, that animation has its own color.
  */
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
-
-//    lockBuffer();
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
 
@@ -286,10 +303,6 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
         if (consoleRenderer) {
             printf("\n");
         }
-    }
-
-    if (activateLEDModule) {
-        //renderLEDs(); //todo
     }
 }
 

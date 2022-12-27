@@ -13,7 +13,7 @@ int dataPin = GPIO_PIN;
 ws2811_led_t* buffer;
 ws2811_t display;
 
-pthread_mutex_t bufferMutex;
+pthread_t renderThread;
 
 /**
  * Initialize the LEDs and their data structure
@@ -63,16 +63,11 @@ void initLEDs() {
     }
 }
 
-pthread_t renderThread;
-#define RENDER_DELAY 10 //ms
-
 /**
  * Updates the display's hardware LEDs color to the local buffer variables array
  * @return Infos about, if the LEDs where rendered successful
  */
-ws2811_return_t renderLEDs() {
-    //todo: render thread
-
+void* renderLEDs(void* vargp) {
     while (running){
         for (int x = 0; x < LED_WIDTH; x++) {
             for (int y = 0; y < LED_HEIGHT; y++) {
@@ -96,20 +91,11 @@ ws2811_return_t renderLEDs() {
     //return r;
 }
 
-void* runRenderThread(void* vargp) {
-    renderLEDs();
-    return NULL;
-}
-
 void startRenderThread() {
-    pthread_create(&renderThread, NULL, runRenderThread, NULL);
+    pthread_create(&renderThread, NULL, renderLEDs, NULL);
     if (verbose) {
         printf("[INFO] Started thread for rendering with TID %lu\n", renderThread);
     }
-}
-
-void setSpecificPixel(unsigned int _index, ws2811_led_t _color) {
-    buffer[_index] = _color;
 }
 
 /**
@@ -117,7 +103,7 @@ void setSpecificPixel(unsigned int _index, ws2811_led_t _color) {
  */
 ws2811_return_t clearLEDs() {
     for (size_t i = 0; i < (size_t) LED_COUNT; i++) {
-        setSpecificPixel(i, 0);
+        buffer[i] = 0;
     }
     //return renderLEDs();
     return 0; //todo

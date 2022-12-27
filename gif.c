@@ -54,9 +54,6 @@ Animation* readAnimation(char* _filePath) {
         }
 
         //Process frames
-        /*todo: valgrind says: 27,268 (24 direct, 27,244 indirect) bytes in 1 blocks are definitely lost in loss record 16 of 16
-         * however, tasbot.c:freeAnimation() should free all of the animation structure?
-         */
         animation = malloc(sizeof(Animation));
         if (!animation) {
             failExit("[ERROR] readAnimation: Failed to allocate memory for Animation structure");

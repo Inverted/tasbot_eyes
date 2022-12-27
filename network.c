@@ -163,7 +163,6 @@ void receiveRealtimeControl(int sockfd) {
 
                     setNoseLED(i/3, color);
                 }
-                //renderLEDs(); //todo
 
                 //todo: do something with timeout
             }
