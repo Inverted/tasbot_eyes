@@ -330,6 +330,8 @@ void setNoseLED(unsigned int _index, GifColorType _color) {
         //x += MIN+1
         unsigned int x = (NOSE_RANGE_MIN + 1) + (_index % FIELD_WIDTH);
 
+        printf("x: %d, y: %d\n", x,y);
+
         ws2811_led_t color = translateColor(&_color, false);
         setBufferAtIndex(x, y, color);
 
