@@ -112,7 +112,7 @@ Animation* readAnimation(char* _filePath) {
 }
 
 /**
- * Read the pixel of an animation frame and parse it into a data structure.
+ * Read the buffer of an animation frame and parse it into a data structure.
  * @param frame
  * @param _globalMap
  * @param _monochrome

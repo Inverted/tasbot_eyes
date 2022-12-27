@@ -13,6 +13,7 @@
 bool verbose = false;
 bool consoleRenderer = false;
 bool skipStartupAnimation = false;
+bool useRealtimeControl = false;
 char* specificAnimationToShow = NULL;
 
 //Debug
@@ -24,7 +25,7 @@ bool realTASBot = true;
  */
 void parseArguments(int _argc, char** _argv) {
     int c;
-    while ((c = getopt(_argc, _argv, "XhvgwruacDd:b:s:B:i:p:z:P:C:R:")) != -1) {
+    while ((c = getopt(_argc, _argv, "XhvgwWruacDd:b:s:B:i:p:z:P:C:R:")) != -1) {
         switch (c) {
             case 'h':
                 printHelp();
@@ -52,6 +53,10 @@ void parseArguments(int _argc, char** _argv) {
             case 'u':
                 skipStartupAnimation = true;
                 printf("[INFO] Skip startup animation\n");
+                break;
+            case 'W':
+                useRealtimeControl = true;
+                printf("[INFO] Using realtime control for centered LEDs\n");
                 break;
 
             case 'd': {
@@ -240,6 +245,7 @@ void printHelp() {
     printf("-D               Let the playback speed affect blink delay\n");
     printf("-u               Skip the startup animation\n");
     printf("-R               Set how many times a animation should be repeated. Default is 1\n");
+    printf("-W               Use the WLED UDP realtime control for the centered \"nose\" LEDs\n");
     printf("-B [PATTERN]     Controls the blinks. Highest number that can be used within the pattern is 9\n");
     printf("                 -1st: Maximum number of blinks between animations\n");
     printf("                 -2nd: Minimum seconds between blinks\n");
@@ -255,6 +261,6 @@ void printHelp() {
     printf("-P [FILE PATH]   Use color palette from text file. For formatting of palette file use tool or see example.\n");
 
     printf("\n===[Hints]===\n");
-    printf("- To bring TASBot in a state, where he is only blinking, execute with argument \"-p ./gifs/blinks/\". This will narrow all possible options for animations down to blinking ones, while keeping the support for blink patterns and the usual appearance. To further improve appearance, don't use with -c option.\n\n");
+    printf("- To bring TASBot in a state, where he is only blinking, execute with argument \"-p ./gifs/blinks/\". This will narrow all possible options for animations down to blinking ones, while keeping the support for blink patterns and the usual appearance. To further improve appearance, don't use with the -c argument.\n\n");
     printf("- Use different working directories as \"profiles\". This way, you could feature different sets of animations with different base frames if needed.\n");
 }

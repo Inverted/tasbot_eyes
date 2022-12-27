@@ -4,6 +4,11 @@
 #include "gif.h"
 #include "utils.h"
 
+#define NOSE_RANGE_MIN          9
+#define NOSE_RANGE_MAX          18
+#define FIELD_WIDTH             8
+#define FIELD_HEIGHT            6
+
 #define MAX_BLINKS              4                       //How many times does TASBot blink between animations
 #define MIN_TIME_BETWEEN_BLINKS 4                       //Based on human numbers. We Blink about every 4 to 6 seconds
 #define MAX_TIME_BETWEEN_BLINKS 6
@@ -21,7 +26,7 @@ extern bool playbackSpeedAffectBlinks;
 extern bool useGammaCorrection;
 extern bool useRandomColors;
 extern bool useRandomColorsForAll;
-extern bool rainbowMode; //todo too
+extern bool rainbowMode; //todo: too
 
 void fillStack(char* _sourceFolder);
 bool addToStack(char* _path);
@@ -35,10 +40,13 @@ unsigned int getBlinkDelay();
 unsigned int getBlinkAmount();
 char* getRandomAnimation(char* list[], int _count);
 
+unsigned int mapIndexToRenderer(int _x, int _y);
+
 float getLuminance(GifColorType* _color);
+void setNoseLED(unsigned int _index, GifColorType _color);
 
 //Debug
-unsigned int ledMatrixTranslation(int _x, int _y);
+unsigned int ledMatrixTranslation(unsigned int _x, unsigned int _y);
 bool numberIsEven(int _number);
 
 #endif //TASBOT_EYES_TASBOT_H

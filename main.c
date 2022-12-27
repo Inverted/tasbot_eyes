@@ -20,7 +20,7 @@
 void finish() {
     printf("\n"); //pretty uwu
 
-    running = false;
+    runningInject = false;
     if (activateLEDModule) {
         clearLEDs();
         ws2811_render(&display);
@@ -32,10 +32,10 @@ void finish() {
         free(file);
     }
 
-    free(pixel);
+    free(buffer);
     free(palette);
 
-    pthread_kill(server, SIGKILL);
+    pthread_kill(serverInject, SIGKILL);
     pthread_exit(NULL);
 
     exit(EXIT_SUCCESS);
@@ -90,7 +90,7 @@ void initBlinking() {
 
 void specificAnimation() {
     if (specificAnimationToShow != NULL) {
-        while (running) {
+        while (runningInject) {
             playAnimationFromFilepath(specificAnimationToShow, false, false);
         }
     }
@@ -98,7 +98,7 @@ void specificAnimation() {
 
 void tasbotsEyes() {
     bool firstIteration = true;
-    while (running) {
+    while (runningInject) {
 
         //play startup animation in first iteration
         if (!firstIteration) {
@@ -155,7 +155,11 @@ int main(int _argc, char** _argv) {
     initPalette();
     initBlinking();
     initLEDs();
-    startServer();
+    startAnimationInjectionServer();
+
+    if (useRealtimeControl){
+        //startRealtimeControlServer();
+    }
 
     //Option for playing a given specific animation
     specificAnimation();

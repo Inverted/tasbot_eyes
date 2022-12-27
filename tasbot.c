@@ -75,11 +75,12 @@ bool addToStack(char* _path) {
     bool result;
     if (push(_path)) {
         char* speek = (char*) peek();
-        if (verbose){
-            printf("[INFO] Successfully added (%s) to animation stack\n", speek); //Using peeked value to reinsure it got added properly
+        if (verbose) {
+            printf("[INFO] Successfully added (%s) to animation stack\n",
+                   speek); //Using peeked value to reinsure it got added properly
         }
         result = true;
-    } else{
+    } else {
         printf("[WARNING] Failed to add (%s) to animation stack. Stack most likely full\n", _path);
         result = false;
     }
@@ -214,51 +215,67 @@ void playAnimation(Animation* _animation, bool _useRandomColor, bool _repeatAnim
 }
 
 /**
- * Output the pixel data to the LED data structure, which then gets rendered.
+ * Output the buffer data to the LED data structure, which then gets rendered.
  * @param _frame The frame, that is to render
- * @param _color The color, which should overwrite the actual color data from the frame and only used, when the animation is monochrome. Otherwise, it's NULL and used to indicate, that animation has its own color.
+ * @param _color The color, which should overwrite the actual color data from the frame and only used, when the
+ * animation is monochrome. Otherwise, it's NULL and used to indicate, that animation has its own color.
  */
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
+
+    if (activateLEDModule) {
+        lockBuffer();
+    }
+
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
-            GifColorType* gifColor = _frame->color[x][y];
-            ws2811_led_t color;
 
-            if (activateLEDModule) {
-                if (_color == 0) {
-                    color = translateColor(gifColor, useGammaCorrection);
-                } else {
-                    if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
-                        color = _color;
-                        //TODO: Adjust to brightness of gifColor given in GIF
-                        // Right now it's flat the same gifColor to all pixels, that just _aren't_ black
-                        // Use function getLuminance() for that
+            bool centerPixel = x >= NOSE_RANGE_MIN && x <= NOSE_RANGE_MAX;
+
+            //when we ain't using the real time control, and it's not a center buffer
+            if (!(useRealtimeControl && centerPixel)) {
+
+                GifColorType* gifColor = _frame->color[x][y];
+                ws2811_led_t color;
+
+                if (activateLEDModule) {
+                    if (_color == 0) {
+                        color = translateColor(gifColor, useGammaCorrection);
                     } else {
-                        color = 0;
+                        if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
+                            color = _color;
+                            //todo: Adjust to brightness of gifColor given in GIF
+                            // Right now it's flat the same gifColor to all pixels, that just _aren't_ black
+                            // Use function getLuminance() for that
+                        } else {
+                            color = 0;
+                        }
                     }
                 }
-            }
 
-            //Map color to pixel based on given render device
-            if (activateLEDModule) {
-                if (realTASBot) {
-                    int index = TASBotIndex[y][x];
-                    if (index >= 0) {
-                        pixel[index] = color;
+                //Map color to buffer based on given render device
+                if (activateLEDModule) {
+                    if (realTASBot) {
+                        int index = TASBotIndex[y][x];
+                        if (index >= 0) {
+                            setSpecificPixel(index, color);
+                            //buffer[index] = color;
+                        }
+                    } else {
+                        setSpecificPixel(ledMatrixTranslation(x, y), color);
+                        //buffer[ledMatrixTranslation(x, y)] = color;
                     }
-                } else {
-                    pixel[ledMatrixTranslation(x, y)] = color;
                 }
-            }
 
-
-            //Debug renderer
-            if (consoleRenderer) {
-                if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
-                    printf("x");
-                } else {
-                    printf(" ");
+                //Debug renderer
+                if (consoleRenderer) {
+                    if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
+                        printf("█");
+                    } else {
+                        printf(" ");
+                    }
                 }
+            } else if (consoleRenderer) {
+                printf("░");
             }
         }
         if (consoleRenderer) {
@@ -267,7 +284,53 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
     }
 
     if (activateLEDModule) {
+        unlockBuffer();
         renderLEDs();
+    }
+}
+
+void setNoseLED(unsigned int _index, GifColorType _color) {
+    /*
+     * y=
+     * 0 -> 0
+     * 1 -> 1
+     *
+     * 2 -> 3
+     * 3 -> 4
+     *
+     * 4 -> 6
+     * 5 -> 7
+     */
+
+    unsigned int y = _index / FIELD_WIDTH;
+    switch (y) {
+        case 2:
+        case 3:
+            y++;
+            break;
+        case 4:
+        case 5:
+            y += 2;
+            break;
+        default:
+            //default for shutting Clang-Tidy
+            break;
+    }
+
+    //x += MIN+1
+    unsigned int x = (NOSE_RANGE_MIN + 1) + (_index % FIELD_WIDTH);
+
+    ws2811_led_t color = translateColor(&_color, false);
+
+    if (activateLEDModule) {
+        if (realTASBot) {
+            int index = TASBotIndex[y][x];
+            if (index >= 0) {
+                setSpecificPixel(index, color);
+            }
+        } else {
+            setSpecificPixel(ledMatrixTranslation(x, y), color);
+        }
     }
 }
 
@@ -275,7 +338,6 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
  * Free up the allocated memory space for an animation
  * @param _animation The animation, that is to free from memory
  */
-//TODO: Can someone check please, if I got it right?
 void freeAnimation(Animation* _animation) {
     //dirty trick, close file here, after animation. That way DGifCloseFile() can't mess with the animation data
     int e = 0;
@@ -349,15 +411,16 @@ float getLuminance(GifColorType* _color) {
 
 //region Debug and Development
 /**
- * Converts pixel coordinate of a frame into the the actual coordinate for the 32x8 LED matrix R3tr0BoiDX aka Mirbro used during development
+ * Converts buffer coordinate of a frame into the the actual coordinate for the 32x8 LED matrix R3tr0BoiDX aka Mirbro used during development
  * @param _x x-coordinate of the frame
  * @param _y y-coordinate of the frame
  * @return index of the LED for a 32x8 LED matrix
  */
-unsigned int ledMatrixTranslation(int _x, int _y) {
+unsigned int ledMatrixTranslation(unsigned int _x, unsigned int _y) {
     if (numberIsEven(_x)) {
         return (_x * LED_HEIGHT + _y);
-    } //else
+    }
+
     return (_x * LED_HEIGHT + LED_HEIGHT - 1 - _y);
 }
 

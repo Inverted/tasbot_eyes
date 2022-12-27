@@ -3,6 +3,7 @@
 
 #include <ws2811/ws2811.h>
 #include <gif_lib.h>
+#include <pthread.h>
 
 #define GPIO_PIN                10
 #define TARGET_FREQ             WS2811_TARGET_FREQ      //800000 Kbps
@@ -18,12 +19,19 @@
 extern int brightness;
 extern int dataPin;
 
-extern ws2811_led_t* pixel; //todo: rename to buffer
+extern ws2811_led_t* buffer;
 extern ws2811_t display;
+
+extern pthread_mutex_t bufferMutex;
 
 void initLEDs();
 ws2811_return_t renderLEDs();
 ws2811_return_t clearLEDs();
 ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection);
+
+//set buffer (potentially thread safe)
+void lockBuffer();
+void setSpecificPixel(unsigned int _index, ws2811_led_t _color);
+void unlockBuffer();
 
 #endif //TASBOT_EYES_LED_H

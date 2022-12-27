@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "led.h"
 #include "color.h"
 #include "arguments.h"
@@ -8,8 +9,10 @@
 int brightness = BRIGHTNESS;
 int dataPin = GPIO_PIN;
 
-ws2811_led_t* pixel;
+ws2811_led_t* buffer;
 ws2811_t display;
+
+pthread_mutex_t bufferMutex;
 
 /**
  * Initialize the LEDs and their data structure
@@ -31,8 +34,8 @@ void initLEDs() {
         display.channel[0] = *channel; //todo: free at end
 
         //Setup color array
-        pixel = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
-        if (!pixel) {
+        buffer = malloc(sizeof(ws2811_led_t) * LED_WIDTH * LED_HEIGHT);
+        if (!buffer) {
             fprintf(stderr, "[ERROR] initLEDs: Failed to allocate memory for render buffer");
             exit(EXIT_FAILURE);
         }
@@ -60,15 +63,18 @@ void initLEDs() {
 }
 
 /**
- * Updates the display's hardware LEDs color to the local pixel variables array
+ * Updates the display's hardware LEDs color to the local buffer variables array
  * @return Infos about, if the LEDs where rendered successful
  */
 ws2811_return_t renderLEDs() {
+
+    lockBuffer();
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
-            display.channel[0].leds[(y * LED_WIDTH) + x] = pixel[y * LED_WIDTH + x];
+            display.channel[0].leds[(y * LED_WIDTH) + x] = buffer[(y * LED_WIDTH) + x];
         }
     }
+    unlockBuffer();
 
     ws2811_return_t r;
     if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
@@ -82,13 +88,27 @@ ws2811_return_t renderLEDs() {
     return r;
 }
 
+void lockBuffer() {
+    pthread_mutex_lock(&bufferMutex);
+}
+
+void setSpecificPixel(unsigned int _index, ws2811_led_t _color) {
+    buffer[_index] = _color;
+}
+
+void unlockBuffer() {
+    pthread_mutex_unlock(&bufferMutex);
+}
+
 /**
  * Clears all the LEDs by setting their color to black and renders it
  */
 ws2811_return_t clearLEDs() {
+    lockBuffer();
     for (size_t i = 0; i < (size_t) LED_COUNT; i++) {
-        pixel[i] = 0;
+        setSpecificPixel(i, 0);
     }
+    unlockBuffer();
     return renderLEDs();
 }
 
@@ -98,7 +118,7 @@ ws2811_return_t clearLEDs() {
  * @return The convert hexadecimal color
  */
 ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection) {
-    if (_useGammaCorrection) { //TODO: when used, breaks things
+    if (_useGammaCorrection) { //TODO: when used, things break
         _color->Red = gamma8[_color->Red];
         _color->Green = gamma8[_color->Green];
         _color->Blue = gamma8[_color->Blue];
