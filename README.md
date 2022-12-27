@@ -115,9 +115,9 @@ There's also an example ColorChord config file (`colorchord.conf`) in the `misc`
 
 # Thanks to
 
-* *dwangoAC* letting me debug on real TASBot
+* *dwangoAC* letting me debug on real TASBot and everything he's doing
 * *jakobrs* for the original eye software and the index translation table and helping
-* *Inverted* for pointing out gamma correction and helping fixing bugs
+* *Inverted* for pointing out gamma correction and helping to fix bugs
 * *HeavyPodda* for helping debugging
 * *CompuCat* helping with features
 * *Adafruit* for the gamma correction table
