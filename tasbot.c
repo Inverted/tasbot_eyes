@@ -49,7 +49,6 @@ void* fadeHue(void* vargp) {
             hue = 0;
         }
 
-        printf("hue is now %d\n", hue);
         usleep(HUE_THREAD_SLEEP * 1000);
     }
 

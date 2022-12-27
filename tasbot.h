@@ -13,7 +13,7 @@
 #define MIN_TIME_BETWEEN_BLINKS 4 //Based on human numbers. We Blink about every 4 to 6 seconds
 #define MAX_TIME_BETWEEN_BLINKS 6
 
-#define HUE_THREAD_SLEEP        100 //ms
+#define HUE_THREAD_SLEEP        10 //ms
 
 extern int TASBotIndex[8][28];
 
