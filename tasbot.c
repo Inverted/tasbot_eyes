@@ -44,7 +44,7 @@ pthread_t hueThread;
 
 void* fadeHue(void* vargp) {
     while (running){
-        if (hue < 255){
+        if (hue < HUE_MAX){
             hue++;
         } else {
             hue = 0;

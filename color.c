@@ -38,7 +38,7 @@ float mix(float a, float b, float t) { return a + (b - a) * t; }
 float constrain(float x, float low, float high) { return ((x) < (low) ? (low) : ((x) > (high) ? (high) : (x))); }
 
 float hueToFloat(int _hue) {
-    return (float) _hue / 255;
+    return (float) _hue / HUE_MAX;
 }
 
 int valueToInt(float _value) {

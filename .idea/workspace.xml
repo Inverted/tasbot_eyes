@@ -25,9 +25,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Added argument for fade speed and small cleanup">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Fixed option for fade speed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/arguments.c" beforeDir="false" afterPath="$PROJECT_DIR$/arguments.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/color.c" beforeDir="false" afterPath="$PROJECT_DIR$/color.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/color.h" beforeDir="false" afterPath="$PROJECT_DIR$/color.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -169,14 +171,7 @@
       <workItem from="1667120992419" duration="6179000" />
       <workItem from="1672139564497" duration="11693000" />
       <workItem from="1672156575122" duration="2199000" />
-      <workItem from="1672165176728" duration="15398000" />
-    </task>
-    <task id="LOCAL-00168" summary="filesystem.h is now using the string_t type. WARNING: Something prevents loading the blink animation. Thats for next week">
-      <created>1666531306030</created>
-      <option name="number" value="00168" />
-      <option name="presentableId" value="LOCAL-00168" />
-      <option name="project" value="LOCAL" />
-      <updated>1666531306030</updated>
+      <workItem from="1672165176728" duration="15714000" />
     </task>
     <task id="LOCAL-00169" summary="Added some todos. WARNING: still faulty">
       <created>1666532080355</created>
@@ -514,7 +509,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672181687009</updated>
     </task>
-    <option name="localTasksCounter" value="217" />
+    <task id="LOCAL-00217" summary="Fixed option for fade speed">
+      <created>1672182397197</created>
+      <option name="number" value="00217" />
+      <option name="presentableId" value="LOCAL-00217" />
+      <option name="project" value="LOCAL" />
+      <updated>1672182397197</updated>
+    </task>
+    <option name="localTasksCounter" value="218" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -532,7 +534,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Removed string_t, which caused too much trouble then helping. Working again." />
     <MESSAGE value="Removed string_t, which caused too much trouble then helping. Working again. Also removed rainbow mode for now again." />
     <MESSAGE value="Some smaller clean up" />
     <MESSAGE value="Valgrind note" />
@@ -557,7 +558,8 @@
     <MESSAGE value="Attempt to fix rainbow mode" />
     <MESSAGE value="Fixed cleanup on exit and made rainbow mode work" />
     <MESSAGE value="Added argument for fade speed and small cleanup" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added argument for fade speed and small cleanup" />
+    <MESSAGE value="Fixed option for fade speed" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed option for fade speed" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
