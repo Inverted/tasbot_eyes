@@ -5,7 +5,7 @@
 
 * jgarff's rpi_ws281x lib under the BSD 2-Clause "Simplified" License, project found
   [here](https://github.com/jgarff/rpi_ws281x)
-* Eric S. Raymond's GIFLIB under "an X Consortium-like open-source license", project found
+* Eric S. Raymond's GIFLIB under [a MIT like license](https://sourceforge.net/p/giflib/code/ci/master/tree/COPYING), project found
   [here](http://giflib.sourceforge.net/)
 
 
