@@ -148,9 +148,9 @@ void receiveRealtimeControl(int sockfd) {
 
     // Receive data from the client
     unsigned char recvBuffer[DATAGRAM_SIZE_LIMIT_REALTIME];
-    long n;
-
     printf("lool\n");
+
+    long n;
     while ((n = recvfrom(sockfd, recvBuffer, DATAGRAM_SIZE_LIMIT_REALTIME, MSG_DONTWAIT, (struct sockaddr*) &cliaddr, &clilen)) > 0) {
         recvBuffer[n] = '\0';
 
@@ -173,6 +173,7 @@ void receiveRealtimeControl(int sockfd) {
         //in order to ease the hardware a bit, sleep a tiny bit between every UDP package
         usleep(SLEEP_REALTIME * 1000);
     }
+    printf("%ld\n", n);
 }
 
 /**
