@@ -146,15 +146,13 @@ void receiveRealtimeControl(int sockfd) {
     struct sockaddr_in cliaddr;
     socklen_t clilen = sizeof(cliaddr);
 
-    printf("loooool");
-
     unsigned char buffer[DATAGRAM_SIZE_LIMIT_REALTIME];
     while (runningRealtime) {
         // Receive data from the client
         long n = recvfrom(sockfd, buffer, 1024, 0, (struct sockaddr*) &cliaddr, &clilen);
         buffer[n] = '\0';
 
-        //printf("[INFO] Mode: %d, Timeout: %d, ", buffer[0], buffer[1]);
+        printf("[INFO] Mode: %d, Timeout: %d\n", buffer[0], buffer[1]);
 
         lockBuffer();
         for (int i = 2; i < n; i += 3) {

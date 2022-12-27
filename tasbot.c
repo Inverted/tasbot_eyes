@@ -331,6 +331,7 @@ void setNoseLED(unsigned int _index, GifColorType _color) {
         } else {
             setSpecificPixel(ledMatrixTranslation(x, y), color);
         }
+        printf("color set; ");
     }
 }
 
