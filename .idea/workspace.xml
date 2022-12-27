@@ -25,7 +25,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Transfer">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Try fix by Inverted">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network.c" beforeDir="false" afterPath="$PROJECT_DIR$/network.c" afterDir="false" />
     </list>
@@ -167,14 +167,7 @@
       <workItem from="1667075138173" duration="3237000" />
       <workItem from="1667120992419" duration="6179000" />
       <workItem from="1672139564497" duration="11693000" />
-      <workItem from="1672156575122" duration="825000" />
-    </task>
-    <task id="LOCAL-00140" summary="Wrote a proper README.md">
-      <created>1649986796538</created>
-      <option name="number" value="00140" />
-      <option name="presentableId" value="LOCAL-00140" />
-      <option name="project" value="LOCAL" />
-      <updated>1649986796538</updated>
+      <workItem from="1672156575122" duration="1086000" />
     </task>
     <task id="LOCAL-00141" summary="Spelling">
       <created>1649986884646</created>
@@ -512,7 +505,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672151944728</updated>
     </task>
-    <option name="localTasksCounter" value="189" />
+    <task id="LOCAL-00189" summary="Try fix by Inverted">
+      <created>1672157419037</created>
+      <option name="number" value="00189" />
+      <option name="presentableId" value="LOCAL-00189" />
+      <option name="project" value="LOCAL" />
+      <updated>1672157419037</updated>
+    </task>
+    <option name="localTasksCounter" value="190" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -530,7 +530,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Wrote a proper README.md" />
     <MESSAGE value="Spelling" />
     <MESSAGE value="Doxygen polishing" />
     <MESSAGE value="Added Doxygen HTML documentation" />
@@ -555,7 +554,8 @@
     <MESSAGE value="Added realtime control for nose, made setting the buffer a thread safe operation" />
     <MESSAGE value="Forgot to comment in to start server" />
     <MESSAGE value="Transfer" />
-    <option name="LAST_COMMIT_MESSAGE" value="Transfer" />
+    <MESSAGE value="Try fix by Inverted" />
+    <option name="LAST_COMMIT_MESSAGE" value="Try fix by Inverted" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

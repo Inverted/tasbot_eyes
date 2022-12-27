@@ -149,10 +149,10 @@ void receiveRealtimeControl(int sockfd) {
     // Receive data from the client
     unsigned char recvBuffer[DATAGRAM_SIZE_LIMIT_REALTIME];
     long n;
-    while ((n = recvfrom(sockfd, recvBuffer, 1024, MSG_DONTWAIT, (struct sockaddr*) &cliaddr, &clilen)) > 0) {
+    while ((n = recvfrom(sockfd, recvBuffer, DATAGRAM_SIZE_LIMIT_REALTIME, MSG_DONTWAIT, (struct sockaddr*) &cliaddr, &clilen)) > 0) {
         recvBuffer[n] = '\0';
 
-        //printf("[INFO] Mode: %d, Timeout: %d\n", recvBuffer[0], recvBuffer[1]);
+        printf("[INFO] Mode: %d, Timeout: %d\n", recvBuffer[0], recvBuffer[1]);
 
         lockBuffer();
         for (int i = 2; i < n; i += 3) {
