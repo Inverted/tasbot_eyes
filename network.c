@@ -12,10 +12,9 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-bool runningInject = true;
-pthread_t serverInject;
+bool running = true;
 
-bool runningRealtime = true;
+pthread_t serverInject;
 pthread_t serverRealtime;
 
 //region general
@@ -74,7 +73,7 @@ void receiveAnimationInjection(int sockfd) {
     socklen_t clilen = sizeof(cliaddr);
 
     char buffer[DATAGRAM_SIZE_LIMIT_INJECTION];
-    while (runningInject) {
+    while (running) {
         //Receiving string via UDP socket
         long n = recvfrom(sockfd, (char*) buffer, DATAGRAM_SIZE_LIMIT_INJECTION, MSG_WAITALL,
                           (struct sockaddr*) &cliaddr, &clilen);
@@ -147,7 +146,7 @@ void receiveRealtimeControl(int sockfd) {
     socklen_t clilen = sizeof(cliaddr);
 
     unsigned char buffer[DATAGRAM_SIZE_LIMIT_REALTIME];
-    while (runningRealtime) {
+    while (running) {
         // Receive data from the client
         long n = recvfrom(sockfd, buffer, 1024, 0, (struct sockaddr*) &cliaddr, &clilen);
         buffer[n] = '\0';
@@ -169,7 +168,7 @@ void receiveRealtimeControl(int sockfd) {
         //todo: do something with timeout
 
         //in order to ease the hardware a bit, sleep a tiny bit between every UDP package
-        usleep(SLEEP_REALTIME * 1000);
+        //usleep(SLEEP_REALTIME * 1000);
     }
 }
 

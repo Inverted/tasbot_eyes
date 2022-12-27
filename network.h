@@ -17,12 +17,13 @@
 #define SLEEP_REALTIME                  1000 //ms, to ease the hardware
 
 //general
+extern bool running;
+
 int getSocketFD();
 void setupServerInfo(struct sockaddr_in* _server, int _port);
 void bindSocket(int _sockfd, struct sockaddr_in* _server);
 
 //injection
-extern bool runningInject;
 extern pthread_t serverInject;
 
 void receiveAnimationInjection(int sockfd);
@@ -30,7 +31,6 @@ void* runAnimationInjection(void* vargp);
 void startAnimationInjectionServer();
 
 //realtime
-extern bool runningRealtime;
 extern pthread_t serverRealtime;
 
 void receiveRealtimeControl(int sockfd);
