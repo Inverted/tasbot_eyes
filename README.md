@@ -5,7 +5,7 @@
 
 * jgarff's rpi_ws281x lib under the BSD 2-Clause "Simplified" License, project found
   [here](https://github.com/jgarff/rpi_ws281x)
-* Eric S. Raymond's GIFLIB under "an X Consortium-like open-source license", project found
+* Eric S. Raymond's GIFLIB under [a MIT like license](https://sourceforge.net/p/giflib/code/ci/master/tree/COPYING), project found
   [here](http://giflib.sourceforge.net/)
 
 
@@ -79,12 +79,27 @@ To inject any animation :warning: **that is already stored on TASBot** :warning:
   * `I` for immediate playback. Stops the current animation and plays this. :warning: Not implemented yet!
 * `animation.gif` is a locally, already on TASBot stored animation! Full or relative paths are supported, as long as the file exists on TASBot!
 
-To make injecting animations easier, you can use the [**An**imation **Inj**ector **A**lpha (aNinja)](https://github.com/R3tr0BoiDX/TASBot-Toolkit#aninja) from the TASBot-Eyes-Toolkit if you want to.
+To make injecting animations easier, you can use the [**An**imation **Inj**ecto**a**r (aNinja)](https://github.com/R3tr0BoiDX/TASBot-Toolkit#aninja) from the TASBot-Eyes-Toolkit if you want to.
 
+### WLED realtime and ColorChord control
+The centered "nose" LEDs can be controlled in real time with the `-U` argument. It's based on the WLED UDP realtime control protocol, see [here](https://github.com/Aircoookie/WLED/wiki/UDP-Realtime-Control).
+
+#### Colorchord
+[ColorChord](https://github.com/cnlohr/colorchord) 2 by CNLohr supports WLED instances. In order to be able to use it with ColorChord, make sure to add something like this section to your ColorChord config file:
+```python
+leds = 48
+lightx = 8
+lighty = 6
+
+wled_realtime = 1
+port = 19446  # Default port for UDP realtime
+address = x.x.x.x  # TASBot IP
+wled_timeout = 2 
+```
+There's also an example ColorChord config file (`colorchord.conf`) in the `misc` folder of this repository.
 
 ## Known problems
 
-* There's a teeny tiny memory leak.
 * Gamma correction is behaving extremely really weird. It's breaking the LED indexing even tho it should not.
 * When an animation is monochrome, it's pixels can be colored in a randomly chosen color, to make everything more colorful (using the `-c` argument). However, the color that is used to overwrite isn't adjusting to the brightness of the given color within the frame. Right now it's flat overwriting the same color to all pixels, that just _aren't_ black. Use the method `getLuminance()` for that.
 * Some methods got pretty blob like, that could be made :sparkles: prettier :sparkles:
@@ -100,9 +115,9 @@ To make injecting animations easier, you can use the [**An**imation **Inj**ector
 
 # Thanks to
 
-* *dwangoAC* letting me debug on real TASBot
-* *jakobrs* for the original eye software and the index translation table
-* *Inverted* for pointing out gamma correction and helping fixing bugs
+* *dwangoAC* letting me debug on real TASBot and everything he's doing
+* *jakobrs* for the original eye software and the index translation table and helping
+* *Inverted* for pointing out gamma correction and helping to fix bugs
 * *HeavyPodda* for helping debugging
 * *CompuCat* helping with features
 * *Adafruit* for the gamma correction table

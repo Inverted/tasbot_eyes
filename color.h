@@ -1,6 +1,8 @@
 #ifndef TASBOT_EYES_COLOR_H
 #define TASBOT_EYES_COLOR_H
 
+#define HUE_MAX 256
+
 extern const unsigned char gamma8[256];
 
 float fract(float x);

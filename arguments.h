@@ -3,9 +3,12 @@
 
 #include <stdbool.h>
 
+extern bool running;
+
 extern bool verbose;
 extern bool consoleRenderer;
 extern bool skipStartupAnimation;
+extern bool useRealtimeControl;
 extern char* specificAnimationToShow;
 
 //Debug

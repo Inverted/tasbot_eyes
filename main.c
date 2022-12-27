@@ -32,10 +32,10 @@ void finish() {
         free(file);
     }
 
-    free(pixel);
+    free(buffer);
     free(palette);
 
-    pthread_kill(server, SIGKILL);
+    pthread_kill(serverInject, SIGKILL);
     pthread_exit(NULL);
 
     exit(EXIT_SUCCESS);
@@ -89,10 +89,8 @@ void initBlinking() {
 }
 
 void specificAnimation() {
-    if (specificAnimationToShow != NULL) {
-        while (running) {
-            playAnimationFromFilepath(specificAnimationToShow, false, false);
-        }
+    while (running) {
+        playAnimationFromFilepath(specificAnimationToShow, false, false);
     }
 }
 
@@ -155,13 +153,31 @@ int main(int _argc, char** _argv) {
     initPalette();
     initBlinking();
     initLEDs();
-    startServer();
+    startAnimationInjectionServer();
+
+    //Start rendering
+    startRenderThread();
+    if (rainbowMode){
+        startHueThread();
+    }
+
+    if (useRealtimeControl){
+        if (verbose){
+            printf("[WARNING] Can't use verbose mode with realtime control, as the logging adds to much overhead. Turning it off\n");
+            verbose = false;
+        }
+        startRealtimeControlServer();
+    }
 
     //Option for playing a given specific animation
-    specificAnimation();
+    if (specificAnimationToShow != NULL) {
+        specificAnimation();
+    } else {
+        //Main loop
+        tasbotsEyes();
+    }
 
-    //Main loop
-    tasbotsEyes();
+    while (running){}
 
     //Clean up
     finish();
