@@ -174,7 +174,7 @@ void receiveRealtimeControl(int sockfd) {
             //todo: do something with timeout
 
             //in order to ease the hardware a bit, sleep a tiny bit between every UDP package
-            usleep(SLEEP_REALTIME * 1000);
+            //usleep(SLEEP_REALTIME * 1000);
         }
         printf("%ld\n", n);
     }
