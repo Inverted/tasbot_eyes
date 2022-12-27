@@ -243,16 +243,12 @@ void setBufferAtIndex(unsigned int _x, unsigned int _y, ws2811_led_t _color) {
  */
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
 
-    if (activateLEDModule) {
-        lockBuffer();
-    }
-
+    lockBuffer();
     for (int y = 0; y < LED_HEIGHT; ++y) {
         for (int x = 0; x < LED_WIDTH; ++x) {
 
-            bool centerPixel = x >= NOSE_RANGE_MIN && x <= NOSE_RANGE_MAX;
-
             //make sure, when we ain't using the real time control, and it's not a center buffer
+            bool centerPixel = x >= NOSE_RANGE_MIN && x <= NOSE_RANGE_MAX;
             if (!(useRealtimeControl && centerPixel)) {
 
                 GifColorType* gifColor = _frame->color[x][y];
@@ -291,9 +287,9 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
             printf("\n");
         }
     }
+    unlockBuffer();
 
     if (activateLEDModule) {
-        unlockBuffer();
         renderLEDs();
     }
 }
