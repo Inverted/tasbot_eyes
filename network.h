@@ -7,13 +7,14 @@
 
 #include "utils.h"
 #include "filesystem.h"
+#include "tasbot.h"
 
 #define PORT_INJECTION                  8080
 #define MAX_ANSWER_LENGTH               64
 #define DATAGRAM_SIZE_LIMIT_INJECTION   (MAX_PATH_LENGTH+MAX_ANSWER_LENGTH)
 
 #define PORT_REALTIME                   19446
-#define DATAGRAM_SIZE_LIMIT_REALTIME    182
+#define DATAGRAM_SIZE_LIMIT_REALTIME    ((FIELD_HEIGHT * FIELD_WIDTH * 3)+2)
 #define SLEEP_REALTIME                  35 //ms, to ease the hardware
 
 //general

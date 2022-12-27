@@ -146,20 +146,20 @@ void receiveRealtimeControl(int sockfd) {
     struct sockaddr_in cliaddr;
     socklen_t clilen = sizeof(cliaddr);
 
-    unsigned char buffer[DATAGRAM_SIZE_LIMIT_REALTIME];
+    unsigned char recvBuffer[DATAGRAM_SIZE_LIMIT_REALTIME];
     while (running) {
         // Receive data from the client
-        long n = recvfrom(sockfd, buffer, 1024, 0, (struct sockaddr*) &cliaddr, &clilen);
-        buffer[n] = '\0';
+        long n = recvfrom(sockfd, recvBuffer, 1024, 0, (struct sockaddr*) &cliaddr, &clilen);
+        recvBuffer[n] = '\0';
 
-        //printf("[INFO] Mode: %d, Timeout: %d\n", buffer[0], buffer[1]);
+        //printf("[INFO] Mode: %d, Timeout: %d\n", recvBuffer[0], recvBuffer[1]);
 
         lockBuffer();
         for (int i = 2; i < n; i += 3) {
             GifColorType color;
-            color.Red = buffer[i];
-            color.Blue = buffer[i + 1];
-            color.Green = buffer[i + 2];
+            color.Red = recvBuffer[i];
+            color.Blue = recvBuffer[i + 1];
+            color.Green = recvBuffer[i + 2];
 
             setNoseLED(i/3, color);
         }
