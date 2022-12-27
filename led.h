@@ -27,7 +27,11 @@ ws2811_return_t renderLEDs();
 ws2811_return_t clearLEDs();
 ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection);
 
-//set buffer (potentially thread safe)
+//todo: discard
 void setSpecificPixel(unsigned int _index, ws2811_led_t _color);
+
+//todo
+void startRenderThread();
+void* runRenderThread(void* vargp);
 
 #endif //TASBOT_EYES_LED_H

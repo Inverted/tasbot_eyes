@@ -12,7 +12,6 @@
 #include <stdlib.h>
 #include <pthread.h>
 
-bool running = true;
 
 pthread_t serverInject;
 pthread_t serverRealtime;
@@ -164,7 +163,7 @@ void receiveRealtimeControl(int sockfd) {
 
                     setNoseLED(i/3, color);
                 }
-                renderLEDs();
+                //renderLEDs(); //todo
 
                 //todo: do something with timeout
             }

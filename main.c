@@ -155,6 +155,8 @@ int main(int _argc, char** _argv) {
     initLEDs();
     startAnimationInjectionServer();
 
+    startRenderThread();
+
     if (useRealtimeControl){
         if (verbose){
             printf("[WARNING] Can't use verbose mode with realtime control, as the logging adds to much overhead. Turning it off\n");

@@ -18,7 +18,6 @@
 #define SLEEP_REALTIME                  35 //ms, to ease the hardware
 
 //general
-extern bool running;
 
 int getSocketFD();
 void setupServerInfo(struct sockaddr_in* _server, int _port);

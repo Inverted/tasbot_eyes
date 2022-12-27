@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include "led.h"
 #include "color.h"
@@ -62,30 +63,49 @@ void initLEDs() {
     }
 }
 
+pthread_t renderThread;
+#define RENDER_DELAY 10 //ms
+
 /**
  * Updates the display's hardware LEDs color to the local buffer variables array
  * @return Infos about, if the LEDs where rendered successful
  */
 ws2811_return_t renderLEDs() {
-
     //todo: render thread
 
-    for (int x = 0; x < LED_WIDTH; x++) {
-        for (int y = 0; y < LED_HEIGHT; y++) {
-            display.channel[0].leds[(y * LED_WIDTH) + x] = buffer[(y * LED_WIDTH) + x];
+    while (running){
+        for (int x = 0; x < LED_WIDTH; x++) {
+            for (int y = 0; y < LED_HEIGHT; y++) {
+                display.channel[0].leds[(y * LED_WIDTH) + x] = buffer[(y * LED_WIDTH) + x];
+            }
         }
+
+        ws2811_return_t r;
+        if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
+            fprintf(stderr, "[ERROR] Failed to render: %s\n", ws2811_get_return_t_str(r));
+        } else {
+            if (verbose) {
+                printf("[INFO] Rendered LEDs with code %d\n", r);
+            }
+        }
+
+        usleep(RENDER_DELAY * 1000);
     }
 
-    ws2811_return_t r;
-    if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
-        fprintf(stderr, "[ERROR] Failed to render: %s\n", ws2811_get_return_t_str(r));
-    } else {
-        if (verbose) {
-            printf("[INFO] Rendered LEDs with code %d\n", r);
-        }
-    }
+    return 0;
+    //return r;
+}
 
-    return r;
+void* runRenderThread(void* vargp) {
+    renderLEDs();
+    return NULL;
+}
+
+void startRenderThread() {
+    pthread_create(&renderThread, NULL, runRenderThread, NULL);
+    if (verbose) {
+        printf("[INFO] Started thread for rendering with TID %lu\n", renderThread);
+    }
 }
 
 void setSpecificPixel(unsigned int _index, ws2811_led_t _color) {
@@ -99,7 +119,8 @@ ws2811_return_t clearLEDs() {
     for (size_t i = 0; i < (size_t) LED_COUNT; i++) {
         setSpecificPixel(i, 0);
     }
-    return renderLEDs();
+    //return renderLEDs();
+    return 0; //todo
 }
 
 /**

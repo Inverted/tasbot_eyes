@@ -25,14 +25,16 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="And there it goes againnn....">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Removed mutex again">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arguments.c" beforeDir="false" afterPath="$PROJECT_DIR$/arguments.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arguments.h" beforeDir="false" afterPath="$PROJECT_DIR$/arguments.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/led.c" beforeDir="false" afterPath="$PROJECT_DIR$/led.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/led.h" beforeDir="false" afterPath="$PROJECT_DIR$/led.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network.c" beforeDir="false" afterPath="$PROJECT_DIR$/network.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/network.h" beforeDir="false" afterPath="$PROJECT_DIR$/network.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasbot.h" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -173,14 +175,7 @@
       <workItem from="1667120992419" duration="6179000" />
       <workItem from="1672139564497" duration="11693000" />
       <workItem from="1672156575122" duration="2199000" />
-      <workItem from="1672165176728" duration="5573000" />
-    </task>
-    <task id="LOCAL-00160" summary="Updates">
-      <created>1656291811696</created>
-      <option name="number" value="00160" />
-      <option name="presentableId" value="LOCAL-00160" />
-      <option name="project" value="LOCAL" />
-      <updated>1656291811696</updated>
+      <workItem from="1672165176728" duration="6389000" />
     </task>
     <task id="LOCAL-00161" summary="Updates">
       <created>1656292296062</created>
@@ -518,7 +513,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672169631964</updated>
     </task>
-    <option name="localTasksCounter" value="209" />
+    <task id="LOCAL-00209" summary="Removed mutex again">
+      <created>1672170808069</created>
+      <option name="number" value="00209" />
+      <option name="presentableId" value="LOCAL-00209" />
+      <option name="project" value="LOCAL" />
+      <updated>1672170808069</updated>
+    </task>
+    <option name="localTasksCounter" value="210" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -536,7 +538,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Split up the huge main.c blob into several files." />
     <MESSAGE value="Added fixes made my CompuCat" />
     <MESSAGE value="Partial added new features. Not fully integrated yet." />
     <MESSAGE value="filesystem.h is now using the string_t type. WARNING: Something prevents loading the blink animation. Thats for next week" />
@@ -561,7 +562,8 @@
     <MESSAGE value="And now real time control back" />
     <MESSAGE value="Revived mutex lock" />
     <MESSAGE value="And there it goes againnn...." />
-    <option name="LAST_COMMIT_MESSAGE" value="And there it goes againnn...." />
+    <MESSAGE value="Removed mutex again" />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed mutex again" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

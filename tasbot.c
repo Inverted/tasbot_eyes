@@ -289,7 +289,7 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
     }
 
     if (activateLEDModule) {
-        renderLEDs();
+        //renderLEDs(); //todo
     }
 }
 

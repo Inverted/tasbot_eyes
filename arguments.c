@@ -10,6 +10,8 @@
 #include <stdbool.h>
 #include <ctype.h>
 
+bool running = true;
+
 bool verbose = false;
 bool consoleRenderer = false;
 bool skipStartupAnimation = false;
