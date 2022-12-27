@@ -158,7 +158,7 @@ int main(int _argc, char** _argv) {
     startAnimationInjectionServer();
 
     if (useRealtimeControl){
-        //startRealtimeControlServer();
+        startRealtimeControlServer();
     }
 
     //Option for playing a given specific animation
