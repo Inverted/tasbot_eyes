@@ -36,7 +36,7 @@ void printHelp() {
     printf("\n===[Tune animation playback]===\n");
     printf("-c               Use random color from palette for monochrome animations\n");
     printf("-a               Use random color from palette for monochrome animations as well as blinks and the base\n");
-    printf("-w               Activate rainbow mode. Needs to be used with -c or -a to define scope. ATTENTION: Will overwrite ALL colored pixels!\n");
+    printf("-w               Activate rainbow mode. ATTENTION: Will overwrite ALL white pixels!\n");
     printf("-W [10-1000]     Set fade speed of rainbow mode in milliseconds. Default is %d\n", DEFAULT_HUE_FADE_SPEED);
     printf("-C [xxxxxx]      Default color that should be used for not colored animations\n");
     printf("-b [0-255]       Set maximum possible brightness. Default is %d\n", BRIGHTNESS);

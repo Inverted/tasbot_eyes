@@ -25,8 +25,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Test">
-      <change beforePath="$PROJECT_DIR$/led.c" beforeDir="false" afterPath="$PROJECT_DIR$/led.c" afterDir="false" />
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Only apply rainbow mode for white pixel">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/arguments.c" beforeDir="false" afterPath="$PROJECT_DIR$/arguments.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,14 +170,7 @@
       <workItem from="1667120992419" duration="6179000" />
       <workItem from="1672139564497" duration="11693000" />
       <workItem from="1672156575122" duration="2199000" />
-      <workItem from="1672165176728" duration="16164000" />
-    </task>
-    <task id="LOCAL-00174" summary="small valgrind fixes">
-      <created>1667148843373</created>
-      <option name="number" value="00174" />
-      <option name="presentableId" value="LOCAL-00174" />
-      <option name="project" value="LOCAL" />
-      <updated>1667148843373</updated>
+      <workItem from="1672165176728" duration="16284000" />
     </task>
     <task id="LOCAL-00175" summary="Integrated network queue injection.">
       <created>1667165418130</created>
@@ -513,7 +508,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672183088570</updated>
     </task>
-    <option name="localTasksCounter" value="223" />
+    <task id="LOCAL-00223" summary="Only apply rainbow mode for white pixel">
+      <created>1672183157565</created>
+      <option name="number" value="00223" />
+      <option name="presentableId" value="LOCAL-00223" />
+      <option name="project" value="LOCAL" />
+      <updated>1672183157565</updated>
+    </task>
+    <option name="localTasksCounter" value="224" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -531,7 +533,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Valgrind note" />
     <MESSAGE value="small valgrind fixes" />
     <MESSAGE value="Integrated network queue injection." />
     <MESSAGE value="Rewording" />
@@ -556,7 +557,8 @@
     <MESSAGE value="Fixed option for fade speed" />
     <MESSAGE value="Changed hue step size" />
     <MESSAGE value="Test" />
-    <option name="LAST_COMMIT_MESSAGE" value="Test" />
+    <MESSAGE value="Only apply rainbow mode for white pixel" />
+    <option name="LAST_COMMIT_MESSAGE" value="Only apply rainbow mode for white pixel" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

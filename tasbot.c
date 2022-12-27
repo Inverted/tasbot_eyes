@@ -185,8 +185,6 @@ void playAnimation(Animation* _animation, bool _useRandomColor, bool _repeatAnim
         }
     }
 
-    bool rainMode = rainbowMode ? _animation->monochrome : false;
-
     if (verbose) {
         printf("[INFO] Use a random color: %s\n", randColor ? "true" : "false");
         printf("[INFO] Use the default color: %s\n", randColor ? "true" : "false");
@@ -194,13 +192,11 @@ void playAnimation(Animation* _animation, bool _useRandomColor, bool _repeatAnim
 
     //If applies, choose color to overwrite
     ws2811_led_t color = 0;
-    if (!rainMode) {
-        if (randColor) {
-            unsigned int r = rand() % paletteCount;
-            color = palette[r];
-        } else if (defColor) {
-            color = defaultColor;
-        }
+    if (randColor) {
+        unsigned int r = rand() % paletteCount;
+        color = palette[r];
+    } else if (defColor) {
+        color = defaultColor;
     }
 
     //Set correct amount of repetitions
