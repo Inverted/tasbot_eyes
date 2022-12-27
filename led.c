@@ -72,6 +72,8 @@ void* renderLEDs(void* vargp) {
         for (int x = 0; x < LED_WIDTH; x++) {
             for (int y = 0; y < LED_HEIGHT; y++) {
                 display.channel[0].leds[(y * LED_WIDTH) + x] = buffer[(y * LED_WIDTH) + x];
+
+                printf("%d\n", buffer[(y * LED_WIDTH) + x]);
             }
         }
 
@@ -92,9 +94,11 @@ void* renderLEDs(void* vargp) {
 }
 
 void startRenderThread() {
-    pthread_create(&renderThread, NULL, renderLEDs, NULL);
-    if (verbose) {
-        printf("[INFO] Started thread for rendering with TID %lu\n", renderThread);
+    if (activateLEDModule){
+        pthread_create(&renderThread, NULL, renderLEDs, NULL);
+        if (verbose) {
+            printf("[INFO] Started thread for rendering with TID %lu\n", renderThread);
+        }
     }
 }
 

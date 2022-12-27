@@ -25,19 +25,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Offload rendering to dedicated thread">
-      <change afterPath="$PROJECT_DIR$/misc/colorchord.conf" afterDir="false" />
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Added rainbow mode and cleaned render thread. Also added documentation to README.md and example ColorChord config file">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/filesystem.c" beforeDir="false" afterPath="$PROJECT_DIR$/filesystem.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gif.c" beforeDir="false" afterPath="$PROJECT_DIR$/gif.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/led.c" beforeDir="false" afterPath="$PROJECT_DIR$/led.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/led.h" beforeDir="false" afterPath="$PROJECT_DIR$/led.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/network.c" beforeDir="false" afterPath="$PROJECT_DIR$/network.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/palette.c" beforeDir="false" afterPath="$PROJECT_DIR$/palette.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasbot.h" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,8 +107,8 @@
       <recent name="$PROJECT_DIR$/cmake-build-debug/gifs/others" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.Realtime control">
-    <configuration name="Normal" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v -u" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
+  <component name="RunManager" selected="CMake Application.Normal">
+    <configuration name="Normal" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v -u -w" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -179,14 +170,7 @@
       <workItem from="1667120992419" duration="6179000" />
       <workItem from="1672139564497" duration="11693000" />
       <workItem from="1672156575122" duration="2199000" />
-      <workItem from="1672165176728" duration="11707000" />
-    </task>
-    <task id="LOCAL-00162" summary="Updates">
-      <created>1656292806704</created>
-      <option name="number" value="00162" />
-      <option name="presentableId" value="LOCAL-00162" />
-      <option name="project" value="LOCAL" />
-      <updated>1656292806704</updated>
+      <workItem from="1672165176728" duration="12404000" />
     </task>
     <task id="LOCAL-00163" summary="Updates">
       <created>1656293728283</created>
@@ -524,7 +508,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672171618862</updated>
     </task>
-    <option name="localTasksCounter" value="211" />
+    <task id="LOCAL-00211" summary="Added rainbow mode and cleaned render thread. Also added documentation to README.md and example ColorChord config file">
+      <created>1672178717412</created>
+      <option name="number" value="00211" />
+      <option name="presentableId" value="LOCAL-00211" />
+      <option name="project" value="LOCAL" />
+      <updated>1672178717413</updated>
+    </task>
+    <option name="localTasksCounter" value="212" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -542,7 +533,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Partial added new features. Not fully integrated yet." />
     <MESSAGE value="filesystem.h is now using the string_t type. WARNING: Something prevents loading the blink animation. Thats for next week" />
     <MESSAGE value="Added some todos. WARNING: still faulty" />
     <MESSAGE value="Some README.md changes and some digging because of bug. WARNING: still faulty" />
@@ -567,7 +557,8 @@
     <MESSAGE value="And there it goes againnn...." />
     <MESSAGE value="Removed mutex again" />
     <MESSAGE value="Offload rendering to dedicated thread" />
-    <option name="LAST_COMMIT_MESSAGE" value="Offload rendering to dedicated thread" />
+    <MESSAGE value="Added rainbow mode and cleaned render thread. Also added documentation to README.md and example ColorChord config file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added rainbow mode and cleaned render thread. Also added documentation to README.md and example ColorChord config file" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
