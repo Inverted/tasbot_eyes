@@ -25,9 +25,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Changed hue step size">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/color.c" beforeDir="false" afterPath="$PROJECT_DIR$/color.c" afterDir="false" />
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Test">
       <change beforePath="$PROJECT_DIR$/led.c" beforeDir="false" afterPath="$PROJECT_DIR$/led.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -170,14 +168,7 @@
       <workItem from="1667120992419" duration="6179000" />
       <workItem from="1672139564497" duration="11693000" />
       <workItem from="1672156575122" duration="2199000" />
-      <workItem from="1672165176728" duration="16046000" />
-    </task>
-    <task id="LOCAL-00172" summary="Some smaller clean up">
-      <created>1667138713904</created>
-      <option name="number" value="00172" />
-      <option name="presentableId" value="LOCAL-00172" />
-      <option name="project" value="LOCAL" />
-      <updated>1667138713904</updated>
+      <workItem from="1672165176728" duration="16107000" />
     </task>
     <task id="LOCAL-00173" summary="Valgrind note">
       <created>1667147424232</created>
@@ -515,7 +506,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672182824570</updated>
     </task>
-    <option name="localTasksCounter" value="221" />
+    <task id="LOCAL-00221" summary="Test">
+      <created>1672183027456</created>
+      <option name="number" value="00221" />
+      <option name="presentableId" value="LOCAL-00221" />
+      <option name="project" value="LOCAL" />
+      <updated>1672183027456</updated>
+    </task>
+    <option name="localTasksCounter" value="222" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -533,7 +531,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Some smaller clean up" />
     <MESSAGE value="Valgrind note" />
     <MESSAGE value="small valgrind fixes" />
     <MESSAGE value="Integrated network queue injection." />
@@ -558,7 +555,8 @@
     <MESSAGE value="Added argument for fade speed and small cleanup" />
     <MESSAGE value="Fixed option for fade speed" />
     <MESSAGE value="Changed hue step size" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed hue step size" />
+    <MESSAGE value="Test" />
+    <option name="LAST_COMMIT_MESSAGE" value="Test" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
