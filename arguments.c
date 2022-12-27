@@ -69,7 +69,7 @@ void printHelp() {
  */
 void parseArguments(int _argc, char** _argv) {
     int c;
-    while ((c = getopt(_argc, _argv, "XhvgwWruUacDd:b:s:B:i:p:z:P:C:R:")) != -1) {
+    while ((c = getopt(_argc, _argv, "XhvgwruUacDd:b:s:B:i:p:z:P:C:R:W:")) != -1) {
         switch (c) {
             case 'h':
                 printHelp();
@@ -155,7 +155,7 @@ void parseArguments(int _argc, char** _argv) {
             }
 
             case 'W': {
-                int speed = (int) strtol(optarg, NULL, 10);
+                long speed = (int) strtol(optarg, NULL, 10);
 
                 if (speed > 1000) {
                     printf("[WARNING] Milliseconds given (%d) higher than 1000. Gonna use 1000\n", speed);

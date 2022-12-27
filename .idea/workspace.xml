@@ -25,12 +25,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Fixed cleanup on exit and made rainbow mode work">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Added argument for fade speed and small cleanup">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/arguments.c" beforeDir="false" afterPath="$PROJECT_DIR$/arguments.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasbot.h" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +107,7 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.Normal">
-    <configuration name="Normal" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-v -u -w" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
+    <configuration name="Normal" type="CMakeRunConfiguration" factoryName="Application" PROGRAM_PARAMS="-b 24 -v -u -a -w -W 100" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="tasbot_eyes" TARGET_NAME="tasbot_eyes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="tasbot_eyes" RUN_TARGET_NAME="tasbot_eyes">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -172,14 +169,7 @@
       <workItem from="1667120992419" duration="6179000" />
       <workItem from="1672139564497" duration="11693000" />
       <workItem from="1672156575122" duration="2199000" />
-      <workItem from="1672165176728" duration="14688000" />
-    </task>
-    <task id="LOCAL-00167" summary="Partial added new features. Not fully integrated yet.">
-      <created>1666463482677</created>
-      <option name="number" value="00167" />
-      <option name="presentableId" value="LOCAL-00167" />
-      <option name="project" value="LOCAL" />
-      <updated>1666463482677</updated>
+      <workItem from="1672165176728" duration="15398000" />
     </task>
     <task id="LOCAL-00168" summary="filesystem.h is now using the string_t type. WARNING: Something prevents loading the blink animation. Thats for next week">
       <created>1666531306030</created>
@@ -517,7 +507,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672180167570</updated>
     </task>
-    <option name="localTasksCounter" value="216" />
+    <task id="LOCAL-00216" summary="Added argument for fade speed and small cleanup">
+      <created>1672181687009</created>
+      <option name="number" value="00216" />
+      <option name="presentableId" value="LOCAL-00216" />
+      <option name="project" value="LOCAL" />
+      <updated>1672181687009</updated>
+    </task>
+    <option name="localTasksCounter" value="217" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -535,7 +532,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Some README.md changes and some digging because of bug. WARNING: still faulty" />
     <MESSAGE value="Removed string_t, which caused too much trouble then helping. Working again." />
     <MESSAGE value="Removed string_t, which caused too much trouble then helping. Working again. Also removed rainbow mode for now again." />
     <MESSAGE value="Some smaller clean up" />
@@ -560,7 +556,8 @@
     <MESSAGE value="Transfer" />
     <MESSAGE value="Attempt to fix rainbow mode" />
     <MESSAGE value="Fixed cleanup on exit and made rainbow mode work" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed cleanup on exit and made rainbow mode work" />
+    <MESSAGE value="Added argument for fade speed and small cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added argument for fade speed and small cleanup" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
