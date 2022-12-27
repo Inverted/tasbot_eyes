@@ -68,49 +68,51 @@ void initLEDs() {
  * Updates the display's hardware LEDs color to the local buffer variables array
  * @return Infos about, if the LEDs where rendered successful
  */
-void* renderLEDs(void* vargp) {
-    while (running){
-        for (int x = 0; x < LED_WIDTH; x++) {
-            for (int y = 0; y < LED_HEIGHT; y++) {
+ws2811_return_t renderLEDs(){
+    for (int x = 0; x < LED_WIDTH; x++) {
+        for (int y = 0; y < LED_HEIGHT; y++) {
 
-                //rainbow mode color fade
-                if (rainbowMode && buffer[(y * LED_WIDTH) + x] > 0){
-                    float rgb[3];
-                    hsv2rgb(hueToFloat(hue), 1, 1, rgb);
+            //rainbow mode color fade
+            if (rainbowMode && buffer[(y * LED_WIDTH) + x] > 0){
+                float rgb[3];
+                hsv2rgb(hueToFloat(hue), 1, 1, rgb);
 
-                    GifColorType rgbColor;
-                    rgbColor.Red = valueToInt(rgb[0]);
-                    rgbColor.Green = valueToInt(rgb[1]);
-                    rgbColor.Blue = valueToInt(rgb[2]);
+                GifColorType rgbColor;
+                rgbColor.Red = valueToInt(rgb[0]);
+                rgbColor.Green = valueToInt(rgb[1]);
+                rgbColor.Blue = valueToInt(rgb[2]);
 
-                    ws2811_led_t color = translateColor(&rgbColor, useGammaCorrection);
-                    buffer[(y * LED_WIDTH) + x] = color;
-                }
-
-                //set buffer to output
-                display.channel[0].leds[(y * LED_WIDTH) + x] = buffer[(y * LED_WIDTH) + x];
+                ws2811_led_t color = translateColor(&rgbColor, useGammaCorrection);
+                buffer[(y * LED_WIDTH) + x] = color;
             }
-        }
 
-        ws2811_return_t r;
-        if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
-            fprintf(stderr, "[ERROR] Failed to render: %s\n", ws2811_get_return_t_str(r));
-        } else {
-            if (verbose) {
-                printf("[INFO] Rendered LEDs with code %d\n", r);
-            }
+            //set buffer to output
+            display.channel[0].leds[(y * LED_WIDTH) + x] = buffer[(y * LED_WIDTH) + x];
         }
-
-        usleep(RENDER_DELAY * 1000);
     }
 
-    return 0;
-    //return r;
+    ws2811_return_t r;
+    if ((r = ws2811_render(&display)) != WS2811_SUCCESS) {
+        fprintf(stderr, "[ERROR] Failed to render: %s\n", ws2811_get_return_t_str(r));
+    } else {
+        if (verbose) {
+            printf("[INFO] Rendered LEDs with code %d\n", r);
+        }
+    }
+
+    return r;
+}
+
+void* runRenderThread(void* vargp){
+    while (running){
+        renderLEDs();
+        usleep(RENDER_DELAY * 1000);
+    }
 }
 
 void startRenderThread() {
     if (activateLEDModule){
-        pthread_create(&renderThread, NULL, renderLEDs, NULL);
+        pthread_create(&renderThread, NULL, runRenderThread, NULL);
         if (verbose) {
             printf("[INFO] Started thread for rendering with TID %lu\n", renderThread);
         }
@@ -124,8 +126,7 @@ ws2811_return_t clearLEDs() {
     for (size_t i = 0; i < (size_t) LED_COUNT; i++) {
         buffer[i] = 0;
     }
-    //return renderLEDs();
-    return 0; //todo
+    return renderLEDs();
 }
 
 /**

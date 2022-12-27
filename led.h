@@ -26,11 +26,12 @@ extern ws2811_t display;
 extern pthread_t renderThread;
 
 void initLEDs();
+ws2811_return_t renderLEDs();
 ws2811_return_t clearLEDs();
 ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection);
 
 //render thread
 void startRenderThread();
-void* renderLEDs(void* vargp);
+void* runRenderThread(void* vargp);
 
 #endif //TASBOT_EYES_LED_H
