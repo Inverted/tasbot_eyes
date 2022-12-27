@@ -23,11 +23,53 @@ bool activateLEDModule = true;
 bool realTASBot = true;
 
 /**
+ * Print a help dialog to the console
+ */
+void printHelp() {
+    printf("===[Debug options]===\n");
+    printf("-h               Print this help screen\n");
+    printf("-v               Enable verbose logging\n");
+    printf("-r               Enable console renderer for frames\n");
+    printf("-d [GPIO]        Change GPIO data pin. Possible options are between 2 to 27. Default is %d\n", GPIO_PIN);
+    printf("-g               Use gamma correction. DON'T USE, IT'S BROKEN!\n");
+
+    printf("\n===[Tune animation playback]===\n");
+    printf("-c               Use random color from palette for monochrome animations\n");
+    printf("-a               Use random color from palette for monochrome animations as well as blinks and the base\n");
+    printf("-w               Activate rainbow mode. Needs to be used with -c or -a to define scope. ATTENTION: Will overwrite ALL colored pixels!\n");
+    printf("-W [10-1000]     Set fade speed of rainbow mode in milliseconds. Default is %d\n", DEFAULT_HUE_FADE_SPEED);
+    printf("-C [xxxxxx]      Default color that should be used for not colored animations\n");
+    printf("-b [0-255]       Set maximum possible brightness. Default is %d\n", BRIGHTNESS);
+    printf("-s [MULTIPLIER]  Set playback speed. Needs to be bigger than 0\n");
+    printf("-D               Let the playback speed affect blink delay\n");
+    printf("-u               Skip the startup animation\n");
+    printf("-R               Set how many times a animation should be repeated. Default is %d\n", repetitions);
+    printf("-U               Use the WLED UDP realtime control for the centered \"nose\" LEDs\n");
+    printf("-B [PATTERN]     Controls the blinks. Highest number that can be used within the pattern is 9\n");
+    printf("                 -1st: Maximum number of blinks between animations\n");
+    printf("                 -2nd: Minimum seconds between blinks\n");
+    printf("                 -3rd: Maximum seconds between blinks\n");
+    printf("                 Example: \"4-4-6\" (default)\n");
+    printf("                          -Maximum of 4 blinks between animations\n");
+    printf("                          -4 to 6 seconds between each blink\n");
+
+    printf("\n===[File arguments]===\n");
+    printf("-p [FOLDER PATH] Play animations from a specific folder.\n");
+    printf("-z [FOLDER PATH] Play blink animation from specific folder.\n");
+    printf("-i [FILE PATH]   Play specific animation as endless loop. \"-p\" and \"-z\" become useless with this.\n");
+    printf("-P [FILE PATH]   Use color palette from text file. For formatting of palette file use tool or see example.\n");
+
+    printf("\n===[Hints]===\n");
+    printf("- To bring TASBot in a state, where he is only blinking, execute with argument \"-p ./gifs/blinks/\". This will narrow all possible options for animations down to blinking ones, while keeping the support for blink patterns and the usual appearance. To further improve appearance, don't use with the -c argument.\n\n");
+    printf("- Use different working directories as \"profiles\". This way, you could feature different sets of animations with different base frames if needed.\n");
+}
+
+/**
  * Parse the program arguments from the console line
  */
 void parseArguments(int _argc, char** _argv) {
     int c;
-    while ((c = getopt(_argc, _argv, "XhvgwWruacDd:b:s:B:i:p:z:P:C:R:")) != -1) {
+    while ((c = getopt(_argc, _argv, "XhvgwWruUacDd:b:s:B:i:p:z:P:C:R:")) != -1) {
         switch (c) {
             case 'h':
                 printHelp();
@@ -56,7 +98,7 @@ void parseArguments(int _argc, char** _argv) {
                 skipStartupAnimation = true;
                 printf("[INFO] Skip startup animation\n");
                 break;
-            case 'W':
+            case 'U':
                 useRealtimeControl = true;
                 printf("[INFO] Using realtime control for centered LEDs\n");
                 break;
@@ -86,7 +128,7 @@ void parseArguments(int _argc, char** _argv) {
 
             case 'w':
                 rainbowMode = true;
-                printf("[INFO] Rainbow mode activated!\n");
+                printf("[INFO] Rainbow mode activated\n");
                 break;
 
             case 'C': {
@@ -108,7 +150,23 @@ void parseArguments(int _argc, char** _argv) {
                 }
 
                 brightness = bright;
-                printf("[INFO] Set bright to %d\n", brightness);
+                printf("[INFO] Set brightness to %d\n", brightness);
+                break;
+            }
+
+            case 'W': {
+                int speed = (int) strtol(optarg, NULL, 10);
+
+                if (speed > 1000) {
+                    printf("[WARNING] Milliseconds given (%d) higher than 1000. Gonna use 1000\n", speed);
+                    speed = 1000;
+                } else if (speed < 10) {
+                    printf("[WARNING] Milliseconds given (%d) smaller than 10. Gonna use 10\n", speed);
+                    speed = 10;
+                }
+
+                fadeSpeed = speed;
+                printf("[INFO] Set fade speed to %d milliseconds\n", fadeSpeed);
                 break;
             }
 
@@ -224,45 +282,4 @@ void parseArguments(int _argc, char** _argv) {
     for (int index = optind; index < _argc; index++) {
         printf("Non-option argument %s\n", _argv[index]);
     }
-}
-
-/**
- * Print a help dialog to the console
- */
-void printHelp() {
-    printf("===[Debug options]===\n");
-    printf("-h               Print this help screen\n");
-    printf("-v               Enable verbose logging\n");
-    printf("-r               Enable console renderer for frames\n");
-    printf("-d [GPIO]        Change GPIO data pin. Possible options are between 2 to 27. Default is 10\n");
-    printf("-g               Use gamma correction. DON'T USE, IT'S BROKEN!\n");
-
-    printf("\n===[Tune animation playback]===\n");
-    printf("-c               Use random color from palette for monochrome animations\n");
-    printf("-a               Use random color from palette for monochrome animations as well as blinks and the base\n");
-    printf("-w               Activate rainbow mode. Needs to be used with -c or -a to define scope. USELESS RIGHT NOW!\n");
-    printf("-C [xxxxxx]      Default color that should be used for not colored animations\n");
-    printf("-b [0-255]       Set maximum possible brightness. Default is 24\n");
-    printf("-s [MULTIPLIER]  Sets Playback speed. Needs to be bigger than 0\n");
-    printf("-D               Let the playback speed affect blink delay\n");
-    printf("-u               Skip the startup animation\n");
-    printf("-R               Set how many times a animation should be repeated. Default is 1\n");
-    printf("-W               Use the WLED UDP realtime control for the centered \"nose\" LEDs\n");
-    printf("-B [PATTERN]     Controls the blinks. Highest number that can be used within the pattern is 9\n");
-    printf("                 -1st: Maximum number of blinks between animations\n");
-    printf("                 -2nd: Minimum seconds between blinks\n");
-    printf("                 -3rd: Maximum seconds between blinks\n");
-    printf("                 Example: \"4-4-6\" (default)\n");
-    printf("                          -Maximum of 4 blinks between animations\n");
-    printf("                          -4 to 6 seconds between each blink\n");
-
-    printf("\n===[File arguments]===\n");
-    printf("-p [FOLDER PATH] Play animations from a specific folder.\n");
-    printf("-z [FOLDER PATH] Play blink animation from specific folder.\n");
-    printf("-i [FILE PATH]   Play specific animation as endless loop. \"-p\" and \"-z\" become useless with this.\n");
-    printf("-P [FILE PATH]   Use color palette from text file. For formatting of palette file use tool or see example.\n");
-
-    printf("\n===[Hints]===\n");
-    printf("- To bring TASBot in a state, where he is only blinking, execute with argument \"-p ./gifs/blinks/\". This will narrow all possible options for animations down to blinking ones, while keeping the support for blink patterns and the usual appearance. To further improve appearance, don't use with the -c argument.\n\n");
-    printf("- Use different working directories as \"profiles\". This way, you could feature different sets of animations with different base frames if needed.\n");
 }

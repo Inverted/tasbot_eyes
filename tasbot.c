@@ -37,8 +37,9 @@ bool useGammaCorrection = false;
 bool useRandomColors = false;
 bool useRandomColorsForAll = false;
 
-int hue;
 bool rainbowMode = false;
+int fadeSpeed = DEFAULT_HUE_FADE_SPEED;
+int hue;
 pthread_t hueThread;
 
 void* fadeHue(void* vargp) {
@@ -49,7 +50,7 @@ void* fadeHue(void* vargp) {
             hue = 0;
         }
 
-        usleep(HUE_THREAD_SLEEP * 1000);
+        usleep(fadeSpeed * 1000);
     }
 
     return NULL;

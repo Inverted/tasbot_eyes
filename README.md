@@ -79,7 +79,7 @@ To inject any animation :warning: **that is already stored on TASBot** :warning:
   * `I` for immediate playback. Stops the current animation and plays this. :warning: Not implemented yet!
 * `animation.gif` is a locally, already on TASBot stored animation! Full or relative paths are supported, as long as the file exists on TASBot!
 
-To make injecting animations easier, you can use the [**An**imation **Inj**ector **A**lpha (aNinja)](https://github.com/R3tr0BoiDX/TASBot-Toolkit#aninja) from the TASBot-Eyes-Toolkit if you want to.
+To make injecting animations easier, you can use the [**An**imation **Inj**ecto**a**r (aNinja)](https://github.com/R3tr0BoiDX/TASBot-Toolkit#aninja) from the TASBot-Eyes-Toolkit if you want to.
 
 ### WLED realtime and ColorChord control
 The centered "nose" LEDs can be controlled in real time with the `-W` argument. It's based on the WLED UDP realtime control protocol, see [here](https://github.com/Aircoookie/WLED/wiki/UDP-Realtime-Control).
@@ -99,7 +99,6 @@ wled_timeout = 2
 
 ## Known problems
 
-* There's a teeny tiny memory leak.
 * Gamma correction is behaving extremely really weird. It's breaking the LED indexing even tho it should not.
 * When an animation is monochrome, it's pixels can be colored in a randomly chosen color, to make everything more colorful (using the `-c` argument). However, the color that is used to overwrite isn't adjusting to the brightness of the given color within the frame. Right now it's flat overwriting the same color to all pixels, that just _aren't_ black. Use the method `getLuminance()` for that.
 * Some methods got pretty blob like, that could be made :sparkles: prettier :sparkles:
