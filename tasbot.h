@@ -28,20 +28,28 @@ extern bool useRandomColors;
 extern bool useRandomColorsForAll;
 extern bool rainbowMode; //todo: too
 
+//stack
 void fillStack(char* _sourceFolder);
 bool addToStack(char* _path);
 
+//animations
 void playRandomAnimationFromDirectory(char* _path, bool _useRandomColor, bool _repeatAnimations);
 void playAnimationFromFilepath(char* _filePath, bool _useRandomColor, bool _repeatAnimations);
 void playAnimation(Animation* _animation, bool _useRandomColor, bool _repeatAnimations);
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color);
 void freeAnimation(Animation* _animation);
-unsigned int getBlinkDelay();
-unsigned int getBlinkAmount();
 char* getRandomAnimation(char* list[], int _count);
 
-float getLuminance(GifColorType* _color);
+//blink
+unsigned int getBlinkDelay();
+unsigned int getBlinkAmount();
+
+//led
+void setBufferAtIndex(unsigned int _x, unsigned int _y, ws2811_led_t _color);
 void setNoseLED(unsigned int _index, GifColorType _color);
+
+//misc
+float getLuminance(GifColorType* _color);
 
 //Debug
 unsigned int ledMatrixTranslation(unsigned int _x, unsigned int _y);

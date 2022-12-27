@@ -215,6 +215,27 @@ void playAnimation(Animation* _animation, bool _useRandomColor, bool _repeatAnim
 }
 
 /**
+ * Map color to buffer based on given render device and put into buffer
+ * @param _x X-coordinate for pixel
+ * @param _y Y-coordinate for pixel
+ * @param _color Color, the LED should be set to
+ */
+void setBufferAtIndex(unsigned int _x, unsigned int _y, ws2811_led_t _color) {
+    if (activateLEDModule) {
+        if (realTASBot) {
+            int index = TASBotIndex[_y][_x];
+            if (index >= 0) {
+                setSpecificPixel(index, _color);
+                //buffer[index] = color;
+            }
+        } else {
+            setSpecificPixel(ledMatrixTranslation(_x, _y), _color);
+            //buffer[ledMatrixTranslation(x, y)] = color;
+        }
+    }
+}
+
+/**
  * Output the buffer data to the LED data structure, which then gets rendered.
  * @param _frame The frame, that is to render
  * @param _color The color, which should overwrite the actual color data from the frame and only used, when the
@@ -231,7 +252,7 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
 
             bool centerPixel = x >= NOSE_RANGE_MIN && x <= NOSE_RANGE_MAX;
 
-            //when we ain't using the real time control, and it's not a center buffer
+            //make sure, when we ain't using the real time control, and it's not a center buffer
             if (!(useRealtimeControl && centerPixel)) {
 
                 GifColorType* gifColor = _frame->color[x][y];
@@ -250,20 +271,8 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
                             color = 0;
                         }
                     }
-                }
 
-                //Map color to buffer based on given render device
-                if (activateLEDModule) {
-                    if (realTASBot) {
-                        int index = TASBotIndex[y][x];
-                        if (index >= 0) {
-                            setSpecificPixel(index, color);
-                            //buffer[index] = color;
-                        }
-                    } else {
-                        setSpecificPixel(ledMatrixTranslation(x, y), color);
-                        //buffer[ledMatrixTranslation(x, y)] = color;
-                    }
+                    setBufferAtIndex(x, y, color);
                 }
 
                 //Debug renderer
@@ -290,49 +299,41 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
 }
 
 void setNoseLED(unsigned int _index, GifColorType _color) {
-    /*
-     * y=
-     * 0 -> 0
-     * 1 -> 1
-     *
-     * 2 -> 3
-     * 3 -> 4
-     *
-     * 4 -> 6
-     * 5 -> 7
-     */
-
-    unsigned int y = _index / FIELD_WIDTH;
-    switch (y) {
-        case 2:
-        case 3:
-            y++;
-            break;
-        case 4:
-        case 5:
-            y += 2;
-            break;
-        default:
-            //default for shutting Clang-Tidy
-            break;
-    }
-
-    //x += MIN+1
-    unsigned int x = (NOSE_RANGE_MIN + 1) + (_index % FIELD_WIDTH);
-
-    printf("color set; x: %d, y: %d", x, y);
-
-    ws2811_led_t color = translateColor(&_color, false);
-
     if (activateLEDModule) {
-        if (realTASBot) {
-            int index = TASBotIndex[y][x];
-            if (index >= 0) {
-                setSpecificPixel(index, color);
-            }
-        } else {
-            setSpecificPixel(ledMatrixTranslation(x, y), color);
+        /*
+         * y=
+         * 0 -> 0
+         * 1 -> 1
+         *
+         * 2 -> 3
+         * 3 -> 4
+         *
+         * 4 -> 6
+         * 5 -> 7
+         */
+
+        unsigned int y = _index / FIELD_WIDTH;
+        switch (y) {
+            case 2:
+            case 3:
+                y++;
+                break;
+            case 4:
+            case 5:
+                y += 2;
+                break;
+            default:
+                //default for shutting Clang-Tidy
+                break;
         }
+
+        //x += MIN+1
+        unsigned int x = (NOSE_RANGE_MIN + 1) + (_index % FIELD_WIDTH);
+
+        //printf("color set; x: %d, y: %d\n", x, y);
+
+        ws2811_led_t color = translateColor(&_color, false);
+        setBufferAtIndex(x, y, color);
     }
 }
 

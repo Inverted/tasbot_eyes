@@ -14,7 +14,7 @@
 
 #define PORT_REALTIME                   19446
 #define DATAGRAM_SIZE_LIMIT_REALTIME    182
-#define SLEEP_REALTIME                  1000 //ms, to ease the hardware
+#define SLEEP_REALTIME                  35 //ms, to ease the hardware
 
 //general
 extern bool running;
