@@ -160,7 +160,7 @@ int main(int _argc, char** _argv) {
             printf("[WARNING] Can't use verbose mode with realtime control, as the logging adds to much overhead. Turning it off\n");
             verbose = false;
         }
-        //startRealtimeControlServer();
+        startRealtimeControlServer();
     }
 
     //Option for playing a given specific animation
