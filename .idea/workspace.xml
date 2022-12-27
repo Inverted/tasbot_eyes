@@ -25,9 +25,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="And now real time control back">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Revived mutex lock">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/led.c" beforeDir="false" afterPath="$PROJECT_DIR$/led.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -168,14 +168,7 @@
       <workItem from="1667120992419" duration="6179000" />
       <workItem from="1672139564497" duration="11693000" />
       <workItem from="1672156575122" duration="2199000" />
-      <workItem from="1672165176728" duration="2904000" />
-    </task>
-    <task id="LOCAL-00157" summary="Updates">
-      <created>1656289635479</created>
-      <option name="number" value="00157" />
-      <option name="presentableId" value="LOCAL-00157" />
-      <option name="project" value="LOCAL" />
-      <updated>1656289635479</updated>
+      <workItem from="1672165176728" duration="3907000" />
     </task>
     <task id="LOCAL-00158" summary="Updates">
       <created>1656290795390</created>
@@ -513,7 +506,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672167739606</updated>
     </task>
-    <option name="localTasksCounter" value="206" />
+    <task id="LOCAL-00206" summary="Revived mutex lock">
+      <created>1672168291487</created>
+      <option name="number" value="00206" />
+      <option name="presentableId" value="LOCAL-00206" />
+      <option name="project" value="LOCAL" />
+      <updated>1672168291487</updated>
+    </task>
+    <option name="localTasksCounter" value="207" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -531,7 +531,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Updates" />
     <MESSAGE value="Preparing restructuring" />
     <MESSAGE value="Split up the huge main.c blob into several files." />
     <MESSAGE value="Added fixes made my CompuCat" />
@@ -556,7 +555,8 @@
     <MESSAGE value="Fixes" />
     <MESSAGE value="Added main loop again" />
     <MESSAGE value="And now real time control back" />
-    <option name="LAST_COMMIT_MESSAGE" value="And now real time control back" />
+    <MESSAGE value="Revived mutex lock" />
+    <option name="LAST_COMMIT_MESSAGE" value="Revived mutex lock" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
