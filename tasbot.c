@@ -320,6 +320,8 @@ void setNoseLED(unsigned int _index, GifColorType _color) {
     //x += MIN+1
     unsigned int x = (NOSE_RANGE_MIN + 1) + (_index % FIELD_WIDTH);
 
+    //printf("color set; x: %d, y: %d", x, y);
+
     ws2811_led_t color = translateColor(&_color, false);
 
     if (activateLEDModule) {
@@ -331,7 +333,6 @@ void setNoseLED(unsigned int _index, GifColorType _color) {
         } else {
             setSpecificPixel(ledMatrixTranslation(x, y), color);
         }
-        printf("color set; ");
     }
 }
 

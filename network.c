@@ -152,7 +152,7 @@ void receiveRealtimeControl(int sockfd) {
         long n = recvfrom(sockfd, buffer, 1024, 0, (struct sockaddr*) &cliaddr, &clilen);
         buffer[n] = '\0';
 
-        printf("[INFO] Mode: %d, Timeout: %d\n", buffer[0], buffer[1]);
+        //printf("[INFO] Mode: %d, Timeout: %d\n", buffer[0], buffer[1]);
 
         lockBuffer();
         for (int i = 2; i < n; i += 3) {
