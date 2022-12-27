@@ -336,6 +336,7 @@ void setNoseLED(unsigned int _index, GifColorType _color) {
         //edge cases
         if (x == 9){
             if (y == 1 || y == 7){
+                printf("fix left\n");
                 setBufferAtIndex(x-1, y, color);
             }
         }

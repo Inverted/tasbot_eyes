@@ -25,9 +25,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Transfer">
+    <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Added edge cases fix">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/network.c" beforeDir="false" afterPath="$PROJECT_DIR$/network.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tasbot.c" beforeDir="false" afterPath="$PROJECT_DIR$/tasbot.c" afterDir="false" />
     </list>
@@ -170,21 +169,7 @@
       <workItem from="1667120992419" duration="6179000" />
       <workItem from="1672139564497" duration="11693000" />
       <workItem from="1672156575122" duration="2199000" />
-      <workItem from="1672165176728" duration="1185000" />
-    </task>
-    <task id="LOCAL-00146" summary="Updates">
-      <created>1656284588302</created>
-      <option name="number" value="00146" />
-      <option name="presentableId" value="LOCAL-00146" />
-      <option name="project" value="LOCAL" />
-      <updated>1656284588303</updated>
-    </task>
-    <task id="LOCAL-00147" summary="Updates">
-      <created>1656286188006</created>
-      <option name="number" value="00147" />
-      <option name="presentableId" value="LOCAL-00147" />
-      <option name="project" value="LOCAL" />
-      <updated>1656286188006</updated>
+      <workItem from="1672165176728" duration="1394000" />
     </task>
     <task id="LOCAL-00148" summary="Updates">
       <created>1656286300120</created>
@@ -515,7 +500,21 @@
       <option name="project" value="LOCAL" />
       <updated>1672165501977</updated>
     </task>
-    <option name="localTasksCounter" value="195" />
+    <task id="LOCAL-00195" summary="Fixed things with help from Inverted and jakobrs. Added edge cases">
+      <created>1672166400876</created>
+      <option name="number" value="00195" />
+      <option name="presentableId" value="LOCAL-00195" />
+      <option name="project" value="LOCAL" />
+      <updated>1672166400876</updated>
+    </task>
+    <task id="LOCAL-00196" summary="Added edge cases fix">
+      <created>1672166461266</created>
+      <option name="number" value="00196" />
+      <option name="presentableId" value="LOCAL-00196" />
+      <option name="project" value="LOCAL" />
+      <updated>1672166461266</updated>
+    </task>
+    <option name="localTasksCounter" value="197" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -533,8 +532,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Spelling" />
-    <MESSAGE value="Doxygen polishing" />
     <MESSAGE value="Added Doxygen HTML documentation" />
     <MESSAGE value="Added support for argument &quot;-D&quot; and fixed missing verbose filtering for &quot;[INFO] Rendered LEDs with code X&quot;" />
     <MESSAGE value="realTASBot=true is now default (and added a little secret feature for me because of it :eyes:)" />
@@ -558,7 +555,9 @@
     <MESSAGE value="Forgot to comment in to start server" />
     <MESSAGE value="Try fix by Inverted" />
     <MESSAGE value="Transfer" />
-    <option name="LAST_COMMIT_MESSAGE" value="Transfer" />
+    <MESSAGE value="Fixed things with help from Inverted and jakobrs. Added edge cases" />
+    <MESSAGE value="Added edge cases fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added edge cases fix" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
