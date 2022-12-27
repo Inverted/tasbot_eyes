@@ -1,7 +1,7 @@
 #ifndef TASBOT_EYES_COLOR_H
 #define TASBOT_EYES_COLOR_H
 
-#define HUE_MAX 16384
+#define HUE_MAX 256
 
 extern const unsigned char gamma8[256];
 

@@ -26,6 +26,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="10561bf6-3732-467f-a74a-b1bcccbd46c6" name="Changes" comment="Changed hue step size">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/color.h" beforeDir="false" afterPath="$PROJECT_DIR$/color.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -168,14 +169,7 @@
       <workItem from="1667120992419" duration="6179000" />
       <workItem from="1672139564497" duration="11693000" />
       <workItem from="1672156575122" duration="2199000" />
-      <workItem from="1672165176728" duration="15776000" />
-    </task>
-    <task id="LOCAL-00170" summary="Some README.md changes and some digging because of bug. WARNING: still faulty">
-      <created>1667078150101</created>
-      <option name="number" value="00170" />
-      <option name="presentableId" value="LOCAL-00170" />
-      <option name="project" value="LOCAL" />
-      <updated>1667078150101</updated>
+      <workItem from="1672165176728" duration="15841000" />
     </task>
     <task id="LOCAL-00171" summary="Removed string_t, which caused too much trouble then helping. Working again. Also removed rainbow mode for now again.">
       <created>1667138240910</created>
@@ -513,7 +507,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672182694505</updated>
     </task>
-    <option name="localTasksCounter" value="219" />
+    <task id="LOCAL-00219" summary="Changed hue step size">
+      <created>1672182761991</created>
+      <option name="number" value="00219" />
+      <option name="presentableId" value="LOCAL-00219" />
+      <option name="project" value="LOCAL" />
+      <updated>1672182761991</updated>
+    </task>
+    <option name="localTasksCounter" value="220" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
