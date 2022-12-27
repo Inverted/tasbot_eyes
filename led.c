@@ -90,7 +90,7 @@ ws2811_return_t renderLEDs() {
 
 void lockBuffer() {
     //printf("lock\n");
-    pthread_mutex_lock(&bufferMutex);
+    //pthread_mutex_lock(&bufferMutex);
 }
 
 void setSpecificPixel(unsigned int _index, ws2811_led_t _color) {
@@ -99,7 +99,7 @@ void setSpecificPixel(unsigned int _index, ws2811_led_t _color) {
 
 void unlockBuffer() {
     //printf("unlock\n");
-    pthread_mutex_unlock(&bufferMutex);
+    //pthread_mutex_unlock(&bufferMutex);
 }
 
 /**
