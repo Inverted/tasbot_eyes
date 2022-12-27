@@ -84,11 +84,13 @@ ws2811_return_t renderLEDs(){
                 rgbColor.Blue = valueToInt(rgb[2]);
 
                 ws2811_led_t color = translateColor(&rgbColor, useGammaCorrection);
-                buffer[(y * LED_WIDTH) + x] = color;
-            }
 
-            //set buffer to output
-            display.channel[0].leds[(y * LED_WIDTH) + x] = buffer[(y * LED_WIDTH) + x];
+                //set buffer to output
+                display.channel[0].leds[(y * LED_WIDTH) + x] = color;
+
+            } else {
+                display.channel[0].leds[(y * LED_WIDTH) + x] = buffer[(y * LED_WIDTH) + x];
+            }
         }
     }
 
