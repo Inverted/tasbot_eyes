@@ -157,13 +157,12 @@ int main(int _argc, char** _argv) {
 
     if (useRealtimeControl){
         if (verbose){
-            printf("[WARNING] Can't use verbose mode with realtime control, as the logging adds to muc overhead. Turning it off");
+            printf("[WARNING] Can't use verbose mode with realtime control, as the logging adds to much overhead. Turning it off\n");
             verbose = false;
         }
-        startRealtimeControlServer();
+        //startRealtimeControlServer();
     }
 
-    /*
     //Option for playing a given specific animation
     if (specificAnimationToShow != NULL) {
         specificAnimation();
@@ -171,7 +170,6 @@ int main(int _argc, char** _argv) {
         //Main loop
         tasbotsEyes();
     }
-     */
 
     while (running){}
 
