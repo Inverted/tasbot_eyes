@@ -334,6 +334,8 @@ void setNoseLED(unsigned int _index, GifColorType _color) {
 
         ws2811_led_t color = translateColor(&_color, false);
         setBufferAtIndex(x, y, color);
+
+        //todo: edge-cases 9:1, 18:1 as well as 9:7, 18:7
     }
 }
 

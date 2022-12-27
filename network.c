@@ -99,6 +99,7 @@ void receiveAnimationInjection(int sockfd) {
 
             //todo: play now
         } else {
+            //todo: mutex for stack
             if (addToStack(path)) {
                 sprintf(answer, "[INFO] Successfully added (%s) to animation stack\n", path);
             } else {
