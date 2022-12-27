@@ -150,30 +150,34 @@ void receiveRealtimeControl(int sockfd) {
     unsigned char recvBuffer[DATAGRAM_SIZE_LIMIT_REALTIME];
     printf("lool\n");
 
-    long n;
-    while ((n = recvfrom(sockfd, recvBuffer, DATAGRAM_SIZE_LIMIT_REALTIME, MSG_DONTWAIT, (struct sockaddr*) &cliaddr, &clilen)) > 0) {
-        recvBuffer[n] = '\0';
 
-        printf("[INFO] Mode: %d, Timeout: %d\n", recvBuffer[0], recvBuffer[1]);
 
-        lockBuffer();
-        for (int i = 2; i < n; i += 3) {
-            GifColorType color;
-            color.Red = recvBuffer[i];
-            color.Blue = recvBuffer[i + 1];
-            color.Green = recvBuffer[i + 2];
+    while (running){
+        long n;
+        while ((n = recvfrom(sockfd, recvBuffer, DATAGRAM_SIZE_LIMIT_REALTIME, MSG_DONTWAIT, (struct sockaddr*) &cliaddr, &clilen)) > 0) {
+            recvBuffer[n] = '\0';
 
-            setNoseLED(i/3, color);
+            printf("[INFO] Mode: %d, Timeout: %d\n", recvBuffer[0], recvBuffer[1]);
+
+            lockBuffer();
+            for (int i = 2; i < n; i += 3) {
+                GifColorType color;
+                color.Red = recvBuffer[i];
+                color.Blue = recvBuffer[i + 1];
+                color.Green = recvBuffer[i + 2];
+
+                setNoseLED(i/3, color);
+            }
+            unlockBuffer();
+            renderLEDs();
+
+            //todo: do something with timeout
+
+            //in order to ease the hardware a bit, sleep a tiny bit between every UDP package
+            usleep(SLEEP_REALTIME * 1000);
         }
-        unlockBuffer();
-        renderLEDs();
-
-        //todo: do something with timeout
-
-        //in order to ease the hardware a bit, sleep a tiny bit between every UDP package
-        usleep(SLEEP_REALTIME * 1000);
+        printf("%ld\n", n);
     }
-    printf("%ld\n", n);
 }
 
 /**
