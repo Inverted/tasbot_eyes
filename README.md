@@ -82,10 +82,10 @@ To inject any animation :warning: **that is already stored on TASBot** :warning:
 To make injecting animations easier, you can use the [**An**imation **Inj**ecto**a**r (aNinja)](https://github.com/R3tr0BoiDX/TASBot-Toolkit#aninja) from the TASBot-Eyes-Toolkit if you want to.
 
 ### WLED realtime and ColorChord control
-The centered "nose" LEDs can be controlled in real time with the `-W` argument. It's based on the WLED UDP realtime control protocol, see [here](https://github.com/Aircoookie/WLED/wiki/UDP-Realtime-Control).
+The centered "nose" LEDs can be controlled in real time with the `-U` argument. It's based on the WLED UDP realtime control protocol, see [here](https://github.com/Aircoookie/WLED/wiki/UDP-Realtime-Control).
 
 #### Colorchord
-[ColorChord](https://github.com/cnlohr/colorchord) 2 by CNLohr supports WLED instances. In order to be able to use it with ColorChord, make sure to add this section to your ColorChord config file:
+[ColorChord](https://github.com/cnlohr/colorchord) 2 by CNLohr supports WLED instances. In order to be able to use it with ColorChord, make sure to add something like this section to your ColorChord config file:
 ```python
 leds = 48
 lightx = 8
@@ -96,6 +96,7 @@ port = 19446  # Default port for UDP realtime
 address = x.x.x.x  # TASBot IP
 wled_timeout = 2 
 ```
+There's also an example ColorChord config file (`colorchord.conf`) in the `misc` folder of this repository.
 
 ## Known problems
 
