@@ -71,10 +71,9 @@ void initLEDs() {
 ws2811_return_t renderLEDs(){
     for (int x = 0; x < LED_WIDTH; x++) {
         for (int y = 0; y < LED_HEIGHT; y++) {
-            printf("x in hex: %#x\n", buffer[(y * LED_WIDTH) + x]);
 
             //rainbow mode color fade
-            if (rainbowMode && buffer[(y * LED_WIDTH) + x] > 0){
+            if (rainbowMode && buffer[(y * LED_WIDTH) + x] == 0xffffff){
 
                 float rgb[3];
                 hsv2rgb(hueToFloat(hue), 1, 1, rgb);
