@@ -330,12 +330,21 @@ void setNoseLED(unsigned int _index, GifColorType _color) {
         //x += MIN+1
         unsigned int x = (NOSE_RANGE_MIN + 1) + (_index % FIELD_WIDTH);
 
-        //printf("color set; x: %d, y: %d\n", x, y);
-
         ws2811_led_t color = translateColor(&_color, false);
         setBufferAtIndex(x, y, color);
 
-        //todo: edge-cases 9:1, 18:1 as well as 9:7, 18:7
+        //edge cases
+        if (x == 9){
+            if (y == 1 || y == 7){
+                setBufferAtIndex(x+1, y, color);
+            }
+        }
+
+        if (x == 18 ){
+            if (y == 1 || y == 7){
+                setBufferAtIndex(x-1, y, color);
+            }
+        }
     }
 }
 

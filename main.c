@@ -89,10 +89,8 @@ void initBlinking() {
 }
 
 void specificAnimation() {
-    if (specificAnimationToShow != NULL) {
-        while (running) {
-            playAnimationFromFilepath(specificAnimationToShow, false, false);
-        }
+    while (running) {
+        playAnimationFromFilepath(specificAnimationToShow, false, false);
     }
 }
 
@@ -161,11 +159,15 @@ int main(int _argc, char** _argv) {
         startRealtimeControlServer();
     }
 
+    /*
     //Option for playing a given specific animation
-    //specificAnimation();
-
-    //Main loop
-    //tasbotsEyes();
+    if (specificAnimationToShow != NULL) {
+        specificAnimation();
+    } else {
+        //Main loop
+        tasbotsEyes();
+    }
+     */
 
     while (running){}
 
