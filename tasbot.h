@@ -53,6 +53,6 @@ float getLuminance(GifColorType* _color);
 
 //Debug
 unsigned int ledMatrixTranslation(unsigned int _x, unsigned int _y);
-bool numberIsEven(int _number);
+bool numberIsEven(unsigned int _number);
 
 #endif //TASBOT_EYES_TASBOT_H

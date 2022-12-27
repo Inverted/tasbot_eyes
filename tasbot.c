@@ -287,7 +287,6 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
             printf("\n");
         }
     }
-    //unlockBuffer();
 
     if (activateLEDModule) {
         renderLEDs();
@@ -439,7 +438,7 @@ unsigned int ledMatrixTranslation(unsigned int _x, unsigned int _y) {
  * @param _number The number, that should be checked
  * @return If the number is even
  */
-bool numberIsEven(int _number) {
+bool numberIsEven(unsigned int _number) {
     return (_number % 2 == 0);
 }
 //endregion

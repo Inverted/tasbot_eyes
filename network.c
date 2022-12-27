@@ -156,7 +156,6 @@ void receiveRealtimeControl(int sockfd) {
 
             if (recvBuffer[0] == 2){ //ensure right mode
 
-                //lockBuffer();
                 for (int i = 2; i < n; i += 3) {
                     GifColorType color;
                     color.Red = recvBuffer[i];
@@ -165,7 +164,6 @@ void receiveRealtimeControl(int sockfd) {
 
                     setNoseLED(i/3, color);
                 }
-                //unlockBuffer();
                 renderLEDs();
 
                 //todo: do something with timeout

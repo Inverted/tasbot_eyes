@@ -153,7 +153,7 @@ int main(int _argc, char** _argv) {
     initPalette();
     initBlinking();
     initLEDs();
-    //startAnimationInjectionServer();
+    startAnimationInjectionServer();
 
     if (useRealtimeControl){
         if (verbose){
