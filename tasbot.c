@@ -216,18 +216,6 @@ void playAnimation(Animation* _animation, bool _useRandomColor, bool _repeatAnim
                 printf("[INFO] Render frame #%d \n", i);
             }
 
-            if (rainMode && randColor) {
-                float rgb[3];
-                hsv2rgb(hueToFloat(hue), 1, 1, rgb);
-
-                GifColorType rgbColor;
-                rgbColor.Red = valueToInt(rgb[0]);
-                rgbColor.Green = valueToInt(rgb[1]);
-                rgbColor.Blue = valueToInt(rgb[2]);
-
-                color = translateColor(&rgbColor, useGammaCorrection);
-            }
-
             showFrame(_animation->frames[i], color);
             usleep((int) ((float) (_animation->frames[i]->delayTime * 1000) / playbackSpeed));
         }

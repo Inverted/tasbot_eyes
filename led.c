@@ -6,6 +6,7 @@
 #include "led.h"
 #include "color.h"
 #include "arguments.h"
+#include "tasbot.h"
 
 int brightness = BRIGHTNESS;
 int dataPin = GPIO_PIN;
@@ -71,9 +72,23 @@ void* renderLEDs(void* vargp) {
     while (running){
         for (int x = 0; x < LED_WIDTH; x++) {
             for (int y = 0; y < LED_HEIGHT; y++) {
-                display.channel[0].leds[(y * LED_WIDTH) + x] = buffer[(y * LED_WIDTH) + x];
 
-                printf("%d\n", buffer[(y * LED_WIDTH) + x]);
+                //rainbow mode color fade
+                if (rainbowMode && buffer[(y * LED_WIDTH) + x] > 0){
+                    float rgb[3];
+                    hsv2rgb(hueToFloat(hue), 1, 1, rgb);
+
+                    GifColorType rgbColor;
+                    rgbColor.Red = valueToInt(rgb[0]);
+                    rgbColor.Green = valueToInt(rgb[1]);
+                    rgbColor.Blue = valueToInt(rgb[2]);
+
+                    ws2811_led_t color = translateColor(&rgbColor, useGammaCorrection);
+                    buffer[(y * LED_WIDTH) + x] = color;
+                }
+
+                //set buffer to output
+                display.channel[0].leds[(y * LED_WIDTH) + x] = buffer[(y * LED_WIDTH) + x];
             }
         }
 
