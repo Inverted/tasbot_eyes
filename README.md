@@ -16,6 +16,7 @@
 3. Clone and compile this repo (requires cmake)  
    :warning: **ATTENTION**: When compiling for real TASBot, make sure `bool realTASBot` ist set to `true` (it is by default)
 
+If you experience an error, that a shared library can't be loaded, try to execute `ldconfig` to update your library chache (and maybe reboot).
 
 ## How it works
 
