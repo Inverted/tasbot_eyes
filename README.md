@@ -113,6 +113,7 @@ There's also an example ColorChord config file (`colorchord.conf`) in the `misc`
 
 ## Future ideas
 
+* Add a mutex to the stack
 * An honest to goodness playlist support, in which animations can be queued as desired on startup
 * Debate on, if during a blink cycle (a period between the random animations), TASBot should use the same blink animation for all blinks or if that should stay random like it is right now. This could further smooth out the appearance.
 * Argument to change the base frame
