@@ -25,26 +25,32 @@ The program looks within its current working directory, for a folder called `gif
 |----------------------|-------------------------------------------------------------------------------------------|
 | `./gifs/others`      | Here go all the general animations. The program is choosing randomly animations from here |
 | `./gifs/blinks`      | Here are all blinking animations, the program can choose from                             |
-| `./gifs/base.gif`    | The frame, TASBots expression always returns to between the animations and blinks         |
-| `./gifs/startup.gif` | The animation, that gets played exactly once, when the eye starts                         |
+| `./gifs/base.gif`    | The animation, TASBots eye returns to between the animations and blinks                   |
+| `./gifs/startup.gif` | The animation, that gets played exactly once, when the program starts                     |
 
 
 ### Abstract program flow
 
-0. Start
-1. Play startup animation
-2. Show base expression
-3. Sleep a random amount of time based on blink pattern
-4. Do a blink cycle, meaning
-    1. Determine how many times TASBot blinks (_n_) based on pattern
-    2. Choose and show random blink
-    3. Show base expression
-    4. Sleep based on pattern
-    5. _n = n-1_
-    6. If _n>0_, go to ii.
-5. Show random animation
-    * Check if the animation has its own color. If not, choose a random one and overwrite all set pixels
-6. Go to 1.
+1. Startup
+2. Play startup animation
+3. Show base animation
+4. Sleep a random amount of time
+5. Do a blink cycle, meaning
+   1. Determine how many times TASBot blinks (n)
+   2. Play random blink animation
+   3. Show base expression
+   4. Sleep
+   5. n = n-1
+   6. If n>0, go to b.
+6. Check if animation stack is empty
+    * if not:
+      1. Pop top animation from stack
+      2. Check if the animation has its own color. If not, choose a random one and overwrite all set pixels if wished
+      3. Play animation
+    * else:
+      1. Generate a new stack and go to 6.
+7. Go to 3.
+
 
 
 ### About blink patterns
@@ -81,11 +87,11 @@ To inject any animation :warning: **that is already stored on TASBot** :warning:
 
 To make injecting animations easier, you can use the [**An**imation **Inj**ecto**a**r (aNinja)](https://github.com/R3tr0BoiDX/TASBot-Toolkit#aninja) from the TASBot-Eyes-Toolkit if you want to.
 
-### WLED realtime and ColorChord control
-The centered "nose" LEDs can be controlled in real time with the `-U` argument. It's based on the WLED UDP realtime control protocol, see [here](https://github.com/Aircoookie/WLED/wiki/UDP-Realtime-Control).
+### WLED UDP realtime control
+The centered "nose" LEDs can be controlled in real time with the `-U` argument. It's based on the WLED UDP realtime control protocol, see [here](https://github.com/Aircoookie/WLED/wiki/UDP-Realtime-Control). Right now, only the `DRGB` mode is supported, also known as `mode 2`.
 
 #### Colorchord
-[ColorChord](https://github.com/cnlohr/colorchord) 2 by CNLohr supports WLED instances. In order to be able to use it with ColorChord, make sure to add something like this section to your ColorChord config file:
+[ColorChord](https://github.com/cnlohr/colorchord) 2 by CNLohr supports WLED instances. In order to be able to use the realtime control with ColorChord, make sure to add something like this section to your ColorChord config file:
 ```python
 leds = 48
 lightx = 8
