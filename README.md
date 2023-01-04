@@ -90,6 +90,7 @@ To make injecting animations easier, you can use the [**An**imation **Inj**ecto*
 
 ### WLED UDP realtime control
 The centered "nose" LEDs can be controlled in real time with the `-U` argument. It's based on the WLED UDP realtime control protocol, see [here](https://github.com/Aircoookie/WLED/wiki/UDP-Realtime-Control). Right now, only the `DRGB` mode is supported, also known as `mode 2`.
+It covers an area of 48 LEDs in total in a 8x6 matrix.
 
 #### Colorchord
 [ColorChord](https://github.com/cnlohr/colorchord) 2 by CNLohr supports WLED instances. In order to be able to use the realtime control with ColorChord, make sure to add something like this section to your ColorChord config file:
