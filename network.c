@@ -157,7 +157,9 @@ void receiveRealtimeControl(int sockfd) {
             recvBuffer[n] = '\0';
         }
 
-        printf("work");
+        printf("work %d, %d \n", recvBuffer[0], recvBuffer[1]  );
+
+
 
         if (recvBuffer[0] == 2) { //ensure right mode
             for (int i = 2; i < n; i += 3) {
