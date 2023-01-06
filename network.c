@@ -149,13 +149,17 @@ void receiveRealtimeControl(int sockfd) {
     unsigned char recvBuffer[DATAGRAM_SIZE_LIMIT_REALTIME];
 
     while (running){
+
+        printf("before work \n");
+
         long n;
         while ((n = recvfrom(sockfd, recvBuffer, DATAGRAM_SIZE_LIMIT_REALTIME, MSG_DONTWAIT, (struct sockaddr*) &cliaddr, &clilen)) > 0) {
             recvBuffer[n] = '\0';
         }
 
-        if (recvBuffer[0] == 2) { //ensure right mode
+        printf("work");
 
+        if (recvBuffer[0] == 2) { //ensure right mode
             for (int i = 2; i < n; i += 3) {
                 GifColorType color;
                 color.Red = recvBuffer[i];
