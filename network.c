@@ -152,20 +152,20 @@ void receiveRealtimeControl(int sockfd) {
         long n;
         while ((n = recvfrom(sockfd, recvBuffer, DATAGRAM_SIZE_LIMIT_REALTIME, MSG_DONTWAIT, (struct sockaddr*) &cliaddr, &clilen)) > 0) {
             recvBuffer[n] = '\0';
+        }
 
-            if (recvBuffer[0] == 2){ //ensure right mode
+        if (recvBuffer[0] == 2) { //ensure right mode
 
-                for (int i = 2; i < n; i += 3) {
-                    GifColorType color;
-                    color.Red = recvBuffer[i];
-                    color.Blue = recvBuffer[i + 1];
-                    color.Green = recvBuffer[i + 2];
+            for (int i = 2; i < n; i += 3) {
+                GifColorType color;
+                color.Red = recvBuffer[i];
+                color.Blue = recvBuffer[i + 1];
+                color.Green = recvBuffer[i + 2];
 
-                    setNoseLED(i/3, color);
-                }
-
-                //todo: do something with timeout
+                setNoseLED(i / 3, color);
             }
+
+            //todo: do something with timeout
         }
     }
 }
