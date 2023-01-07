@@ -15,7 +15,7 @@
 
 #define PORT_REALTIME                   19446
 #define DATAGRAM_SIZE_LIMIT_REALTIME    ((FIELD_HEIGHT * FIELD_WIDTH * 3)+2)
-#define SLEEP_REALTIME                  35 //ms, to ease the hardware
+#define SLEEP_REALTIME                  35 //ms, to ease the hardware, about 29 fps
 
 //general
 

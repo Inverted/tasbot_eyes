@@ -167,6 +167,8 @@ void receiveRealtimeControl(int sockfd) {
 
             //todo: do something with timeout
         }
+
+        usleep(SLEEP_REALTIME * 1000);
     }
 }
 
