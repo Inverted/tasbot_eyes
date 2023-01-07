@@ -171,6 +171,9 @@ void receiveRealtimeControl(int sockfd) {
                 color.Blue = recvBuffer[i + 1];
                 color.Green = recvBuffer[i + 2];
 
+
+                printf("here not wut?\n");
+
                 setNoseLED(i / 3, color);
             }
 
