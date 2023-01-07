@@ -162,6 +162,9 @@ void receiveRealtimeControl(int sockfd) {
 
 
         if (recvBuffer[0] == 2) { //ensure right mode
+
+            printf("here? \n");
+
             for (int i = 2; i < n; i += 3) {
                 GifColorType color;
                 color.Red = recvBuffer[i];
