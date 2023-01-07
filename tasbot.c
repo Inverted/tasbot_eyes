@@ -293,7 +293,6 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
 }
 
 void setNoseLED(unsigned int _index, GifColorType _color) {
-    printf("but here?\n");
     if (activateLEDModule) {
         /*
          * y=
@@ -306,8 +305,6 @@ void setNoseLED(unsigned int _index, GifColorType _color) {
          * 4 -> 6
          * 5 -> 7
          */
-
-        printf("set nose led \n");
 
         unsigned int y = _index / FIELD_WIDTH;
         switch (y) {
