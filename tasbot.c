@@ -306,6 +306,8 @@ void setNoseLED(unsigned int _index, GifColorType _color) {
          * 5 -> 7
          */
 
+        printf("set nose led \n");
+
         unsigned int y = _index / FIELD_WIDTH;
         switch (y) {
             case 2:
