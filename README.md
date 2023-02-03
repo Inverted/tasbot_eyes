@@ -1,5 +1,18 @@
 # tasbot_eyes
 
+* [Dependencies and credit](#dependencies-and-credit)
+* [Install](#install)
+* [How it works](#how-it-works)
+  + [Abstract program flow](#abstract-program-flow)
+  + [About blink patterns](#about-blink-patterns)
+* [Usage](#usage)
+  + [Create color palette](#create-color-palette)
+  + [Inject animation](#inject-animation)
+  + [WLED UDP realtime control](#wled-udp-realtime-control)
+    - [Colorchord](#colorchord)
+* [Known problems](#known-problems)
+* [Future ideas](#future-ideas)
+* [Thanks to](#thanks-to)
 
 ## Dependencies and credit
 
@@ -122,7 +135,7 @@ There's also an example ColorChord config file (`colorchord.conf`) in the `misc`
 * Loop argument for single frame mode
 
 
-# Thanks to
+## Thanks to
 
 * *dwangoAC* letting me debug on real TASBot and everything he's doing
 * *jakobrs* for the original eye software and the index translation table and helping
