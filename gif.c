@@ -127,9 +127,14 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
         exit(EXIT_FAILURE);
     }
 
+    animationFrame->x = desc.Left;
+    animationFrame->y = desc.Top;
+    animationFrame->width = desc.Width;
+    animationFrame->height = desc.Height;
+
     bool keepColor = false;
-    for (int y = 0; y < desc.Height; ++y) {
-        for (int x = 0; x < desc.Width; ++x) {
+    for (int y = desc.Top; y < desc.Top + desc.Height; ++y) {
+        for (int x = desc.Left; x < desc.Left + desc.Width; ++x) {
             int c = frame->RasterBits[y * desc.Width + x];
 
             if (colorMap) {

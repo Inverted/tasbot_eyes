@@ -12,6 +12,10 @@
 typedef struct AnimationFrame {
     GifColorType* color[LED_WIDTH][LED_HEIGHT];
     unsigned short int delayTime;
+    unsigned short int x;
+    unsigned short int y;
+    unsigned short int width;
+    unsigned short int height;
 } AnimationFrame;
 
 typedef struct Animation {

@@ -247,8 +247,8 @@ void setBufferAtIndex(unsigned int _x, unsigned int _y, ws2811_led_t _color) {
  * animation is monochrome. Otherwise, it's NULL and used to indicate, that animation has its own color.
  */
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
-    for (int y = 0; y < LED_HEIGHT; ++y) {
-        for (int x = 0; x < LED_WIDTH; ++x) {
+    for (int y = _frame->y; y < _frame->y + _frame->height; ++y) {
+        for (int x = _frame->x; x < _frame->x + _frame->width; ++x) {
 
             //make sure, when we ain't using the real time control, and it's not a center buffer
             bool centerPixel = x >= NOSE_RANGE_MIN && x <= NOSE_RANGE_MAX;
