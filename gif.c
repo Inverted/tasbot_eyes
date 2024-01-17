@@ -87,7 +87,6 @@ Animation* readAnimation(char* _filePath) {
 
                 if (gcb.TransparentColor != NO_TRANSPARENT_COLOR) {
                     transparentColor = gcb.TransparentColor;
-                    printf("Transparent color: %d\n", transparentColor);
                 }
             }
 

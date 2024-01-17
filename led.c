@@ -137,11 +137,16 @@ ws2811_return_t clearLEDs() {
  * @param _color The RGB color, that is to convert
  * @return The convert hexadecimal color
  */
-ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection) {
-    if (_useGammaCorrection) { //TODO: when used, things break
-        _color->Red = gamma8[_color->Red & 0xff];
-        _color->Green = gamma8[_color->Green & 0xff];
-        _color->Blue = gamma8[_color->Blue & 0xff];
+ ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection) {
+    uint8_t red = _color->Red;
+    uint8_t green = _color->Green;
+    uint8_t blue = _color->Blue;
+
+    if (_useGammaCorrection) {
+        red = gamma8[red & 0xff];
+        green = gamma8[green & 0xff];
+        blue = gamma8[blue & 0xff];
     }
-    return ((_color->Red & 0xff) << 16) + ((_color->Green & 0xff) << 8) + (_color->Blue & 0xff);
+
+    return ((red & 0xff) << 16) + ((green & 0xff) << 8) + (blue & 0xff);
 }
