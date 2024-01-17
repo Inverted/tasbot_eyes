@@ -258,10 +258,10 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
                 ws2811_led_t color;
 
                 if (activateLEDModule) {
-                    if (_color == 0) {
+                    if (_color == 0 && gifColor != 0) {
                         color = translateColor(gifColor, useGammaCorrection);
                     } else {
-                        if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
+                        if (gifColor != 0 && (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0)) {
                             color = _color;
                             //todo: Adjust to brightness of gifColor given in GIF
                             // Right now it's flat the same gifColor to all pixels, that just _aren't_ black
@@ -276,7 +276,7 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
 
                 //Debug renderer
                 if (consoleRenderer) {
-                    if (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
+                    if (gifColor != 0 && (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0)) {
                         printf("█");
                     } else {
                         printf(" ");

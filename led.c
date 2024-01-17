@@ -139,9 +139,9 @@ ws2811_return_t clearLEDs() {
  */
 ws2811_led_t translateColor(GifColorType* _color, bool _useGammaCorrection) {
     if (_useGammaCorrection) { //TODO: when used, things break
-        _color->Red = gamma8[_color->Red];
-        _color->Green = gamma8[_color->Green];
-        _color->Blue = gamma8[_color->Blue];
+        _color->Red = gamma8[_color->Red & 0xff];
+        _color->Green = gamma8[_color->Green & 0xff];
+        _color->Blue = gamma8[_color->Blue & 0xff];
     }
     return ((_color->Red & 0xff) << 16) + ((_color->Green & 0xff) << 8) + (_color->Blue & 0xff);
 }
