@@ -247,21 +247,28 @@ void setBufferAtIndex(unsigned int _x, unsigned int _y, ws2811_led_t _color) {
  * animation is monochrome. Otherwise, it's NULL and used to indicate, that animation has its own color.
  */
 void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
-    for (int y = _frame->y; y < _frame->y + _frame->height; ++y) {
-        for (int x = _frame->x; x < _frame->x + _frame->width; ++x) {
+    // Move the cursor to the start of the frame position
+    if (consoleRenderer) {
+        // ANSI escape code to move the cursor up and to the right position
+        // Note: ANSI escape codes are 1-indexed, hence the +1
+        printf("\x1b[%d;%dH", _frame->y + 1, _frame->x + 10);
+    }
+
+    for (int y = 0; y < _frame->height; ++y) {
+        for (int x = 0; x < _frame->width; ++x) {
 
             //make sure, when we ain't using the real time control, and it's not a center buffer
-            bool centerPixel = x >= NOSE_RANGE_MIN && x <= NOSE_RANGE_MAX;
+            bool centerPixel = x+_frame->x >= NOSE_RANGE_MIN && x+_frame->x <= NOSE_RANGE_MAX;
             if (!(useRealtimeControl && centerPixel)) {
 
                 GifColorType* gifColor = _frame->color[x][y];
                 ws2811_led_t color;
 
                 if (activateLEDModule) {
-                    if (_color == 0 && gifColor != 0) {
+                    if (_color == 0 && gifColor != NULL) {
                         color = translateColor(gifColor, useGammaCorrection);
                     } else {
-                        if (gifColor != 0 && (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0)) {
+                        if (gifColor != NULL && (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0)) {
                             color = _color;
                             //todo: Adjust to brightness of gifColor given in GIF
                             // Right now it's flat the same gifColor to all pixels, that just _aren't_ black
@@ -271,13 +278,17 @@ void showFrame(AnimationFrame* _frame, ws2811_led_t _color) {
                         }
                     }
 
-                    setBufferAtIndex(x, y, color);
+                    if(gifColor != NULL) {
+                        setBufferAtIndex(x + _frame->x, y + _frame->y, color);
+                    }
                 }
 
                 //Debug renderer
                 if (consoleRenderer) {
-                    if (gifColor != 0 && (gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0)) {
-                        printf("█");
+                    if (gifColor == NULL) {
+                        printf("\x1b[C");
+                    } else if(gifColor->Red != 0 || gifColor->Green != 0 || gifColor->Blue != 0) {
+                        printf("\x1b[48;2;%d;%d;%dm \x1b[0m", gifColor->Red, gifColor->Green, gifColor->Blue);
                     } else {
                         printf(" ");
                     }

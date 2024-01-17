@@ -145,9 +145,9 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
             if (colorMap) {
                 GifColorType* color = &colorMap->Colors[c];
                 if(c != tc) {
-                    animationFrame->color[x+desc.Left][y+desc.Top] = color;
+                    animationFrame->color[x][y] = color;
                 } else {
-                    animationFrame->color[x+desc.Left][y+desc.Top] = 0;
+                    animationFrame->color[x][y] = NULL;
                 }
 
                 //Check if animation is monochrome.
@@ -163,6 +163,7 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
     }
 
     *_monochrome &= !keepColor;
+    printf("\n\n");
     return animationFrame;
 }
 
