@@ -74,6 +74,7 @@ Animation* readAnimation(char* _filePath) {
             const SavedImage* frame = &image->SavedImages[i]; //get access to frame data
 
             u_int16_t delayTime = DEFAULT_DELAY_TIME;
+            int transparentColor = -1;
             if (DGifSavedExtensionToGCB(image, i, &gcb) == GIF_ERROR) {
                 printf("[WARNING] Can't read frame delay. Using default delay time");
             } else {
@@ -83,6 +84,10 @@ Animation* readAnimation(char* _filePath) {
                            MIN_DELAY_TIME);
                     delayTime = MIN_DELAY_TIME;
                 }
+
+                if (gcb.TransparentColor != NO_TRANSPARENT_COLOR) {
+                    transparentColor = gcb.TransparentColor;
+                }
             }
 
             if (verbose) {
@@ -91,7 +96,7 @@ Animation* readAnimation(char* _filePath) {
                        frame->ImageDesc.Top, (frame->ImageDesc.ColorMap ? "Yes" : "No"));
             }
 
-            animationFrames[i] = readFramePixels(frame, globalColorMap, &animation->monochrome);
+            animationFrames[i] = readFramePixels(frame, globalColorMap, &animation->monochrome, transparentColor);
             animationFrames[i]->delayTime = delayTime;
         }
 
@@ -115,7 +120,7 @@ Animation* readAnimation(char* _filePath) {
  * @param _monochrome
  * @return
  */
-AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _globalMap, bool* _monochrome) {
+AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _globalMap, bool* _monochrome, int tc) {
     const GifImageDesc desc = frame->ImageDesc; //get description of current frame
     const ColorMapObject* colorMap = desc.ColorMap ? desc.ColorMap
                                                    : _globalMap; //choose either global or local color map
@@ -127,6 +132,11 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
         exit(EXIT_FAILURE);
     }
 
+    animationFrame->x = desc.Left;
+    animationFrame->y = desc.Top;
+    animationFrame->width = desc.Width;
+    animationFrame->height = desc.Height;
+
     bool keepColor = false;
     for (int y = 0; y < desc.Height; ++y) {
         for (int x = 0; x < desc.Width; ++x) {
@@ -134,7 +144,11 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
 
             if (colorMap) {
                 GifColorType* color = &colorMap->Colors[c];
-                animationFrame->color[x][y] = color;
+                if(c != tc) {
+                    animationFrame->color[x][y] = color;
+                } else {
+                    animationFrame->color[x][y] = NULL;
+                }
 
                 //Check if animation is monochrome.
                 //When a single frame contains color, then preserve the animations color later while rendering.
@@ -149,6 +163,7 @@ AnimationFrame* readFramePixels(const SavedImage* frame, ColorMapObject* _global
     }
 
     *_monochrome &= !keepColor;
+    printf("\n\n");
     return animationFrame;
 }
 
